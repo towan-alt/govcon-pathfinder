@@ -1,37 +1,51 @@
+import sealDod from "@/assets/seals/dod.png";
+import sealUsmc from "@/assets/seals/usmc.png";
+import sealArmy from "@/assets/seals/army.png";
+import sealVa from "@/assets/seals/va.png";
+import sealCommerce from "@/assets/seals/commerce.png";
+import sealSba from "@/assets/seals/sba.png";
+import sealDhs from "@/assets/seals/dhs.png";
+import sealGsa from "@/assets/seals/gsa.png";
+import sealHhs from "@/assets/seals/hhs.png";
+import sealDoe from "@/assets/seals/doe.png";
+
 const agencies = [
-  "U.S. Marine Corps",
-  "U.S. Army",
-  "Dept. of Commerce",
-  "Dept. of Veterans Affairs",
-  "Dept. of Defense",
-  "Small Business Administration",
-  "Dept. of Homeland Security",
-  "General Services Administration",
-  "Dept. of Health & Human Services",
-  "Dept. of Energy",
+  { name: "Dept. of Defense", seal: sealDod },
+  { name: "U.S. Marine Corps", seal: sealUsmc },
+  { name: "U.S. Army", seal: sealArmy },
+  { name: "Dept. of Veterans Affairs", seal: sealVa },
+  { name: "Dept. of Commerce", seal: sealCommerce },
+  { name: "Small Business Administration", seal: sealSba },
+  { name: "Dept. of Homeland Security", seal: sealDhs },
+  { name: "General Services Administration", seal: sealGsa },
+  { name: "Dept. of Health & Human Services", seal: sealHhs },
+  { name: "Dept. of Energy", seal: sealDoe },
 ];
 
 const AgencyLogoBar = () => {
   return (
-    <section className="bg-primary py-8 border-y border-white/5 overflow-hidden">
-      <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-white/40 mb-6 font-body">
+    <section className="bg-primary py-10 border-y border-white/5 overflow-hidden">
+      <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-white/40 mb-8 font-body">
         Contracts Executed With Top Federal Agencies Including
       </p>
       <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-primary to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-primary to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-primary to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-primary to-transparent z-10" />
 
         <div className="flex animate-scroll">
-          {[...agencies, ...agencies].map((name, i) => (
+          {[...agencies, ...agencies].map((agency, i) => (
             <div
               key={i}
-              className="flex-shrink-0 mx-8 flex items-center gap-3 text-white/30 hover:text-white/60 transition-colors duration-300"
+              className="flex-shrink-0 mx-10 flex items-center gap-4 opacity-60 hover:opacity-100 transition-opacity duration-300"
             >
-              <svg className="w-8 h-8 flex-shrink-0 opacity-60" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M16 6l2.5 5h5.5l-4.5 3.5 1.5 5.5-5-3.5-5 3.5 1.5-5.5L8 11h5.5L16 6z" fill="currentColor" opacity="0.4" />
-              </svg>
-              <span className="text-sm font-medium whitespace-nowrap font-body">{name}</span>
+              <img
+                src={agency.seal}
+                alt={`${agency.name} seal`}
+                className="w-12 h-12 object-contain"
+              />
+              <span className="text-sm font-medium whitespace-nowrap text-white/80 font-body">
+                {agency.name}
+              </span>
             </div>
           ))}
         </div>
