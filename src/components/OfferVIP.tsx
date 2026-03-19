@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
 
 const included = [
-  "60-minute intro session — deep dive into your business, goals, and GovCon positioning",
+  "15-minute strategy session — a focused look at your business, goals, and GovCon positioning",
   "8 hours of hands-on work by Towan on your deliverables (capability statement, target list, proposals, etc.)",
   "30-minute final discussion to walk through your customized plan and next steps",
   "Pre-session intake audit of your business positioning, NAICS codes, and SAM.gov profile",
