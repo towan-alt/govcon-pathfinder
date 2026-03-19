@@ -119,49 +119,17 @@ const OfferVIP = () => {
             </div>
           </div>
 
-          {/* Closing diagnostic */}
-          <div className="rounded-xl bg-white/10 backdrop-blur-sm p-8 md:p-12 border border-white/15">
-            <h3 className="font-display text-lg font-bold text-white mb-4 uppercase tracking-wide">
-              What You'll Walk Away With:
-            </h3>
-            <p className="text-sm text-white/75 leading-relaxed mb-6">
-              "Based on what you shared, you're not far off—but you're missing a clear positioning and 
-              agency targeting strategy. That's exactly what we help clients fix so they can start winning 
-              contracts faster."
+          <div className="mt-12 text-center space-y-4">
+            <p className="font-display text-5xl font-extrabold text-white">FREE</p>
+            <p className="text-sm text-white/50">
+              Limited spots available — book yours today
             </p>
-            
-            <div className="grid gap-3 sm:grid-cols-3 mb-8">
-              {[
-                "You're targeting too many NAICS codes",
-                "You don't have positioned past performance",
-                "You're not aligned to how agencies buy",
-              ].map((diagnosis) => (
-                <div key={diagnosis} className="flex items-start gap-2 bg-white/5 rounded-lg p-3">
-                  <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5 text-primary" />
-                  <span className="text-xs text-white/80">{diagnosis}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="border-t border-white/15 pt-8 space-y-2">
-              <p className="text-sm text-white/60">
-                <strong className="text-white/80">Who it's for:</strong> Small business owners registered (or ready to register) in SAM.gov, 
-                with a viable service or product. Also ideal for businesses who have bid before but aren't winning.
-              </p>
-            </div>
-            
-            <div className="mt-10 text-center space-y-4">
-              <p className="font-display text-5xl font-extrabold text-white">FREE</p>
-              <p className="text-sm text-white/50">
-                Limited spots available — book yours today
-              </p>
-              <a href="#" className="btn-white">
-                Reserve My Free Strategy Session →
-              </a>
-              <p className="text-xs text-white/40">
-                100% free. No credit card required. You'll receive a confirmation email within 24 hours.
-              </p>
-            </div>
+            <a href="#" className="btn-white">
+              Book Your Free Session Now →
+            </a>
+            <p className="text-xs text-white/40">
+              100% free. No credit card required. You'll receive a confirmation email within 24 hours.
+            </p>
           </div>
         </div>
       </div>
