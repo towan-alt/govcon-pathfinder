@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,45 +6,47 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 220 30% 12%;
+    --background: 0 0% 100%;
+    --foreground: 215 25% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 30% 12%;
+    --card-foreground: 215 25% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 30% 12%;
+    --popover-foreground: 215 25% 20%;
 
-    --primary: 220 55% 15%;
+    --primary: 215 80% 42%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 20% 95%;
-    --secondary-foreground: 220 55% 15%;
+    --secondary: 210 30% 96%;
+    --secondary-foreground: 215 80% 42%;
 
-    --muted: 220 15% 92%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 210 20% 95%;
+    --muted-foreground: 215 15% 50%;
 
-    --accent: 220 55% 15%;
+    --accent: 215 80% 42%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 220 55% 15%;
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
+    --ring: 215 80% 42%;
 
     --radius: 0.5rem;
 
-    --navy: 220 55% 15%;
-    --navy-light: 220 40% 22%;
-    --silver: 220 10% 70%;
-    --silver-light: 220 10% 85%;
-    --light: 210 20% 98%;
+    --navy: 215 60% 25%;
+    --navy-light: 215 50% 32%;
+    --blue: 215 80% 42%;
+    --blue-light: 215 75% 55%;
+    --silver: 215 10% 60%;
+    --silver-light: 210 15% 92%;
+    --light: 210 30% 97%;
     --warm-white: 0 0% 100%;
 
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -63,19 +65,19 @@
     --card-foreground: 0 0% 95%;
     --popover: 220 30% 12%;
     --popover-foreground: 0 0% 95%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 220 55% 15%;
+    --primary: 215 80% 55%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 220 40% 25%;
     --secondary-foreground: 0 0% 95%;
     --muted: 220 30% 18%;
     --muted-foreground: 220 10% 60%;
-    --accent: 0 0% 100%;
-    --accent-foreground: 220 55% 15%;
+    --accent: 215 80% 55%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 220 30% 20%;
     --input: 220 30% 20%;
-    --ring: 0 0% 100%;
+    --ring: 215 80% 55%;
   }
 }
 
@@ -94,21 +96,21 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold transition-all duration-300;
-    background: hsl(var(--navy));
+    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-bold uppercase tracking-wide transition-all duration-300;
+    background: hsl(var(--blue));
     color: hsl(0, 0%, 100%);
-    box-shadow: 0 4px 20px hsl(var(--navy) / 0.3);
+    box-shadow: 0 4px 20px hsl(var(--blue) / 0.3);
   }
   .btn-primary:hover {
-    box-shadow: 0 6px 30px hsl(var(--navy) / 0.5);
+    box-shadow: 0 6px 30px hsl(var(--blue) / 0.5);
     transform: translateY(-2px);
-    background: hsl(var(--navy-light));
+    background: hsl(var(--blue-light));
   }
 
   .btn-white {
-    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold transition-all duration-300;
+    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-bold uppercase tracking-wide transition-all duration-300;
     background: hsl(0, 0%, 100%);
-    color: hsl(var(--navy));
+    color: hsl(var(--blue));
     box-shadow: 0 4px 20px hsl(0, 0%, 0% / 0.1);
   }
   .btn-white:hover {
@@ -117,14 +119,14 @@
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold transition-all duration-300 border-2;
-    border-color: hsl(0, 0%, 100% / 0.4);
+    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-bold uppercase tracking-wide transition-all duration-300 border-2;
+    border-color: hsl(0, 0%, 100% / 0.6);
     color: hsl(0, 0%, 100%);
     background: transparent;
   }
   .btn-outline:hover {
-    background: hsl(0, 0%, 100% / 0.1);
-    border-color: hsl(0, 0%, 100% / 0.7);
+    background: hsl(0, 0%, 100% / 0.15);
+    border-color: hsl(0, 0%, 100%);
   }
 
   .section-navy {
@@ -132,25 +134,30 @@
     color: hsl(0, 0%, 95%);
   }
 
+  .section-blue {
+    background: hsl(var(--blue));
+    color: hsl(0, 0%, 100%);
+  }
+
   .section-light {
     background: hsl(var(--light));
   }
 
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.2em];
-    color: hsl(var(--silver));
-    font-family: var(--font-body);
+    @apply text-xs font-bold uppercase tracking-[0.2em];
+    color: hsl(var(--blue-light));
+    font-family: var(--font-display);
   }
 
   .eyebrow-dark {
-    @apply text-xs font-semibold uppercase tracking-[0.2em];
-    color: hsl(var(--muted-foreground));
-    font-family: var(--font-body);
+    @apply text-xs font-bold uppercase tracking-[0.2em];
+    color: hsl(var(--blue));
+    font-family: var(--font-display);
   }
 
   .divider {
-    @apply w-16 h-0.5;
-    background: hsl(var(--navy));
+    @apply w-16 h-1 rounded-full;
+    background: hsl(var(--blue));
   }
 
   .font-body {

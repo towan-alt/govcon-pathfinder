@@ -1,16 +1,16 @@
 const paths = [
   { need: "A custom roadmap built for YOUR business", solution: "VIP Strategy Session", href: "#vip", price: "$997" },
-  { need: "Ongoing training and community", solution: "Monthly Masterclass", href: "#masterclass", price: "$97/mo" },
-  { need: "Free weekly intel and strategy", solution: "Subscribe to the Substack", href: "#substack", price: "Free" },
+  { need: "Ongoing training and community", solution: "Monthly Masterclass", href: "#masterclass", price: "$197/mo" },
+  { need: "Weekly intel and strategy", solution: "Subscribe to the Substack", href: "#substack", price: "$19/mo" },
 ];
 
 const ClosingSection = () => {
   return (
-    <section className="section-light py-20 lg:py-28">
+    <section className="bg-background py-20 lg:py-28">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <div className="divider mx-auto" />
-          <h2 className="font-display text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
+          <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl lg:text-5xl">
             The Government Is Spending. Are You Getting Your Share?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -24,13 +24,13 @@ const ClosingSection = () => {
             <a
               key={path.solution}
               href={path.href}
-              className="group rounded-xl bg-card p-8 shadow-sm border border-border text-center space-y-4 transition-all duration-300 hover:shadow-lg hover:border-primary/20 hover:-translate-y-1"
+              className="group rounded-xl bg-card p-8 border border-border text-center space-y-4 transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1"
             >
               <p className="text-sm text-muted-foreground">{path.need}</p>
-              <p className="font-display text-lg font-semibold text-primary transition-colors">
+              <p className="font-display text-lg font-bold text-foreground transition-colors group-hover:text-primary">
                 {path.solution}
               </p>
-              <p className="font-display text-2xl font-bold text-primary">{path.price}</p>
+              <p className="font-display text-2xl font-extrabold text-primary">{path.price}</p>
             </a>
           ))}
         </div>

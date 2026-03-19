@@ -21,8 +21,10 @@ const OfferSubstack = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
-            <p className="eyebrow">Free Weekly Intelligence · No Paywall to Start</p>
-            <h2 className="font-display text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 font-display">
+              Weekly Intelligence · Paid Subscription
+            </p>
+            <h2 className="font-display text-3xl font-extrabold text-white md:text-4xl lg:text-5xl">
               The GovCon Insider: Weekly Strategy Straight from the Source
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
@@ -33,7 +35,7 @@ const OfferSubstack = () => {
           
           <div className="grid gap-8 md:grid-cols-2">
             <div className="space-y-6">
-              <h3 className="font-display text-xl font-semibold text-white">What Subscribers Get:</h3>
+              <h3 className="font-display text-lg font-bold text-white uppercase tracking-wide">What Subscribers Get:</h3>
               <ul className="space-y-3">
                 {perks.map((item) => (
                   <li key={item} className="flex items-start gap-3">
@@ -45,7 +47,7 @@ const OfferSubstack = () => {
             </div>
             
             <div className="space-y-6">
-              <h3 className="font-display text-xl font-semibold text-white">Sample Issues:</h3>
+              <h3 className="font-display text-lg font-bold text-white uppercase tracking-wide">Sample Issues:</h3>
               <ul className="space-y-3">
                 {sampleIssues.map((item) => (
                   <li key={item} className="flex items-start gap-3">
@@ -58,7 +60,7 @@ const OfferSubstack = () => {
           </div>
           
           <div className="mt-12 text-center space-y-4">
-            <p className="font-display text-4xl font-bold text-white">
+            <p className="font-display text-5xl font-extrabold text-white">
               $19<span className="text-lg font-normal text-white/70">/month</span>
             </p>
             <p className="text-sm font-medium text-white/70">
