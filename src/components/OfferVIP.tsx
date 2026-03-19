@@ -101,7 +101,7 @@ const OfferVIP = () => {
               {sessionSteps.map((step, index) => (
                 <div
                   key={step.title}
-                  className={`rounded-xl bg-white/5 border border-white/10 p-6 space-y-4 ${
+                  className={`rounded-xl bg-white border border-white/20 p-6 space-y-4 ${
                     index === 4 ? "md:col-span-2 lg:col-span-1" : ""
                   }`}
                 >
@@ -110,8 +110,8 @@ const OfferVIP = () => {
                       <step.icon className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="font-display text-sm font-bold text-white">{step.title}</p>
-                      <p className="text-xs text-white/40">{step.time}</p>
+                      <p className="font-display text-sm font-bold text-foreground">{step.title}</p>
+                      <p className="text-xs text-muted-foreground">{step.time}</p>
                     </div>
                   </div>
                   
@@ -119,12 +119,12 @@ const OfferVIP = () => {
                     {step.points.map((point) => (
                       <li key={point} className="flex items-start gap-2">
                         <Check className="h-3.5 w-3.5 flex-shrink-0 mt-1 text-primary/70" />
-                        <span className="text-xs leading-relaxed text-white/70">{point}</span>
+                        <span className="text-xs leading-relaxed text-foreground/70">{point}</span>
                       </li>
                     ))}
                   </ul>
                   
-                  <p className="text-xs italic text-primary/80 border-t border-white/5 pt-3">
+                  <p className="text-xs italic text-primary border-t border-border pt-3">
                     "{step.insight}"
                   </p>
                 </div>
