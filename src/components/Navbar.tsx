@@ -43,7 +43,7 @@ const Navbar = () => {
             scrolled ? "text-foreground" : "text-white"
           }`}
         >
-          TOWAN ISOM
+          GOVCON STRATEGY HUB
         </a>
 
         {/* Desktop links */}
