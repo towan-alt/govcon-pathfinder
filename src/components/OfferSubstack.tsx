@@ -61,7 +61,7 @@ const OfferSubstack = () => {
           
           <div className="mt-12 text-center space-y-4">
             <p className="font-display text-5xl font-extrabold text-white">
-              $19<span className="text-lg font-normal text-white/70">/month</span>
+              $27<span className="text-lg font-normal text-white/70">/month</span>
             </p>
             <p className="text-sm font-medium text-white/70">
               Join thousands of small business owners learning to compete — and win — in the federal marketplace.
