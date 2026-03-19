@@ -39,7 +39,10 @@ const OfferVIP = () => {
             <p className="text-sm text-white/75 max-w-2xl mx-auto leading-relaxed">
               We want you to experience the value firsthand — no risk, no commitment. This session is designed 
               to help you see exactly where you stand and what's possible in the federal marketplace. If it's a 
-              fit, we'll talk about next steps. If not, you walk away with a clear action plan at zero cost.
+              fit, we'll talk about next steps.{" "}
+              <a href="#" className="text-white font-semibold underline underline-offset-4 hover:text-white/80 transition-colors">
+                Book Here →
+              </a>
             </p>
           </div>
           
