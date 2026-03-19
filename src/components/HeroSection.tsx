@@ -23,7 +23,7 @@ const HeroSection = () => {
               The #1 Resource for Small Businesses Ready to Win Government Contracts
             </p>
             
-            <h1 className="font-display text-4xl font-bold leading-tight md:text-5xl lg:text-6xl" style={{ color: 'hsl(40, 20%, 99%)' }}>
+            <h1 className="font-display text-4xl font-bold leading-tight md:text-5xl lg:text-6xl text-warm-white">
               Stop Leaving Federal Dollars on the Table.
             </h1>
             
