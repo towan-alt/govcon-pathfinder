@@ -1,12 +1,14 @@
 import { Check } from "lucide-react";
 
 const included = [
-  "90-minute 1:1 strategy session with Towan Isom",
+  "60-minute intro session — deep dive into your business, goals, and GovCon positioning",
+  "8 hours of hands-on work by Towan on your deliverables (capability statement, target list, proposals, etc.)",
+  "30-minute final discussion to walk through your customized plan and next steps",
   "Pre-session intake audit of your business positioning, NAICS codes, and SAM.gov profile",
   "Customized Agency Target List — the specific agencies most likely to buy what you sell",
   "Capability Statement review and rewrite recommendations",
   "Bid/No-Bid decision framework tailored to your business",
-  "Post-session written summary and 30-day action plan",
+  "Post-session written summary and action plan",
   "2-week follow-up check-in (email or voice note)",
 ];
 
@@ -21,8 +23,8 @@ const OfferVIP = () => {
               Your Personal GovCon Roadmap — Built in a Single Session
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              This isn't a consultation. It's a closed-door strategy session with someone who has sat on both sides 
-              of the table. In 90 minutes, you leave with a clear, customized action plan.
+              This isn't a consultation. It's a full-service strategy engagement — a 60-minute intro, 
+              8 hours of hands-on deliverable work, and a 30-minute final session to hand you your plan.
             </p>
           </div>
           
