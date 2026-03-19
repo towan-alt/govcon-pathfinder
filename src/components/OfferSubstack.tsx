@@ -22,10 +22,10 @@ const OfferSubstack = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
             <p className="eyebrow">Free Weekly Intelligence · No Paywall to Start</p>
-            <h2 className="font-display text-3xl font-bold md:text-4xl lg:text-5xl" style={{ color: 'hsl(40, 20%, 99%)' }}>
+            <h2 className="font-display text-3xl font-bold text-white md:text-4xl lg:text-5xl">
               The GovCon Insider: Weekly Strategy Straight from the Source
             </h2>
-            <p className="text-lg opacity-80 max-w-2xl mx-auto" style={{ color: 'hsl(40, 30%, 85%)' }}>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
               This isn't a newsletter. It's intel. Market shifts, procurement trends, agency updates, 
               bid strategy breakdowns, and real talk you won't find in a Google search.
             </p>
@@ -33,24 +33,24 @@ const OfferSubstack = () => {
           
           <div className="grid gap-8 md:grid-cols-2">
             <div className="space-y-6">
-              <h3 className="font-display text-xl font-semibold text-gold">What Subscribers Get:</h3>
+              <h3 className="font-display text-xl font-semibold text-white">What Subscribers Get:</h3>
               <ul className="space-y-3">
                 {perks.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <Mail className="h-4 w-4 flex-shrink-0 mt-1 text-gold" />
-                    <span className="text-sm leading-relaxed" style={{ color: 'hsl(40, 30%, 85%)' }}>{item}</span>
+                    <Mail className="h-4 w-4 flex-shrink-0 mt-1 text-white/50" />
+                    <span className="text-sm leading-relaxed text-white/80">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
             
             <div className="space-y-6">
-              <h3 className="font-display text-xl font-semibold text-gold">Sample Issues:</h3>
+              <h3 className="font-display text-xl font-semibold text-white">Sample Issues:</h3>
               <ul className="space-y-3">
                 {sampleIssues.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <ArrowRight className="h-4 w-4 flex-shrink-0 mt-1 text-gold" />
-                    <span className="text-sm leading-relaxed italic" style={{ color: 'hsl(40, 30%, 85%)' }}>{item}</span>
+                    <ArrowRight className="h-4 w-4 flex-shrink-0 mt-1 text-white/50" />
+                    <span className="text-sm leading-relaxed italic text-white/80">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -58,13 +58,13 @@ const OfferSubstack = () => {
           </div>
           
           <div className="mt-12 text-center space-y-4">
-            <p className="text-sm font-medium" style={{ color: 'hsl(40, 30%, 85%)' }}>
+            <p className="text-sm font-medium text-white/70">
               Join thousands of small business owners learning to compete — and win — in the federal marketplace.
             </p>
-            <a href="#" className="btn-gold">
+            <a href="#" className="btn-white">
               Subscribe Free to The GovCon Insider →
             </a>
-            <p className="text-xs opacity-50" style={{ color: 'hsl(40, 30%, 85%)' }}>
+            <p className="text-xs text-white/40">
               Free to subscribe. Paid tier available for full archive access and bonus content.
             </p>
           </div>

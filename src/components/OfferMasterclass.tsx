@@ -20,11 +20,11 @@ const topics = [
 
 const OfferMasterclass = () => {
   return (
-    <section id="masterclass" className="section-cream py-20 lg:py-28">
+    <section id="masterclass" className="section-light py-20 lg:py-28">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
-            <p className="eyebrow">Monthly Live Training · Open Enrollment</p>
+            <p className="eyebrow-dark">Monthly Live Training · Open Enrollment</p>
             <h2 className="font-display text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
               The GovCon Masterclass: Monthly Intel from Someone Who's Actually Won
             </h2>
@@ -40,7 +40,7 @@ const OfferMasterclass = () => {
               <ul className="space-y-4">
                 {benefits.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-gold" />
+                    <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-primary" />
                     <span className="text-sm leading-relaxed text-foreground">{item}</span>
                   </li>
                 ))}
@@ -52,7 +52,7 @@ const OfferMasterclass = () => {
               <ul className="space-y-4">
                 {topics.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <BookOpen className="h-5 w-5 flex-shrink-0 mt-0.5 text-gold" />
+                    <BookOpen className="h-5 w-5 flex-shrink-0 mt-0.5 text-primary" />
                     <span className="text-sm leading-relaxed text-foreground">{item}</span>
                   </li>
                 ))}
@@ -65,7 +65,7 @@ const OfferMasterclass = () => {
               $97<span className="text-lg font-normal text-muted-foreground">/month</span>
             </p>
             <p className="text-sm text-muted-foreground">Cancel anytime</p>
-            <a href="#" className="btn-gold">
+            <a href="#" className="btn-primary">
               Join the Monthly Masterclass →
             </a>
             <p className="text-xs text-muted-foreground">

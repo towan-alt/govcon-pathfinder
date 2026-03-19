@@ -17,44 +17,42 @@ const OfferVIP = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
             <p className="eyebrow">One-on-One Intensive · Limited Availability</p>
-            <h2 className="font-display text-3xl font-bold md:text-4xl lg:text-5xl" style={{ color: 'hsl(40, 20%, 99%)' }}>
+            <h2 className="font-display text-3xl font-bold text-white md:text-4xl lg:text-5xl">
               Your Personal GovCon Roadmap — Built in a Single Session
             </h2>
-            <p className="text-lg opacity-80 max-w-2xl mx-auto" style={{ color: 'hsl(40, 30%, 85%)' }}>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
               This isn't a consultation. It's a closed-door strategy session with someone who has sat on both sides 
               of the table. In 90 minutes, you leave with a clear, customized action plan.
             </p>
           </div>
           
-          <div className="rounded-xl border bg-card/5 backdrop-blur-sm p-8 md:p-12" style={{
-            borderColor: 'hsl(42, 80%, 55%, 0.2)',
-          }}>
-            <h3 className="font-display text-xl font-semibold text-gold mb-6">What's Included:</h3>
+          <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-8 md:p-12">
+            <h3 className="font-display text-xl font-semibold text-white mb-6">What's Included:</h3>
             <ul className="space-y-4 mb-10">
               {included.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-gold" />
-                  <span className="text-sm leading-relaxed" style={{ color: 'hsl(40, 30%, 85%)' }}>{item}</span>
+                  <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-white/60" />
+                  <span className="text-sm leading-relaxed text-white/80">{item}</span>
                 </li>
               ))}
             </ul>
             
-            <div className="border-t pt-8 space-y-2" style={{ borderColor: 'hsl(42, 80%, 55%, 0.15)' }}>
-              <p className="text-sm opacity-60" style={{ color: 'hsl(40, 30%, 85%)' }}>
-                <strong>Who it's for:</strong> Small business owners registered (or ready to register) in SAM.gov, 
+            <div className="border-t border-white/10 pt-8 space-y-2">
+              <p className="text-sm text-white/50">
+                <strong className="text-white/70">Who it's for:</strong> Small business owners registered (or ready to register) in SAM.gov, 
                 with a viable service or product. Also ideal for businesses who have bid before but aren't winning.
               </p>
             </div>
             
             <div className="mt-10 text-center space-y-4">
-              <p className="font-display text-4xl font-bold text-gold">$997</p>
-              <p className="text-sm opacity-60" style={{ color: 'hsl(40, 30%, 85%)' }}>
+              <p className="font-display text-4xl font-bold text-white">$997</p>
+              <p className="text-sm text-white/50">
                 Limited spots released on the 1st of each month
               </p>
-              <a href="#" className="btn-gold">
+              <a href="#" className="btn-white">
                 Reserve My VIP Strategy Session →
               </a>
-              <p className="text-xs opacity-50" style={{ color: 'hsl(40, 30%, 85%)' }}>
+              <p className="text-xs text-white/40">
                 You'll receive a confirmation email with your intake form within 24 hours.
               </p>
             </div>

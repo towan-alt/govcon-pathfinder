@@ -9,10 +9,10 @@ const highlights = [
 
 const AboutSection = () => {
   return (
-    <section id="about" className="section-cream py-20 lg:py-28">
+    <section id="about" className="section-light py-20 lg:py-28">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="gold-divider mx-auto" />
+          <div className="divider mx-auto" />
           <h2 className="font-display text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
             Real Receipts. Real Results. Real Strategy.
           </h2>
@@ -35,7 +35,7 @@ const AboutSection = () => {
               className="flex items-start gap-4 rounded-lg bg-card p-6 shadow-sm border border-border"
             >
               <div className="flex-shrink-0 rounded-full bg-primary p-3">
-                <item.icon className="h-5 w-5 text-gold" />
+                <item.icon className="h-5 w-5 text-primary-foreground" />
               </div>
               <p className="text-sm leading-relaxed text-foreground font-medium">{item.text}</p>
             </div>
