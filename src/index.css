@@ -138,4 +138,26 @@
     @apply w-16 h-0.5;
     background: linear-gradient(90deg, hsl(var(--gold)), hsl(var(--gold-light)));
   }
+
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
 }
