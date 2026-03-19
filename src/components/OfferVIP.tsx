@@ -23,8 +23,8 @@ const OfferVIP = () => {
               Your Personal GovCon Roadmap — Built in a Single Session
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              This isn't a consultation. It's a closed-door strategy session with someone who has sat on both sides 
-              of the table. In 90 minutes, you leave with a clear, customized action plan.
+              This isn't a consultation. It's a full-service strategy engagement — a 60-minute intro, 
+              8 hours of hands-on deliverable work, and a 30-minute final session to hand you your plan.
             </p>
           </div>
           
