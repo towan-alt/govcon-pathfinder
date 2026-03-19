@@ -119,7 +119,7 @@ const OfferVIP = () => {
                     {step.points.map((point) => (
                       <li key={point} className="flex items-start gap-2">
                         <Check className="h-3.5 w-3.5 flex-shrink-0 mt-1 text-primary/70" />
-                        <span className="text-xs leading-relaxed text-white/70">{point}</span>
+                        <span className="text-xs leading-relaxed text-foreground/70">{point}</span>
                       </li>
                     ))}
                   </ul>
