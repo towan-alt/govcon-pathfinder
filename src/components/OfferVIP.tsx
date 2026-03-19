@@ -25,8 +25,8 @@ const OfferVIP = () => {
               Your Personal GovCon Roadmap — Built in a Single Engagement
             </h2>
             <p className="text-lg text-white/75 max-w-2xl mx-auto">
-              This isn't a sales call. It's a real strategy session where we dive into your business, 
-              identify your best opportunities, and map out a clear path to winning government contracts — 
+              This isn't a sales call. It's a focused 15-minute strategy session where we look at your business, 
+              identify your best opportunities, and show you a clear path to winning government contracts — 
               completely free.
             </p>
           </div>
