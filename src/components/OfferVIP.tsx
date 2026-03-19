@@ -45,17 +45,6 @@ const sessionSteps = [
     ],
     insight: "Winning in GovCon is about focus—3 agencies, not 30.",
   },
-  {
-    icon: AlertTriangle,
-    title: "Immediate Gaps + Next Moves",
-    time: "3–4 min",
-    points: [
-      "Missing certifications? (8a, WOSB, HUBZone)",
-      "Weak capability statement?",
-      "No pipeline or outreach strategy?",
-    ],
-    insight: "Here's exactly what's blocking you from winning in the next 90 days.",
-  },
 ];
 
 const OfferVIP = () => {
@@ -97,13 +86,11 @@ const OfferVIP = () => {
               Here's Exactly What We Cover:
             </h3>
             
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {sessionSteps.map((step, index) => (
+            <div className="grid gap-5 md:grid-cols-2">
+              {sessionSteps.map((step) => (
                 <div
                   key={step.title}
-                  className={`rounded-xl bg-white border border-white/20 p-6 space-y-4 ${
-                    index === 4 ? "md:col-span-2 lg:col-span-1" : ""
-                  }`}
+                  className="rounded-xl bg-white border border-white/20 p-6 space-y-4"
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
