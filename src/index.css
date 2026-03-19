@@ -110,7 +110,7 @@
   .btn-white {
     @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-bold uppercase tracking-wide transition-all duration-300;
     background: hsl(0, 0%, 100%);
-    color: hsl(var(--blue));
+    color: hsl(0, 0%, 5%);
     box-shadow: 0 4px 20px hsl(0, 0%, 0% / 0.1);
   }
   .btn-white:hover {
