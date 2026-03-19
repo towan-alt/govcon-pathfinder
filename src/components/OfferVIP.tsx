@@ -110,8 +110,8 @@ const OfferVIP = () => {
                       <step.icon className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="font-display text-sm font-bold text-white">{step.title}</p>
-                      <p className="text-xs text-white/40">{step.time}</p>
+                      <p className="font-display text-sm font-bold text-foreground">{step.title}</p>
+                      <p className="text-xs text-muted-foreground">{step.time}</p>
                     </div>
                   </div>
                   
