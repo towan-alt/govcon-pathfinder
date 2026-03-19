@@ -19,14 +19,27 @@ const OfferVIP = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/60 font-display">
-              One-on-One Intensive · Limited Availability
+              Free Strategy Session · No Obligation
             </p>
             <h2 className="font-display text-3xl font-extrabold text-white md:text-4xl lg:text-5xl">
               Your Personal GovCon Roadmap — Built in a Single Engagement
             </h2>
             <p className="text-lg text-white/75 max-w-2xl mx-auto">
-              This isn't a consultation. It's a full-service strategy engagement — a 60-minute intro, 
-              8 hours of hands-on deliverable work, and a 30-minute final session to hand you your plan.
+              This isn't a sales call. It's a real strategy session where we dive into your business, 
+              identify your best opportunities, and map out a clear path to winning government contracts — 
+              completely free.
+            </p>
+          </div>
+
+          {/* Recap box */}
+          <div className="rounded-xl bg-white/5 border border-white/10 p-6 md:p-8 mb-10 text-center space-y-3">
+            <p className="font-display text-lg font-bold text-white uppercase tracking-wide">
+              Why Is This Free?
+            </p>
+            <p className="text-sm text-white/75 max-w-2xl mx-auto leading-relaxed">
+              We want you to experience the value firsthand — no risk, no commitment. This session is designed 
+              to help you see exactly where you stand and what's possible in the federal marketplace. If it's a 
+              fit, we'll talk about next steps. If not, you walk away with a clear action plan at zero cost.
             </p>
           </div>
           
@@ -49,15 +62,15 @@ const OfferVIP = () => {
             </div>
             
             <div className="mt-10 text-center space-y-4">
-              <p className="font-display text-5xl font-extrabold text-white">$997</p>
+              <p className="font-display text-5xl font-extrabold text-white">FREE</p>
               <p className="text-sm text-white/50">
-                Limited spots released on the 1st of each month
+                Limited spots available — book yours today
               </p>
               <a href="#" className="btn-white">
-                Reserve My VIP Strategy Session →
+                Reserve My Free Strategy Session →
               </a>
               <p className="text-xs text-white/40">
-                You'll receive a confirmation email with your intake form within 24 hours.
+                100% free. No credit card required. You'll receive a confirmation email within 24 hours.
               </p>
             </div>
           </div>

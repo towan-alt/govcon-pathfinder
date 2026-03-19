@@ -1,5 +1,5 @@
 const paths = [
-  { need: "A custom roadmap built for YOUR business", solution: "VIP Strategy Session", href: "#vip", price: "$997" },
+  { need: "A custom roadmap built for YOUR business", solution: "Free Strategy Session", href: "#vip", price: "FREE" },
   { need: "Ongoing training and community", solution: "Monthly Masterclass", href: "#masterclass", price: "$197/mo" },
   { need: "Weekly intel and strategy", solution: "Subscribe to the Substack", href: "#substack", price: "$27/mo" },
 ];
