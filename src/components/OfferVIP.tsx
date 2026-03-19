@@ -45,17 +45,6 @@ const sessionSteps = [
     ],
     insight: "Winning in GovCon is about focus—3 agencies, not 30.",
   },
-  {
-    icon: AlertTriangle,
-    title: "Immediate Gaps + Next Moves",
-    time: "3–4 min",
-    points: [
-      "Missing certifications? (8a, WOSB, HUBZone)",
-      "Weak capability statement?",
-      "No pipeline or outreach strategy?",
-    ],
-    insight: "Here's exactly what's blocking you from winning in the next 90 days.",
-  },
 ];
 
 const OfferVIP = () => {
