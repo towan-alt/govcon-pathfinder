@@ -62,7 +62,7 @@ const OfferMasterclass = () => {
           
           <div className="mt-12 text-center space-y-4">
             <p className="font-display text-4xl font-bold text-primary">
-              $97<span className="text-lg font-normal text-muted-foreground">/month</span>
+              $197<span className="text-lg font-normal text-muted-foreground">/month</span>
             </p>
             <p className="text-sm text-muted-foreground">Cancel anytime</p>
             <a href="#" className="btn-primary">
