@@ -35,8 +35,8 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10">
+          <div className="relative animate-fade-in flex justify-center" style={{ animationDelay: '0.3s' }}>
+            <div className="relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 max-w-sm">
               <img
                 src={towanHero}
                 alt="Towan Isom — CEO and GovCon Strategist"
