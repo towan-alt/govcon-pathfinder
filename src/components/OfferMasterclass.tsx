@@ -20,23 +20,24 @@ const topics = [
 
 const OfferMasterclass = () => {
   return (
-    <section id="masterclass" className="section-light py-20 lg:py-28">
+    <section id="masterclass" className="bg-background py-20 lg:py-28">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center space-y-4 mb-12">
+          <div className="space-y-4 mb-12">
+            <div className="divider" />
             <p className="eyebrow-dark">Monthly Live Training · Open Enrollment</p>
-            <h2 className="font-display text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
+            <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl lg:text-5xl">
               The GovCon Masterclass: Monthly Intel from Someone Who's Actually Won
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl">
               Every month, Towan goes deep on one high-impact topic. No fluff, no recycled content — 
               just tactical, field-tested strategies from 25+ years in the trenches.
             </p>
           </div>
           
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="rounded-xl bg-card p-8 shadow-sm border border-border">
-              <h3 className="font-display text-xl font-semibold text-primary mb-6">What You Get Each Month:</h3>
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="rounded-xl bg-card p-8 border border-border hover:shadow-md transition-shadow">
+              <h3 className="font-display text-lg font-bold text-foreground mb-6 uppercase tracking-wide">What You Get Each Month:</h3>
               <ul className="space-y-4">
                 {benefits.map((item) => (
                   <li key={item} className="flex items-start gap-3">
@@ -47,8 +48,8 @@ const OfferMasterclass = () => {
               </ul>
             </div>
             
-            <div className="rounded-xl bg-card p-8 shadow-sm border border-border">
-              <h3 className="font-display text-xl font-semibold text-primary mb-6">Sample Monthly Topics:</h3>
+            <div className="rounded-xl bg-card p-8 border border-border hover:shadow-md transition-shadow">
+              <h3 className="font-display text-lg font-bold text-foreground mb-6 uppercase tracking-wide">Sample Monthly Topics:</h3>
               <ul className="space-y-4">
                 {topics.map((item) => (
                   <li key={item} className="flex items-start gap-3">
@@ -61,7 +62,7 @@ const OfferMasterclass = () => {
           </div>
           
           <div className="mt-12 text-center space-y-4">
-            <p className="font-display text-4xl font-bold text-primary">
+            <p className="font-display text-5xl font-extrabold text-foreground">
               $197<span className="text-lg font-normal text-muted-foreground">/month</span>
             </p>
             <p className="text-sm text-muted-foreground">Cancel anytime</p>

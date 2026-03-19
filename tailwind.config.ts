@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["'Playfair Display'", "serif"],
-        body: ["'Inter'", "sans-serif"],
+        display: ["'Montserrat'", "sans-serif"],
+        body: ["'Open Sans'", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -54,6 +54,10 @@ export default {
         navy: {
           DEFAULT: "hsl(var(--navy))",
           light: "hsl(var(--navy-light))",
+        },
+        blue: {
+          DEFAULT: "hsl(var(--blue))",
+          light: "hsl(var(--blue-light))",
         },
         silver: {
           DEFAULT: "hsl(var(--silver))",

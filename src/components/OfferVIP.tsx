@@ -14,40 +14,42 @@ const included = [
 
 const OfferVIP = () => {
   return (
-    <section id="vip" className="section-navy py-20 lg:py-28">
+    <section id="vip" className="section-blue py-20 lg:py-28">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
-            <p className="eyebrow">One-on-One Intensive · Limited Availability</p>
-            <h2 className="font-display text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-              Your Personal GovCon Roadmap — Built in a Single Session
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/60 font-display">
+              One-on-One Intensive · Limited Availability
+            </p>
+            <h2 className="font-display text-3xl font-extrabold text-white md:text-4xl lg:text-5xl">
+              Your Personal GovCon Roadmap — Built in a Single Engagement
             </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+            <p className="text-lg text-white/75 max-w-2xl mx-auto">
               This isn't a consultation. It's a full-service strategy engagement — a 60-minute intro, 
               8 hours of hands-on deliverable work, and a 30-minute final session to hand you your plan.
             </p>
           </div>
           
-          <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-8 md:p-12">
-            <h3 className="font-display text-xl font-semibold text-white mb-6">What's Included:</h3>
+          <div className="rounded-xl bg-white/10 backdrop-blur-sm p-8 md:p-12 border border-white/15">
+            <h3 className="font-display text-xl font-bold text-white mb-6 uppercase tracking-wide">What's Included:</h3>
             <ul className="space-y-4 mb-10">
               {included.map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-white/60" />
-                  <span className="text-sm leading-relaxed text-white/80">{item}</span>
+                  <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-white/70" />
+                  <span className="text-sm leading-relaxed text-white/85">{item}</span>
                 </li>
               ))}
             </ul>
             
-            <div className="border-t border-white/10 pt-8 space-y-2">
-              <p className="text-sm text-white/50">
-                <strong className="text-white/70">Who it's for:</strong> Small business owners registered (or ready to register) in SAM.gov, 
+            <div className="border-t border-white/15 pt-8 space-y-2">
+              <p className="text-sm text-white/60">
+                <strong className="text-white/80">Who it's for:</strong> Small business owners registered (or ready to register) in SAM.gov, 
                 with a viable service or product. Also ideal for businesses who have bid before but aren't winning.
               </p>
             </div>
             
             <div className="mt-10 text-center space-y-4">
-              <p className="font-display text-4xl font-bold text-white">$997</p>
+              <p className="font-display text-5xl font-extrabold text-white">$997</p>
               <p className="text-sm text-white/50">
                 Limited spots released on the 1st of each month
               </p>
