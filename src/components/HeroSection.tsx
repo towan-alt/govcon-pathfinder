@@ -43,9 +43,6 @@ const HeroSection = () => {
             <a href="#vip" className="btn-primary text-lg px-10 py-5">
               Reserve Your Free Strategy Session →
             </a>
-            <a href="#about" className="btn-outline text-lg px-10 py-5">
-              Learn More
-            </a>
           </div>
         </div>
 
