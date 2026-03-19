@@ -124,7 +124,7 @@ const OfferVIP = () => {
                     ))}
                   </ul>
                   
-                  <p className="text-xs italic text-primary/80 border-t border-white/5 pt-3">
+                  <p className="text-xs italic text-primary border-t border-border pt-3">
                     "{step.insight}"
                   </p>
                 </div>
