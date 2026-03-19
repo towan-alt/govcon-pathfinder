@@ -14,7 +14,7 @@ const included = [
 
 const OfferVIP = () => {
   return (
-    <section id="vip" className="section-blue py-20 lg:py-28">
+    <section id="vip" className="section-navy py-20 lg:py-28">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
