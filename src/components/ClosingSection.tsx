@@ -6,10 +6,10 @@ const paths = [
 
 const ClosingSection = () => {
   return (
-    <section className="section-cream py-20 lg:py-28">
+    <section className="section-light py-20 lg:py-28">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="gold-divider mx-auto" />
+          <div className="divider mx-auto" />
           <h2 className="font-display text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
             The Government Is Spending. Are You Getting Your Share?
           </h2>
@@ -24,13 +24,13 @@ const ClosingSection = () => {
             <a
               key={path.solution}
               href={path.href}
-              className="group rounded-xl bg-card p-8 shadow-sm border border-border text-center space-y-4 transition-all duration-300 hover:shadow-lg hover:border-gold/30 hover:-translate-y-1"
+              className="group rounded-xl bg-card p-8 shadow-sm border border-border text-center space-y-4 transition-all duration-300 hover:shadow-lg hover:border-primary/20 hover:-translate-y-1"
             >
               <p className="text-sm text-muted-foreground">{path.need}</p>
-              <p className="font-display text-lg font-semibold text-primary group-hover:text-gold-dark transition-colors">
+              <p className="font-display text-lg font-semibold text-primary transition-colors">
                 {path.solution}
               </p>
-              <p className="font-display text-2xl font-bold text-gold">{path.price}</p>
+              <p className="font-display text-2xl font-bold text-primary">{path.price}</p>
             </a>
           ))}
         </div>

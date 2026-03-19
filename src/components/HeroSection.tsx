@@ -17,26 +17,26 @@ const HeroSection = () => {
               The #1 Resource for Small Businesses Ready to Win Government Contracts
             </p>
 
-            <h1 className="font-display text-4xl font-bold leading-tight text-warm-white md:text-5xl lg:text-6xl">
+            <h1 className="font-display text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
               How to Make Money Working with the Government.
             </h1>
 
-            <p className="text-lg leading-relaxed text-gold-light/80 max-w-xl">
+            <p className="text-lg leading-relaxed text-white/70 max-w-xl">
               The U.S. government spends over $7 trillion a year — and they need businesses just like yours. Towan Isom has executed 105+ federal contracts, built a $25M+ business from her basement, and now she's handing you the blueprint.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
-              <a href="#vip" className="btn-gold">
+              <a href="#vip" className="btn-white">
                 Get Your Roadmap →
               </a>
-              <a href="#about" className="btn-outline-gold">
+              <a href="#about" className="btn-outline">
                 Learn More
               </a>
             </div>
           </div>
 
           <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-gold/20">
+            <div className="relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10">
               <img
                 src={towanHero}
                 alt="Towan Isom — CEO and GovCon Strategist"
@@ -48,11 +48,11 @@ const HeroSection = () => {
         </div>
 
         {/* Stats bar */}
-        <div className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4 lg:mt-28 border-t border-gold/10 pt-10">
+        <div className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4 lg:mt-28 border-t border-white/10 pt-10">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center space-y-2">
-              <p className="font-display text-3xl font-bold text-gold md:text-4xl">{stat.number}</p>
-              <p className="text-sm font-medium text-gold-light/60">{stat.label}</p>
+              <p className="font-display text-3xl font-bold text-white md:text-4xl">{stat.number}</p>
+              <p className="text-sm font-medium text-white/50">{stat.label}</p>
             </div>
           ))}
         </div>

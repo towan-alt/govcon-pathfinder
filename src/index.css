@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
+    --background: 210 20% 98%;
     --foreground: 220 30% 12%;
 
     --card: 0 0% 100%;
@@ -15,34 +15,33 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 30% 12%;
 
-    --primary: 220 60% 15%;
-    --primary-foreground: 42 80% 65%;
+    --primary: 220 55% 15%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 42 80% 55%;
-    --secondary-foreground: 220 60% 15%;
+    --secondary: 220 20% 95%;
+    --secondary-foreground: 220 55% 15%;
 
     --muted: 220 15% 92%;
     --muted-foreground: 220 10% 45%;
 
-    --accent: 42 80% 55%;
-    --accent-foreground: 220 60% 15%;
+    --accent: 220 55% 15%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 220 15% 88%;
     --input: 220 15% 88%;
-    --ring: 42 80% 55%;
+    --ring: 220 55% 15%;
 
     --radius: 0.5rem;
 
-    --gold: 42 80% 55%;
-    --gold-light: 42 70% 75%;
-    --gold-dark: 42 85% 40%;
-    --navy: 220 60% 15%;
-    --navy-light: 220 40% 25%;
-    --cream: 40 30% 96%;
-    --warm-white: 40 20% 99%;
+    --navy: 220 55% 15%;
+    --navy-light: 220 40% 22%;
+    --silver: 220 10% 70%;
+    --silver-light: 220 10% 85%;
+    --light: 210 20% 98%;
+    --warm-white: 0 0% 100%;
 
     --font-display: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
@@ -59,24 +58,24 @@
 
   .dark {
     --background: 220 30% 8%;
-    --foreground: 40 20% 95%;
+    --foreground: 0 0% 95%;
     --card: 220 30% 12%;
-    --card-foreground: 40 20% 95%;
+    --card-foreground: 0 0% 95%;
     --popover: 220 30% 12%;
-    --popover-foreground: 40 20% 95%;
-    --primary: 42 80% 55%;
-    --primary-foreground: 220 60% 15%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 220 55% 15%;
     --secondary: 220 40% 25%;
-    --secondary-foreground: 40 20% 95%;
+    --secondary-foreground: 0 0% 95%;
     --muted: 220 30% 18%;
     --muted-foreground: 220 10% 60%;
-    --accent: 42 80% 55%;
-    --accent-foreground: 220 60% 15%;
+    --accent: 0 0% 100%;
+    --accent-foreground: 220 55% 15%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 220 30% 20%;
     --input: 220 30% 20%;
-    --ring: 42 80% 55%;
+    --ring: 0 0% 100%;
   }
 }
 
@@ -94,51 +93,65 @@
 }
 
 @layer components {
-  .btn-gold {
+  .btn-primary {
     @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold transition-all duration-300;
-    background: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-dark)) 100%);
-    color: hsl(var(--navy));
-    box-shadow: 0 4px 20px hsl(var(--gold) / 0.3);
+    background: hsl(var(--navy));
+    color: hsl(0, 0%, 100%);
+    box-shadow: 0 4px 20px hsl(var(--navy) / 0.3);
   }
-  .btn-gold:hover {
-    box-shadow: 0 6px 30px hsl(var(--gold) / 0.5);
+  .btn-primary:hover {
+    box-shadow: 0 6px 30px hsl(var(--navy) / 0.5);
+    transform: translateY(-2px);
+    background: hsl(var(--navy-light));
+  }
+
+  .btn-white {
+    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold transition-all duration-300;
+    background: hsl(0, 0%, 100%);
+    color: hsl(var(--navy));
+    box-shadow: 0 4px 20px hsl(0, 0%, 0% / 0.1);
+  }
+  .btn-white:hover {
+    box-shadow: 0 6px 30px hsl(0, 0%, 0% / 0.15);
     transform: translateY(-2px);
   }
 
-  .btn-outline-gold {
+  .btn-outline {
     @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold transition-all duration-300 border-2;
-    border-color: hsl(var(--gold));
-    color: hsl(var(--gold));
+    border-color: hsl(0, 0%, 100% / 0.4);
+    color: hsl(0, 0%, 100%);
     background: transparent;
   }
-  .btn-outline-gold:hover {
-    background: hsl(var(--gold) / 0.1);
+  .btn-outline:hover {
+    background: hsl(0, 0%, 100% / 0.1);
+    border-color: hsl(0, 0%, 100% / 0.7);
   }
 
   .section-navy {
     background: linear-gradient(180deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 100%);
-    color: hsl(var(--cream));
+    color: hsl(0, 0%, 95%);
   }
 
-  .section-cream {
-    background: hsl(var(--cream));
-  }
-
-  .text-gold {
-    color: hsl(var(--gold));
+  .section-light {
+    background: hsl(var(--light));
   }
 
   .eyebrow {
     @apply text-xs font-semibold uppercase tracking-[0.2em];
-    color: hsl(var(--gold));
+    color: hsl(var(--silver));
     font-family: var(--font-body);
   }
 
-  .gold-divider {
-    @apply w-16 h-0.5;
-    background: linear-gradient(90deg, hsl(var(--gold)), hsl(var(--gold-light)));
+  .eyebrow-dark {
+    @apply text-xs font-semibold uppercase tracking-[0.2em];
+    color: hsl(var(--muted-foreground));
+    font-family: var(--font-body);
   }
 
+  .divider {
+    @apply w-16 h-0.5;
+    background: hsl(var(--navy));
+  }
 
   .font-body {
     font-family: var(--font-body);
