@@ -41,7 +41,7 @@ const HeroSection = () => {
 
           <div className="flex flex-wrap justify-center gap-4 pt-4">
             <a href="#vip" className="btn-primary text-lg px-10 py-5">
-              Reserve Your Strategy Session →
+              Reserve Your Free Strategy Session →
             </a>
             <a href="#about" className="btn-outline text-lg px-10 py-5">
               Learn More
