@@ -101,7 +101,7 @@ const OfferVIP = () => {
               {sessionSteps.map((step, index) => (
                 <div
                   key={step.title}
-                  className={`rounded-xl bg-white/5 border border-white/10 p-6 space-y-4 ${
+                  className={`rounded-xl bg-white border border-white/20 p-6 space-y-4 ${
                     index === 4 ? "md:col-span-2 lg:col-span-1" : ""
                   }`}
                 >
