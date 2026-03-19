@@ -57,7 +57,7 @@ const OfferVIP = () => {
               Free Strategy Session · 15 Minutes · No Obligation
             </p>
             <h2 className="font-display text-3xl font-extrabold text-white md:text-4xl lg:text-5xl">
-              15 Minutes That Could Change Your GovCon Business
+              15 Minutes Can Change Your Life
             </h2>
             <p className="text-lg text-white/75 max-w-3xl mx-auto">
               If you only have 15 minutes, you need a tight, high-impact diagnostic. We'll quickly 
