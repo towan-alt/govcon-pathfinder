@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
 
 const included = [
-  "60-minute intro session — deep dive into your business, goals, and GovCon positioning",
+  "15-minute strategy session — a focused look at your business, goals, and GovCon positioning",
   "8 hours of hands-on work by Towan on your deliverables (capability statement, target list, proposals, etc.)",
   "30-minute final discussion to walk through your customized plan and next steps",
   "Pre-session intake audit of your business positioning, NAICS codes, and SAM.gov profile",
@@ -25,8 +25,8 @@ const OfferVIP = () => {
               Your Personal GovCon Roadmap — Built in a Single Engagement
             </h2>
             <p className="text-lg text-white/75 max-w-2xl mx-auto">
-              This isn't a sales call. It's a real strategy session where we dive into your business, 
-              identify your best opportunities, and map out a clear path to winning government contracts — 
+              This isn't a sales call. It's a focused 15-minute strategy session where we look at your business, 
+              identify your best opportunities, and show you a clear path to winning government contracts — 
               completely free.
             </p>
           </div>
