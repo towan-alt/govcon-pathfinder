@@ -120,7 +120,6 @@ const OfferVIP = () => {
           </div>
 
           <div className="mt-12 text-center space-y-4">
-            <p className="font-display text-5xl font-extrabold text-white">FREE</p>
             <p className="text-sm text-white/50">
               Limited spots available — book yours today
             </p>
@@ -128,7 +127,7 @@ const OfferVIP = () => {
               Book Your Free Session Now →
             </a>
             <p className="text-xs text-white/40">
-              100% free. No credit card required. You'll receive a confirmation email within 24 hours.
+              No credit card required. You'll receive a confirmation email within 24 hours.
             </p>
           </div>
         </div>
