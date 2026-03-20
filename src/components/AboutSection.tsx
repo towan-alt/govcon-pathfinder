@@ -1,7 +1,7 @@
 import { Award, Globe, Building2, Users } from "lucide-react";
 
 const highlights = [
-  { icon: Building2, text: "Founded IGS in her basement in 1998 — now spanning five continents" },
+  { icon: Building2, text: "Built a federal contracting firm from scratch — now spanning five continents" },
   { icon: Globe, text: "U.S. Marine Corps, Army, Dept. of Commerce, VA, and more" },
   { icon: Award, text: "Top 3% of women-owned businesses to cross $25M in revenue" },
   { icon: Users, text: "Commercial clients: Nike, Comcast Xfinity, MedStar, GlaxoSmithKline" },
