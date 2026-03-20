@@ -11,7 +11,7 @@ const ClosingSection = () => {
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <div className="divider mx-auto" />
           <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl lg:text-5xl">
-            Stop Watching From the Sidelines. Start Winning.
+            Start Winning Contracts Now.
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             You don't need a team of 50, a fancy office, or a decade of experience. You need the right strategy, 
