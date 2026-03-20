@@ -49,7 +49,13 @@ const OfferVIPDoneForYou = () => {
             </div>
             
             <div className="mt-10 text-center space-y-5">
+              <p className="text-sm text-muted-foreground">
+                The average federal contract Towan's clients pursue in year one: $250K–$500K+. Your investment today:
+              </p>
               <p className="font-display text-5xl font-extrabold text-foreground">$997</p>
+              <p className="text-sm italic text-muted-foreground">
+                One contract win covers your investment — many times over.
+              </p>
               <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                 Limited spots released on the 1st of each month
               </p>

@@ -95,16 +95,18 @@
 }
 
 @layer components {
+  /* Primary CTA: dark background, gold text — the main conversion button */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg px-10 py-5 text-base font-extrabold uppercase tracking-wider transition-all duration-300;
-    background: hsl(0, 0%, 100%);
-    color: hsl(0, 0%, 8%);
-    box-shadow: 0 4px 24px hsl(0, 0%, 0% / 0.2), 0 0 0 2px hsl(var(--blue) / 0.3);
+    @apply inline-flex items-center justify-center rounded-lg px-12 py-5 text-base font-extrabold uppercase tracking-wider transition-all duration-300;
+    background: hsl(0, 0%, 8%);
+    color: hsl(var(--blue));
+    box-shadow: 0 4px 24px hsl(0, 0%, 0% / 0.3), 0 0 0 2px hsl(var(--blue) / 0.3);
   }
   .btn-primary:hover {
-    box-shadow: 0 8px 40px hsl(0, 0%, 0% / 0.3), 0 0 0 2px hsl(var(--blue) / 0.5);
+    background: hsl(var(--blue));
+    color: hsl(0, 0%, 8%);
+    box-shadow: 0 8px 40px hsl(var(--blue) / 0.5);
     transform: translateY(-2px) scale(1.02);
-    background: hsl(0, 0%, 95%);
   }
   .btn-primary:active {
     transform: translateY(0) scale(0.98);
@@ -139,18 +141,20 @@
     transform: translateY(0) scale(0.98);
   }
 
+  /* Dark filled CTA with gold text and gold border */
   .btn-dark {
     @apply inline-flex items-center justify-center rounded-lg px-10 py-5 text-base font-extrabold uppercase tracking-wider transition-all duration-300;
     background: hsl(0, 0%, 8%);
-    color: hsl(var(--blue-light));
+    color: hsl(var(--blue));
     box-shadow: 0 4px 24px hsl(0, 0%, 0% / 0.3);
     border: 2px solid hsl(var(--blue) / 0.3);
   }
   .btn-dark:hover {
-    box-shadow: 0 8px 40px hsl(0, 0%, 0% / 0.4);
+    background: hsl(var(--blue));
+    color: hsl(0, 0%, 8%);
+    box-shadow: 0 8px 40px hsl(var(--blue) / 0.5);
+    border-color: hsl(var(--blue));
     transform: translateY(-2px) scale(1.02);
-    border-color: hsl(var(--blue) / 0.6);
-    color: hsl(var(--blue));
   }
   .btn-dark:active {
     transform: translateY(0) scale(0.98);

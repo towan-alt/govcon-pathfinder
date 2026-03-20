@@ -1,4 +1,4 @@
-import { Check, Target, DollarSign, Award, Building2, AlertTriangle } from "lucide-react";
+import { Check, Target, DollarSign, Award, Building2 } from "lucide-react";
 
 const sessionSteps = [
   {
@@ -57,7 +57,7 @@ const OfferVIP = () => {
               Free Strategy Session · 15 Minutes · No Obligation
             </p>
             <h2 className="font-display text-3xl font-extrabold text-white md:text-4xl lg:text-5xl">
-              15 Minutes Can Change Your Life
+              In 15 Minutes, You'll Know Exactly Why You're Not Winning — And What to Fix First.
             </h2>
             <p className="text-lg text-white/75 max-w-3xl mx-auto">
               If you only have 15 minutes, you need a tight, high-impact diagnostic. We'll quickly 
@@ -74,13 +74,13 @@ const OfferVIP = () => {
               We want you to experience the value firsthand — no risk, no commitment. This session is designed 
               to help you see exactly where you stand and what's possible in the federal marketplace. If it's a 
               fit, we'll talk about next steps.{" "}
-              <a href="#" className="text-white font-semibold underline underline-offset-4 hover:text-white/80 transition-colors">
+              <a href="/book" className="text-white font-semibold underline underline-offset-4 hover:text-white/80 transition-colors">
                 Book Here →
               </a>
             </p>
           </div>
 
-          {/* 5 Steps */}
+          {/* 4 Steps */}
           <div className="space-y-6 mb-12">
             <h3 className="font-display text-xl font-bold text-white text-center uppercase tracking-wide mb-8">
               Here's Exactly What We Cover:
@@ -123,7 +123,7 @@ const OfferVIP = () => {
             <p className="text-sm font-semibold text-white/60 uppercase tracking-wider">
               Limited spots available — book yours today
             </p>
-            <a href="/book" className="btn-white text-lg px-14 py-6 rounded-xl">
+            <a href="/book" className="btn-primary text-lg px-14 py-6 rounded-xl">
               Book Your Free Session Now →
             </a>
             <p className="text-xs text-white/40">
