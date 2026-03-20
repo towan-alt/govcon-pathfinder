@@ -61,16 +61,16 @@ const OfferMasterclass = () => {
             </div>
           </div>
           
-          <div className="mt-12 text-center space-y-4">
+          <div className="mt-14 text-center space-y-5">
             <p className="font-display text-5xl font-extrabold text-foreground">
               $197<span className="text-lg font-normal text-muted-foreground">/month</span>
             </p>
-            <p className="text-sm text-muted-foreground">Cancel anytime</p>
-            <a href="#" className="btn-primary">
+            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Cancel anytime · Enrollment open now</p>
+            <a href="#" className="btn-dark text-lg px-14 py-6 rounded-xl">
               Join the Monthly Masterclass →
             </a>
             <p className="text-xs text-muted-foreground">
-              Enrollment is open. Your first session access begins immediately after checkout.
+              Your first session access begins immediately after checkout.
             </p>
           </div>
         </div>

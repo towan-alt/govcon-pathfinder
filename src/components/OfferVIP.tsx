@@ -119,11 +119,11 @@ const OfferVIP = () => {
             </div>
           </div>
 
-          <div className="mt-12 text-center space-y-4">
-            <p className="text-sm text-white/50">
+          <div className="mt-14 text-center space-y-5">
+            <p className="text-sm font-semibold text-white/60 uppercase tracking-wider">
               Limited spots available — book yours today
             </p>
-            <a href="#" className="btn-white">
+            <a href="/book" className="btn-white text-lg px-14 py-6 rounded-xl">
               Book Your Free Session Now →
             </a>
             <p className="text-xs text-white/40">

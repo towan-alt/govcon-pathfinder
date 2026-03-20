@@ -39,11 +39,12 @@ const HeroSection = () => {
             over <strong className="text-white">$25M in revenue</strong> generated and <strong className="text-white">105+ contracts</strong> executed.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 pt-4">
-            <a href="#vip" className="btn-primary text-lg px-10 py-5">
+          <div className="flex flex-wrap justify-center gap-4 pt-6">
+            <a href="#vip" className="btn-primary text-lg px-12 py-6 rounded-xl shadow-[0_6px_30px_hsl(0,0%,100%/0.25)]">
               Reserve Your Free Strategy Session →
             </a>
           </div>
+          <p className="text-xs text-white/40 pt-2">No cost. No obligation. Limited spots each month.</p>
         </div>
 
         {/* Stats bar */}

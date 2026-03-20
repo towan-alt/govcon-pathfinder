@@ -63,9 +63,9 @@ const Navbar = () => {
           <a
             href="#vip"
             onClick={(e) => handleClick(e, "#vip")}
-            className="btn-primary text-sm px-5 py-2.5"
+            className="btn-gold text-sm px-6 py-3 rounded-lg"
           >
-            Get Started
+            Book Free Session
           </a>
         </div>
 
@@ -101,9 +101,9 @@ const Navbar = () => {
           <a
             href="#vip"
             onClick={(e) => handleClick(e, "#vip")}
-            className="btn-primary text-sm px-5 py-2.5 inline-block"
+            className="btn-gold text-sm px-6 py-3 rounded-lg inline-block"
           >
-            Get Started
+            Book Free Session
           </a>
         </div>
       )}
