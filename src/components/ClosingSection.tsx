@@ -24,13 +24,16 @@ const ClosingSection = () => {
             <a
               key={path.solution}
               href={path.href}
-              className="group rounded-xl bg-card p-8 border border-border text-center space-y-4 transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1"
+              className="group rounded-xl bg-card p-8 border-2 border-border text-center space-y-4 transition-all duration-300 hover:shadow-xl hover:border-primary/40 hover:-translate-y-2 active:scale-[0.98]"
             >
               <p className="text-sm text-muted-foreground">{path.need}</p>
               <p className="font-display text-lg font-bold text-foreground transition-colors group-hover:text-primary">
                 {path.solution}
               </p>
               <p className="font-display text-2xl font-extrabold text-primary">{path.price}</p>
+              <span className="inline-block text-xs font-bold uppercase tracking-wider text-primary/80 group-hover:text-primary transition-colors">
+                Learn More →
+              </span>
             </a>
           ))}
         </div>

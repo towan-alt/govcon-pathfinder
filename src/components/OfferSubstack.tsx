@@ -59,14 +59,14 @@ const OfferSubstack = () => {
             </div>
           </div>
           
-          <div className="mt-12 text-center space-y-4">
+          <div className="mt-14 text-center space-y-5">
             <p className="font-display text-5xl font-extrabold text-white">
               $27<span className="text-lg font-normal text-white/70">/month</span>
             </p>
-            <p className="text-sm font-medium text-white/70">
-              Join thousands of small business owners learning to compete — and win — in the federal marketplace.
+            <p className="text-sm font-semibold text-white/70 uppercase tracking-wider">
+              Join thousands winning in the federal marketplace
             </p>
-            <a href="#" className="btn-white">
+            <a href="#" className="btn-white text-lg px-14 py-6 rounded-xl">
               Subscribe to The GovCon Insider →
             </a>
             <p className="text-xs text-white/40">

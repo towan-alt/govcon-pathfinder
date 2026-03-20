@@ -48,12 +48,12 @@ const OfferVIPDoneForYou = () => {
               </p>
             </div>
             
-            <div className="mt-10 text-center space-y-4">
+            <div className="mt-10 text-center space-y-5">
               <p className="font-display text-5xl font-extrabold text-foreground">$997</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                 Limited spots released on the 1st of each month
               </p>
-              <a href="#" className="btn-primary">
+              <a href="#" className="btn-dark text-lg px-14 py-6 rounded-xl">
                 Reserve My VIP Session →
               </a>
               <p className="text-xs text-muted-foreground">

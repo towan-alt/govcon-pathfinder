@@ -96,30 +96,68 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-bold uppercase tracking-wide transition-all duration-300;
-    background: hsl(var(--blue));
-    color: hsl(0, 0%, 100%);
-    box-shadow: 0 4px 20px hsl(var(--blue) / 0.3);
+    @apply inline-flex items-center justify-center rounded-lg px-10 py-5 text-base font-extrabold uppercase tracking-wider transition-all duration-300;
+    background: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 8%);
+    box-shadow: 0 4px 24px hsl(0, 0%, 0% / 0.2), 0 0 0 2px hsl(var(--blue) / 0.3);
   }
   .btn-primary:hover {
-    box-shadow: 0 6px 30px hsl(var(--blue) / 0.5);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 40px hsl(0, 0%, 0% / 0.3), 0 0 0 2px hsl(var(--blue) / 0.5);
+    transform: translateY(-2px) scale(1.02);
+    background: hsl(0, 0%, 95%);
+  }
+  .btn-primary:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center rounded-lg px-10 py-5 text-base font-extrabold uppercase tracking-wider transition-all duration-300;
+    background: hsl(var(--blue));
+    color: hsl(0, 0%, 100%);
+    box-shadow: 0 4px 24px hsl(var(--blue) / 0.4);
+  }
+  .btn-gold:hover {
+    box-shadow: 0 8px 40px hsl(var(--blue) / 0.6);
+    transform: translateY(-2px) scale(1.02);
     background: hsl(var(--blue-light));
+  }
+  .btn-gold:active {
+    transform: translateY(0) scale(0.98);
   }
 
   .btn-white {
-    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-bold uppercase tracking-wide transition-all duration-300;
+    @apply inline-flex items-center justify-center rounded-lg px-10 py-5 text-base font-extrabold uppercase tracking-wider transition-all duration-300;
     background: hsl(0, 0%, 100%);
-    color: hsl(0, 0%, 5%);
-    box-shadow: 0 4px 20px hsl(0, 0%, 0% / 0.1);
+    color: hsl(0, 0%, 8%);
+    box-shadow: 0 4px 24px hsl(0, 0%, 0% / 0.15);
   }
   .btn-white:hover {
-    box-shadow: 0 6px 30px hsl(0, 0%, 0% / 0.15);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 40px hsl(0, 0%, 0% / 0.25);
+    transform: translateY(-2px) scale(1.02);
+  }
+  .btn-white:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center rounded-lg px-10 py-5 text-base font-extrabold uppercase tracking-wider transition-all duration-300;
+    background: hsl(0, 0%, 8%);
+    color: hsl(var(--blue-light));
+    box-shadow: 0 4px 24px hsl(0, 0%, 0% / 0.3);
+    border: 2px solid hsl(var(--blue) / 0.3);
+  }
+  .btn-dark:hover {
+    box-shadow: 0 8px 40px hsl(0, 0%, 0% / 0.4);
+    transform: translateY(-2px) scale(1.02);
+    border-color: hsl(var(--blue) / 0.6);
+    color: hsl(var(--blue));
+  }
+  .btn-dark:active {
+    transform: translateY(0) scale(0.98);
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-bold uppercase tracking-wide transition-all duration-300 border-2;
+    @apply inline-flex items-center justify-center rounded-lg px-10 py-5 text-base font-extrabold uppercase tracking-wider transition-all duration-300 border-2;
     border-color: hsl(0, 0%, 100% / 0.6);
     color: hsl(0, 0%, 100%);
     background: transparent;
@@ -127,6 +165,9 @@
   .btn-outline:hover {
     background: hsl(0, 0%, 100% / 0.15);
     border-color: hsl(0, 0%, 100%);
+  }
+  .btn-outline:active {
+    transform: scale(0.98);
   }
 
   .section-navy {
