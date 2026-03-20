@@ -18,7 +18,7 @@ const HeroSection = () => {
               <img
                 src={towanHero}
                 alt="Towan Isom — CEO and GovCon Strategist"
-                className="w-full h-full object-cover object-top scale-110 translate-y-3"
+                className="w-full h-full object-cover object-top scale-110 translate-y-1"
               />
             </div>
           </div>
