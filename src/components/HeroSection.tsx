@@ -12,9 +12,9 @@ const HeroSection = () => {
 
       <div className="container relative z-10 mx-auto px-6 py-20 lg:py-28">
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-up">
-          {/* Photo */}
+          {/* Photo — larger and more commanding */}
           <div className="flex justify-center">
-            <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-white/20 shadow-2xl">
+            <div className="w-[200px] h-[200px] rounded-full overflow-hidden shadow-2xl" style={{ border: '3px solid hsl(45, 75%, 47%)' }}>
               <img
                 src={towanHero}
                 alt="Towan Isom — CEO and GovCon Strategist"
@@ -27,10 +27,13 @@ const HeroSection = () => {
             Government Contract Strategist · SBA Emerging Leaders Expert
           </p>
 
-          <h1 className="font-display text-4xl font-black leading-[1.1] text-white md:text-6xl lg:text-7xl uppercase">
-            Win Government
-            <br />
-            <span className="text-blue-light">Contracts</span>
+          <h1 className="font-display leading-[1.1] text-white uppercase">
+            <span className="block text-2xl md:text-3xl lg:text-4xl font-bold text-white/90">
+              She Built a $25M Federal Contracting Firm.
+            </span>
+            <span className="block text-3xl md:text-5xl lg:text-6xl font-black text-primary mt-2">
+              Now She'll Show You How to Win Yours.
+            </span>
           </h1>
 
           <p className="text-lg md:text-xl leading-relaxed text-white/75 max-w-2xl mx-auto">
@@ -40,14 +43,14 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 pt-6">
-            <a href="#vip" className="btn-primary text-lg px-12 py-6 rounded-xl shadow-[0_6px_30px_hsl(0,0%,100%/0.25)]">
+            <a href="#vip" className="btn-primary text-lg px-12 py-6 rounded-xl shadow-[0_6px_30px_hsl(0,0%,0%/0.4)]">
               Reserve Your Free Strategy Session →
             </a>
           </div>
           <p className="text-xs text-white/40 pt-2">No cost. No obligation. Limited spots each month.</p>
         </div>
 
-        {/* Stats bar */}
+        {/* Stats bar — numbers in gold */}
         <div className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4 border-t border-white/10 pt-10 max-w-5xl mx-auto">
           {[
             { number: "105+", label: "Federal Contracts Executed" },
@@ -56,7 +59,7 @@ const HeroSection = () => {
             { number: "25+", label: "Years of Experience" },
           ].map((stat) => (
             <div key={stat.label} className="text-center space-y-2">
-              <p className="font-display text-3xl font-black text-white md:text-4xl">{stat.number}</p>
+              <p className="font-display text-3xl font-black text-primary md:text-4xl">{stat.number}</p>
               <p className="text-xs font-semibold uppercase tracking-widest text-white/40">{stat.label}</p>
             </div>
           ))}
