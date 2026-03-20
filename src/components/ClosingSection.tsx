@@ -1,7 +1,7 @@
 const paths = [
-  { need: "A custom roadmap built for YOUR business", solution: "Free Strategy Session", href: "#vip", price: "FREE" },
+  { need: "A done-for-you strategy engagement", solution: "VIP Strategy Session", href: "#vip-dfy", price: "$997" },
   { need: "Ongoing training and community", solution: "Monthly Masterclass", href: "#masterclass", price: "$197/mo" },
-  { need: "Weekly intel and strategy", solution: "Subscribe to the Substack", href: "#substack", price: "$27/mo" },
+  { need: "Weekly intel and strategy", solution: "Subscribe to Substack", href: "#substack", price: "$27/mo" },
 ];
 
 const ClosingSection = () => {
