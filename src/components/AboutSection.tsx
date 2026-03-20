@@ -18,9 +18,8 @@ const AboutSection = () => {
               Real Receipts. Real Results. Real Strategy.
             </h2>
             <p className="text-lg leading-relaxed text-muted-foreground max-w-3xl">
-              Towan Isom isn't teaching theory. She's a Washington D.C.-based powerhouse CEO, founder of{" "}
-              <strong className="text-foreground">Isom Global Strategies (IGS)</strong> — a woman-owned, SBA-certified 
-              federal contracting and marketing firm that she built alone in her basement in 1998 into a multinational 
+              Towan Isom isn't teaching theory. She's a powerhouse CEO who built a woman-owned 
+              federal contracting and marketing firm from the ground up into a multinational 
               company spanning five continents.
             </p>
             <p className="text-lg leading-relaxed text-muted-foreground max-w-3xl">
