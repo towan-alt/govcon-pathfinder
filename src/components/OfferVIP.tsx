@@ -1,50 +1,21 @@
-import { Check, Target, DollarSign, Award, Building2 } from "lucide-react";
+import { Check } from "lucide-react";
 
-const sessionSteps = [
-  {
-    icon: Target,
-    title: "What Does Your Business Actually Do?",
-    time: "2–3 min",
-    points: [
-      "What services or products do you sell today?",
-      "Are you focused on a few things — or trying to do everything?",
-      "We'll figure out exactly how the government would categorize what you offer.",
-    ],
-    insight: "The government uses special codes to find businesses like yours. We'll make sure you show up in the right searches.",
-  },
-  {
-    icon: DollarSign,
-    title: "What Are Your Goals?",
-    time: "2–3 min",
-    points: [
-      "How much revenue do you want to bring in over the next year?",
-      "Are you looking for smaller starter contracts or going after bigger ones?",
-      "Do you want to lead projects or partner with another company?",
-    ],
-    insight: "Without a clear target, you'll waste time chasing the wrong opportunities. We'll help you focus.",
-  },
-  {
-    icon: Award,
-    title: "What Experience Do You Already Have?",
-    time: "3–4 min",
-    points: [
-      "Have you done work for any clients — government, corporate, or local?",
-      "Any projects you're proud of or can show results from?",
-      "Even non-government work counts — we'll show you how to position it.",
-    ],
-    insight: "You don't need government experience to get started — you just need to present what you've done the right way.",
-  },
-  {
-    icon: Building2,
-    title: "Who Should You Be Selling To?",
-    time: "3–4 min",
-    points: [
-      "Do you know which government agencies buy what you sell?",
-      "We'll identify 2–3 agencies that are the best fit for your business.",
-      "You'll leave knowing exactly where to focus your energy.",
-    ],
-    insight: "You don't need to pitch every agency — just the right ones. That's how contracts get won.",
-  },
+const diagnosticQuestions = [
+  { number: 1, question: "What does your business primarily sell today?", signal: "Clarity of offer" },
+  { number: 2, question: "Who are your current customers?", signal: "Proof it's a real business" },
+  { number: 3, question: "What's your top revenue-generating service or product?", signal: "Focus vs. trying to do everything" },
+  { number: 4, question: "What results or past projects can you point to?", signal: "Credibility and performance" },
+  { number: 5, question: "What revenue goal are you aiming for in the next 12 months?", signal: "Realistic expectations" },
+  { number: 6, question: "Are you looking to win contracts as a prime or partner as a subcontractor?", signal: "Strategy awareness" },
+  { number: 7, question: "Do you know which government agencies buy what you offer?", signal: "Targeting vs. guessing" },
+  { number: 8, question: "How ready are you to invest time and resources into pursuing contracts?", signal: "Commitment level" },
+];
+
+const outcomes = [
+  { green: "Clear", red: "Scattered" },
+  { green: "Proven", red: "Untested" },
+  { green: "Strategic", red: "Guessing" },
+  { green: "Committed", red: "Curious" },
 ];
 
 const OfferVIP = () => {
@@ -60,19 +31,18 @@ const OfferVIP = () => {
               In 15 Minutes, You'll Know Exactly Why You're Not Winning — And What to Fix First.
             </h2>
             <p className="text-lg text-white/75 max-w-3xl mx-auto">
-              If you only have 15 minutes, you need a tight, high-impact diagnostic. We'll quickly 
-              show you what's missing and exactly how to start winning contracts.
+              8 high-signal questions that quickly assess your readiness for government contracting — so you leave with clarity, not confusion.
             </p>
           </div>
 
-          {/* Recap box */}
+          {/* Why Free box */}
           <div className="rounded-xl bg-white/5 border border-white/10 p-6 md:p-8 mb-12 text-center space-y-3">
             <p className="font-display text-lg font-bold text-white uppercase tracking-wide">
               Why Is This Free?
             </p>
             <p className="text-sm text-white/75 max-w-2xl mx-auto leading-relaxed">
-              We want you to experience the value firsthand — no risk, no commitment. This session is designed 
-              to help you see exactly where you stand and what's possible in the federal marketplace. If it's a 
+              We want you to experience the value firsthand — no risk, no commitment. This session is designed
+              to help you see exactly where you stand and what's possible in the federal marketplace. If it's a
               fit, we'll talk about next steps.{" "}
               <a href="/book" className="text-white font-semibold underline underline-offset-4 hover:text-white/80 transition-colors">
                 Book Here →
@@ -80,40 +50,44 @@ const OfferVIP = () => {
             </p>
           </div>
 
-          {/* 4 Steps */}
+          {/* 8 Questions */}
           <div className="space-y-6 mb-12">
             <h3 className="font-display text-xl font-bold text-white text-center uppercase tracking-wide mb-8">
-              Here's Exactly What We Cover:
+              Here's What We'll Diagnose in 15 Minutes:
             </h3>
-            
-            <div className="grid gap-5 md:grid-cols-2">
-              {sessionSteps.map((step) => (
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {diagnosticQuestions.map((q) => (
                 <div
-                  key={step.title}
-                  className="rounded-xl bg-white border border-white/20 p-6 space-y-4"
+                  key={q.number}
+                  className="rounded-xl bg-white border border-white/20 p-5 flex items-start gap-4"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                      <step.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="font-display text-sm font-bold text-foreground">{step.title}</p>
-                      <p className="text-xs text-muted-foreground">{step.time}</p>
-                    </div>
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <span className="font-display text-sm font-bold text-primary">{q.number}</span>
                   </div>
-                  
-                  <ul className="space-y-2">
-                    {step.points.map((point) => (
-                      <li key={point} className="flex items-start gap-2">
-                        <Check className="h-3.5 w-3.5 flex-shrink-0 mt-1 text-primary/70" />
-                        <span className="text-xs leading-relaxed text-foreground/70">{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <p className="text-xs italic text-primary border-t border-border pt-3">
-                    "{step.insight}"
-                  </p>
+                  <div className="space-y-1">
+                    <p className="font-display text-sm font-bold text-foreground">{q.question}</p>
+                    <p className="text-xs text-primary italic">{q.signal}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Outcome signals */}
+          <div className="rounded-xl bg-white/5 border border-white/10 p-6 md:p-8 mb-12">
+            <p className="font-display text-base font-bold text-white text-center mb-6">
+              These questions quickly reveal where you stand:
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {outcomes.map((o) => (
+                <div key={o.green} className="text-center space-y-2">
+                  <div className="flex items-center justify-center gap-2">
+                    <Check className="h-4 w-4 text-green-400" />
+                    <span className="text-sm font-semibold text-green-400">{o.green}</span>
+                  </div>
+                  <p className="text-xs text-white/40">vs.</p>
+                  <span className="text-sm text-white/50">{o.red}</span>
                 </div>
               ))}
             </div>
