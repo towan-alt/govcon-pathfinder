@@ -8,8 +8,8 @@ import OfferVIP from "@/components/OfferVIP";
 import OfferVIPDoneForYou from "@/components/OfferVIPDoneForYou";
 import OfferMasterclass from "@/components/OfferMasterclass";
 import OfferSubstack from "@/components/OfferSubstack";
+import ProgramInABox from "@/components/ProgramInABox";
 import ClosingSection from "@/components/ClosingSection";
-
 const Index = () => {
   return (
     <main className="min-h-screen scroll-smooth">
