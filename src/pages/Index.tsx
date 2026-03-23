@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AgencyLogoBar from "@/components/AgencyLogoBar";
 import AboutSection from "@/components/AboutSection";
+import VideoSection from "@/components/VideoSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import OfferVIP from "@/components/OfferVIP";
 import OfferVIPDoneForYou from "@/components/OfferVIPDoneForYou";
@@ -16,6 +17,7 @@ const Index = () => {
       <HeroSection />
       <AgencyLogoBar />
       <AboutSection />
+      <VideoSection />
       <TestimonialsSection />
       <OfferVIP />
       <OfferVIPDoneForYou />
