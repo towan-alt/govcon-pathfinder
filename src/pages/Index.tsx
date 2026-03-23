@@ -23,6 +23,7 @@ const Index = () => {
       <OfferVIPDoneForYou />
       <OfferMasterclass />
       <OfferSubstack />
+      <ProgramInABox />
       <ClosingSection />
     </main>
   );
