@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-import towanWorkshops from "@/assets/towan-workshops.jpg";
 
 const tiers = [
   {
@@ -44,7 +43,7 @@ const ServicesSection = () => {
             </h2>
           </div>
 
-          <div className="grid lg:grid-cols-4 gap-6 items-start">
+          <div className="grid lg:grid-cols-3 gap-6 items-start">
             {tiers.map((tier) => (
               <div
                 key={tier.number}
@@ -88,14 +87,6 @@ const ServicesSection = () => {
               </div>
             ))}
 
-            {/* Image card */}
-            <div className="rounded-xl overflow-hidden shadow-lg hidden lg:block">
-              <img
-                src={towanWorkshops}
-                alt="Towan Isom consulting session"
-                className="w-full h-full object-cover min-h-[320px]"
-              />
-            </div>
           </div>
         </div>
       </div>
