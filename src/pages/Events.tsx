@@ -4,7 +4,7 @@ import { Calendar, Clock, MapPin, Users, Zap, Gift, ArrowRight, Check } from "lu
 
 const workshops = [
   {
-    date: "April 27, 2026",
+    date: "April 29, 2026",
     title: "The GovCon Entry Blueprint",
     description: "Get registered, positioned, and ready to pursue contracts in 30 days.",
     topics: [
@@ -15,7 +15,7 @@ const workshops = [
     ],
   },
   {
-    date: "May 4, 2026",
+    date: "May 6, 2026",
     title: "Winning the Work: Proposal Strategy & Positioning",
     description: "Learn how to write proposals that actually win.",
     topics: [
@@ -26,7 +26,7 @@ const workshops = [
     ],
   },
   {
-    date: "May 11, 2026",
+    date: "May 13, 2026",
     title: "Building a Revenue Engine (Beyond One Contract)",
     description: "Create a predictable pipeline so you're not chasing contracts.",
     topics: [
@@ -37,7 +37,7 @@ const workshops = [
     ],
   },
   {
-    date: "May 18, 2026",
+    date: "May 20, 2026",
     title: "The Subcontractor to Prime Playbook",
     description: "Transition from subcontractor to prime—and take control of your revenue.",
     topics: [
@@ -90,7 +90,7 @@ const Events = () => {
 
             <div className="flex flex-wrap justify-center gap-6 text-sm text-white/70 font-body">
               <span className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-primary" /> Every Monday
+                <Calendar className="h-4 w-4 text-primary" /> Every Wednesday
               </span>
               <span className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-primary" /> 12:30 – 2:00 PM EST
