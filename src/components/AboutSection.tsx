@@ -1,5 +1,4 @@
 import { Check } from "lucide-react";
-import towanWorkshops from "@/assets/towan-workshops.jpg";
 
 const highlights = [
   "Built a federal contracting firm from scratch — now spanning five continents",
@@ -35,13 +34,6 @@ const AboutSection = () => {
 
             {/* Right — Image + Bullets */}
             <div className="space-y-6">
-              <div className="rounded-xl overflow-hidden shadow-lg">
-                <img
-                  src={towanWorkshops}
-                  alt="Towan Isom leading a government contracting workshop"
-                  className="w-full h-64 object-cover object-top"
-                />
-              </div>
               <ul className="space-y-3">
                 {highlights.map((item) => (
                   <li key={item} className="flex items-start gap-3">
