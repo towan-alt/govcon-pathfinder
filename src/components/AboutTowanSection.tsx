@@ -2,10 +2,9 @@ import towanHero from "@/assets/towan-hero.jpg";
 
 const AboutTowanSection = () => {
   return (
-    <section className="section-navy py-20 lg:py-28">
+    <section className="section-navy py-20 lg:py-24">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left — Photo */}
           <div className="flex justify-center lg:justify-start">
             <div className="w-72 h-72 rounded-2xl overflow-hidden shadow-2xl">
               <img
@@ -16,7 +15,6 @@ const AboutTowanSection = () => {
             </div>
           </div>
 
-          {/* Right — Bio */}
           <div className="space-y-6">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
               <span className="text-primary italic">$27 million</span> in federal contracts.{" "}

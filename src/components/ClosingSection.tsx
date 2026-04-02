@@ -1,7 +1,7 @@
 const ClosingSection = () => {
   return (
     <>
-      <section className="bg-foreground py-20 lg:py-28">
+      <section className="py-20 lg:py-24" style={{ background: "hsl(0 0% 4%)" }}>
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-[1.15]">
@@ -24,11 +24,10 @@ const ClosingSection = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-foreground border-t border-white/10 py-8">
+      <footer className="py-8 border-t" style={{ background: "hsl(0 0% 2%)", borderColor: "hsl(0 0% 100% / 0.05)" }}>
         <div className="container mx-auto px-6 text-center">
           <p className="text-xs text-white/30">
-            © {new Date().getFullYear()} Towan Isom. All rights reserved.
+            © {new Date().getFullYear()} GoGovCon. All rights reserved.
           </p>
         </div>
       </footer>
