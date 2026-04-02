@@ -197,12 +197,17 @@ const NaicsPage = () => {
                       key={item.code}
                       className={`p-6 rounded-lg border-2 bg-card transition-colors ${resultBorderClass(strengths[i])}`}
                     >
-                      <div className="flex items-start gap-6">
-                        <span className="font-display text-3xl font-bold text-foreground shrink-0 w-24">{item.code}</span>
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-6">
+                        <div className="flex items-center justify-between sm:block">
+                          <span className="font-display text-3xl font-bold text-foreground shrink-0 sm:w-24">{item.code}</span>
+                          <span className={`sm:hidden shrink-0 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${matchBadgeClass(strengths[i])}`}>
+                            {matchLabel(strengths[i])}
+                          </span>
+                        </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-3 mb-2">
                             <h3 className="text-base font-bold text-foreground">{item.title}</h3>
-                            <span className={`shrink-0 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${matchBadgeClass(strengths[i])}`}>
+                            <span className={`hidden sm:inline-block shrink-0 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${matchBadgeClass(strengths[i])}`}>
                               {matchLabel(strengths[i])}
                             </span>
                           </div>
