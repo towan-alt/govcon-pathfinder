@@ -49,18 +49,30 @@ const Navbar = () => {
         </a>
 
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleClick(e, link.href)}
-              className={`text-xs font-semibold uppercase tracking-wider transition-colors hover:text-primary ${
-                scrolled ? "text-foreground/60" : "text-white/60"
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.isPage ? (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`text-xs font-semibold uppercase tracking-wider transition-colors hover:text-primary ${
+                  scrolled ? "text-foreground/60" : "text-white/60"
+                }`}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleClick(e, link.href)}
+                className={`text-xs font-semibold uppercase tracking-wider transition-colors hover:text-primary ${
+                  scrolled ? "text-foreground/60" : "text-white/60"
+                }`}
+              >
+                {link.label}
+              </a>
+            )
+          )}
           <a
             href="/book"
             className="btn-gold text-xs px-6 py-2.5 rounded-md"
@@ -86,16 +98,26 @@ const Navbar = () => {
 
       {mobileOpen && (
         <div className="md:hidden bg-card/95 backdrop-blur-md border-b border-border px-6 pb-6 pt-2 space-y-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleClick(e, link.href)}
-              className="block text-sm font-semibold uppercase tracking-wider text-foreground/70 hover:text-primary"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.isPage ? (
+              <a
+                key={link.href}
+                href={link.href}
+                className="block text-sm font-semibold uppercase tracking-wider text-foreground/70 hover:text-primary"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleClick(e, link.href)}
+                className="block text-sm font-semibold uppercase tracking-wider text-foreground/70 hover:text-primary"
+              >
+                {link.label}
+              </a>
+            )
+          )}
           <a href="/book" className="btn-gold text-sm px-6 py-3 rounded-md inline-block">
             Book a Strategy Call
           </a>
