@@ -14,7 +14,7 @@ const benefits = [
   "Real proposal strategies—not theory",
   "Proven positioning frameworks that win contracts",
   "Access to the same documents, structures, and thinking used to secure millions in revenue",
-  "A clear path from "interested in GovCon" → to winning and scaling contracts",
+  'A clear path from "interested in GovCon" → to winning and scaling contracts',
 ];
 
 const failures = [
@@ -100,7 +100,7 @@ const AboutSection = () => {
             {/* Reality check */}
             <div className="bg-destructive/5 border border-destructive/20 rounded-2xl p-8 space-y-5">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                <AlertTriangle className="h-5 w-5 text-primary" />
                 <h3 className="font-display text-xl font-bold text-foreground">Reality check</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
