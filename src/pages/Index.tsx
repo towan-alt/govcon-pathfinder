@@ -6,7 +6,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import ServicesSection from "@/components/ServicesSection";
 import VideoSection from "@/components/VideoSection";
 import ProgramInABox from "@/components/ProgramInABox";
-import AboutTowanSection from "@/components/AboutTowanSection";
+
 import ClosingSection from "@/components/ClosingSection";
 
 const Index = () => {
@@ -20,7 +20,7 @@ const Index = () => {
       <ServicesSection />
       <VideoSection />
       <ProgramInABox />
-      <AboutTowanSection />
+      
       <ClosingSection />
     </main>
   );
