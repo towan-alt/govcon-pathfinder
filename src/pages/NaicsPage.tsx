@@ -123,19 +123,19 @@ const NaicsPage = () => {
 
           {/* Search */}
           <div className="max-w-2xl mx-auto mb-5">
-            <div className="relative">
+            <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                placeholder="IT consulting and cybersecurity services"
-                className="w-full h-14 pl-5 pr-44 rounded-lg border-0 bg-white text-[hsl(var(--navy))] placeholder:text-[hsl(var(--navy))]/40 focus:outline-none focus:ring-2 focus:ring-primary text-base"
+                placeholder="Describe your business or service"
+                className="w-full h-14 pl-5 pr-5 rounded-lg border-0 bg-white text-[hsl(var(--navy))] placeholder:text-[hsl(var(--navy))]/40 focus:outline-none focus:ring-2 focus:ring-primary text-base"
                 maxLength={200}
               />
               <button
                 onClick={() => handleSearch()}
-                className="absolute right-2 top-1/2 -translate-y-1/2 btn-gold text-sm px-6 py-2.5 rounded-md flex items-center gap-2 font-bold"
+                className="btn-gold text-sm px-6 h-14 rounded-lg flex items-center justify-center gap-2 font-bold shrink-0 whitespace-nowrap"
               >
                 <Search className="w-4 h-4" />
                 FIND MY CODE
