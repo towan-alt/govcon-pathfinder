@@ -32,7 +32,7 @@ const tiers = [
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="bg-cream-dark py-20 lg:py-28">
+    <section id="services" className="py-20 lg:py-24" style={{ background: "hsl(0 0% 96%)" }}>
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
@@ -49,9 +49,10 @@ const ServicesSection = () => {
                 key={tier.number}
                 className={`rounded-xl p-6 space-y-4 ${
                   tier.featured
-                    ? "bg-foreground text-white shadow-xl"
+                    ? "text-white shadow-xl"
                     : "bg-card border border-border shadow-sm"
                 }`}
+                style={tier.featured ? { background: "hsl(0 0% 6%)" } : undefined}
               >
                 <p className={`text-xs font-semibold uppercase tracking-widest ${
                   tier.featured ? "text-primary" : "text-muted-foreground"
@@ -86,7 +87,6 @@ const ServicesSection = () => {
                 </a>
               </div>
             ))}
-
           </div>
         </div>
       </div>

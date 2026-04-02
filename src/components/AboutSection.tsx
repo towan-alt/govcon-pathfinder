@@ -10,12 +10,11 @@ const highlights = [
 
 const AboutSection = () => {
   return (
-    <section id="about" className="bg-background py-20 lg:py-28">
+    <section id="about" className="bg-background py-20 lg:py-24">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <p className="eyebrow-dark text-xs mb-4">About Towan Isom</p>
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-            {/* Left — Copy */}
             <div className="space-y-6">
               <h2 className="font-display text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-foreground leading-[1.15]">
                 Decades of experience.{" "}
@@ -32,7 +31,6 @@ const AboutSection = () => {
               </p>
             </div>
 
-            {/* Right — Image + Bullets */}
             <div className="space-y-6">
               <ul className="space-y-3">
                 {highlights.map((item) => (

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import logoTi from "@/assets/logo-ti.png";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -41,11 +42,14 @@ const Navbar = () => {
         <a
           href="#"
           onClick={(e) => handleClick(e, "#")}
-          className={`font-body text-xs font-semibold uppercase tracking-[0.15em] transition-colors ${
-            scrolled ? "text-foreground" : "text-white/80"
-          }`}
+          className="flex items-center gap-3"
         >
-          <span className="font-display text-base font-bold italic tracking-normal">Towan Isom</span>
+          <img src={logoTi} alt="GoGovCon logo" className="h-9 w-9 rounded-md" />
+          <span className={`font-display text-base font-bold tracking-tight transition-colors ${
+            scrolled ? "text-foreground" : "text-white"
+          }`}>
+            GoGovCon
+          </span>
         </a>
 
         <div className="hidden md:flex items-center gap-8">

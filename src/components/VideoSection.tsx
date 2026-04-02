@@ -6,10 +6,9 @@ const VideoSection = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <section className="section-navy py-20 lg:py-28">
+    <section className="section-navy py-20 lg:py-24">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left — Copy */}
           <div className="space-y-6">
             <p className="eyebrow text-xs">See It In Action</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
@@ -33,8 +32,7 @@ const VideoSection = () => {
             </ul>
           </div>
 
-          {/* Right — Video */}
-          <div className="relative aspect-video rounded-xl overflow-hidden bg-navy-light shadow-2xl">
+          <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl" style={{ background: "hsl(0 0% 8%)" }}>
             {!isPlaying ? (
               <button
                 onClick={() => setIsPlaying(true)}
@@ -46,13 +44,13 @@ const VideoSection = () => {
                   alt="Video thumbnail"
                   className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
                 />
-                <div className="absolute inset-0 bg-navy/40" />
+                <div className="absolute inset-0 bg-black/40" />
                 <div className="relative w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Play className="h-6 w-6 text-primary-foreground ml-0.5" fill="currentColor" />
+                  <Play className="h-6 w-6 text-black ml-0.5" fill="currentColor" />
                 </div>
               </button>
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-navy">
+              <div className="absolute inset-0 flex items-center justify-center" style={{ background: "hsl(0 0% 6%)" }}>
                 <p className="text-white/50 text-sm">Video player — paste your embed URL here</p>
               </div>
             )}

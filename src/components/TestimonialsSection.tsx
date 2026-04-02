@@ -20,12 +20,12 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section id="testimonials" className="bg-background py-20 lg:py-28">
+    <section id="testimonials" className="py-20 lg:py-24" style={{ background: "hsl(0 0% 4%)" }}>
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
-            <p className="eyebrow-dark text-xs mb-4">Client Results</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-[1.15]">
+            <p className="eyebrow text-xs mb-4">Client Results</p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
               Results from{" "}
               <em className="text-primary italic">real clients</em>
             </h2>
@@ -35,12 +35,12 @@ const TestimonialsSection = () => {
             {testimonials.map((t) => (
               <div
                 key={t.name}
-                className="group rounded-xl overflow-hidden bg-foreground shadow-lg hover:shadow-xl transition-shadow"
+                className="group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                style={{ background: "hsl(0 0% 10%)" }}
               >
-                {/* Video placeholder */}
-                <div className="relative aspect-video bg-navy-light flex items-center justify-center cursor-pointer">
+                <div className="relative aspect-video flex items-center justify-center cursor-pointer" style={{ background: "hsl(0 0% 8%)" }}>
                   <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Play className="h-5 w-5 text-primary-foreground ml-0.5" fill="currentColor" />
+                    <Play className="h-5 w-5 text-black ml-0.5" fill="currentColor" />
                   </div>
                 </div>
                 <div className="p-5">
