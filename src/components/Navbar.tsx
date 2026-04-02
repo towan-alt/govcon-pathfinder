@@ -5,8 +5,6 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Results", href: "#testimonials" },
   { label: "Services", href: "#services" },
-  { label: "Program", href: "#program" },
-  { label: "Workshops", href: "/events", isPage: true },
 ];
 
 const Navbar = () => {

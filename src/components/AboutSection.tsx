@@ -104,10 +104,10 @@ const AboutSection = () => {
               <span className="text-primary">That's a record.</span>"
             </p>
             <Link
-              to="/events"
+              to="/book"
               className="btn-gold inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base font-semibold transition-colors"
             >
-              Start with a $29 Workshop
+              Book a Consultation
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
