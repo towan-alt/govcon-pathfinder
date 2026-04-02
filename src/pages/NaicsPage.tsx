@@ -123,19 +123,19 @@ const NaicsPage = () => {
 
           {/* Search */}
           <div className="max-w-2xl mx-auto mb-5">
-            <div className="relative">
+            <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                placeholder="IT consulting and cybersecurity services"
-                className="w-full h-14 pl-5 pr-44 rounded-lg border-0 bg-white text-[hsl(var(--navy))] placeholder:text-[hsl(var(--navy))]/40 focus:outline-none focus:ring-2 focus:ring-primary text-base"
+                placeholder="Describe your business or service"
+                className="w-full h-14 pl-5 pr-5 rounded-lg border-0 bg-white text-[hsl(var(--navy))] placeholder:text-[hsl(var(--navy))]/40 focus:outline-none focus:ring-2 focus:ring-primary text-base"
                 maxLength={200}
               />
               <button
                 onClick={() => handleSearch()}
-                className="absolute right-2 top-1/2 -translate-y-1/2 btn-gold text-sm px-6 py-2.5 rounded-md flex items-center gap-2 font-bold"
+                className="btn-gold text-sm px-6 h-14 rounded-lg flex items-center justify-center gap-2 font-bold shrink-0 whitespace-nowrap"
               >
                 <Search className="w-4 h-4" />
                 FIND MY CODE
@@ -162,7 +162,7 @@ const NaicsPage = () => {
       {/* Stats bar */}
       <section className="bg-[hsl(var(--navy-light))] border-y border-white/10">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-3 divide-x divide-white/10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 sm:divide-x divide-white/10">
             {[
               { value: "1,000+", label: "NAICS codes in the database" },
               { value: "$27M", label: "In federal contracts secured by Towan for her clients" },
@@ -197,12 +197,17 @@ const NaicsPage = () => {
                       key={item.code}
                       className={`p-6 rounded-lg border-2 bg-card transition-colors ${resultBorderClass(strengths[i])}`}
                     >
-                      <div className="flex items-start gap-6">
-                        <span className="font-display text-3xl font-bold text-foreground shrink-0 w-24">{item.code}</span>
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-6">
+                        <div className="flex items-center justify-between sm:block">
+                          <span className="font-display text-3xl font-bold text-foreground shrink-0 sm:w-24">{item.code}</span>
+                          <span className={`sm:hidden shrink-0 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${matchBadgeClass(strengths[i])}`}>
+                            {matchLabel(strengths[i])}
+                          </span>
+                        </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-3 mb-2">
                             <h3 className="text-base font-bold text-foreground">{item.title}</h3>
-                            <span className={`shrink-0 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${matchBadgeClass(strengths[i])}`}>
+                            <span className={`hidden sm:inline-block shrink-0 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${matchBadgeClass(strengths[i])}`}>
                               {matchLabel(strengths[i])}
                             </span>
                           </div>
