@@ -63,8 +63,6 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
-            )
-          )}
           <a
             href="/book"
             className="btn-gold text-xs px-6 py-2.5 rounded-md"
