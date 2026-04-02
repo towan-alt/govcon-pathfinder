@@ -72,8 +72,8 @@ const Events = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="bg-foreground pt-28 pb-16 lg:pt-36 lg:pb-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,hsl(var(--navy-light)),transparent_70%)]" />
+      <section className="pt-28 pb-16 lg:pt-36 lg:pb-24 relative overflow-hidden" style={{ background: "hsl(0 0% 0%)" }}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,hsl(0_0%_10%),transparent_70%)]" />
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <p className="inline-flex items-center gap-2 text-primary font-semibold text-sm uppercase tracking-widest mb-6 font-body">
