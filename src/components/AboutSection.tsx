@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import towanHero from "@/assets/towan-hero.jpg";
 
 const stats = [
-  { value: "74", label: "Contracts Executed" },
-  { value: "5,893+", label: "Tasks Completed" },
-  { value: "6,500+", label: "Businesses Coached" },
-  { value: "5", label: "Continents" },
+  { value: "105+", label: "Federal Contracts Executed" },
+  { value: "$25M+", label: "Revenue Generated" },
+  { value: "6,500+", label: "Small Businesses Coached" },
+  { value: "25+", label: "Years of Experience" },
 ];
 
 const AboutSection = () => {
