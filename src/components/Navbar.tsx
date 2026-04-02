@@ -4,6 +4,7 @@ import logoTi from "@/assets/logo-ti.png";
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
+  { label: "NAICS Finder", href: "/naics" },
 ];
 
 const Navbar = () => {
