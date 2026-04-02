@@ -193,7 +193,7 @@ const Events = () => {
                       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
                         <div>
                           <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1 font-body">
-                            {workshop.date} · Monday
+                            {workshop.date} · Wednesday
                           </p>
                           <h3 className="font-display text-lg md:text-xl font-bold text-foreground">
                             {workshop.title}
