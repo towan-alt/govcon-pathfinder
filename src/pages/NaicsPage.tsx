@@ -162,7 +162,7 @@ const NaicsPage = () => {
       {/* Stats bar */}
       <section className="bg-[hsl(var(--navy-light))] border-y border-white/10">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-3 divide-x divide-white/10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 sm:divide-x divide-white/10">
             {[
               { value: "1,000+", label: "NAICS codes in the database" },
               { value: "$27M", label: "In federal contracts secured by Towan for her clients" },
