@@ -1,127 +1,107 @@
-import { Check, AlertTriangle, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import towanHero from "@/assets/towan-hero.jpg";
 
-const credentials = [
-  "Built a federal contracting firm from scratch → now operating across five continents",
-  "Secured and executed contracts with the U.S. Marine Corps, Army, VA, Department of Commerce, and more",
-  "Among the top 3% of women-owned businesses to surpass $25M in revenue",
-  "Coached 6,500+ small businesses through SBA and national programs",
-  "Led campaigns and projects for brands like Nike, Comcast Xfinity, MedStar, and GlaxoSmithKline",
-];
-
-const benefits = [
-  "Real proposal strategies—not theory",
-  "Proven positioning frameworks that win contracts",
-  "Access to the same documents, structures, and thinking used to secure millions in revenue",
-  'A clear path from "interested in GovCon" → to winning and scaling contracts',
-];
-
-const failures = [
-  "They chase the wrong opportunities",
-  "They don't understand positioning",
-  "Their proposals sound like everyone else",
+const stats = [
+  { value: "74", label: "Contracts Executed" },
+  { value: "5,893+", label: "Tasks Completed" },
+  { value: "6,500+", label: "Businesses Coached" },
+  { value: "5", label: "Continents" },
 ];
 
 const AboutSection = () => {
   return (
     <section id="about" className="bg-background py-20 lg:py-24">
       <div className="container mx-auto px-6">
-        <div className="max-w-5xl mx-auto space-y-16">
+        <div className="max-w-6xl mx-auto space-y-14">
 
-          {/* Intro */}
-          <div className="grid lg:grid-cols-[280px_1fr] gap-12 items-start">
-            <div className="flex justify-center lg:justify-start">
-              <div className="w-64 h-64 rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/20">
-                <img
-                  src={towanHero}
-                  alt="Towan Isom"
-                  className="w-full h-full object-cover object-[center_25%]"
-                />
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              About Towan Isom
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-[1.15] max-w-3xl mx-auto">
+              There's a difference between someone who{" "}
+              <span className="text-primary italic">teaches</span> GovCon and someone who{" "}
+              <span className="text-primary italic">does</span> it.
+            </h2>
+          </div>
+
+          {/* Stats bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center bg-card border border-border rounded-xl py-5 px-3">
+                <p className="text-2xl md:text-3xl font-bold text-primary">{s.value}</p>
+                <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">{s.label}</p>
               </div>
-            </div>
+            ))}
+          </div>
 
+          {/* Two-column body */}
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+
+            {/* Left column */}
             <div className="space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                About Towan Isom
-              </p>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-[1.15]">
-                You don't need another GovCon "expert"{" "}
-                <span className="text-primary italic">who's never actually won.</span>
-              </h2>
               <p className="text-base text-muted-foreground leading-relaxed">
-                You need someone who's built, bid, lost, won, scaled—and knows exactly what it
-                takes to land and grow federal contracts. <strong className="text-foreground">That's Towan Isom.</strong>
+                Most GovCon consultants are selling you a course. Towan is selling you access to a
+                track record that almost no one in this industry can match.
               </p>
               <p className="text-base text-muted-foreground leading-relaxed">
-                She didn't learn GovCon from a course. She built a woman-owned federal contracting
-                and marketing firm from the ground up—growing it into a multinational company
-                operating across five continents.
+                She has executed <strong className="text-foreground">74 contracts</strong>. Not proposals. Not bids.{" "}
+                <em>Executed contracts</em> — with the U.S. Marine Corps, Army, VA, Department of Commerce,
+                and more. She has personally completed over{" "}
+                <strong className="text-foreground">5,893 tasks</strong> across those engagements, led teams
+                averaging 60+ people, and generated eight figures in revenue doing exactly what she's
+                teaching you to do.
               </p>
               <p className="text-base text-foreground font-medium leading-relaxed">
-                She's not here to motivate you. She's here to show you exactly how contracts are
-                won—and how to position your business to get paid.
+                That's not a credential. That's a career.
+              </p>
+              <p className="text-base text-muted-foreground leading-relaxed">
+                She has stood up government contracting programs for small businesses from the ground
+                up — not as a thought experiment, but as operational infrastructure that produced real
+                winners. She has trained more than{" "}
+                <strong className="text-foreground">1,000 small businesses</strong> on how to start,
+                compete, and thrive in the federal marketplace. She coached 6,500+ through SBA and
+                national programs. The breadth is unmatched.
+              </p>
+            </div>
+
+            {/* Right column */}
+            <div className="space-y-5">
+              <p className="text-base text-muted-foreground leading-relaxed">
+                Her operational experience extends to the global stage. She led international
+                engagements with <strong className="text-foreground">Fleishman Hillard</strong>, one
+                of the most respected PR firms in the world — which means she knows how government
+                interfaces with large-scale, high-stakes institutional operations, not just small
+                contract vehicles.
+              </p>
+              <p className="text-base text-muted-foreground leading-relaxed">
+                And critically:{" "}
+                <strong className="text-foreground">she is still in the game</strong>. She runs an
+                active government contracting business today. She is not relying on what worked in
+                2005. She knows how AI is reshaping bid preparation for federal and state contracts —
+                and she's using it. That currency matters in a market that evolves constantly.
+              </p>
+              <p className="text-base text-muted-foreground leading-relaxed">
+                She is a nationally recognized speaker. She is in the{" "}
+                <strong className="text-foreground">top 3% of women-owned businesses</strong> to
+                cross $25M in revenue. She has built a firm that now operates across five continents.
+              </p>
+              <p className="text-base text-muted-foreground leading-relaxed">
+                The hard truth about this industry is this: anyone can call themselves a GovCon
+                consultant. Very few have won 74 contracts. Very few have led a $10M+ operation.
+                Very few have built the programs, written the proposals, managed the teams, and
+                delivered the results at scale — then turned around and taught others to do the same.
               </p>
             </div>
           </div>
 
-          {/* What makes Towan different */}
-          <div className="space-y-6">
-            <h3 className="font-display text-2xl font-bold text-foreground">
-              What makes Towan <span className="text-primary italic">different</span>
-            </h3>
-            <ul className="grid md:grid-cols-2 gap-x-8 gap-y-3">
-              {credentials.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <Check className="h-4 w-4 flex-shrink-0 mt-1 text-primary" />
-                  <span className="text-sm text-muted-foreground leading-relaxed">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Two-column: What you get + Reality check */}
-          <div className="grid md:grid-cols-2 gap-10">
-            {/* What you get */}
-            <div className="bg-card border border-border rounded-2xl p-8 space-y-5">
-              <h3 className="font-display text-xl font-bold text-foreground">
-                What you actually get working with Towan
-              </h3>
-              <ul className="space-y-3">
-                {benefits.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <Check className="h-4 w-4 flex-shrink-0 mt-1 text-primary" />
-                    <span className="text-sm text-muted-foreground leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Reality check */}
-            <div className="bg-destructive/5 border border-destructive/20 rounded-2xl p-8 space-y-5">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-primary" />
-                <h3 className="font-display text-xl font-bold text-foreground">Reality check</h3>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Most businesses fail in government contracting because:
-              </p>
-              <ul className="space-y-2">
-                {failures.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <span className="text-destructive mt-0.5 text-sm">✕</span>
-                    <span className="text-sm text-muted-foreground leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="text-base font-bold text-foreground pt-2">Towan fixes that.</p>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="text-center space-y-4">
-            <p className="text-lg text-muted-foreground">
-              If you're serious about winning contracts—not just learning about them—
+          {/* Closing quote + CTA */}
+          <div className="bg-card border border-primary/20 rounded-2xl p-8 md:p-10 text-center space-y-5">
+            <p className="text-lg md:text-xl font-bold text-foreground leading-relaxed max-w-3xl mx-auto">
+              "Towan Isom has done all of it. That's not a pitch.{" "}
+              <span className="text-primary">That's a record.</span>"
             </p>
             <Link
               to="/events"
