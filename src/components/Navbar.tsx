@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 
 const navLinks = [
   { label: "About", href: "#about" },
-  { label: "VIP Session", href: "#vip" },
-  { label: "Masterclass", href: "#masterclass" },
-  { label: "Substack", href: "#substack" },
+  { label: "Results", href: "#testimonials" },
+  { label: "Services", href: "#services" },
+  { label: "Program", href: "#program" },
 ];
 
 const Navbar = () => {
@@ -20,6 +20,10 @@ const Navbar = () => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileOpen(false);
+    if (href === "#") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
@@ -28,48 +32,42 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"
+          ? "bg-card/95 backdrop-blur-md shadow-sm border-b border-border"
           : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         <a
           href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-          className={`font-display text-lg font-extrabold tracking-tight transition-colors ${
-            scrolled ? "text-foreground" : "text-white"
+          onClick={(e) => handleClick(e, "#")}
+          className={`font-body text-xs font-semibold uppercase tracking-[0.15em] transition-colors ${
+            scrolled ? "text-foreground" : "text-white/80"
           }`}
         >
-          GOVCON STRATEGY HUB
+          <span className="font-display text-base font-bold italic tracking-normal">Towan Isom</span>
         </a>
 
-        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleClick(e, link.href)}
-              className={`text-sm font-semibold uppercase tracking-wider transition-colors hover:text-primary ${
-                scrolled ? "text-foreground/70" : "text-white/70"
+              className={`text-xs font-semibold uppercase tracking-wider transition-colors hover:text-primary ${
+                scrolled ? "text-foreground/60" : "text-white/60"
               }`}
             >
               {link.label}
             </a>
           ))}
           <a
-            href="#vip"
-            onClick={(e) => handleClick(e, "#vip")}
-            className="btn-gold text-sm px-6 py-3 rounded-lg"
+            href="/book"
+            className="btn-gold text-xs px-6 py-2.5 rounded-md"
           >
-            Book Free Session
+            Book a Strategy Call
           </a>
         </div>
 
-        {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className={`md:hidden p-2 ${scrolled ? "text-foreground" : "text-white"}`}
@@ -85,9 +83,8 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border px-6 pb-6 pt-2 space-y-4">
+        <div className="md:hidden bg-card/95 backdrop-blur-md border-b border-border px-6 pb-6 pt-2 space-y-4">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -98,12 +95,8 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
-          <a
-            href="#vip"
-            onClick={(e) => handleClick(e, "#vip")}
-            className="btn-gold text-sm px-6 py-3 rounded-lg inline-block"
-          >
-            Book Free Session
+          <a href="/book" className="btn-gold text-sm px-6 py-3 rounded-md inline-block">
+            Book a Strategy Call
           </a>
         </div>
       )}

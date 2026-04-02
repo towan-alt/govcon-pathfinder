@@ -24,26 +24,26 @@ const agencies = [
 
 const AgencyLogoBar = () => {
   return (
-    <section className="bg-primary py-10 border-y border-white/5 overflow-hidden">
-      <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-white/40 mb-8 font-body">
+    <section className="bg-foreground py-8 border-y border-white/5 overflow-hidden">
+      <p className="text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6 font-body">
         Contracts Executed With Top Federal Agencies Including
       </p>
       <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-primary to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-primary to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-foreground to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-foreground to-transparent z-10" />
 
         <div className="flex animate-scroll">
           {[...agencies, ...agencies].map((agency, i) => (
             <div
               key={i}
-              className="flex-shrink-0 mx-10 flex items-center gap-4 opacity-60 hover:opacity-100 transition-opacity duration-300"
+              className="flex-shrink-0 mx-8 flex items-center gap-3 opacity-50 hover:opacity-90 transition-opacity duration-300"
             >
               <img
                 src={agency.seal}
                 alt={`${agency.name} seal`}
-                className="w-12 h-12 object-contain"
+                className="w-10 h-10 object-contain"
               />
-              <span className="text-sm font-medium whitespace-nowrap text-white/80 font-body">
+              <span className="text-xs font-medium whitespace-nowrap text-white/70 font-body">
                 {agency.name}
               </span>
             </div>

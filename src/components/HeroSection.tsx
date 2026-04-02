@@ -1,66 +1,97 @@
-import heroBg from "@/assets/hero-bg.jpg";
+import { Play } from "lucide-react";
+import { useState } from "react";
 import towanHero from "@/assets/towan-hero.jpg";
 
 const HeroSection = () => {
-  return (
-    <section className="relative overflow-hidden min-h-[90vh] flex items-center">
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <img src={heroBg} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/95 via-navy/85 to-navy/70" />
-      </div>
+  const [isPlaying, setIsPlaying] = useState(false);
 
-      <div className="container relative z-10 mx-auto px-6 py-20 lg:py-28">
-        <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-up">
-          {/* Photo — larger and more commanding */}
-          <div className="flex justify-center">
-            <div className="w-[200px] h-[200px] rounded-full overflow-hidden shadow-2xl" style={{ border: '3px solid hsl(45, 75%, 47%)' }}>
-              <img
-                src={towanHero}
-                alt="Towan Isom — CEO and GovCon Strategist"
-                className="w-full h-full object-cover object-top scale-110 translate-y-1"
-              />
+  return (
+    <section className="section-navy min-h-[90vh] flex items-center relative overflow-hidden">
+      <div className="container mx-auto px-6 py-24 lg:py-32">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left — Copy */}
+          <div className="space-y-8">
+            <p className="eyebrow text-xs">
+              Government Contract Strategist · SBA Emerging Leaders Expert
+            </p>
+
+            <div className="space-y-2">
+              <p className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-none">
+                $27M
+              </p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
+                in federal contracts executed
+              </p>
+            </div>
+
+            <h1 className="font-display text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-white leading-[1.15]">
+              I help small businesses{" "}
+              <em className="text-primary not-italic">win</em> in the federal marketplace.
+            </h1>
+
+            <p className="text-base text-white/60 leading-relaxed max-w-lg">
+              With 25+ years of experience, 105+ contracts executed, and 6,500+ businesses coached — 
+              I'll show you exactly how to land your first (or next) government contract.
+            </p>
+
+            <div className="flex flex-wrap gap-4 pt-2">
+              <a href="/book" className="btn-gold text-sm px-8 py-3.5 rounded-md">
+                Book a Strategy Call
+              </a>
+              <a href="#about" className="btn-outline-light text-sm px-8 py-3.5 rounded-md">
+                Learn More
+              </a>
             </div>
           </div>
 
-          <p className="eyebrow text-sm tracking-[0.25em]">
-            Government Contract Strategist · SBA Emerging Leaders Expert
-          </p>
+          {/* Right — Video + Quote */}
+          <div className="space-y-6">
+            <div className="relative aspect-video rounded-xl overflow-hidden bg-navy-light shadow-2xl">
+              {!isPlaying ? (
+                <button
+                  onClick={() => setIsPlaying(true)}
+                  className="absolute inset-0 flex items-center justify-center group cursor-pointer z-10"
+                  aria-label="Play video"
+                >
+                  <img
+                    src={towanHero}
+                    alt="Towan Isom"
+                    className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
+                  />
+                  <div className="absolute inset-0 bg-navy/40" />
+                  <div className="relative w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Play className="h-6 w-6 text-primary-foreground ml-0.5" fill="currentColor" />
+                  </div>
+                </button>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-navy">
+                  <p className="text-white/50 text-sm">Video player — paste your embed URL here</p>
+                </div>
+              )}
+            </div>
 
-          <h1 className="font-display leading-[1.1] text-white uppercase">
-            <span className="block text-2xl md:text-3xl lg:text-4xl font-bold text-white/90">
-              She Built a $25M Federal Contracting Firm.
-            </span>
-            <span className="block text-3xl md:text-5xl lg:text-6xl font-black text-primary mt-2">
-              Now She'll Show You How to Win Yours.
-            </span>
-          </h1>
-
-          <p className="text-lg md:text-xl leading-relaxed text-white/75 max-w-2xl mx-auto">
-            The U.S. government spends over <strong className="text-white">$7 trillion</strong> a year.
-            Towan Isom has helped 6,500+ small businesses capture their share — with
-            over <strong className="text-white">$25M in revenue</strong> generated and <strong className="text-white">105+ contracts</strong> executed.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4 pt-6">
-            <a href="#vip" className="btn-primary text-lg px-12 py-6 rounded-xl shadow-[0_6px_30px_hsl(0,0%,0%/0.4)]">
-              Reserve Your Free Strategy Session →
-            </a>
+            {/* Testimonial quote */}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-5">
+              <p className="text-sm text-white/70 italic leading-relaxed">
+                "She doesn't just talk strategy — she hands you the actual playbook that won contracts. 
+                Game-changing."
+              </p>
+              <p className="text-xs text-white/40 mt-2 font-semibold">— Workshop Participant</p>
+            </div>
           </div>
-          <p className="text-xs text-white/40 pt-2">No cost. No obligation. Limited spots each month.</p>
         </div>
 
-        {/* Stats bar — numbers in gold */}
-        <div className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4 border-t border-white/10 pt-10 max-w-5xl mx-auto">
+        {/* Stats bar */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-white/10 pt-10 max-w-5xl">
           {[
             { number: "105+", label: "Federal Contracts Executed" },
             { number: "$25M+", label: "Revenue Generated" },
             { number: "6,500+", label: "Small Businesses Coached" },
             { number: "25+", label: "Years of Experience" },
           ].map((stat) => (
-            <div key={stat.label} className="text-center space-y-2">
-              <p className="font-display text-3xl font-black text-primary md:text-4xl">{stat.number}</p>
-              <p className="text-xs font-semibold uppercase tracking-widest text-white/40">{stat.label}</p>
+            <div key={stat.label} className="space-y-1">
+              <p className="font-display text-2xl font-bold text-primary md:text-3xl">{stat.number}</p>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-white/35">{stat.label}</p>
             </div>
           ))}
         </div>
