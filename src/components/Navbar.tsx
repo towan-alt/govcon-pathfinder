@@ -3,7 +3,6 @@ import logoTi from "@/assets/logo-ti.png";
 
 const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Results", href: "#testimonials" },
   { label: "Services", href: "#services" },
 ];
 
