@@ -5,8 +5,6 @@ import AboutSection from "@/components/AboutSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ServicesSection from "@/components/ServicesSection";
 import VideoSection from "@/components/VideoSection";
-import ProgramInABox from "@/components/ProgramInABox";
-
 import ClosingSection from "@/components/ClosingSection";
 
 const Index = () => {
@@ -19,8 +17,6 @@ const Index = () => {
       <TestimonialsSection />
       <ServicesSection />
       <VideoSection />
-      <ProgramInABox />
-      
       <ClosingSection />
     </main>
   );
