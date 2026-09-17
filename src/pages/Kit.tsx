@@ -21,6 +21,7 @@ const KIT_CONFIRM_KEY = "ggc_kit_confirmed";
 
 const Kit = () => {
   const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [businessName, setBusinessName] = useState("");
@@ -39,6 +40,7 @@ const Kit = () => {
       if (!raw) return;
       const s = JSON.parse(raw);
       setFirstName(s.firstName ?? "");
+      setLastName(s.lastName ?? "");
       setEmail(s.email ?? "");
       setPhone(s.phone ?? "");
       setBusinessName(s.businessName ?? "");
@@ -53,8 +55,8 @@ const Kit = () => {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (!firstName.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError("Please enter your first name and a valid email address.");
+    if (!firstName.trim() || !lastName.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("Please enter your first name, last name and a valid email address.");
       return;
     }
     setStatus("sending");
@@ -62,6 +64,7 @@ const Kit = () => {
       const { data, error: fnError } = await supabase.functions.invoke("kit-request", {
         body: {
           firstName: firstName.trim(),
+          lastName: lastName.trim(),
           email: email.trim(),
           phone: phone.trim(),
           businessName: businessName.trim(),
@@ -76,7 +79,7 @@ const Kit = () => {
       setEmailSent(didSend);
       sessionStorage.setItem(
         KIT_CONFIRM_KEY,
-        JSON.stringify({ firstName, email, phone, businessName, emailSent: didSend })
+        JSON.stringify({ firstName, lastName, email, phone, businessName, emailSent: didSend })
       );
       setStatus("sent");
       void trackEvent("kit_request");
@@ -202,6 +205,19 @@ const Kit = () => {
                         className="w-full rounded-md border px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
                         style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
                         placeholder="Towan"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="kit-last" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-2">
+                        Last name *
+                      </label>
+                      <input
+                        id="kit-last"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="w-full rounded-md border px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                        placeholder="Isom"
                       />
                     </div>
                     <div>
