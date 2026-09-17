@@ -77,6 +77,7 @@ const ServicesSection = () => {
                 </p>
                 <a
                   href={tier.href}
+                  onClick={() => trackCta(`service-${tier.number}`)}
                   className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
                     tier.featured
                       ? "text-primary hover:text-gold-light"
