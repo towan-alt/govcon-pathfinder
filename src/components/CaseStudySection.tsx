@@ -2,11 +2,12 @@ import { FIGURES } from "@/lib/brand";
 
 const proofPoints = [
   {
-    value: FIGURES.applicationsGenerated,
-    label: "Applications generated in under five weeks",
+    value: FIGURES.thriveValue,
+    label: "National program value",
   },
-  { value: `${FIGURES.cohorts} cohorts`, label: "National small-business program outreach" },
-  { value: FIGURES.tasksDelivered, label: "Contract tasks personally delivered" },
+  { value: FIGURES.thriveTrained, label: "Small business owners trained" },
+  { value: `${FIGURES.thriveRate}%`, label: "Recommendation rate" },
+  { value: "Exceptional", label: "CPARS rating" },
 ];
 
 const CaseStudySection = () => {
@@ -17,13 +18,12 @@ const CaseStudySection = () => {
           <div className="space-y-4">
             <p className="eyebrow text-xs">Case Study</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
-              A national outreach program that filled{" "}
-              <em className="text-primary italic">{FIGURES.applicationsGenerated} applications</em>{" "}
-              in under five weeks.
+              SBA's T.H.R.I.V.E. Emerging Leaders program,{" "}
+              <em className="text-primary italic">delivered by Towan's firm.</em>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-4 gap-5">
             {proofPoints.map((p) => (
               <div
                 key={p.label}
@@ -42,22 +42,23 @@ const CaseStudySection = () => {
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-widest text-primary">Challenge</p>
               <p>
-                A national small-business program needed qualified applicants fast, across dozens of
-                markets, with a short application window and no established pipeline.
+                The SBA needed a national emerging-leaders initiative delivered to small business
+                owners across the country — with measurable outcomes, not attendance counts.
               </p>
             </div>
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-widest text-primary">Approach</p>
               <p>
-                Towan's team built the outreach system: audience targeting, message testing, partner
-                channels, and a cohort-by-cohort follow-up sequence run across {FIGURES.cohorts} cohorts.
+                Towan's firm delivered the {FIGURES.thriveValue} program end to end, built on the
+                same full-lifecycle training she teaches today — positioning, targeting, capture,
+                proposals, pricing and performance.
               </p>
             </div>
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-widest text-primary">Result</p>
               <p>
-                {FIGURES.applicationsGenerated} applications generated in fewer than five weeks — the
-                same capture-and-follow-up discipline the {" "}
+                {FIGURES.thriveTrained} small business owners trained, a {FIGURES.thriveRate}%
+                recommendation rate, and an Exceptional CPARS rating — the same discipline the{" "}
                 readiness assessment applies to your own pipeline.
               </p>
             </div>
