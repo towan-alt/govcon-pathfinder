@@ -8,6 +8,9 @@ const REVENUE_VALUES = [
   "$250K", "$350K", "$500K", "$750K", "$1M", "$2M+"
 ];
 
+const CONFIRM_KEY = "ggc_book_confirmed";
+
+
 const INDUSTRIES = [
   "IT & Technology Services",
   "Construction & Facilities",
@@ -44,6 +47,24 @@ const Book = () => {
     void trackEvent("book_view");
   }, []);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
+
+  // Repeat the confirmation page after submission — restore it on return visits
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(CONFIRM_KEY);
+      if (!saved) return;
+      const s = JSON.parse(saved);
+      setFirstName(s.firstName ?? "");
+      setLastName(s.lastName ?? "");
+      setEmail(s.email ?? "");
+      setBusinessName(s.businessName ?? "");
+      setIndustry(s.industry ?? "");
+      setSubmitted(true);
+    } catch {
+      // ignore malformed storage
+    }
+  }, []);
+
 
   // Step 1
   const [firstName, setFirstName] = useState("");
@@ -133,8 +154,13 @@ const Book = () => {
     }
 
     void trackEvent("book_submit");
+    sessionStorage.setItem(
+      CONFIRM_KEY,
+      JSON.stringify({ firstName, lastName, email, phone, businessName, industry })
+    );
     setSubmitted(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
+
   };
 
   const progressWidth = submitted ? 100 : ((step - 1) / 3) * 100 + (step === 3 ? 66 : step === 2 ? 33 : 0);
@@ -406,7 +432,62 @@ const Book = () => {
                   </div>
                 ))}
               </div>
+
+              {/* Review of what was submitted — confirmation repeats on return visits */}
+              <div
+                className="rounded-xl p-6 text-left max-w-md mx-auto mt-4 animate-fade-in"
+                style={{
+                  background: "hsl(40, 8%, 10%)",
+                  border: "1px solid hsla(43, 44%, 54%, 0.2)",
+                }}
+              >
+                <p
+                  className="text-[11px] font-bold uppercase tracking-[0.18em] mb-3"
+                  style={{ color: "hsl(var(--blue))" }}
+                >
+                  Your submission
+                </p>
+                {[
+                  { label: "Name", value: [firstName, lastName].filter(Boolean).join(" ") },
+                  { label: "Email", value: email },
+                  { label: "Phone", value: phone },
+                  { label: "Business", value: businessName },
+                  { label: "Industry", value: industry },
+                ]
+                  .filter((r) => r.value)
+                  .map((r, i, arr) => (
+                    <div
+                      key={r.label}
+                      className="flex gap-3 py-2.5 text-sm"
+                      style={{
+                        borderBottom: i < arr.length - 1 ? "1px solid hsla(43, 44%, 54%, 0.2)" : "none",
+                        color: "hsl(0, 0%, 54%)",
+                      }}
+                    >
+                      <span className="shrink-0">{r.label}:</span>
+                      <strong style={{ color: "hsl(0, 0%, 94%)" }}>{r.value}</strong>
+                    </div>
+                  ))}
+                <button
+                  onClick={() => {
+                    sessionStorage.removeItem(CONFIRM_KEY);
+                    setSubmitted(false);
+                    setStep(1);
+                    setFirstName("");
+                    setLastName("");
+                    setEmail("");
+                    setPhone("");
+                    setBusinessName("");
+                    setIndustry("");
+                  }}
+                  className="mt-4 text-xs underline hover:opacity-80"
+                  style={{ color: "hsl(0, 0%, 36%)" }}
+                >
+                  Need to change something? Submit a new request
+                </button>
+              </div>
             </div>
+
           ) : (
             <>
               {/* STEP 1 */}
