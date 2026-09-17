@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import logoTi from "@/assets/logo-ti.png";
+import { trackCta } from "@/lib/track";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -77,6 +78,7 @@ const Navbar = () => {
           )}
           <a
             href="/book"
+            onClick={() => trackCta("nav-book")}
             className="btn-gold text-xs px-6 py-2.5 rounded-md"
           >
             Book a Strategy Call
