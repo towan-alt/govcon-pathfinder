@@ -4,6 +4,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
+import About from "./pages/About.tsx";
+import Assessment from "./pages/Assessment.tsx";
+import Contact from "./pages/Contact.tsx";
+import LegalPage from "./pages/LegalPage.tsx";
 import Book from "./pages/Book.tsx";
 import NaicsPage from "./pages/NaicsPage.tsx";
 import Analytics from "./pages/Analytics.tsx";
@@ -26,6 +30,13 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/assessment" element={<Assessment />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<LegalPage pageKey="privacy" />} />
+          <Route path="/terms" element={<LegalPage pageKey="terms" />} />
+          <Route path="/accessibility" element={<LegalPage pageKey="accessibility" />} />
+          <Route path="/disclaimer" element={<LegalPage pageKey="disclaimer" />} />
           <Route path="/book" element={<Book />} />
           <Route path="/naics" element={<NaicsPage />} />
           <Route path="/analytics" element={<Analytics />} />
