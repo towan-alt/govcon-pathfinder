@@ -15,7 +15,7 @@ const included = [
 
 const OfferVIPDoneForYou = () => {
   return (
-    <section id="vip-dfy" className="bg-background py-20 lg:py-28">
+    <section id="vip-dfy" className="bg-background py-16 lg:py-20">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
@@ -37,7 +37,7 @@ const OfferVIPDoneForYou = () => {
               {included.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-primary" />
-                  <span className="text-sm leading-relaxed text-muted-foreground">{item}</span>
+                  <span className="text-sm leading-relaxed text-foreground/80">{item}</span>
                 </li>
               ))}
             </ul>
