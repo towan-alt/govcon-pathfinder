@@ -64,8 +64,7 @@ const NaicsPage = () => {
       return false;
     }
   });
-  // Repeat the confirmation after submission — reopen it on return visits
-  const [showSubscribe, setShowSubscribe] = useState(hasSubscription);
+  const [showSubscribe, setShowSubscribe] = useState(false);
   const [subFirst, setSubFirst] = useState("");
   const [subLast, setSubLast] = useState("");
   const [subEmail, setSubEmail] = useState("");
@@ -112,11 +111,15 @@ const NaicsPage = () => {
     setResults(scored);
     setStrengths(scored.map(item => matchStrength(q, item.keywords)));
 
-    if (scored.length > 0 && !sessionStorage.getItem("naicsSubscribed")) {
+    if (scored.length > 0) {
       setSubNaics(scored[0].code);
-      setSubStatus("idle");
-      setSubError(null);
-      setTimeout(() => setShowSubscribe(true), 900);
+      if (!hasSubscription) {
+        setSubStatus("idle");
+        setSubError(null);
+      }
+      setTimeout(() => {
+        document.getElementById("naics-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
   };
 
