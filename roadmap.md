@@ -9,6 +9,8 @@
 - [x] Fix analytics dashboard: kit funnel section renders after loading, inside main layout
 - [x] Remove "Government Contract Strategist · SBA Emerging Leaders Expert" line under the hero image/video
 - [x] Replace hero testimonial quote with the "Government Contract Strategist / SBA Emerging Leaders Expert" credential lines
-- [ ] Lead-to-sale path in /analytics: kit subscribers → confirmed → downloaded → booked a session
+- [x] Lead-to-sale path in /analytics: kit subscribers → confirmed → downloaded → booked a session
+- [x] Paid upgrade page /kit/upgrade (GovCon Launch Kit Pro, $97 one-time) with card checkout + tracking
+- [ ] Wire kit confirmation/download emails to a real sending domain (blocked: needs Towan's own domain set up)
 
 
