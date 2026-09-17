@@ -14,7 +14,111 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      funnel_events: {
+        Row: {
+          created_at: string
+          cta_id: string | null
+          device: string | null
+          event_name: string
+          id: string
+          path: string | null
+          session_id: string | null
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          cta_id?: string | null
+          device?: string | null
+          event_name: string
+          id?: string
+          path?: string | null
+          session_id?: string | null
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          cta_id?: string | null
+          device?: string | null
+          event_name?: string
+          id?: string
+          path?: string | null
+          session_id?: string | null
+          source?: string | null
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          biggest_challenge: string | null
+          business_name: string | null
+          certifications: string[]
+          contract_size: string | null
+          contract_strategy: string | null
+          created_at: string
+          device: string | null
+          email: string
+          first_name: string
+          id: string
+          industry: string | null
+          journey_stage: string | null
+          last_name: string
+          notified: boolean
+          phone: string | null
+          recommendation: string | null
+          referral_source: string | null
+          revenue: string | null
+          sam_status: string | null
+          source: string | null
+          target_agencies: string | null
+        }
+        Insert: {
+          biggest_challenge?: string | null
+          business_name?: string | null
+          certifications?: string[]
+          contract_size?: string | null
+          contract_strategy?: string | null
+          created_at?: string
+          device?: string | null
+          email: string
+          first_name: string
+          id?: string
+          industry?: string | null
+          journey_stage?: string | null
+          last_name: string
+          notified?: boolean
+          phone?: string | null
+          recommendation?: string | null
+          referral_source?: string | null
+          revenue?: string | null
+          sam_status?: string | null
+          source?: string | null
+          target_agencies?: string | null
+        }
+        Update: {
+          biggest_challenge?: string | null
+          business_name?: string | null
+          certifications?: string[]
+          contract_size?: string | null
+          contract_strategy?: string | null
+          created_at?: string
+          device?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          industry?: string | null
+          journey_stage?: string | null
+          last_name?: string
+          notified?: boolean
+          phone?: string | null
+          recommendation?: string | null
+          referral_source?: string | null
+          revenue?: string | null
+          sam_status?: string | null
+          source?: string | null
+          target_agencies?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
