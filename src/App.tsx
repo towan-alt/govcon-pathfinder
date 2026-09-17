@@ -7,6 +7,8 @@ import Index from "./pages/Index.tsx";
 import Book from "./pages/Book.tsx";
 import NaicsPage from "./pages/NaicsPage.tsx";
 import Analytics from "./pages/Analytics.tsx";
+import Kit from "./pages/Kit.tsx";
+import KitConfirm from "./pages/KitConfirm.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -22,6 +24,8 @@ const App = () => (
           <Route path="/book" element={<Book />} />
           <Route path="/naics" element={<NaicsPage />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/kit" element={<Kit />} />
+          <Route path="/kit/confirm" element={<KitConfirm />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
