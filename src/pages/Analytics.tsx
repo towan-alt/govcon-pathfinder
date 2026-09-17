@@ -283,8 +283,68 @@ const Analytics = () => {
             </div>
           </div>
         )}
-      </div>
-    </div>
+            </div>
+
+            {/* Launch Kit funnel */}
+            <div className="space-y-4">
+              <div>
+                <h2 className="font-display text-xl font-bold text-foreground">Launch Kit funnel</h2>
+                <p className="text-muted-foreground text-sm mt-1">
+                  Landing page → capture form → confirmation email → booklet download.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  { label: "Landing page views", value: k.landed, sub: "visitors who saw the offer" },
+                  { label: "Form submitted", value: k.requested, sub: pct(k.requested, k.landed) + " of landing views" },
+                  { label: "Email confirmed", value: k.verified, sub: pct(k.verified, k.requested) + " of submissions" },
+                  { label: "Booklet downloaded", value: k.downloaded, sub: pct(k.downloaded, k.verified) + " of confirmed" },
+                ].map((card) => (
+                  <div key={card.label} className="rounded-xl border border-border bg-card p-6">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                      {card.label}
+                    </p>
+                    <p className="font-display text-4xl font-extrabold text-primary mt-3">{card.value}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="overflow-x-auto rounded-xl border border-border">
+                <table className="w-full text-sm">
+                  <thead className="bg-muted/50 text-left">
+                    <tr>
+                      <th className="px-4 py-3 font-semibold">Device</th>
+                      <th className="px-4 py-3 font-semibold">Visitors</th>
+                      <th className="px-4 py-3 font-semibold">Submitted</th>
+                      <th className="px-4 py-3 font-semibold">Confirmed</th>
+                      <th className="px-4 py-3 font-semibold">Downloaded</th>
+                      <th className="px-4 py-3 font-semibold">Conversion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {kitStats.byDevice.length === 0 && (
+                      <tr>
+                        <td className="px-4 py-4 text-muted-foreground" colSpan={6}>
+                          No kit visits recorded yet.
+                        </td>
+                      </tr>
+                    )}
+                    {kitStats.byDevice.map(([name, r]) => (
+                      <tr key={name} className="border-t border-border">
+                        <td className="px-4 py-3 font-medium capitalize">{name}</td>
+                        <td className="px-4 py-3">{r.total}</td>
+                        <td className="px-4 py-3">{r.requested}</td>
+                        <td className="px-4 py-3">{r.verified}</td>
+                        <td className="px-4 py-3">{r.downloaded}</td>
+                        <td className="px-4 py-3 font-semibold text-primary">{pct(r.downloaded, r.total)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
   );
 };
 
