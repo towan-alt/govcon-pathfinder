@@ -81,6 +81,26 @@ const KitConfirm = () => {
                 <p className="text-xs text-white/30">
                   This download link stays active for 24 hours.
                 </p>
+                <div
+                  className="mt-6 rounded-lg p-6 text-left max-w-lg mx-auto"
+                  style={{ background: "hsl(0 0% 100% / 0.05)", border: "1px solid hsl(0 0% 100% / 0.12)" }}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                    Want the templates too?
+                  </p>
+                  <p className="text-sm text-white/70 mt-2 leading-relaxed">
+                    Launch Kit Pro adds the fill-in-the-blank capability statement, the registration
+                    walkthrough and a recorded training — $97 one-time.
+                  </p>
+                  <a
+                    href="/kit/upgrade"
+                    onClick={() => void trackEvent("cta_click", "kit-confirm-upgrade")}
+                    className="btn-gold inline-block text-sm px-8 py-3 rounded-md mt-4"
+                  >
+                    See Launch Kit Pro
+                  </a>
+                </div>
+
               </>
             )}
 

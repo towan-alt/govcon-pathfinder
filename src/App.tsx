@@ -10,6 +10,9 @@ import Analytics from "./pages/Analytics.tsx";
 import Kit from "./pages/Kit.tsx";
 import LaunchKit from "./pages/LaunchKit.tsx";
 import KitConfirm from "./pages/KitConfirm.tsx";
+import KitUpgrade from "./pages/KitUpgrade.tsx";
+import CheckoutReturn from "./pages/CheckoutReturn.tsx";
+
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -28,6 +31,9 @@ const App = () => (
           <Route path="/kit" element={<Kit />} />
           <Route path="/launch-kit" element={<LaunchKit />} />
           <Route path="/kit/confirm" element={<KitConfirm />} />
+          <Route path="/kit/upgrade" element={<KitUpgrade />} />
+          <Route path="/checkout/return" element={<CheckoutReturn />} />
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
