@@ -316,7 +316,24 @@ const NaicsPage = () => {
                     </div>
                   ))}
                 </div>
+                <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-primary/30 bg-primary/5">
+                  <p className="text-sm text-foreground text-center sm:text-left">
+                    Want alerts for opportunities under NAICS{" "}
+                    <span className="font-bold text-primary">{results[0]?.code}</span>?
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSubNaics(results[0]?.code ?? "");
+                      setShowSubscribe(true);
+                      trackCta("naics-open-subscribe");
+                    }}
+                    className="btn-gold text-xs px-6 py-3 rounded-md font-bold uppercase tracking-wider shrink-0"
+                  >
+                    Get notified
+                  </button>
+                </div>
               </>
+
             ) : (
               <p className="text-center text-muted-foreground py-8">
                 No matches found. Try different keywords describing your services.
