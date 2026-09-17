@@ -74,7 +74,7 @@ const LaunchKit = () => {
       >
         {label}
       </Link>
-      <p className="text-xs text-white/30">Free instant download · Confirm your email · No spam</p>
+      <p className="text-xs text-white/55">Free instant download · Confirm your email · No spam</p>
     </div>
   );
 
@@ -215,22 +215,23 @@ const LaunchKit = () => {
               who <em className="text-primary italic">does it</em> — and has done it for decades at
               the highest levels.
             </h2>
-            <p className="text-sm md:text-base text-white/60 leading-relaxed">
-              Towan has executed 105+ federal contracts, generated $25M+ in revenue, and coached
-              more than 6,500 small businesses into the government marketplace. The Launch Kit
-              distills that track record into the exact sequence she wishes every new contractor
-              had on day one.
+            <p className="text-sm md:text-base text-white/70 leading-relaxed">
+              Towan has managed 109+ contracts and task orders, executed $27M+ in federal contract
+              value, trained 1,000+ businesses directly and coached 6,500+ more through national
+              programs. The Launch Kit distills that track record into the exact sequence she wishes
+              every new contractor had on day one.
             </p>
             <div className="flex flex-wrap gap-10 pt-2">
               {[
-                ["105+", "Federal contracts executed"],
-                ["$25M+", "Revenue generated"],
-                ["6,500+", "Small businesses coached"],
-                ["25+", "Years of experience"],
+                ["109+", "Contracts & task orders"],
+                ["$27M+", "Federal contract value"],
+                ["1,000+", "Businesses trained"],
+                ["6,500+", "Coached via programs"],
               ].map(([num, label]) => (
+
                 <div key={label} className="text-center">
                   <p className="font-display text-2xl font-bold text-primary">{num}</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/40 mt-1">{label}</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60 mt-1">{label}</p>
                 </div>
               ))}
             </div>

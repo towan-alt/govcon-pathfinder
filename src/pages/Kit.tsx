@@ -127,16 +127,17 @@ const Kit = () => {
               <div className="flex flex-wrap gap-8 pt-2">
                 <div>
                   <p className="font-display text-2xl font-bold text-primary">25+</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/40">Years of experience</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Years of experience</p>
                 </div>
                 <div>
                   <p className="font-display text-2xl font-bold text-primary">6,500+</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/40">Businesses coached</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Businesses coached</p>
                 </div>
                 <div>
-                  <p className="font-display text-2xl font-bold text-primary">$25M+</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/40">Revenue generated</p>
+                  <p className="font-display text-2xl font-bold text-primary">$27M+</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Federal contract value</p>
                 </div>
+
               </div>
             </div>
 
@@ -165,7 +166,7 @@ const Kit = () => {
                       message may not arrive. Your request was saved and Towan will follow up directly.
                     </p>
                   )}
-                  <p className="text-xs text-white/30">
+                  <p className="text-xs text-white/55">
                     Didn't get it? Check spam, or{" "}
                     <button
                       onClick={() => {
@@ -274,7 +275,7 @@ const Kit = () => {
                     {status === "sending" ? "Sending…" : "Send me the booklet"}
                   </button>
 
-                  <p className="text-xs text-white/30 leading-relaxed">
+                  <p className="text-xs text-white/55 leading-relaxed">
                     We verify your email so the booklet reaches a real inbox. No spam, unsubscribe anytime.
                   </p>
                 </form>

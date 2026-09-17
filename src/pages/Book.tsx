@@ -199,7 +199,7 @@ const Book = () => {
             className="text-xs font-semibold uppercase tracking-[0.18em] hover:opacity-80 transition-opacity"
             style={{ color: "hsl(var(--blue))", fontFamily: "var(--font-display)" }}
           >
-            GovCon Strategy Hub
+            GoGovCon
           </Link>
 
           <div className="flex-1 flex flex-col justify-center py-10">
@@ -242,8 +242,8 @@ const Book = () => {
                 maxWidth: 380,
               }}
             >
-              Towan Isom has executed 105+ federal contracts and generated $25M+ in
-              revenue. This session is your direct line to her strategy — no pitch, no
+              Towan Isom has managed 109+ contracts and task orders and executed $27M+ in
+              federal contract value. This session is your direct line to her strategy — no pitch, no
               fluff.
             </p>
 
@@ -277,10 +277,11 @@ const Book = () => {
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
               {[
-                { num: "105+", label: "Contracts Executed" },
-                { num: "$25M+", label: "Revenue Generated" },
-                { num: "6,500+", label: "Businesses Coached" },
-                { num: "25+", label: "Years Experience" },
+                { num: "109+", label: "Contracts & Task Orders" },
+                { num: "$27M+", label: "Federal Contract Value" },
+                { num: "1,000+", label: "Businesses Trained" },
+                { num: "6,500+", label: "Coached Via Programs" },
+
               ].map((s, i) => (
                 <div
                   key={i}
@@ -308,7 +309,7 @@ const Book = () => {
           </div>
 
           <p className="text-xs relative z-10" style={{ color: "hsl(0, 0%, 36%)" }}>
-            © 2026 Towan Isom · GovCon Strategy Hub
+            © 2026 GoGovCon · Founded and led by Towan Isom
           </p>
         </div>
 

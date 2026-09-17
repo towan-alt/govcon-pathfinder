@@ -238,7 +238,7 @@ const NaicsPage = () => {
 
           {/* Popular */}
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <span className="text-xs text-white/40">Popular:</span>
+            <span className="text-xs text-white/60">Popular:</span>
             {popularSearches.map((term) => (
               <button
                 key={term}
@@ -409,7 +409,7 @@ const NaicsPage = () => {
           >
             <button
               onClick={() => setShowSubscribe(false)}
-              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
               aria-label="Close"
             >
               <X className="w-5 h-5" />
@@ -428,7 +428,7 @@ const NaicsPage = () => {
                   <span className="text-primary font-semibold">{subNaics}</span>. Click it and
                   we'll send your starting-point questions right away.
                 </p>
-                <p className="text-xs uppercase tracking-[0.2em] text-white/40">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/60">
                   Follow Towan Isom, CEO for more
                 </p>
                 <div className="flex items-center justify-center gap-3">

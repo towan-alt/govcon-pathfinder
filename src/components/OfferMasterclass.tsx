@@ -21,7 +21,7 @@ const topics = [
 
 const OfferMasterclass = () => {
   return (
-    <section id="masterclass" className="bg-background py-20 lg:py-28">
+    <section id="masterclass" className="bg-background py-16 lg:py-20">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="space-y-4 mb-12">
@@ -62,7 +62,7 @@ const OfferMasterclass = () => {
             </div>
           </div>
           
-          <div className="mt-14 text-center space-y-5">
+          <div className="mt-10 text-center space-y-5">
             <p className="font-display text-5xl font-extrabold text-foreground">
               $197<span className="text-lg font-normal text-muted-foreground">/month</span>
             </p>

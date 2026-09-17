@@ -78,7 +78,7 @@ const KitConfirm = () => {
                     Book a strategy call
                   </a>
                 </div>
-                <p className="text-xs text-white/30">
+                <p className="text-xs text-white/55">
                   This download link stays active for 24 hours.
                 </p>
                 <div

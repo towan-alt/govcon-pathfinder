@@ -15,7 +15,7 @@ const included = [
 
 const OfferVIPDoneForYou = () => {
   return (
-    <section id="vip-dfy" className="bg-background py-20 lg:py-28">
+    <section id="vip-dfy" className="bg-background py-16 lg:py-20">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
@@ -37,7 +37,7 @@ const OfferVIPDoneForYou = () => {
               {included.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <Check className="h-5 w-5 flex-shrink-0 mt-0.5 text-primary" />
-                  <span className="text-sm leading-relaxed text-muted-foreground">{item}</span>
+                  <span className="text-sm leading-relaxed text-foreground/80">{item}</span>
                 </li>
               ))}
             </ul>
@@ -50,16 +50,16 @@ const OfferVIPDoneForYou = () => {
             </div>
             
             <div className="mt-10 text-center space-y-5">
-              <p className="text-sm text-muted-foreground">
-                The average federal contract Towan's clients pursue in year one: $250K–$500K+. Your investment today:
-              </p>
+              <p className="text-sm text-muted-foreground">Your investment today:</p>
               <p className="font-display text-5xl font-extrabold text-foreground">$997</p>
-              <p className="text-sm italic text-muted-foreground">
-                One contract win covers your investment — many times over.
+              <p className="text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
+                Build the strategy, positioning and decision framework needed to pursue the right
+                opportunities with greater confidence. No program can guarantee an award.
               </p>
               <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                 Limited spots released on the 1st of each month
               </p>
+
               <a
                 href="/book"
                 onClick={() => trackCta("vip-dfy-reserve")}
