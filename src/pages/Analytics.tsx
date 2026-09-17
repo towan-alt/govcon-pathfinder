@@ -283,9 +283,9 @@ const Analytics = () => {
                 </table>
               </div>
             </div>
-          </div>
 
             {/* Launch Kit funnel */}
+
 
             <div className="space-y-4">
               <div>
@@ -344,11 +344,13 @@ const Analytics = () => {
                 </table>
               </div>
             </div>
+          </div>
         )}
       </div>
     </div>
   );
 };
+
 
 
 export default Analytics;
