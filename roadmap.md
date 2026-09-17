@@ -11,6 +11,7 @@
 - [x] Replace hero testimonial quote with the "Government Contract Strategist / SBA Emerging Leaders Expert" credential lines
 - [x] Lead-to-sale path in /analytics: kit subscribers → confirmed → downloaded → booked a session
 - [x] Paid upgrade page /kit/upgrade (GovCon Launch Kit Pro, $97 one-time) with card checkout + tracking
+- [x] Email confirmation (click-to-confirm + thank-you) on booking form and NAICS sign-up
 - [ ] Wire kit confirmation/download emails to a real sending domain (blocked: needs Towan's own domain set up)
 
 
