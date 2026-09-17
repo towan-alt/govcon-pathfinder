@@ -107,6 +107,7 @@ export type Database = {
           industry: string | null
           journey_stage: string | null
           last_name: string
+          naics_code: string | null
           notified: boolean
           phone: string | null
           recommendation: string | null
@@ -130,6 +131,7 @@ export type Database = {
           industry?: string | null
           journey_stage?: string | null
           last_name: string
+          naics_code?: string | null
           notified?: boolean
           phone?: string | null
           recommendation?: string | null
@@ -153,6 +155,7 @@ export type Database = {
           industry?: string | null
           journey_stage?: string | null
           last_name?: string
+          naics_code?: string | null
           notified?: boolean
           phone?: string | null
           recommendation?: string | null
