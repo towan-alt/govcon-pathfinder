@@ -73,6 +73,10 @@ const HeroSection = () => {
               )}
             </div>
 
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/60 text-center">
+              Government Contract Strategist <span className="text-primary">·</span> SBA Emerging Leaders Expert
+            </p>
+
             <div className="rounded-lg p-5" style={{ background: "hsl(0 0% 100% / 0.05)", border: "1px solid hsl(0 0% 100% / 0.1)" }}>
               <p className="text-sm text-white/70 italic leading-relaxed">
                 "She doesn't just talk strategy — she hands you the actual playbook that won contracts. 
