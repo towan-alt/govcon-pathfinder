@@ -19,9 +19,11 @@
 - [x] CRO audit: tracking for CTAs, video plays, assessment start/complete
 - [x] CRO audit: removed the broken Crisp chat snippet (invalid website ID)
 - [x] Homepage order per audit recommendation
+- [x] Full /about page: bio, early-career timeline, credentials, agencies, full case study
 
 ## Open (blocked on Towan)
-- [ ] Sending domain for email: confirmation, kit download and follow-up emails cannot deliver until a domain Towan owns is set up
+- [ ] Sending domain for email: confirmation, kit download and follow-up emails cannot deliver until a domain Towan owns is set up (setup dialog offered; test unlock send pending)
+- [ ] Verify About page bio details drafted from public sources (Isom Global Strategies, Inc. 5000 years, book title, agencies)
 - [ ] Real video files + caption tracks (placeholders and transcripts are in place)
 - [ ] Crisp Website ID, if live chat is wanted
 - [ ] Real Launch Kit Pro name, contents and price (currently a $97 placeholder); Stripe still in test mode
