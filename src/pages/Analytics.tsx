@@ -344,9 +344,11 @@ const Analytics = () => {
                 </table>
               </div>
             </div>
-          </div>
         )}
-
+      </div>
+    </div>
+  );
 };
+
 
 export default Analytics;
