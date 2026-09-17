@@ -141,6 +141,7 @@ const Book = () => {
         recommendation: sessionStorage.getItem("ggc_recommendation") ?? "",
         device: getDevice(),
         source: getSource(),
+        origin: window.location.origin,
       },
     });
 
@@ -400,8 +401,8 @@ const Book = () => {
                 className="text-[15px] mb-9 mx-auto"
                 style={{ color: "hsl(0, 0%, 54%)", lineHeight: 1.7, maxWidth: 380 }}
               >
-                Towan will review your intake before the session. Expect a confirmation
-                email within 24 hours with your session details.
+                Check your inbox and click the confirmation link so we can lock in your
+                request. Towan reviews every intake and follows up with your session details.
               </p>
               <div
                 className="rounded-xl p-6 text-left max-w-md mx-auto"

@@ -148,6 +148,7 @@ const NaicsPage = () => {
           referralSource: "NAICS Finder notifications",
           device: getDevice(),
           source: getSource(),
+          origin: window.location.origin,
         },
       });
       if (fnError) throw new Error(fnError.message);
@@ -420,11 +421,12 @@ const NaicsPage = () => {
                   <span className="text-primary text-2xl">✓</span>
                 </div>
                 <h3 className="font-display text-2xl font-bold text-white">
-                  Thanks for subscribing!
+                  Almost done — confirm your email
                 </h3>
                 <p className="text-sm text-white/60 leading-relaxed">
-                  You're signed up. Check your inbox for the starting-point questions for
-                  NAICS <span className="text-primary font-semibold">{subNaics}</span>.
+                  We just emailed you a confirmation link for NAICS{" "}
+                  <span className="text-primary font-semibold">{subNaics}</span>. Click it and
+                  we'll send your starting-point questions right away.
                 </p>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                   Follow Towan Isom, CEO for more

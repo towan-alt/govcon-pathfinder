@@ -119,6 +119,10 @@ export type Database = {
           sam_status: string | null
           source: string | null
           target_agencies: string | null
+          token_expires_at: string
+          verified: boolean
+          verified_at: string | null
+          verify_token: string
         }
         Insert: {
           biggest_challenge?: string | null
@@ -143,6 +147,10 @@ export type Database = {
           sam_status?: string | null
           source?: string | null
           target_agencies?: string | null
+          token_expires_at?: string
+          verified?: boolean
+          verified_at?: string | null
+          verify_token?: string
         }
         Update: {
           biggest_challenge?: string | null
@@ -167,6 +175,10 @@ export type Database = {
           sam_status?: string | null
           source?: string | null
           target_agencies?: string | null
+          token_expires_at?: string
+          verified?: boolean
+          verified_at?: string | null
+          verify_token?: string
         }
         Relationships: []
       }

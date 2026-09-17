@@ -12,6 +12,7 @@ import LaunchKit from "./pages/LaunchKit.tsx";
 import KitConfirm from "./pages/KitConfirm.tsx";
 import KitUpgrade from "./pages/KitUpgrade.tsx";
 import CheckoutReturn from "./pages/CheckoutReturn.tsx";
+import ConfirmEmail from "./pages/ConfirmEmail.tsx";
 
 import NotFound from "./pages/NotFound.tsx";
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/kit/confirm" element={<KitConfirm />} />
           <Route path="/kit/upgrade" element={<KitUpgrade />} />
           <Route path="/checkout/return" element={<CheckoutReturn />} />
+          <Route path="/confirm" element={<ConfirmEmail />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
     const { data: lead, error } = await supabase
       .from("leads")
       .insert(row)
-      .select("id")
+      .select("id, verify_token")
       .single();
 
     if (error) {
@@ -107,20 +107,19 @@ Deno.serve(async (req) => {
           .join("")}
       </table>`;
 
-    const subscriberHtml = `
+    const siteUrl = String(body.origin ?? "").trim().replace(/\/+$/, "") || "https://gogovcon.com";
+    const confirmUrl = `${siteUrl}/confirm?token=${lead.verify_token}`;
+
+    const confirmHtml = `
       <div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#171717">
-        <h2 style="font-family:Georgia,serif;color:#111;margin:0 0 12px">Your GovCon starting-point questions</h2>
-        <p>Thanks for subscribing, ${esc(firstName)}. You searched NAICS <strong>${esc(row.naics_code)}</strong>.</p>
-        <p>Use these questions to get clear on your next best step:</p>
-        <ol style="padding-left:22px;margin:18px 0">
-          <li>What do you most want to happen?</li>
-          <li>What kind of work do you do?</li>
-          <li>Where are you today in the government contracting process?</li>
-          <li>How much experience do you have with bidding?</li>
-          <li>What budget are you comfortable starting with?</li>
-          <li>When do you want to see results?</li>
-        </ol>
-        <p>Reply with your answers, and we can point you toward the best starting option.</p>
+        <h2 style="font-family:Georgia,serif;color:#111;margin:0 0 12px">Please confirm your email</h2>
+        <p>Hi ${esc(firstName)}, thanks for signing up${row.naics_code ? ` (NAICS <strong>${esc(row.naics_code)}</strong>)` : ""}.</p>
+        <p>Click the button below to confirm your email address so we can send you your next steps.</p>
+        <p style="margin:26px 0">
+          <a href="${esc(confirmUrl)}" style="background:#C9A84C;color:#111;text-decoration:none;font-weight:bold;padding:14px 26px;border-radius:6px;display:inline-block">Confirm my email</a>
+        </p>
+        <p style="font-size:13px;color:#666">Or paste this link into your browser:<br>${esc(confirmUrl)}</p>
+        <p style="font-size:13px;color:#666">This link expires in 7 days.</p>
       </div>`;
 
     let notified = false;
@@ -147,26 +146,24 @@ Deno.serve(async (req) => {
       console.error("Owner email send error:", e instanceof Error ? e.message : String(e));
     }
 
-    if (row.naics_code) {
-      try {
-        const res = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-transactional-email`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
-          },
-          body: JSON.stringify({
-            to: email,
-            subject: "Your GovCon starting-point questions",
-            html: subscriberHtml,
-            purpose: "transactional",
-            idempotency_key: `naics-followup-${lead.id}`,
-          }),
-        });
-        if (!res.ok) console.error("Subscriber email send failed:", res.status, await res.text());
-      } catch (e) {
-        console.error("Subscriber email send error:", e instanceof Error ? e.message : String(e));
-      }
+    try {
+      const res = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-transactional-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+        },
+        body: JSON.stringify({
+          to: email,
+          subject: "Please confirm your email",
+          html: confirmHtml,
+          purpose: "transactional",
+          idempotency_key: `lead-confirm-${lead.id}`,
+        }),
+      });
+      if (!res.ok) console.error("Confirmation email send failed:", res.status, await res.text());
+    } catch (e) {
+      console.error("Confirmation email send error:", e instanceof Error ? e.message : String(e));
     }
 
     if (notified) {
