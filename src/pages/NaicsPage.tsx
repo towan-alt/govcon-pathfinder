@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Instagram, Search, X, Youtube } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/integrations/supabase/client";
@@ -57,14 +57,37 @@ const NaicsPage = () => {
   const [strengths, setStrengths] = useState<("best" | "strong" | "also")[]>([]);
   const [searched, setSearched] = useState(false);
 
-  const [showSubscribe, setShowSubscribe] = useState(false);
+  const [hasSubscription] = useState(() => {
+    try {
+      return Boolean(sessionStorage.getItem("naicsSubscribedInfo"));
+    } catch {
+      return false;
+    }
+  });
+  // Repeat the confirmation after submission — reopen it on return visits
+  const [showSubscribe, setShowSubscribe] = useState(hasSubscription);
   const [subFirst, setSubFirst] = useState("");
   const [subLast, setSubLast] = useState("");
   const [subEmail, setSubEmail] = useState("");
   const [subNaics, setSubNaics] = useState("");
   const [subMobile, setSubMobile] = useState("");
-  const [subStatus, setSubStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [subStatus, setSubStatus] = useState<"idle" | "sending" | "sent">(hasSubscription ? "sent" : "idle");
   const [subError, setSubError] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("naicsSubscribedInfo");
+      if (!raw) return;
+      const info = JSON.parse(raw);
+      setSubFirst(info.first ?? "");
+      setSubLast(info.last ?? "");
+      setSubEmail(info.email ?? "");
+      setSubNaics(info.naics ?? "");
+    } catch {
+      // ignore malformed storage
+    }
+  }, []);
+
 
   const handleSearch = (searchQuery?: string) => {
     const q = (searchQuery ?? query).toLowerCase().trim();
@@ -127,8 +150,18 @@ const NaicsPage = () => {
       if (fnError) throw new Error(fnError.message);
       if (data?.error) throw new Error(data.error);
       sessionStorage.setItem("naicsSubscribed", "1");
+      sessionStorage.setItem(
+        "naicsSubscribedInfo",
+        JSON.stringify({
+          first: subFirst.trim(),
+          last: subLast.trim(),
+          email: subEmail.trim(),
+          naics: subNaics.trim(),
+        })
+      );
       setSubStatus("sent");
       void trackEvent("naics_subscribe");
+
     } catch (err) {
       setSubStatus("idle");
       setSubError(err instanceof Error ? err.message : "Something went wrong. Please try again.");

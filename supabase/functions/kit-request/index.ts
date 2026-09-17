@@ -18,8 +18,10 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const firstName = String(body.firstName ?? "").trim().slice(0, 80);
     const email = String(body.email ?? "").trim().toLowerCase().slice(0, 200);
+    const phone = String(body.phone ?? "").trim().slice(0, 40) || null;
     const businessName = String(body.businessName ?? "").trim().slice(0, 200) || null;
     const origin = String(body.origin ?? "").replace(/\/$/, "");
+
 
     if (!firstName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return new Response(JSON.stringify({ error: "Please enter your first name and a valid email." }), {
@@ -49,6 +51,7 @@ Deno.serve(async (req) => {
         .from("kit_leads")
         .update({
           first_name: firstName,
+          phone,
           business_name: businessName,
           verify_token: token,
           token_expires_at: expires,
@@ -64,6 +67,7 @@ Deno.serve(async (req) => {
         .insert({
           first_name: firstName,
           email,
+          phone,
           business_name: businessName,
           verify_token: token,
           token_expires_at: expires,
@@ -75,6 +79,7 @@ Deno.serve(async (req) => {
       if (error) throw new Error(error.message);
       leadId = data.id;
     }
+
 
     const confirmUrl = `${origin}/kit/confirm?token=${token}`;
 
@@ -125,7 +130,8 @@ Deno.serve(async (req) => {
           to: NOTIFY_TO,
           subject: `Launch Kit request: ${firstName} (${email})`,
           html: `<p><strong>${esc(firstName)}</strong> requested the GovCon Launch Kit.</p>
-                 <p>Email: ${esc(email)}<br>Business: ${esc(businessName ?? "—")}<br>Source: ${esc(body.source ?? "—")}</p>`,
+                 <p>Email: ${esc(email)}<br>Phone: ${esc(phone ?? "—")}<br>Business: ${esc(businessName ?? "—")}<br>Source: ${esc(body.source ?? "—")}</p>`,
+
           purpose: "transactional",
           idempotency_key: `kit-notify-${token}`,
         }),
