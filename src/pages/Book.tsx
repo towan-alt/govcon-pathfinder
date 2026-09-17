@@ -199,7 +199,7 @@ const Book = () => {
             className="text-xs font-semibold uppercase tracking-[0.18em] hover:opacity-80 transition-opacity"
             style={{ color: "hsl(var(--blue))", fontFamily: "var(--font-display)" }}
           >
-            GovCon Strategy Hub
+            GoGovCon
           </Link>
 
           <div className="flex-1 flex flex-col justify-center py-10">
@@ -309,7 +309,7 @@ const Book = () => {
           </div>
 
           <p className="text-xs relative z-10" style={{ color: "hsl(0, 0%, 36%)" }}>
-            © 2026 Towan Isom · GovCon Strategy Hub
+            © 2026 GoGovCon · Founded and led by Towan Isom
           </p>
         </div>
 
