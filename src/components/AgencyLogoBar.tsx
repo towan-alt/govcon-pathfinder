@@ -8,6 +8,7 @@ import sealDhs from "@/assets/seals/dhs.png";
 import sealGsa from "@/assets/seals/gsa.png";
 import sealHhs from "@/assets/seals/hhs.png";
 import sealDoe from "@/assets/seals/doe.png";
+import { SEAL_DISCLAIMER } from "@/lib/brand";
 
 const agencies = [
   { name: "Dept. of Defense", seal: sealDod },
@@ -24,9 +25,13 @@ const agencies = [
 
 const AgencyLogoBar = () => {
   return (
-    <section className="py-8 border-y overflow-hidden" style={{ background: "hsl(0 0% 4%)", borderColor: "hsl(0 0% 100% / 0.05)" }}>
-      <p className="text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6 font-body">
-        Contracts Executed With Top Federal Agencies Including
+    <section
+      className="py-8 border-y overflow-hidden"
+      style={{ background: "hsl(0 0% 4%)", borderColor: "hsl(0 0% 100% / 0.05)" }}
+      aria-label="Past performance references"
+    >
+      <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60 mb-6 font-body">
+        Past Performance — Contracts Executed With Federal Agencies Including
       </p>
       <div className="relative">
         <div className="absolute left-0 top-0 bottom-0 w-24 z-10" style={{ background: "linear-gradient(to right, hsl(0 0% 4%), transparent)" }} />
@@ -36,20 +41,24 @@ const AgencyLogoBar = () => {
           {[...agencies, ...agencies].map((agency, i) => (
             <div
               key={i}
-              className="flex-shrink-0 mx-8 flex items-center gap-3 opacity-50 hover:opacity-90 transition-opacity duration-300"
+              className="flex-shrink-0 mx-8 flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity duration-300"
             >
-              <img
-                src={agency.seal}
-                alt={`${agency.name} seal`}
-                className="w-10 h-10 object-contain"
-              />
-              <span className="text-xs font-medium whitespace-nowrap text-white/70 font-body">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white p-1.5">
+                <img
+                  src={agency.seal}
+                  alt={`${agency.name} seal`}
+                  loading="lazy"
+                  className="h-full w-full object-contain"
+                />
+              </span>
+              <span className="text-xs font-medium whitespace-nowrap text-white/80 font-body">
                 {agency.name}
               </span>
             </div>
           ))}
         </div>
       </div>
+      <p className="mt-6 px-6 text-center text-[11px] text-white/55">{SEAL_DISCLAIMER}</p>
     </section>
   );
 };
