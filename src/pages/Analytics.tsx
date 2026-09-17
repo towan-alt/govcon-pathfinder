@@ -154,6 +154,8 @@ const Analytics = () => {
 
 
   const t = stats.totals;
+  const k = kitStats.totals;
+
 
   return (
     <div className="min-h-screen bg-background">
