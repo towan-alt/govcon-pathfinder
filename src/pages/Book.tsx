@@ -601,20 +601,28 @@ const Book = () => {
                     Continue →
                   </button>
                 ) : (
-                  <button
-                    onClick={handleSubmit}
-                    className="rounded-lg px-10 py-4 text-[15px] font-semibold w-full transition-all cursor-pointer"
-                    style={{
-                      background: "hsl(var(--blue))",
-                      color: "hsl(40, 10%, 4%)",
-                      fontFamily: "var(--font-body)",
-                      letterSpacing: "0.03em",
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "hsl(45, 65%, 55%)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "hsl(var(--blue))")}
-                  >
-                    Reserve My Session →
-                  </button>
+                  <div className="w-full space-y-3">
+                    <button
+                      onClick={handleSubmit}
+                      disabled={sending}
+                      className="rounded-lg px-10 py-4 text-[15px] font-semibold w-full transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                      style={{
+                        background: "hsl(var(--blue))",
+                        color: "hsl(40, 10%, 4%)",
+                        fontFamily: "var(--font-body)",
+                        letterSpacing: "0.03em",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "hsl(45, 65%, 55%)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "hsl(var(--blue))")}
+                    >
+                      {sending ? "Sending…" : "Reserve My Session →"}
+                    </button>
+                    {sendError && (
+                      <p className="text-sm" style={{ color: "hsl(0, 70%, 65%)" }}>
+                        {sendError}
+                      </p>
+                    )}
+                  </div>
                 )}
               </div>
             </>
