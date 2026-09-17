@@ -1,6 +1,7 @@
 import { Play } from "lucide-react";
 import { useState } from "react";
 import towanHero from "@/assets/towan-hero.jpg";
+import { trackCta } from "@/lib/track";
 
 const HeroSection = () => {
   const [isPlaying, setIsPlaying] = useState(false);

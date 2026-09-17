@@ -1,3 +1,5 @@
+import { trackCta } from "@/lib/track";
+
 const ClosingSection = () => {
   return (
     <>
