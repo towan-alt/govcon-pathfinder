@@ -56,6 +56,7 @@ export type Database = {
           email: string
           first_name: string
           id: string
+          last_name: string | null
           phone: string | null
           source: string | null
           token_expires_at: string
@@ -71,6 +72,7 @@ export type Database = {
           email: string
           first_name: string
           id?: string
+          last_name?: string | null
           phone?: string | null
           source?: string | null
           token_expires_at?: string
@@ -86,6 +88,7 @@ export type Database = {
           email?: string
           first_name?: string
           id?: string
+          last_name?: string | null
           phone?: string | null
           source?: string | null
           token_expires_at?: string
