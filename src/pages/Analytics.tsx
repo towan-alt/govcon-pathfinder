@@ -110,6 +110,49 @@ const Analytics = () => {
     };
   }, [events]);
 
+  // Launch Kit funnel: landing page → capture form → confirmation email → download
+  const kitStats = useMemo(() => {
+    const sessions = new Map<string, { device: string; source: string; landed: boolean; requested: boolean; verified: boolean; downloaded: boolean }>();
+    for (const e of events) {
+      const key = e.session_id ?? "unknown";
+      const s =
+        sessions.get(key) ??
+        { device: e.device ?? "unknown", source: e.source ?? "unknown", landed: false, requested: false, verified: false, downloaded: false };
+      if (e.event_name === "launchkit_view" || e.event_name === "kit_view") s.landed = true;
+      if (e.event_name === "kit_request") s.requested = true;
+      if (e.event_name === "kit_verified") s.verified = true;
+      if (e.event_name === "kit_download") s.downloaded = true;
+      sessions.set(key, s);
+    }
+    const all = [...sessions.values()].filter((s) => s.landed);
+
+    const group = (field: "device" | "source") => {
+      const map = new Map<string, { total: number; requested: number; verified: number; downloaded: number }>();
+      for (const s of all) {
+        const k = s[field] || "unknown";
+        const row = map.get(k) ?? { total: 0, requested: 0, verified: 0, downloaded: 0 };
+        row.total += 1;
+        if (s.requested) row.requested += 1;
+        if (s.verified) row.verified += 1;
+        if (s.downloaded) row.downloaded += 1;
+        map.set(k, row);
+      }
+      return [...map.entries()].sort((a, b) => b[1].total - a[1].total);
+    };
+
+    return {
+      totals: {
+        landed: all.length,
+        requested: all.filter((s) => s.requested).length,
+        verified: all.filter((s) => s.verified).length,
+        downloaded: all.filter((s) => s.downloaded).length,
+      },
+      byDevice: group("device"),
+      bySource: group("source"),
+    };
+  }, [events]);
+
+
   const t = stats.totals;
 
   return (
