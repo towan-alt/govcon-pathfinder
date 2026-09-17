@@ -340,6 +340,148 @@ const NaicsPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Subscribe popup */}
+      {showSubscribe && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+          style={{ background: "hsl(0 0% 0% / 0.7)" }}
+          onClick={() => setShowSubscribe(false)}
+        >
+          <div
+            className="relative w-full max-w-md rounded-xl border p-8 shadow-2xl"
+            style={{ borderColor: "hsl(45 55% 55% / 0.3)", background: "hsl(0 0% 7%)" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowSubscribe(false)}
+              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {subStatus === "sent" ? (
+              <div className="text-center space-y-4 py-4">
+                <div className="w-14 h-14 mx-auto rounded-full flex items-center justify-center bg-primary/15 border border-primary/40">
+                  <span className="text-primary text-2xl">✓</span>
+                </div>
+                <h3 className="font-display text-2xl font-bold text-white">
+                  Thanks for subscribing!
+                </h3>
+                <p className="text-sm text-white/60 leading-relaxed">
+                  You're signed up to receive notifications about opportunities and updates for
+                  NAICS <span className="text-primary font-semibold">{subNaics}</span>.
+                </p>
+                <button
+                  onClick={() => setShowSubscribe(false)}
+                  className="btn-gold text-sm px-8 py-3 rounded-md"
+                >
+                  Back to my results
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="space-y-2 mb-6">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+                    Get notified
+                  </p>
+                  <h3 className="font-display text-2xl font-bold text-white leading-snug">
+                    Get alerts for NAICS{" "}
+                    <span className="text-primary">{subNaics || "opportunities"}</span>
+                  </h3>
+                  <p className="text-sm text-white/55 leading-relaxed">
+                    Subscribe and we'll notify you about contracting opportunities and updates that
+                    match your code. All fields are required.
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubscribe} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label htmlFor="sub-first" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                        First name *
+                      </label>
+                      <input
+                        id="sub-first"
+                        value={subFirst}
+                        onChange={(e) => setSubFirst(e.target.value)}
+                        className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="sub-last" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                        Last name *
+                      </label>
+                      <input
+                        id="sub-last"
+                        value={subLast}
+                        onChange={(e) => setSubLast(e.target.value)}
+                        className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="sub-email" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                      Email address *
+                    </label>
+                    <input
+                      id="sub-email"
+                      type="email"
+                      value={subEmail}
+                      onChange={(e) => setSubEmail(e.target.value)}
+                      placeholder="you@company.com"
+                      className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                      style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label htmlFor="sub-naics" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                        NAICS code *
+                      </label>
+                      <input
+                        id="sub-naics"
+                        value={subNaics}
+                        onChange={(e) => setSubNaics(e.target.value)}
+                        className="w-full rounded-md border px-3 py-2.5 text-sm text-primary font-semibold focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(45 55% 55% / 0.35)", background: "hsl(0 0% 10%)" }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="sub-mobile" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                        Mobile *
+                      </label>
+                      <input
+                        id="sub-mobile"
+                        type="tel"
+                        value={subMobile}
+                        onChange={(e) => setSubMobile(e.target.value)}
+                        placeholder="(555) 123-4567"
+                        className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                      />
+                    </div>
+                  </div>
+
+                  {subError && <p className="text-sm text-red-400">{subError}</p>}
+
+                  <button
+                    type="submit"
+                    disabled={subStatus === "sending"}
+                    onClick={() => trackCta("naics-subscribe")}
+                    className="btn-gold w-full text-sm px-8 py-3.5 rounded-md disabled:opacity-60"
+                  >
+                    {subStatus === "sending" ? "Subscribing…" : "Notify me of opportunities"}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
