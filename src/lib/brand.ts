@@ -7,7 +7,7 @@
 export const BRAND = {
   platform: "GoGovCon",
   founder: "Towan Isom",
-  founderRole: "Founder & Federal Contracting Strategist",
+  founderRole: "Founder, President & CEO, Isom Global Strategies",
   method: "GovCon Expert Method™",
   firm: "Isom Global Strategies",
   tagline: "The GovCon Expert Method™, from GoGovCon — founded and led by Towan Isom.",
