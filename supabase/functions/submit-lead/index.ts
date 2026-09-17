@@ -95,7 +95,7 @@ Deno.serve(async (req) => {
       ["Traffic source", row.source],
     ];
 
-    const html = `
+    const ownerHtml = `
       <h2 style="font-family:Georgia,serif">${row.naics_code ? "New NAICS Finder subscriber" : "New strategy session request"}</h2>
       <table style="font-family:Arial,sans-serif;font-size:14px;border-collapse:collapse">
         ${fields
@@ -106,6 +106,22 @@ Deno.serve(async (req) => {
           )
           .join("")}
       </table>`;
+
+    const subscriberHtml = `
+      <div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#171717">
+        <h2 style="font-family:Georgia,serif;color:#111;margin:0 0 12px">Your GovCon starting-point questions</h2>
+        <p>Thanks for subscribing, ${esc(firstName)}. You searched NAICS <strong>${esc(row.naics_code)}</strong>.</p>
+        <p>Use these questions to get clear on your next best step:</p>
+        <ol style="padding-left:22px;margin:18px 0">
+          <li>What do you most want to happen?</li>
+          <li>What kind of work do you do?</li>
+          <li>Where are you today in the government contracting process?</li>
+          <li>How much experience do you have with bidding?</li>
+          <li>What budget are you comfortable starting with?</li>
+          <li>When do you want to see results?</li>
+        </ol>
+        <p>Reply with your answers, and we can point you toward the best starting option.</p>
+      </div>`;
 
     let notified = false;
     try {
@@ -120,15 +136,37 @@ Deno.serve(async (req) => {
           subject: row.naics_code
             ? `NAICS Finder subscriber: ${firstName} ${lastName} — ${row.naics_code}`
             : `New lead: ${firstName} ${lastName}${row.business_name ? ` — ${row.business_name}` : ""}`,
-          html,
+          html: ownerHtml,
           purpose: "transactional",
           idempotency_key: `lead-${lead.id}`,
         }),
       });
       notified = res.ok;
-      if (!res.ok) console.error("Email send failed:", res.status, await res.text());
+      if (!res.ok) console.error("Owner email send failed:", res.status, await res.text());
     } catch (e) {
-      console.error("Email send error:", e instanceof Error ? e.message : String(e));
+      console.error("Owner email send error:", e instanceof Error ? e.message : String(e));
+    }
+
+    if (row.naics_code) {
+      try {
+        const res = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/send-transactional-email`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+          },
+          body: JSON.stringify({
+            to: email,
+            subject: "Your GovCon starting-point questions",
+            html: subscriberHtml,
+            purpose: "transactional",
+            idempotency_key: `naics-followup-${lead.id}`,
+          }),
+        });
+        if (!res.ok) console.error("Subscriber email send failed:", res.status, await res.text());
+      } catch (e) {
+        console.error("Subscriber email send error:", e instanceof Error ? e.message : String(e));
+      }
     }
 
     if (notified) {
