@@ -17,13 +17,14 @@ Deno.serve(async (req) => {
   try {
     const body = await req.json();
     const firstName = String(body.firstName ?? "").trim().slice(0, 80);
+    const lastName = String(body.lastName ?? "").trim().slice(0, 80);
     const email = String(body.email ?? "").trim().toLowerCase().slice(0, 200);
     const phone = String(body.phone ?? "").trim().slice(0, 40) || null;
     const businessName = String(body.businessName ?? "").trim().slice(0, 200) || null;
     const origin = String(body.origin ?? "").replace(/\/$/, "");
 
 
-    if (!firstName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!firstName || !lastName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return new Response(JSON.stringify({ error: "Please enter your first name and a valid email." }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -51,6 +52,7 @@ Deno.serve(async (req) => {
         .from("kit_leads")
         .update({
           first_name: firstName,
+          last_name: lastName,
           phone,
           business_name: businessName,
           verify_token: token,
@@ -66,6 +68,7 @@ Deno.serve(async (req) => {
         .from("kit_leads")
         .insert({
           first_name: firstName,
+          last_name: lastName,
           email,
           phone,
           business_name: businessName,
@@ -128,8 +131,8 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({
           to: NOTIFY_TO,
-          subject: `Launch Kit request: ${firstName} (${email})`,
-          html: `<p><strong>${esc(firstName)}</strong> requested the GovCon Launch Kit.</p>
+          subject: `Launch Kit request: ${firstName} ${lastName} (${email})`,
+          html: `<p><strong>${esc(firstName)} ${esc(lastName)}</strong> requested the GovCon Launch Kit.</p>
                  <p>Email: ${esc(email)}<br>Phone: ${esc(phone ?? "—")}<br>Business: ${esc(businessName ?? "—")}<br>Source: ${esc(body.source ?? "—")}</p>`,
 
           purpose: "transactional",
