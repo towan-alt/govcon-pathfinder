@@ -1,4 +1,5 @@
 import { Mail, ArrowRight } from "lucide-react";
+import { trackCta } from "@/lib/track";
 
 const perks = [
   "Weekly GovCon strategy articles written by Towan",
@@ -66,7 +67,11 @@ const OfferSubstack = () => {
             <p className="text-sm font-semibold text-white/70 uppercase tracking-wider">
               Join thousands winning in the federal marketplace
             </p>
-            <a href="#" className="btn-white text-lg px-14 py-6 rounded-xl">
+            <a
+              href="/book"
+              onClick={() => trackCta("substack-subscribe")}
+              className="btn-white text-lg px-14 py-6 rounded-xl"
+            >
               Subscribe to The GovCon Insider →
             </a>
             <p className="text-xs text-white/40">

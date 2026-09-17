@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import towanHero from "@/assets/towan-hero.jpg";
+import { trackCta } from "@/lib/track";
 
 const stats = [
   { value: "105+", label: "Federal Contracts Executed" },
@@ -105,6 +106,7 @@ const AboutSection = () => {
             </p>
             <Link
               to="/book"
+              onClick={() => trackCta("about-book")}
               className="btn-gold inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base font-semibold transition-colors"
             >
               Book a Consultation

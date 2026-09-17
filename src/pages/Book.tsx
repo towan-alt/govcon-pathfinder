@@ -1,5 +1,7 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { trackEvent, getDevice, getSource } from "@/lib/track";
 
 const REVENUE_VALUES = [
   "Under $50K", "$75K", "$100K", "$150K", "$200K",
@@ -35,6 +37,12 @@ const REFERRAL_SOURCES = [
 const Book = () => {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+
+  useEffect(() => {
+    void trackEvent("book_view");
+  }, []);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   // Step 1
@@ -87,8 +95,44 @@ const Book = () => {
   };
   const back = () => setStep((s) => Math.max(s - 1, 1));
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateStep(3)) return;
+    setSending(true);
+    setSendError(null);
+
+    const { data, error } = await supabase.functions.invoke("submit-lead", {
+      body: {
+        firstName,
+        lastName,
+        email,
+        phone,
+        businessName,
+        industry,
+        samStatus,
+        certifications,
+        journeyStage,
+        revenue: REVENUE_VALUES[revenueIndex],
+        contractSize,
+        contractStrategy,
+        targetAgencies,
+        biggestChallenge,
+        referralSource,
+        recommendation: sessionStorage.getItem("ggc_recommendation") ?? "",
+        device: getDevice(),
+        source: getSource(),
+      },
+    });
+
+    setSending(false);
+
+    if (error || (data as { error?: string })?.error) {
+      setSendError(
+        "We couldn't send your request just now. Please try again, or email towan@Isomglobal.com directly.",
+      );
+      return;
+    }
+
+    void trackEvent("book_submit");
     setSubmitted(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -557,20 +601,28 @@ const Book = () => {
                     Continue →
                   </button>
                 ) : (
-                  <button
-                    onClick={handleSubmit}
-                    className="rounded-lg px-10 py-4 text-[15px] font-semibold w-full transition-all cursor-pointer"
-                    style={{
-                      background: "hsl(var(--blue))",
-                      color: "hsl(40, 10%, 4%)",
-                      fontFamily: "var(--font-body)",
-                      letterSpacing: "0.03em",
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "hsl(45, 65%, 55%)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "hsl(var(--blue))")}
-                  >
-                    Reserve My Session →
-                  </button>
+                  <div className="w-full space-y-3">
+                    <button
+                      onClick={handleSubmit}
+                      disabled={sending}
+                      className="rounded-lg px-10 py-4 text-[15px] font-semibold w-full transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                      style={{
+                        background: "hsl(var(--blue))",
+                        color: "hsl(40, 10%, 4%)",
+                        fontFamily: "var(--font-body)",
+                        letterSpacing: "0.03em",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "hsl(45, 65%, 55%)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "hsl(var(--blue))")}
+                    >
+                      {sending ? "Sending…" : "Reserve My Session →"}
+                    </button>
+                    {sendError && (
+                      <p className="text-sm" style={{ color: "hsl(0, 70%, 65%)" }}>
+                        {sendError}
+                      </p>
+                    )}
+                  </div>
                 )}
               </div>
             </>

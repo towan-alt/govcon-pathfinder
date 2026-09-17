@@ -1,6 +1,7 @@
 import { Play } from "lucide-react";
 import { useState } from "react";
 import towanHero from "@/assets/towan-hero.jpg";
+import { trackCta } from "@/lib/track";
 
 const HeroSection = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -34,7 +35,11 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
-              <a href="/book" className="btn-gold text-sm px-8 py-3.5 rounded-md">
+              <a
+                href="/book"
+                onClick={() => trackCta("hero-book")}
+                className="btn-gold text-sm px-8 py-3.5 rounded-md"
+              >
                 Book a Strategy Call
               </a>
               <a href="#about" className="btn-outline-light text-sm px-8 py-3.5 rounded-md">
