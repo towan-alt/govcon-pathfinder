@@ -126,16 +126,16 @@ const Kit = () => {
 
               <div className="flex flex-wrap gap-8 pt-2">
                 <div>
-                  <p className="font-display text-2xl font-bold text-primary">25+</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/60">Years of experience</p>
+                  <p className="font-display text-2xl font-bold text-primary">30</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Years in federal contracting</p>
                 </div>
                 <div>
-                  <p className="font-display text-2xl font-bold text-primary">6,500+</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/60">Businesses coached</p>
+                  <p className="font-display text-2xl font-bold text-primary">9,000+</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Small business owners trained</p>
                 </div>
                 <div>
                   <p className="font-display text-2xl font-bold text-primary">$27M+</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/60">Federal contract value</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Contract wins supported</p>
                 </div>
 
               </div>

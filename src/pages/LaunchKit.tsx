@@ -216,17 +216,18 @@ const LaunchKit = () => {
               the highest levels.
             </h2>
             <p className="text-sm md:text-base text-white/70 leading-relaxed">
-              Towan has managed 109+ contracts and task orders, executed $27M+ in federal contract
-              value, trained 1,000+ businesses directly and coached 6,500+ more through national
-              programs. The Launch Kit distills that track record into the exact sequence she wishes
-              every new contractor had on day one.
+              Towan has executed 74+ federal contracts across 76+ agencies, supported more than $27M
+              in contract wins for the businesses she assists, and delivered SBA's T.H.R.I.V.E.
+              Emerging Leaders program, training 9,000+ small business owners. The Launch Kit
+              distills that track record into the exact sequence she wishes every new contractor had
+              on day one.
             </p>
             <div className="flex flex-wrap gap-10 pt-2">
               {[
-                ["109+", "Contracts & task orders"],
-                ["$27M+", "Federal contract value"],
-                ["1,000+", "Businesses trained"],
-                ["6,500+", "Coached via programs"],
+                ["74+", "Federal contracts"],
+                ["76+", "Agencies served"],
+                ["$27M+", "Contract wins supported"],
+                ["9,000+", "Owners trained"],
               ].map(([num, label]) => (
 
                 <div key={label} className="text-center">

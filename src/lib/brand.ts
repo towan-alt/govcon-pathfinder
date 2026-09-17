@@ -1,14 +1,16 @@
 /**
  * Single source of truth for brand naming and verified credibility figures.
  * Every page must read numbers from here — no hardcoded stats in components.
+ * Figures below come from Towan Isom's verified bio.
  */
 
 export const BRAND = {
   platform: "GoGovCon",
   founder: "Towan Isom",
   founderRole: "Founder & Federal Contracting Strategist",
-  method: "The GovCon Blueprint",
-  tagline: "The GovCon Blueprint, from GoGovCon — founded and led by Towan Isom.",
+  method: "GovCon Expert Method™",
+  firm: "Isom Global Strategies",
+  tagline: "The GovCon Expert Method™, from GoGovCon — founded and led by Towan Isom.",
   email: "hello@gogovcon.com",
   social: {
     instagram: "https://instagram.com/towanisomceo/",
@@ -19,22 +21,20 @@ export const BRAND = {
 
 /** Verified headline figures. Distinctions are spelled out in the labels. */
 export const STATS = [
-  { value: "109+", label: "Contracts & Task Orders Managed" },
-  { value: "$27M+", label: "In Federal Contract Value" },
-  { value: "1,000+", label: "Businesses Directly Trained" },
-  { value: "6,500+", label: "Coached Via National Programs" },
+  { value: "74+", label: "Federal Contracts Executed" },
+  { value: "76+", label: "Federal Agencies Served" },
+  { value: "$27M+", label: "In Contract Wins Supported" },
+  { value: "9,000+", label: "Small Business Owners Trained" },
 ] as const;
 
 export const FIGURES = {
-  contracts: "109+",
-  contractValue: "$27M+",
-  companyRevenue: "$25M+",
-  trained: "1,000+",
-  coached: "6,500+",
-  years: "25+",
-  tasksDelivered: "5,893",
-  applicationsGenerated: "4,348",
-  cohorts: "50",
+  contracts: "74+",
+  agencies: "76+",
+  winsSupported: "$27M+",
+  years: "30",
+  thriveValue: "$3.9M",
+  thriveTrained: "9,000+",
+  thriveRate: "94%",
 } as const;
 
 export const SEAL_DISCLAIMER =

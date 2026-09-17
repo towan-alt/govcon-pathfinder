@@ -8,7 +8,7 @@ const differentiators = [
   {
     icon: Briefcase,
     title: "An active federal contractor",
-    text: `Towan runs a government contracting business today — ${FIGURES.contracts} contracts and task orders pursued, staffed, managed and delivered.`,
+    text: `Towan runs a government contracting business today — ${FIGURES.contracts} federal contracts executed across ${FIGURES.agencies} agencies, pursued, staffed, managed and delivered.`,
   },
   {
     icon: Layers,
@@ -38,13 +38,13 @@ const WhyTowanSection = () => {
               </h2>
               <p className="text-base text-foreground/80 leading-relaxed">
                 You are learning from an active federal contractor who has pursued, won, staffed,
-                managed and delivered the work — with the U.S. Marine Corps, Army, Veterans Affairs,
-                the Department of Commerce and others — then built the training that put{" "}
-                {FIGURES.trained} other small businesses on the same path.
+                managed and delivered the work — with HHS, CDC, FDA, the U.S. Marine Corps and
+                dozens of other agencies — then delivered SBA's T.H.R.I.V.E. Emerging Leaders
+                program, training {FIGURES.thriveTrained} small business owners nationwide.
               </p>
               <p className="text-base text-foreground/80 leading-relaxed">
-                She started the firm herself, grew it into a woman-owned company working across five
-                continents, and still sits in the bid reviews. {BRAND.method} is that experience,
+                She launched the firm herself in 1996, built it into a 30-year government
+                contractor, and still sits in the bid reviews. {BRAND.method} is that experience,
                 written down as a repeatable system.
               </p>
 

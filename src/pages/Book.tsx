@@ -242,9 +242,9 @@ const Book = () => {
                 maxWidth: 380,
               }}
             >
-              Towan Isom has managed 109+ contracts and task orders and executed $27M+ in
-              federal contract value. This session is your direct line to her strategy — no pitch, no
-              fluff.
+              Towan Isom has executed 74+ federal contracts across 76+ agencies and supported more
+              than $27M in contract wins for the businesses she assists. This session is your direct
+              line to her strategy — no pitch, no fluff.
             </p>
 
             {/* Session details */}
@@ -277,10 +277,11 @@ const Book = () => {
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
               {[
-                { num: "109+", label: "Contracts & Task Orders" },
-                { num: "$27M+", label: "Federal Contract Value" },
-                { num: "1,000+", label: "Businesses Trained" },
-                { num: "6,500+", label: "Coached Via Programs" },
+                { num: "74+", label: "Federal Contracts" },
+                { num: "76+", label: "Agencies Served" },
+                { num: "$27M+", label: "Contract Wins Supported" },
+                { num: "9,000+", label: "Owners Trained" },
+
 
               ].map((s, i) => (
                 <div

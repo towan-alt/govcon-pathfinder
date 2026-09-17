@@ -97,8 +97,8 @@ const TestimonialsSection = () => {
 
           <p className="text-xs text-white/55">
             Company names withheld where participants asked. Program figures such as{" "}
-            {FIGURES.applicationsGenerated} applications generated reflect delivery data from national
-            program work; individual results vary.
+            {FIGURES.thriveTrained} small business owners trained reflect delivery data from
+            national program work; individual results vary.
           </p>
         </div>
       </div>

@@ -258,7 +258,7 @@ const NaicsPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 sm:divide-x divide-white/10">
             {[
               { value: "1,000+", label: "NAICS codes in the database" },
-              { value: "$27M", label: "In federal contracts secured by Towan for her clients" },
+              { value: "$27M+", label: "In contract wins supported for the businesses Towan assists" },
               { value: "Free", label: "No signup required — search instantly" },
             ].map((stat) => (
               <div key={stat.value} className="py-8 text-center">
