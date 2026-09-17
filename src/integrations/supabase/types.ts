@@ -47,6 +47,51 @@ export type Database = {
         }
         Relationships: []
       }
+      kit_leads: {
+        Row: {
+          business_name: string | null
+          created_at: string
+          device: string | null
+          download_count: number
+          email: string
+          first_name: string
+          id: string
+          source: string | null
+          token_expires_at: string
+          verified: boolean
+          verified_at: string | null
+          verify_token: string
+        }
+        Insert: {
+          business_name?: string | null
+          created_at?: string
+          device?: string | null
+          download_count?: number
+          email: string
+          first_name: string
+          id?: string
+          source?: string | null
+          token_expires_at?: string
+          verified?: boolean
+          verified_at?: string | null
+          verify_token?: string
+        }
+        Update: {
+          business_name?: string | null
+          created_at?: string
+          device?: string | null
+          download_count?: number
+          email?: string
+          first_name?: string
+          id?: string
+          source?: string | null
+          token_expires_at?: string
+          verified?: boolean
+          verified_at?: string | null
+          verify_token?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           biggest_challenge: string | null

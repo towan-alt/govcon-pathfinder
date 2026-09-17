@@ -6,6 +6,7 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "NAICS Finder", href: "/naics" },
+  { label: "Free Kit", href: "/kit" },
 ];
 
 const Navbar = () => {
