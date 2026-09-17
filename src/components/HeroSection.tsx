@@ -11,9 +11,8 @@ const HeroSection = () => {
       <div className="container mx-auto px-6 py-24 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-8">
-            <p className="eyebrow text-xs leading-relaxed">
-              Win federal contracts
-            </p>
+
+
 
 
             <div className="space-y-2">
