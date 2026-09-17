@@ -51,10 +51,21 @@ const Analytics = () => {
         setLoading(false);
       });
 
+    setSales(null);
+    setSalesError(null);
+    supabase.functions
+      .invoke("kit-sales", { body: { days } })
+      .then(({ data, error: err }) => {
+        if (cancelled) return;
+        if (err || !data?.ok) setSalesError("Couldn't load the lead-to-sale numbers.");
+        else setSales(data as SalesData);
+      });
+
     return () => {
       cancelled = true;
     };
   }, [days]);
+
 
   const stats = useMemo(() => {
     const sessions = new Map<string, { device: string; source: string; clicked: boolean; viewed: boolean; booked: boolean }>();
