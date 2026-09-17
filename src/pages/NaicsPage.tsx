@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, X } from "lucide-react";
+import { Instagram, Search, X, Youtube } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/integrations/supabase/client";
 import { getDevice, getSource, trackCta, trackEvent } from "@/lib/track";
@@ -373,6 +373,31 @@ const NaicsPage = () => {
                   You're signed up to receive notifications about opportunities and updates for
                   NAICS <span className="text-primary font-semibold">{subNaics}</span>.
                 </p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/40">
+                  Follow Towan Isom, CEO for more
+                </p>
+                <div className="flex items-center justify-center gap-3">
+                  <a
+                    href="https://www.instagram.com/towanisomceo/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackCta("naics-sub-success-instagram")}
+                    className="flex items-center gap-2 rounded-md border border-primary/40 px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
+                  >
+                    <Instagram className="w-4 h-4" />
+                    Instagram
+                  </a>
+                  <a
+                    href="https://www.youtube.com/@towanisom5164"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackCta("naics-sub-success-youtube")}
+                    className="flex items-center gap-2 rounded-md border border-primary/40 px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
+                  >
+                    <Youtube className="w-4 h-4" />
+                    YouTube
+                  </a>
+                </div>
                 <button
                   onClick={() => setShowSubscribe(false)}
                   className="btn-gold text-sm px-8 py-3 rounded-md"
