@@ -120,7 +120,11 @@ const Navbar = () => {
               </a>
             )
           )}
-          <a href="/book" className="btn-gold text-sm px-6 py-3 rounded-md inline-block">
+          <a
+            href="/book"
+            onClick={() => trackCta("nav-mobile-book")}
+            className="btn-gold text-sm px-6 py-3 rounded-md inline-block"
+          >
             Book a Strategy Call
           </a>
         </div>

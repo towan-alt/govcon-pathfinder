@@ -13,7 +13,11 @@ const ClosingSection = () => {
               strategy, the right guidance, and a proven system.
             </p>
             <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <a href="/book" className="btn-gold text-sm px-10 py-4 rounded-md">
+              <a
+                href="/book"
+                onClick={() => trackCta("closing-book")}
+                className="btn-gold text-sm px-10 py-4 rounded-md"
+              >
                 Book Your Strategy Call
               </a>
             </div>

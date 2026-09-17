@@ -1,4 +1,5 @@
 import { Check, BookOpen } from "lucide-react";
+import { trackCta } from "@/lib/track";
 
 const benefits = [
   "2-hour live virtual masterclass with Towan",
@@ -66,7 +67,11 @@ const OfferMasterclass = () => {
               $197<span className="text-lg font-normal text-muted-foreground">/month</span>
             </p>
             <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Cancel anytime · Enrollment open now</p>
-            <a href="#" className="btn-dark text-lg px-14 py-6 rounded-xl">
+            <a
+              href="/book"
+              onClick={() => trackCta("masterclass-join")}
+              className="btn-dark text-lg px-14 py-6 rounded-xl"
+            >
               Join the Monthly Masterclass →
             </a>
             <p className="text-xs text-muted-foreground">

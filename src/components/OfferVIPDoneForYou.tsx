@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { trackCta } from "@/lib/track";
 
 const included = [
   "60-minute intro session — deep dive into your business, goals, and GovCon positioning",
@@ -59,7 +60,11 @@ const OfferVIPDoneForYou = () => {
               <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                 Limited spots released on the 1st of each month
               </p>
-              <a href="#" className="btn-dark text-lg px-14 py-6 rounded-xl">
+              <a
+                href="/book"
+                onClick={() => trackCta("vip-dfy-reserve")}
+                className="btn-dark text-lg px-14 py-6 rounded-xl"
+              >
                 Reserve My VIP Session →
               </a>
               <p className="text-xs text-muted-foreground">
