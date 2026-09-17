@@ -284,10 +284,9 @@ const Analytics = () => {
               </div>
             </div>
           </div>
-        )}
-            </div>
 
             {/* Launch Kit funnel */}
+
             <div className="space-y-4">
               <div>
                 <h2 className="font-display text-xl font-bold text-foreground">Launch Kit funnel</h2>
@@ -346,8 +345,8 @@ const Analytics = () => {
               </div>
             </div>
           </div>
+        )}
 
-  );
 };
 
 export default Analytics;
