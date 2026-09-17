@@ -12,10 +12,9 @@ const HeroSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-8">
             <p className="eyebrow text-xs leading-relaxed">
-              Government Contract Strategist
-              <br />
-              SBA Emerging Leaders Expert
+              Win federal contracts
             </p>
+
 
             <div className="space-y-2">
               <p className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-none">
@@ -77,13 +76,14 @@ const HeroSection = () => {
 
 
 
-            <div className="rounded-lg p-5" style={{ background: "hsl(0 0% 100% / 0.05)", border: "1px solid hsl(0 0% 100% / 0.1)" }}>
-              <p className="text-sm text-white/70 italic leading-relaxed">
-                "She doesn't just talk strategy — she hands you the actual playbook that won contracts. 
-                Game-changing."
+            <div className="rounded-lg p-5 text-center" style={{ background: "hsl(0 0% 100% / 0.05)", border: "1px solid hsl(0 0% 100% / 0.1)" }}>
+              <p className="eyebrow text-xs leading-relaxed">
+                Government Contract Strategist
+                <br />
+                SBA Emerging Leaders Expert
               </p>
-              <p className="text-xs text-white/40 mt-2 font-semibold">— Workshop Participant</p>
             </div>
+
           </div>
         </div>
 
