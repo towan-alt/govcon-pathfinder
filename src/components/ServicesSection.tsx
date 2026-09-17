@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { trackCta } from "@/lib/track";
 
 const tiers = [
   {
