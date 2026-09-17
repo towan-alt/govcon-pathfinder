@@ -56,6 +56,7 @@ export type Database = {
           email: string
           first_name: string
           id: string
+          phone: string | null
           source: string | null
           token_expires_at: string
           verified: boolean
@@ -70,6 +71,7 @@ export type Database = {
           email: string
           first_name: string
           id?: string
+          phone?: string | null
           source?: string | null
           token_expires_at?: string
           verified?: boolean
@@ -84,6 +86,7 @@ export type Database = {
           email?: string
           first_name?: string
           id?: string
+          phone?: string | null
           source?: string | null
           token_expires_at?: string
           verified?: boolean

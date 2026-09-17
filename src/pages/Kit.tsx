@@ -17,9 +17,12 @@ const chapters = [
   "Choosing the right NAICS codes, with examples",
 ];
 
+const KIT_CONFIRM_KEY = "ggc_kit_confirmed";
+
 const Kit = () => {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -28,6 +31,24 @@ const Kit = () => {
   useEffect(() => {
     void trackEvent("kit_view");
   }, []);
+
+  // Repeat the confirmation page after submission — restore it on return visits
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(KIT_CONFIRM_KEY);
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      setFirstName(s.firstName ?? "");
+      setEmail(s.email ?? "");
+      setPhone(s.phone ?? "");
+      setBusinessName(s.businessName ?? "");
+      setEmailSent(Boolean(s.emailSent));
+      setStatus("sent");
+    } catch {
+      // ignore malformed storage
+    }
+  }, []);
+
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +63,7 @@ const Kit = () => {
         body: {
           firstName: firstName.trim(),
           email: email.trim(),
+          phone: phone.trim(),
           businessName: businessName.trim(),
           origin: window.location.origin,
           device: getDevice(),
@@ -50,9 +72,15 @@ const Kit = () => {
       });
       if (fnError) throw new Error(fnError.message);
       if (data?.error) throw new Error(data.error);
-      setEmailSent(Boolean(data?.emailSent));
+      const didSend = Boolean(data?.emailSent);
+      setEmailSent(didSend);
+      sessionStorage.setItem(
+        KIT_CONFIRM_KEY,
+        JSON.stringify({ firstName, email, phone, businessName, emailSent: didSend })
+      );
       setStatus("sent");
       void trackEvent("kit_request");
+
     } catch (err) {
       setStatus("idle");
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
@@ -136,11 +164,18 @@ const Kit = () => {
                   )}
                   <p className="text-xs text-white/30">
                     Didn't get it? Check spam, or{" "}
-                    <button onClick={() => setStatus("idle")} className="text-primary underline">
+                    <button
+                      onClick={() => {
+                        sessionStorage.removeItem(KIT_CONFIRM_KEY);
+                        setStatus("idle");
+                      }}
+                      className="text-primary underline"
+                    >
                       try another email address
                     </button>
                     .
                   </p>
+
                 </div>
               ) : (
                 <form
@@ -184,9 +219,24 @@ const Kit = () => {
                       />
                     </div>
                     <div>
+                      <label htmlFor="kit-phone" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-2">
+                        Phone number
+                      </label>
+                      <input
+                        id="kit-phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="w-full rounded-md border px-4 py-3 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                        placeholder="(555) 123-4567"
+                      />
+                    </div>
+                    <div>
                       <label htmlFor="kit-business" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-2">
                         Business name
                       </label>
+
                       <input
                         id="kit-business"
                         value={businessName}
