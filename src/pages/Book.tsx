@@ -242,9 +242,9 @@ const Book = () => {
                 maxWidth: 380,
               }}
             >
-              Towan Isom has managed 109+ contracts and task orders and executed $27M+ in
-              federal contract value. This session is your direct line to her strategy — no pitch, no
-              fluff.
+              Towan Isom has executed 74+ federal contracts across 76+ agencies and supported more
+              than $27M in contract wins for the businesses she assists. This session is your direct
+              line to her strategy — no pitch, no fluff.
             </p>
 
             {/* Session details */}
