@@ -64,8 +64,7 @@ const NaicsPage = () => {
       return false;
     }
   });
-  // Repeat the confirmation after submission — reopen it on return visits
-  const [showSubscribe, setShowSubscribe] = useState(hasSubscription);
+  const [showSubscribe, setShowSubscribe] = useState(false);
   const [subFirst, setSubFirst] = useState("");
   const [subLast, setSubLast] = useState("");
   const [subEmail, setSubEmail] = useState("");
@@ -112,11 +111,15 @@ const NaicsPage = () => {
     setResults(scored);
     setStrengths(scored.map(item => matchStrength(q, item.keywords)));
 
-    if (scored.length > 0 && !sessionStorage.getItem("naicsSubscribed")) {
+    if (scored.length > 0) {
       setSubNaics(scored[0].code);
-      setSubStatus("idle");
-      setSubError(null);
-      setTimeout(() => setShowSubscribe(true), 900);
+      if (!hasSubscription) {
+        setSubStatus("idle");
+        setSubError(null);
+      }
+      setTimeout(() => {
+        document.getElementById("naics-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
   };
 
@@ -268,7 +271,7 @@ const NaicsPage = () => {
 
       {/* Results */}
       {searched && (
-        <section className="py-14 bg-background">
+        <section id="naics-results" className="py-14 bg-background scroll-mt-20">
           <div className="container mx-auto px-6 max-w-3xl">
             {results.length > 0 ? (
               <>
@@ -313,7 +316,24 @@ const NaicsPage = () => {
                     </div>
                   ))}
                 </div>
+                <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-primary/30 bg-primary/5">
+                  <p className="text-sm text-foreground text-center sm:text-left">
+                    Want alerts for opportunities under NAICS{" "}
+                    <span className="font-bold text-primary">{results[0]?.code}</span>?
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSubNaics(results[0]?.code ?? "");
+                      setShowSubscribe(true);
+                      trackCta("naics-open-subscribe");
+                    }}
+                    className="btn-gold text-xs px-6 py-3 rounded-md font-bold uppercase tracking-wider shrink-0"
+                  >
+                    Get notified
+                  </button>
+                </div>
               </>
+
             ) : (
               <p className="text-center text-muted-foreground py-8">
                 No matches found. Try different keywords describing your services.
