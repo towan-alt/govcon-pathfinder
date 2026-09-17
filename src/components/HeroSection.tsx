@@ -23,8 +23,8 @@ const HeroSection = () => {
 
             <p className="text-base text-white/75 leading-relaxed max-w-xl">
               Learn the strategy, positioning, capture, proposal and delivery systems{" "}
-              {BRAND.founder} used to execute more than 100 government contracts and coach thousands
-              of small businesses.
+              {BRAND.founder} has used across {FIGURES.contracts} federal contracts,{" "}
+              {FIGURES.agencies} agencies and {FIGURES.years} years of government contracting.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-1">
@@ -56,7 +56,7 @@ const HeroSection = () => {
               posterAlt={`${BRAND.founder}, ${BRAND.founderRole}`}
               title={`${BRAND.founder} on competing in the federal marketplace`}
               videoId="hero-intro"
-              transcript={`In this short introduction, ${BRAND.founder} explains what separates small businesses that win federal work from those that stall: correct registration and codes, positioning built around what a specific agency buys, a disciplined capture and follow-up rhythm, and the capacity to actually deliver once an award lands. She draws on ${FIGURES.contracts} contracts and task orders managed and ${FIGURES.contractValue} in federal contract value executed.`}
+              transcript={`In this short introduction, ${BRAND.founder} explains what separates small businesses that win federal work from those that stall: correct registration and codes, positioning built around what a specific agency buys, a disciplined capture and follow-up rhythm, and the capacity to actually deliver once an award lands. She draws on ${FIGURES.contracts} federal contracts executed across ${FIGURES.agencies} agencies and ${FIGURES.winsSupported} in contract wins supported for the businesses she assists.`}
             />
 
             <div
@@ -65,7 +65,8 @@ const HeroSection = () => {
             >
               <p className="text-sm text-white/85 leading-relaxed">
                 <strong className="text-primary">{BRAND.founder}</strong> — Government Contract
-                Strategist, SBA Emerging Leaders expert, and an active federal contractor today.
+                Strategist, SBA and University of Maryland MBOC subject-matter expert, and an active
+                federal contractor today.
               </p>
             </div>
           </div>

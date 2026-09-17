@@ -17,10 +17,10 @@ const StatsSection = () => {
             ))}
           </div>
           <p className="mt-10 text-center text-sm text-white/70 leading-relaxed max-w-3xl mx-auto">
-            {FIGURES.years} years in business. {FIGURES.contractValue} is federal contract value
-            executed; {FIGURES.companyRevenue} is company revenue. {FIGURES.trained} businesses were
-            trained directly by Towan, and {FIGURES.coached} were coached or supported through
-            national small-business programs.
+            {FIGURES.years} years in federal contracting. {FIGURES.contracts} contracts executed
+            across {FIGURES.agencies} agencies; {FIGURES.winsSupported} represents contract wins
+            supported for the businesses Towan has assisted. {FIGURES.thriveTrained} small business
+            owners were trained through SBA's T.H.R.I.V.E. Emerging Leaders program.
           </p>
         </div>
       </div>

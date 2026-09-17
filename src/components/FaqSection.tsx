@@ -9,7 +9,7 @@ import { BRAND, FIGURES } from "@/lib/brand";
 const faqs = [
   {
     q: "How is GoGovCon different from other GovCon courses?",
-    a: `GoGovCon is the platform; ${BRAND.method} is the method taught inside it; ${BRAND.founder} is the practitioner behind both. She is an active federal contractor with ${FIGURES.contracts} contracts and task orders managed, not a trainer teaching from someone else's playbook.`,
+    a: `GoGovCon is the platform; ${BRAND.method} is the method taught inside it; ${BRAND.founder} is the practitioner behind both. She is an active federal contractor with ${FIGURES.contracts} federal contracts executed across ${FIGURES.agencies} agencies, not a trainer teaching from someone else's playbook.`,
   },
   {
     q: "Do I need to be registered in SAM.gov first?",
