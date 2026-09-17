@@ -19,11 +19,19 @@ const RANGES = [
 
 const pct = (a: number, b: number) => (b === 0 ? "—" : `${((a / b) * 100).toFixed(1)}%`);
 
+type SalesData = {
+  totals: { subscribers: number; verified: number; downloaded: number; booked: number; avgDaysToBook: number | null };
+  bySource: { source: string; subscribers: number; verified: number; downloaded: number; booked: number }[];
+};
+
 const Analytics = () => {
   const [days, setDays] = useState(30);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sales, setSales] = useState<SalesData | null>(null);
+  const [salesError, setSalesError] = useState<string | null>(null);
+
 
   useEffect(() => {
     let cancelled = false;
@@ -43,10 +51,21 @@ const Analytics = () => {
         setLoading(false);
       });
 
+    setSales(null);
+    setSalesError(null);
+    supabase.functions
+      .invoke("kit-sales", { body: { days } })
+      .then(({ data, error: err }) => {
+        if (cancelled) return;
+        if (err || !data?.ok) setSalesError("Couldn't load the lead-to-sale numbers.");
+        else setSales(data as SalesData);
+      });
+
     return () => {
       cancelled = true;
     };
   }, [days]);
+
 
   const stats = useMemo(() => {
     const sessions = new Map<string, { device: string; source: string; clicked: boolean; viewed: boolean; booked: boolean }>();
@@ -344,6 +363,104 @@ const Analytics = () => {
                 </table>
               </div>
             </div>
+
+            {/* Lead-to-sale path */}
+            <div className="space-y-4">
+              <div>
+                <h2 className="font-display text-xl font-bold text-foreground">
+                  From kit subscriber to customer
+                </h2>
+                <p className="text-muted-foreground text-sm mt-1">
+                  People who asked for the booklet, and how many later booked a strategy session
+                  (matched by email address).
+                </p>
+              </div>
+
+              {salesError && <p className="text-destructive">{salesError}</p>}
+              {!sales && !salesError && <p className="text-muted-foreground">Loading…</p>}
+
+              {sales && (
+                <>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    {[
+                      {
+                        label: "Kit subscribers",
+                        value: sales.totals.subscribers,
+                        sub: "gave you their email",
+                      },
+                      {
+                        label: "Confirmed email",
+                        value: sales.totals.verified,
+                        sub: pct(sales.totals.verified, sales.totals.subscribers) + " of subscribers",
+                      },
+                      {
+                        label: "Got the booklet",
+                        value: sales.totals.downloaded,
+                        sub: pct(sales.totals.downloaded, sales.totals.subscribers) + " of subscribers",
+                      },
+                      {
+                        label: "Booked a session",
+                        value: sales.totals.booked,
+                        sub: pct(sales.totals.booked, sales.totals.subscribers) + " of subscribers",
+                      },
+                    ].map((card) => (
+                      <div key={card.label} className="rounded-xl border border-border bg-card p-6">
+                        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                          {card.label}
+                        </p>
+                        <p className="font-display text-4xl font-extrabold text-primary mt-3">{card.value}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <p className="text-sm text-muted-foreground">
+                    {sales.totals.avgDaysToBook === null
+                      ? "No subscriber has booked a session yet in this period."
+                      : `On average it takes ${sales.totals.avgDaysToBook} day${
+                          sales.totals.avgDaysToBook === 1 ? "" : "s"
+                        } from asking for the booklet to booking a session.`}
+                  </p>
+
+                  <div className="overflow-x-auto rounded-xl border border-border">
+                    <table className="w-full text-sm">
+                      <thead className="bg-muted/50 text-left">
+                        <tr>
+                          <th className="px-4 py-3 font-semibold">Source</th>
+                          <th className="px-4 py-3 font-semibold">Subscribers</th>
+                          <th className="px-4 py-3 font-semibold">Confirmed</th>
+                          <th className="px-4 py-3 font-semibold">Downloaded</th>
+                          <th className="px-4 py-3 font-semibold">Booked</th>
+                          <th className="px-4 py-3 font-semibold">Subscriber → booking</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sales.bySource.length === 0 && (
+                          <tr>
+                            <td className="px-4 py-4 text-muted-foreground" colSpan={6}>
+                              No kit subscribers yet in this period.
+                            </td>
+                          </tr>
+                        )}
+                        {sales.bySource.map((r) => (
+                          <tr key={r.source} className="border-t border-border">
+                            <td className="px-4 py-3 font-medium capitalize">{r.source}</td>
+                            <td className="px-4 py-3">{r.subscribers}</td>
+                            <td className="px-4 py-3">{r.verified}</td>
+                            <td className="px-4 py-3">{r.downloaded}</td>
+                            <td className="px-4 py-3">{r.booked}</td>
+                            <td className="px-4 py-3 font-semibold text-primary">
+                              {pct(r.booked, r.subscribers)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+            </div>
+
           </div>
         )}
       </div>
