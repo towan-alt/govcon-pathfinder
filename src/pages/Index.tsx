@@ -4,7 +4,6 @@ import AgencyLogoBar from "@/components/AgencyLogoBar";
 import AboutSection from "@/components/AboutSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ServicesSection from "@/components/ServicesSection";
-import FitQuizSection from "@/components/FitQuizSection";
 import OfferVIPDoneForYou from "@/components/OfferVIPDoneForYou";
 import OfferMasterclass from "@/components/OfferMasterclass";
 import VideoSection from "@/components/VideoSection";
@@ -19,7 +18,6 @@ const Index = () => {
       <AboutSection />
       <TestimonialsSection />
       <ServicesSection />
-      <FitQuizSection />
       <OfferVIPDoneForYou />
       <OfferMasterclass />
       <VideoSection />

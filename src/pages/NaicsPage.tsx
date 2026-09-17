@@ -370,7 +370,7 @@ const NaicsPage = () => {
                   Thanks for subscribing!
                 </h3>
                 <p className="text-sm text-white/60 leading-relaxed">
-                  You're signed up to receive notifications about opportunities and updates for
+                  You're signed up. Check your inbox for the starting-point questions for
                   NAICS <span className="text-primary font-semibold">{subNaics}</span>.
                 </p>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/40">
