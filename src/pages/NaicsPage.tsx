@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import { supabase } from "@/integrations/supabase/client";
+import { getDevice, getSource, trackCta, trackEvent } from "@/lib/track";
 
 const naicsDatabase = [
   { code: "541512", title: "Computer Systems Design Services", description: "IT consulting, systems integration, computer hardware consulting, and technology strategy services. This is one of the highest-volume NAICS codes in federal IT contracting — used across DoD, DHS, and most civilian agencies.", keywords: ["it", "software", "computer", "systems", "technology", "development", "programming", "web", "app", "digital", "cybersecurity", "cyber", "integration"], tags: ["Information Technology", "Services"] },
@@ -55,6 +57,15 @@ const NaicsPage = () => {
   const [strengths, setStrengths] = useState<("best" | "strong" | "also")[]>([]);
   const [searched, setSearched] = useState(false);
 
+  const [showSubscribe, setShowSubscribe] = useState(false);
+  const [subFirst, setSubFirst] = useState("");
+  const [subLast, setSubLast] = useState("");
+  const [subEmail, setSubEmail] = useState("");
+  const [subNaics, setSubNaics] = useState("");
+  const [subMobile, setSubMobile] = useState("");
+  const [subStatus, setSubStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [subError, setSubError] = useState<string | null>(null);
+
   const handleSearch = (searchQuery?: string) => {
     const q = (searchQuery ?? query).toLowerCase().trim();
     if (!q) return;
@@ -77,6 +88,51 @@ const NaicsPage = () => {
 
     setResults(scored);
     setStrengths(scored.map(item => matchStrength(q, item.keywords)));
+
+    if (scored.length > 0 && !sessionStorage.getItem("naicsSubscribed")) {
+      setSubNaics(scored[0].code);
+      setSubStatus("idle");
+      setSubError(null);
+      setTimeout(() => setShowSubscribe(true), 900);
+    }
+  };
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubError(null);
+    const missing: string[] = [];
+    if (!subFirst.trim()) missing.push("first name");
+    if (!subLast.trim()) missing.push("last name");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subEmail.trim())) missing.push("a valid email address");
+    if (!subNaics.trim()) missing.push("your NAICS code");
+    if (!/^[\d\s()+.-]{7,20}$/.test(subMobile.trim())) missing.push("a valid mobile number");
+    if (missing.length > 0) {
+      setSubError(`Please enter ${missing.join(", ")}.`);
+      return;
+    }
+    setSubStatus("sending");
+    try {
+      const { data, error: fnError } = await supabase.functions.invoke("submit-lead", {
+        body: {
+          firstName: subFirst.trim(),
+          lastName: subLast.trim(),
+          email: subEmail.trim(),
+          phone: subMobile.trim(),
+          naicsCode: subNaics.trim(),
+          referralSource: "NAICS Finder notifications",
+          device: getDevice(),
+          source: getSource(),
+        },
+      });
+      if (fnError) throw new Error(fnError.message);
+      if (data?.error) throw new Error(data.error);
+      sessionStorage.setItem("naicsSubscribed", "1");
+      setSubStatus("sent");
+      void trackEvent("naics_subscribe");
+    } catch (err) {
+      setSubStatus("idle");
+      setSubError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
   };
 
   const handlePopular = (term: string) => {
