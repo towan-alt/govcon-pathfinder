@@ -74,7 +74,7 @@ const LaunchKit = () => {
       >
         {label}
       </Link>
-      <p className="text-xs text-white/30">Free instant download · Confirm your email · No spam</p>
+      <p className="text-xs text-white/55">Free instant download · Confirm your email · No spam</p>
     </div>
   );
 
@@ -231,7 +231,7 @@ const LaunchKit = () => {
 
                 <div key={label} className="text-center">
                   <p className="font-display text-2xl font-bold text-primary">{num}</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/40 mt-1">{label}</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60 mt-1">{label}</p>
                 </div>
               ))}
             </div>
