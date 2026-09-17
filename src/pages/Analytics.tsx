@@ -19,11 +19,19 @@ const RANGES = [
 
 const pct = (a: number, b: number) => (b === 0 ? "—" : `${((a / b) * 100).toFixed(1)}%`);
 
+type SalesData = {
+  totals: { subscribers: number; verified: number; downloaded: number; booked: number; avgDaysToBook: number | null };
+  bySource: { source: string; subscribers: number; verified: number; downloaded: number; booked: number }[];
+};
+
 const Analytics = () => {
   const [days, setDays] = useState(30);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sales, setSales] = useState<SalesData | null>(null);
+  const [salesError, setSalesError] = useState<string | null>(null);
+
 
   useEffect(() => {
     let cancelled = false;
