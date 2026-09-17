@@ -45,7 +45,7 @@ const VideoSection = () => {
 
           <VideoFrame
             poster={programBriefing}
-            posterAlt="Towan Isom presenting the GovCon Blueprint to business owners"
+            posterAlt={`Towan Isom presenting ${BRAND.method} to business owners`}
             title={`${BRAND.method} overview`}
             videoId="blueprint-overview"
             transcript={`${BRAND.founder} walks through ${BRAND.method}: how the federal marketplace buys, why positioning beats tenure, how to choose codes and agencies based on real buying history, how to build a capability statement an evaluator will actually read, and how to decide bid or no-bid so your time goes to opportunities you can win and deliver.`}

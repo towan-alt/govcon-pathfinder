@@ -277,10 +277,11 @@ const Book = () => {
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
               {[
-                { num: "109+", label: "Contracts & Task Orders" },
-                { num: "$27M+", label: "Federal Contract Value" },
-                { num: "1,000+", label: "Businesses Trained" },
-                { num: "6,500+", label: "Coached Via Programs" },
+                { num: "74+", label: "Federal Contracts" },
+                { num: "76+", label: "Agencies Served" },
+                { num: "$27M+", label: "Contract Wins Supported" },
+                { num: "9,000+", label: "Owners Trained" },
+
 
               ].map((s, i) => (
                 <div
