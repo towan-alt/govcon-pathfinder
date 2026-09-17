@@ -53,6 +53,7 @@ Deno.serve(async (req) => {
       biggest_challenge: String(body.biggestChallenge ?? "").slice(0, 4000) || null,
       referral_source: String(body.referralSource ?? "") || null,
       recommendation: String(body.recommendation ?? "") || null,
+      naics_code: String(body.naicsCode ?? "").trim().slice(0, 12) || null,
       device: String(body.device ?? "") || null,
       source: String(body.source ?? "") || null,
     };
@@ -89,12 +90,13 @@ Deno.serve(async (req) => {
       ["Biggest challenge", row.biggest_challenge],
       ["Found you via", row.referral_source],
       ["Quiz recommendation", row.recommendation],
+      ["NAICS code", row.naics_code],
       ["Device", row.device],
       ["Traffic source", row.source],
     ];
 
     const html = `
-      <h2 style="font-family:Georgia,serif">New strategy session request</h2>
+      <h2 style="font-family:Georgia,serif">${row.naics_code ? "New NAICS Finder subscriber" : "New strategy session request"}</h2>
       <table style="font-family:Arial,sans-serif;font-size:14px;border-collapse:collapse">
         ${fields
           .filter(([, v]) => v !== null && v !== undefined && String(v) !== "")
@@ -115,7 +117,9 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({
           to: NOTIFY_TO,
-          subject: `New lead: ${firstName} ${lastName}${row.business_name ? ` — ${row.business_name}` : ""}`,
+          subject: row.naics_code
+            ? `NAICS Finder subscriber: ${firstName} ${lastName} — ${row.naics_code}`
+            : `New lead: ${firstName} ${lastName}${row.business_name ? ` — ${row.business_name}` : ""}`,
           html,
           purpose: "transactional",
           idempotency_key: `lead-${lead.id}`,
