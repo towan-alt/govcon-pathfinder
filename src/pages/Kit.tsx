@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
-import coverAsset from "@/assets/govcon-launch-kit-cover.png.asset.json";
+import coverUrl from "@/assets/govcon-launch-kit-cover.png";
 import { supabase } from "@/integrations/supabase/client";
 import { getDevice, getSource, trackEvent } from "@/lib/track";
 
@@ -112,7 +112,7 @@ const Kit = () => {
             {/* Right: cover + form */}
             <div className="space-y-8 lg:sticky lg:top-24">
               <img
-                src={coverAsset.url}
+                src={coverUrl}
                 alt="GovCon Launch Kit Booklet cover"
                 className="w-40 md:w-48 rounded-md shadow-2xl border"
                 style={{ borderColor: "hsl(0 0% 100% / 0.08)" }}

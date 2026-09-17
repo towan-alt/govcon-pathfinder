@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import coverAsset from "@/assets/govcon-launch-kit-cover.png.asset.json";
+import coverUrl from "@/assets/govcon-launch-kit-cover.png";
 import { trackCta, trackEvent } from "@/lib/track";
 
 const painPoints = [
@@ -110,7 +110,7 @@ const LaunchKit = () => {
             </div>
             <div className="flex justify-center lg:justify-end">
               <img
-                src={coverAsset.url}
+                src={coverUrl}
                 alt="GovCon Launch Kit Booklet cover"
                 className="w-64 md:w-80 rounded-lg shadow-2xl border rotate-1"
                 style={{ borderColor: "hsl(45 55% 55% / 0.25)" }}
