@@ -134,9 +134,10 @@ const Kit = () => {
                   <p className="text-[11px] uppercase tracking-wider text-white/40">Businesses coached</p>
                 </div>
                 <div>
-                  <p className="font-display text-2xl font-bold text-primary">$25M+</p>
-                  <p className="text-[11px] uppercase tracking-wider text-white/40">Revenue generated</p>
+                  <p className="font-display text-2xl font-bold text-primary">$27M+</p>
+                  <p className="text-[11px] uppercase tracking-wider text-white/60">Federal contract value</p>
                 </div>
+
               </div>
             </div>
 
