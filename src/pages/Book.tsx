@@ -141,6 +141,7 @@ const Book = () => {
         recommendation: sessionStorage.getItem("ggc_recommendation") ?? "",
         device: getDevice(),
         source: getSource(),
+        origin: window.location.origin,
       },
     });
 
