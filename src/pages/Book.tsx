@@ -2,6 +2,8 @@ import { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent, getDevice, getSource } from "@/lib/track";
+import { STATS, FIGURES } from "@/lib/brand";
+import { getLead, PURCHASE_KEY } from "@/lib/funnel";
 
 const REVENUE_VALUES = [
   "Under $50K", "$75K", "$100K", "$150K", "$200K",
@@ -43,6 +45,7 @@ const Book = () => {
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
 
+  const [purchased] = useState(() => !!localStorage.getItem(PURCHASE_KEY));
   useEffect(() => {
     void trackEvent("book_view");
   }, []);
@@ -67,10 +70,10 @@ const Book = () => {
 
 
   // Step 1
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [firstName, setFirstName] = useState(getLead()?.firstName ?? "");
+  const [lastName, setLastName] = useState(getLead()?.lastName ?? "");
+  const [email, setEmail] = useState(getLead()?.email ?? "");
+  const [phone, setPhone] = useState(getLead()?.phone ?? "");
   const [businessName, setBusinessName] = useState("");
   const [industry, setIndustry] = useState("");
 
@@ -216,7 +219,7 @@ const Book = () => {
                 className="w-1.5 h-1.5 rounded-full animate-pulse"
                 style={{ background: "hsl(var(--blue))" }}
               />
-              Free · 15 Minutes · No Obligation
+              {purchased ? "Readiness Review · Pre-Session Intake" : "Readiness Review Intake"}
             </div>
 
             <h1
@@ -228,9 +231,8 @@ const Book = () => {
                 color: "hsl(0, 0%, 94%)",
               }}
             >
-              In 15 minutes, you'll know exactly{" "}
-              <span style={{ color: "hsl(var(--blue))" }}>why you're not winning</span> —
-              and what to fix first.
+              Prepare for Your{" "}
+              <span style={{ color: "hsl(var(--blue))", fontStyle: "italic" }}>Readiness Review</span>
             </h1>
 
             <p
@@ -242,18 +244,18 @@ const Book = () => {
                 maxWidth: 380,
               }}
             >
-              Towan Isom has executed 74+ federal contracts across 76+ agencies and supported more
-              than $27M in contract wins for the businesses she assists. This session is your direct
-              line to her strategy — no pitch, no fluff.
+              Towan Isom has executed {FIGURES.contracts} federal contracts across {FIGURES.agencies} agencies. A few
+              minutes here lets her review your business before your 60-minute session, so the time
+              goes to your plan.
             </p>
 
             {/* Session details */}
             <div className="flex flex-col gap-4 mb-10">
               {[
-                { icon: "⏱", text: <><strong className="text-[hsl(0,0%,94%)]">15 minutes</strong> — tight, diagnostic, actionable</> },
-                { icon: "🎯", text: <><strong className="text-[hsl(0,0%,94%)]">What's covered:</strong> NAICS alignment, agency targets, positioning gaps</> },
-                { icon: "📅", text: <><strong className="text-[hsl(0,0%,94%)]">Confirmation</strong> within 24 hours via email</> },
-                { icon: "🔒", text: <><strong className="text-[hsl(0,0%,94%)]">Limited spots</strong> released on the 1st of each month</> },
+                { icon: "⏱", text: <><strong className="text-white">60 minutes</strong>, 1:1 with Towan</> },
+                { icon: "🎯", text: <><strong className="text-white">What's covered:</strong> NAICS alignment, agency targets, positioning gaps</> },
+                { icon: "📅", text: <><strong className="text-white">Written plan</strong> within 48 hours of your session</> },
+                { icon: "🔒", text: <><strong className="text-white">Top 5 agency list</strong> built for your business</> },
               ].map((d, i) => (
                 <div key={i} className="flex items-center gap-3.5">
                   <div
@@ -276,14 +278,7 @@ const Book = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
-              {[
-                { num: "74+", label: "Federal Contracts" },
-                { num: "76+", label: "Agencies Served" },
-                { num: "$27M+", label: "Contract Wins Supported" },
-                { num: "9,000+", label: "Owners Trained" },
-
-
-              ].map((s, i) => (
+              {STATS.map((x) => ({ num: x.value, label: x.label })).map((s, i) => (
                 <div
                   key={i}
                   className="rounded-lg p-4"
@@ -316,6 +311,13 @@ const Book = () => {
 
         {/* RIGHT PANEL — FORM */}
         <div className="p-8 sm:p-14 overflow-y-auto">
+          {!purchased && (
+            <div className="mb-8 rounded-xl p-5" style={{ background: "hsl(var(--navy-light))", border: "1px solid hsl(var(--gold) / 0.4)" }}>
+              <p className="text-sm text-white font-semibold">This form is the intake for the Readiness Review.</p>
+              <p className="text-sm text-white/70 mt-1">Book your review first, then come back here to prepare.</p>
+              <Link to="/readiness-review" className="btn-gold mt-4 text-sm px-6 py-3">Book a Readiness Review</Link>
+            </div>
+          )}
           {/* Progress bar */}
           <div
             className="h-0.5 rounded-full mb-9 overflow-hidden"
