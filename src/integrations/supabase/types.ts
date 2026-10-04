@@ -185,6 +185,131 @@ export type Database = {
         }
         Relationships: []
       }
+      training_messages: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          processed_at: string | null
+          registration_id: string
+          send_at: string
+          sent_template: string | null
+          status: string
+          status_reason: string | null
+          template_key: string
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          id?: string
+          processed_at?: string | null
+          registration_id: string
+          send_at: string
+          sent_template?: string | null
+          status?: string
+          status_reason?: string | null
+          template_key: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          processed_at?: string | null
+          registration_id?: string
+          send_at?: string
+          sent_template?: string | null
+          status?: string
+          status_reason?: string | null
+          template_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_messages_registration_id_fkey"
+            columns: ["registration_id"]
+            isOneToOne: false
+            referencedRelation: "training_registrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_registrations: {
+        Row: {
+          assessment_completed_at: string | null
+          assessment_gap: string | null
+          assessment_score: number | null
+          assessment_tier: string | null
+          attended_at: string | null
+          checkout_started_at: string | null
+          created_at: string
+          cta_clicked_at: string | null
+          device: string | null
+          email: string
+          first_name: string
+          id: string
+          max_progress_pct: number
+          phone: string | null
+          purchased_at: string | null
+          session_start: string
+          session_type: string
+          site_origin: string | null
+          sms_consent: boolean
+          source: string | null
+          unsub_token: string
+          unsubscribed_at: string | null
+          watch_seconds: number
+        }
+        Insert: {
+          assessment_completed_at?: string | null
+          assessment_gap?: string | null
+          assessment_score?: number | null
+          assessment_tier?: string | null
+          attended_at?: string | null
+          checkout_started_at?: string | null
+          created_at?: string
+          cta_clicked_at?: string | null
+          device?: string | null
+          email: string
+          first_name: string
+          id?: string
+          max_progress_pct?: number
+          phone?: string | null
+          purchased_at?: string | null
+          session_start: string
+          session_type: string
+          site_origin?: string | null
+          sms_consent?: boolean
+          source?: string | null
+          unsub_token?: string
+          unsubscribed_at?: string | null
+          watch_seconds?: number
+        }
+        Update: {
+          assessment_completed_at?: string | null
+          assessment_gap?: string | null
+          assessment_score?: number | null
+          assessment_tier?: string | null
+          attended_at?: string | null
+          checkout_started_at?: string | null
+          created_at?: string
+          cta_clicked_at?: string | null
+          device?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          max_progress_pct?: number
+          phone?: string | null
+          purchased_at?: string | null
+          session_start?: string
+          session_type?: string
+          site_origin?: string | null
+          sms_consent?: boolean
+          source?: string | null
+          unsub_token?: string
+          unsubscribed_at?: string | null
+          watch_seconds?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

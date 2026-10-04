@@ -5,3 +5,9 @@ verify_jwt = false
 
 [functions.square-verify]
 verify_jwt = false
+
+[functions.training]
+verify_jwt = false
+
+[functions.training-automation]
+verify_jwt = false

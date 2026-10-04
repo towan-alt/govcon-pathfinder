@@ -1,3 +1,4 @@
+import { createClient } from "npm:@supabase/supabase-js@2";
 import { PRODUCTS, corsHeaders, json, squareConfig, squareFetch } from "../_shared/square.ts";
 
 // Confirms a Square payment-link checkout actually completed.
@@ -31,6 +32,12 @@ Deno.serve(async (req) => {
         paid = true;
         email = payment.buyer_email_address ?? email;
       }
+    }
+    if (paid && email && productKey === "readiness_review_bundle") {
+      // Stops the training follow-up sequence for this buyer.
+      const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+      await sb.from("training_registrations").update({ purchased_at: new Date().toISOString() })
+        .ilike("email", email).is("purchased_at", null);
     }
     return json({ paid, email, name: null });
   } catch (e) {

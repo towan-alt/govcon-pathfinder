@@ -11,6 +11,7 @@ import {
   getAssessmentResult, getLead, PILLAR_LABELS, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE,
 } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
+import { trainingAction } from "@/lib/trainingApi";
 
 const HOW = [
   { title: "Book and pay", text: "Secure checkout in under a minute." },
@@ -40,6 +41,7 @@ const ReadinessReview = () => {
   const start = (ctaId: string) => {
     trackCta(ctaId);
     void trackEvent("review_checkout_start");
+    if (lead?.email) void trainingAction({ action: "checkout", email: lead.email });
   };
   const buy = (ctaId: string, cls: string, label: React.ReactNode) => (
     <SquareCheckoutButton product="readiness_review_bundle" email={lead?.email || undefined} status={status} onStart={() => start(ctaId)} className={cls}>

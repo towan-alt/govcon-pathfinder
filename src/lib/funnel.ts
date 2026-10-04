@@ -156,3 +156,89 @@ export function icsDataUrl(start: Date, origin: string): string {
   ].join("\r\n");
   return `data:text/calendar;charset=utf-8,${encodeURIComponent(body)}`;
 }
+
+/* ---------- Evergreen training sessions ---------- */
+
+export const TRAINING_VIDEO_SECONDS = 30 * 60;
+export const CTA_AT_SECONDS = 1320;
+export const REPLAY_HOURS = 48;
+export const SHOWING_HOURS_ET = [12, 15, 19];
+
+export type TrainingSessionType = "showing" | "live" | "instant";
+export type TrainingSessionOption = {
+  key: string;
+  type: TrainingSessionType;
+  start: Date;
+  title: string;
+  sub: string;
+  badge: string;
+};
+
+/** Real instant for a New York wall-clock time `dayOffset` days from today. */
+export function nyWallTime(dayOffset: number, hour: number, minute = 0, now = new Date()): Date {
+  const nyNow = new Date(now.getTime() + nyOffsetMinutes(now) * 60000);
+  const d = new Date(Date.UTC(nyNow.getUTCFullYear(), nyNow.getUTCMonth(), nyNow.getUTCDate() + dayOffset, hour, minute));
+  const guess = new Date(d.getTime() - nyOffsetMinutes(d) * 60000);
+  return new Date(d.getTime() - nyOffsetMinutes(guess) * 60000);
+}
+
+function nyDayKey(date: Date) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
+}
+
+export function dayBadge(date: Date, now = new Date()): string {
+  const k = nyDayKey(date);
+  if (k === nyDayKey(now)) return "Today";
+  if (k === nyDayKey(new Date(now.getTime() + 86400000))) return "Tomorrow";
+  return new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "long" }).format(date);
+}
+
+export function formatEt(date: Date): string {
+  const day = new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "long", month: "long", day: "numeric" }).format(date);
+  const time = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", minute: "2-digit" }).format(date);
+  return `${day} at ${time} ET`;
+}
+
+export function formatTimeEt(date: Date): string {
+  return `${new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", minute: "2-digit" }).format(date)} ET`;
+}
+
+/** Next quarter-hour at least 5 minutes from now. */
+export function nextQuarterHour(now = new Date()): Date {
+  const q = 15 * 60000;
+  let t = Math.ceil(now.getTime() / q) * q;
+  if (t - now.getTime() < 5 * 60000) t += q;
+  return new Date(t);
+}
+
+export function trainingSessionOptions(now = new Date()): TrainingSessionOption[] {
+  const showing = "Scheduled showing of the 30-minute training";
+  const opts: TrainingSessionOption[] = [];
+  const soon = nextQuarterHour(now);
+  const mins = Math.round((soon.getTime() - now.getTime()) / 60000);
+  opts.push({ key: `s-${soon.getTime()}`, type: "showing", start: soon, title: `Next showing: starts in ${mins} minutes`, sub: `${formatTimeEt(soon)} · ${showing}`, badge: "Starting soon" });
+
+  const used = new Set([soon.getTime()]);
+  const slots: Date[] = [];
+  for (let day = 0; day < 3 && slots.length < 3; day++) {
+    for (const h of SHOWING_HOURS_ET) {
+      const t = nyWallTime(day, h, 0, now);
+      if (t.getTime() > now.getTime() + 5 * 60000 && !used.has(t.getTime()) && slots.length < 3) {
+        slots.push(t);
+        used.add(t.getTime());
+      }
+    }
+  }
+  const tomorrowNoon = nyWallTime(1, 12, 0, now);
+  if (!used.has(tomorrowNoon.getTime())) slots.push(tomorrowNoon);
+  for (const t of slots) {
+    opts.push({ key: `s-${t.getTime()}`, type: "showing", start: t, title: formatEt(t), sub: showing, badge: dayBadge(t, now) });
+  }
+
+  const live = nextSessionStart(now);
+  opts.push({ key: "live", type: "live", start: live, title: `Live with Towan: ${formatEt(live)}`, sub: "Includes live Q&A", badge: live.getTime() - now.getTime() < 3600000 ? "Starting soon" : dayBadge(live, now) });
+  opts.push({ key: "instant", type: "instant", start: now, title: "Watch now", sub: "Instant access to the 30-minute training", badge: "Instant" });
+  return opts;
+}
+
+export const REG_KEY = "ggc_training_reg";
