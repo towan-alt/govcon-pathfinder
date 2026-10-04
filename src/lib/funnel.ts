@@ -10,12 +10,10 @@ export const STARTER_KIT_URL = "";
 
 /** Static Square Payment Link fallbacks, used only when Square secrets aren't set. */
 export const SQUARE_LINK_READINESS_REVIEW = "";
-export const SQUARE_LINK_LAUNCH_KIT_PRO = "";
 
 /** Square products. Keep in sync with supabase/functions/_shared/square.ts. */
 export const SQUARE_PRODUCTS = {
   readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", staticLink: SQUARE_LINK_READINESS_REVIEW },
-  launch_kit_pro: { name: "GovCon Launch Kit Pro", cents: 9700, price: "$97", returnPath: "/checkout/return", staticLink: SQUARE_LINK_LAUNCH_KIT_PRO },
 } as const;
 export type SquareProductKey = keyof typeof SQUARE_PRODUCTS;
 
