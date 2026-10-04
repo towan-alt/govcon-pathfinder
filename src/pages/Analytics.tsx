@@ -37,18 +37,12 @@ const RANGES = [
 
 const pct = (a: number, b: number) => (b === 0 ? "—" : `${((a / b) * 100).toFixed(1)}%`);
 
-type SalesData = {
-  totals: { subscribers: number; verified: number; downloaded: number; booked: number; avgDaysToBook: number | null };
-  bySource: { source: string; subscribers: number; verified: number; downloaded: number; booked: number }[];
-};
 
 const Analytics = () => {
   const [days, setDays] = useState(30);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sales, setSales] = useState<SalesData | null>(null);
-  const [salesError, setSalesError] = useState<string | null>(null);
   const [training, setTraining] = useState<TrainingStats | null>(null);
 
 
@@ -75,15 +69,6 @@ const Analytics = () => {
       if (!cancelled && data?.byType) setTraining(data as TrainingStats);
     });
 
-    setSales(null);
-    setSalesError(null);
-    supabase.functions
-      .invoke("kit-sales", { body: { days } })
-      .then(({ data, error: err }) => {
-        if (cancelled) return;
-        if (err || !data?.ok) setSalesError("Couldn't load the lead-to-sale numbers.");
-        else setSales(data as SalesData);
-      });
 
     return () => {
       cancelled = true;
@@ -153,47 +138,6 @@ const Analytics = () => {
     };
   }, [events]);
 
-  // Launch Kit funnel: landing page → capture form → confirmation email → download
-  const kitStats = useMemo(() => {
-    const sessions = new Map<string, { device: string; source: string; landed: boolean; requested: boolean; verified: boolean; downloaded: boolean }>();
-    for (const e of events) {
-      const key = e.session_id ?? "unknown";
-      const s =
-        sessions.get(key) ??
-        { device: e.device ?? "unknown", source: e.source ?? "unknown", landed: false, requested: false, verified: false, downloaded: false };
-      if (e.event_name === "launchkit_view" || e.event_name === "kit_view") s.landed = true;
-      if (e.event_name === "kit_request") s.requested = true;
-      if (e.event_name === "kit_verified") s.verified = true;
-      if (e.event_name === "kit_download") s.downloaded = true;
-      sessions.set(key, s);
-    }
-    const all = [...sessions.values()].filter((s) => s.landed);
-
-    const group = (field: "device" | "source") => {
-      const map = new Map<string, { total: number; requested: number; verified: number; downloaded: number }>();
-      for (const s of all) {
-        const k = s[field] || "unknown";
-        const row = map.get(k) ?? { total: 0, requested: 0, verified: 0, downloaded: 0 };
-        row.total += 1;
-        if (s.requested) row.requested += 1;
-        if (s.verified) row.verified += 1;
-        if (s.downloaded) row.downloaded += 1;
-        map.set(k, row);
-      }
-      return [...map.entries()].sort((a, b) => b[1].total - a[1].total);
-    };
-
-    return {
-      totals: {
-        landed: all.length,
-        requested: all.filter((s) => s.requested).length,
-        verified: all.filter((s) => s.verified).length,
-        downloaded: all.filter((s) => s.downloaded).length,
-      },
-      byDevice: group("device"),
-      bySource: group("source"),
-    };
-  }, [events]);
 
 
 
@@ -212,7 +156,6 @@ const Analytics = () => {
   }, [events]);
 
   const t = stats.totals;
-  const k = kitStats.totals;
 
 
   return (
@@ -434,164 +377,6 @@ const Analytics = () => {
                     </tbody>
                   </table>
                 </div>
-              )}
-            </div>
-
-            {/* Launch Kit funnel */}
-
-
-            <div className="space-y-4">
-              <div>
-                <h2 className="font-display text-xl font-bold text-foreground">Launch Kit funnel</h2>
-                <p className="text-muted-foreground text-sm mt-1">
-                  Landing page → capture form → confirmation email → booklet download.
-                </p>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {[
-                  { label: "Landing page views", value: k.landed, sub: "visitors who saw the offer" },
-                  { label: "Form submitted", value: k.requested, sub: pct(k.requested, k.landed) + " of landing views" },
-                  { label: "Email confirmed", value: k.verified, sub: pct(k.verified, k.requested) + " of submissions" },
-                  { label: "Booklet downloaded", value: k.downloaded, sub: pct(k.downloaded, k.verified) + " of confirmed" },
-                ].map((card) => (
-                  <div key={card.label} className="rounded-xl border border-border bg-card p-6">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                      {card.label}
-                    </p>
-                    <p className="font-display text-4xl font-extrabold text-primary mt-3">{card.value}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="overflow-x-auto rounded-xl border border-border">
-                <table className="w-full text-sm">
-                  <thead className="bg-muted/50 text-left">
-                    <tr>
-                      <th className="px-4 py-3 font-semibold">Device</th>
-                      <th className="px-4 py-3 font-semibold">Visitors</th>
-                      <th className="px-4 py-3 font-semibold">Submitted</th>
-                      <th className="px-4 py-3 font-semibold">Confirmed</th>
-                      <th className="px-4 py-3 font-semibold">Downloaded</th>
-                      <th className="px-4 py-3 font-semibold">Conversion</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {kitStats.byDevice.length === 0 && (
-                      <tr>
-                        <td className="px-4 py-4 text-muted-foreground" colSpan={6}>
-                          No kit visits recorded yet.
-                        </td>
-                      </tr>
-                    )}
-                    {kitStats.byDevice.map(([name, r]) => (
-                      <tr key={name} className="border-t border-border">
-                        <td className="px-4 py-3 font-medium capitalize">{name}</td>
-                        <td className="px-4 py-3">{r.total}</td>
-                        <td className="px-4 py-3">{r.requested}</td>
-                        <td className="px-4 py-3">{r.verified}</td>
-                        <td className="px-4 py-3">{r.downloaded}</td>
-                        <td className="px-4 py-3 font-semibold text-primary">{pct(r.downloaded, r.total)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Lead-to-sale path */}
-            <div className="space-y-4">
-              <div>
-                <h2 className="font-display text-xl font-bold text-foreground">
-                  From kit subscriber to customer
-                </h2>
-                <p className="text-muted-foreground text-sm mt-1">
-                  People who asked for the booklet, and how many later booked a session
-                  (matched by email address).
-                </p>
-              </div>
-
-              {salesError && <p className="text-destructive">{salesError}</p>}
-              {!sales && !salesError && <p className="text-muted-foreground">Loading…</p>}
-
-              {sales && (
-                <>
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {[
-                      {
-                        label: "Kit subscribers",
-                        value: sales.totals.subscribers,
-                        sub: "gave you their email",
-                      },
-                      {
-                        label: "Confirmed email",
-                        value: sales.totals.verified,
-                        sub: pct(sales.totals.verified, sales.totals.subscribers) + " of subscribers",
-                      },
-                      {
-                        label: "Got the booklet",
-                        value: sales.totals.downloaded,
-                        sub: pct(sales.totals.downloaded, sales.totals.subscribers) + " of subscribers",
-                      },
-                      {
-                        label: "Booked a session",
-                        value: sales.totals.booked,
-                        sub: pct(sales.totals.booked, sales.totals.subscribers) + " of subscribers",
-                      },
-                    ].map((card) => (
-                      <div key={card.label} className="rounded-xl border border-border bg-card p-6">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                          {card.label}
-                        </p>
-                        <p className="font-display text-4xl font-extrabold text-primary mt-3">{card.value}</p>
-                        <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <p className="text-sm text-muted-foreground">
-                    {sales.totals.avgDaysToBook === null
-                      ? "No subscriber has booked a session yet in this period."
-                      : `On average it takes ${sales.totals.avgDaysToBook} day${
-                          sales.totals.avgDaysToBook === 1 ? "" : "s"
-                        } from asking for the booklet to booking a session.`}
-                  </p>
-
-                  <div className="overflow-x-auto rounded-xl border border-border">
-                    <table className="w-full text-sm">
-                      <thead className="bg-muted/50 text-left">
-                        <tr>
-                          <th className="px-4 py-3 font-semibold">Source</th>
-                          <th className="px-4 py-3 font-semibold">Subscribers</th>
-                          <th className="px-4 py-3 font-semibold">Confirmed</th>
-                          <th className="px-4 py-3 font-semibold">Downloaded</th>
-                          <th className="px-4 py-3 font-semibold">Booked</th>
-                          <th className="px-4 py-3 font-semibold">Subscriber → booking</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {sales.bySource.length === 0 && (
-                          <tr>
-                            <td className="px-4 py-4 text-muted-foreground" colSpan={6}>
-                              No kit subscribers yet in this period.
-                            </td>
-                          </tr>
-                        )}
-                        {sales.bySource.map((r) => (
-                          <tr key={r.source} className="border-t border-border">
-                            <td className="px-4 py-3 font-medium capitalize">{r.source}</td>
-                            <td className="px-4 py-3">{r.subscribers}</td>
-                            <td className="px-4 py-3">{r.verified}</td>
-                            <td className="px-4 py-3">{r.downloaded}</td>
-                            <td className="px-4 py-3">{r.booked}</td>
-                            <td className="px-4 py-3 font-semibold text-primary">
-                              {pct(r.booked, r.subscribers)}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </>
               )}
             </div>
 

@@ -70,11 +70,11 @@ const ConfirmEmail = () => {
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-3">
                   <Link
-                    to="/launch-kit"
-                    onClick={() => trackCta("confirm-email-launch-kit")}
+                    to="/assessment"
+                    onClick={() => trackCta("confirm-email-assessment")}
                     className="btn-gold text-sm px-8 py-3 rounded-md"
                   >
-                    Get the free Launch Kit
+                    Take the Free Readiness Assessment
                   </Link>
                   <Link
                     to="/"

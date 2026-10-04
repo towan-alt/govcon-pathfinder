@@ -294,11 +294,6 @@ const Assessment = () => {
                   <Link to="/readiness-review" onClick={() => trackCta(`assessment-result-${shownTier.key}`)} className="btn-gold gap-2 w-full sm:w-auto">
                     See the Readiness Review <ArrowRight className="h-4 w-4" />
                   </Link>
-                  {shownTier.key === "foundation" && (
-                    <p className="text-sm">
-                      <Link to="/kit" onClick={() => trackCta("assessment-result-kit")} className="text-teal underline">Not ready to invest? Get the free Launch Kit</Link>
-                    </p>
-                  )}
                 </div>
 
                 <p className="text-sm text-muted-foreground text-center">

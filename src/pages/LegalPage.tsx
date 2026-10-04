@@ -14,7 +14,7 @@ const CONTENT: Record<LegalKey, { title: string; intro: string; blocks: Block[] 
       {
         heading: "What we collect",
         body: [
-          "When you complete a form on this site — the readiness assessment, a training registration, a Readiness Review intake, the NAICS Finder sign-up or the free Launch Kit — we collect the name, email address, phone number (when you provide one) and the answers you give us about your business.",
+          "When you complete a form on this site — the readiness assessment, a training registration, a Readiness Review intake or the NAICS Finder sign-up — we collect the name, email address, phone number (when you provide one) and the answers you give us about your business.",
           "We also record basic usage information: which pages you visit, which buttons you click, your device type and where you arrived from. This tells us which parts of the site are useful.",
         ],
       },
