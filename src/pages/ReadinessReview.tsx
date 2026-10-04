@@ -1,15 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Lock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
-import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
+import { SandboxNote, SquareCheckoutButton, getSquareStatus } from "@/components/SquareCheckoutButton";
 import { FunnelFaq, StatsStrip, StickyMobileCta } from "@/components/funnel/FunnelBits";
 import { BRAND, FIGURES } from "@/lib/brand";
 import {
-  getAssessmentResult, getLead, PILLAR_LABELS, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE, REVIEW_PRICE_ID,
+  getAssessmentResult, getLead, PILLAR_LABELS, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE,
 } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
 
@@ -31,25 +30,27 @@ const FAQ = [
 const ReadinessReview = () => {
   const result = getAssessmentResult();
   const lead = getLead();
-  const [showCheckout, setShowCheckout] = useState(false);
-  const checkoutRef = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<Awaited<ReturnType<typeof getSquareStatus>> | undefined>(undefined);
 
   useEffect(() => {
     void trackEvent("review_view");
+    void getSquareStatus().then(setStatus);
   }, []);
 
   const start = (ctaId: string) => {
     trackCta(ctaId);
-    if (!showCheckout) void trackEvent("review_checkout_start");
-    setShowCheckout(true);
-    setTimeout(() => checkoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    void trackEvent("review_checkout_start");
   };
+  const buy = (ctaId: string, cls: string, label: React.ReactNode) => (
+    <SquareCheckoutButton product="readiness_review_bundle" email={lead?.email || undefined} status={status} onStart={() => start(ctaId)} className={cls}>
+      {label}
+    </SquareCheckoutButton>
+  );
 
   const gapLabel = result?.gap ? PILLAR_LABELS[result.gap] : null;
 
   return (
     <div className="min-h-screen bg-background">
-      <PaymentTestModeBanner />
       <Navbar />
       <main>
         <section className="section-navy pt-28 pb-14 lg:pt-36 lg:pb-20">
@@ -80,29 +81,14 @@ const ReadinessReview = () => {
               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Readiness Review Bundle</p>
               <p className="font-display text-5xl font-bold text-foreground">{REVIEW_PRICE}</p>
               <p className="text-sm text-foreground/80">One-time payment. {REVIEW_CREDIT_LINE}</p>
-              <button onClick={() => start("review-hero-buy")} className="btn-gold w-full gap-2 py-4">
-                Book My Readiness Review · {REVIEW_PRICE}
-              </button>
+              {buy("review-hero-buy", "btn-gold w-full gap-2 py-4", <>Book My Readiness Review · {REVIEW_PRICE}</>)}
+              <SandboxNote status={status} />
               <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground text-center">
                 <Lock className="h-3.5 w-3.5" /> Secure checkout. You'll pick your session time right after payment.
               </p>
             </div>
           </div>
         </section>
-
-        <div ref={checkoutRef} className="scroll-mt-24">
-          {showCheckout && (
-            <section className="py-12 bg-secondary">
-              <div className="container mx-auto px-6 max-w-3xl">
-                <StripeEmbeddedCheckout
-                  priceId={REVIEW_PRICE_ID}
-                  customerEmail={lead?.email || undefined}
-                  returnUrl={`${window.location.origin}/readiness-review/confirmed?session_id={CHECKOUT_SESSION_ID}`}
-                />
-              </div>
-            </section>
-          )}
-        </div>
 
         <section className="py-16 lg:py-20 bg-background">
           <div className="container mx-auto px-6 max-w-6xl">
@@ -153,9 +139,7 @@ const ReadinessReview = () => {
         <section className="section-navy py-16 text-center">
           <div className="container mx-auto px-6 max-w-2xl">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">Leave with a plan you can act on Monday</h2>
-            <button onClick={() => start("review-final-buy")} className="btn-gold mt-8 gap-2">
-              Book My Readiness Review · {REVIEW_PRICE} <ArrowRight className="h-4 w-4" />
-            </button>
+            <div className="mt-8 flex justify-center">{buy("review-final-buy", "btn-gold gap-2", <>Book My Readiness Review · {REVIEW_PRICE} <ArrowRight className="h-4 w-4" /></>)}</div>
             {!result && (
               <p className="mt-5 text-sm text-white/70">
                 No score yet? <Link to="/assessment" onClick={() => trackCta("review-take-assessment")} className="text-teal underline">Take the free assessment first</Link>.
@@ -165,11 +149,9 @@ const ReadinessReview = () => {
         </section>
       </main>
       <SiteFooter />
-      {!showCheckout && (
-        <StickyMobileCta watchId="price-card">
-          <button onClick={() => start("review-sticky-buy")} className="btn-gold w-full py-3">Book My Readiness Review · {REVIEW_PRICE}</button>
-        </StickyMobileCta>
-      )}
+      <StickyMobileCta watchId="price-card">
+        {buy("review-sticky-buy", "btn-gold w-full py-3", <>Book My Readiness Review · {REVIEW_PRICE}</>)}
+      </StickyMobileCta>
     </div>
   );
 };
