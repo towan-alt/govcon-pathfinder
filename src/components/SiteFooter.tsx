@@ -16,9 +16,7 @@ const columns = [
   {
     title: "Get Started",
     links: [
-      { label: "Readiness Assessment", to: "/assessment" },
       { label: "Free Training", to: "/training" },
-      { label: "Book a Readiness Review", to: "/readiness-review" },
       { label: "NAICS Finder", to: "/naics" },
     ],
   },
