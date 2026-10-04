@@ -49,6 +49,7 @@ const Analytics = () => {
   const [error, setError] = useState<string | null>(null);
   const [sales, setSales] = useState<SalesData | null>(null);
   const [salesError, setSalesError] = useState<string | null>(null);
+  const [training, setTraining] = useState<TrainingStats | null>(null);
 
 
   useEffect(() => {
@@ -195,7 +196,6 @@ const Analytics = () => {
   }, [events]);
 
 
-  const [training, setTraining] = useState<TrainingStats | null>(null);
 
   // Training funnel: unique sessions reaching each step
   const trainingSteps = useMemo(() => {
