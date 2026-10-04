@@ -3,6 +3,7 @@ import { Instagram, Search, X, Youtube } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/integrations/supabase/client";
 import { getDevice, getSource, trackCta, trackEvent } from "@/lib/track";
+import { BOOKING_URL } from "@/lib/funnel";
 
 const naicsDatabase = [
   { code: "541512", title: "Computer Systems Design Services", description: "IT consulting, systems integration, computer hardware consulting, and technology strategy services. This is one of the highest-volume NAICS codes in federal IT contracting — used across DoD, DHS, and most civilian agencies.", keywords: ["it", "software", "computer", "systems", "technology", "development", "programming", "web", "app", "digital", "cybersecurity", "cyber", "integration"], tags: ["Information Technology", "Services"] },
