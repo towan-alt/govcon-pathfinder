@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Check, Loader2, Radio, PlayCircle } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import AgencyLogoBar from "@/components/AgencyLogoBar";
@@ -189,7 +189,7 @@ const Training = () => {
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
               Your first federal contract starts with <em className="text-primary italic">a plan</em>
             </h2>
-            <p className="text-white/75 mt-4">Next live session: {sessionLabel}. Or watch the replay now.</p>
+            <p className="text-white/75 mt-4">Next live session: {sessionLabel}. Or pick a showing that fits your day.</p>
             <button onClick={() => scrollToForm("training-final")} className="btn-gold mt-8 gap-2">
               Save My Seat <ArrowRight className="h-4 w-4" />
             </button>
