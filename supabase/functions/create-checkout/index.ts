@@ -52,16 +52,31 @@ Deno.serve(async (req) => {
 
     const customerId = await resolveOrCreateCustomer(stripe, { email: customerEmail });
 
-    const session = await stripe.checkout.sessions.create({
+    const base = {
       line_items: [{ price: stripePrice.id, quantity: 1 }],
       mode: isRecurring ? "subscription" : "payment",
       ui_mode: "embedded_page",
       return_url: returnUrl,
       ...(customerId && { customer: customerId }),
       ...(!isRecurring && { payment_intent_data: { description: product.name } }),
-      managed_payments: { enabled: true },
-      metadata: { managed_payments: "true", product: product.name },
-    } as Stripe.Checkout.SessionCreateParams);
+    };
+    let session: Stripe.Checkout.Session;
+    try {
+      session = await stripe.checkout.sessions.create({
+        ...base,
+        managed_payments: { enabled: true },
+        metadata: { managed_payments: "true", product: product.name },
+      } as Stripe.Checkout.SessionCreateParams);
+    } catch (err) {
+      // Services (e.g. 1:1 sessions) aren't eligible for Managed Payments: fall back to Stripe Tax calculation.
+      if (!(err instanceof Error) || !/ineligible for Managed Payments/i.test(err.message)) throw err;
+      session = await stripe.checkout.sessions.create({
+        ...base,
+        automatic_tax: { enabled: true },
+        ...(customerId && { customer_update: { address: "auto" } }),
+        metadata: { managed_payments: "false", product: product.name },
+      } as Stripe.Checkout.SessionCreateParams);
+    }
 
     return new Response(JSON.stringify({ clientSecret: session.client_secret }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
