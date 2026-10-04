@@ -167,13 +167,13 @@ const Book = () => {
   const progressWidth = submitted ? 100 : ((step - 1) / 3) * 100 + (step === 3 ? 66 : step === 2 ? 33 : 0);
 
   return (
-    <div className="min-h-screen" style={{ background: "hsl(40, 10%, 4%)" }}>
+    <div className="min-h-screen" style={{ background: "hsl(var(--navy))" }}>
       {/* Ambient glow */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 10% 20%, hsla(43, 44%, 54%, 0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 90% 80%, hsla(43, 44%, 54%, 0.04) 0%, transparent 60%)",
+            "radial-gradient(ellipse 80% 60% at 10% 20%, hsl(var(--gold) / 0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 90% 80%, hsl(var(--gold) / 0.04) 0%, transparent 60%)",
         }}
       />
 
@@ -183,14 +183,14 @@ const Book = () => {
           className="relative flex flex-col justify-between lg:sticky lg:top-0 lg:h-screen overflow-hidden border-b lg:border-b-0 lg:border-r"
           style={{
             padding: "64px 56px",
-            borderColor: "hsla(43, 44%, 54%, 0.2)",
+            borderColor: "hsl(var(--gold) / 0.2)",
           }}
         >
           {/* Bottom fade */}
           <div
             className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none hidden lg:block"
             style={{
-              background: "linear-gradient(to top, hsl(40, 10%, 4%), transparent)",
+              background: "linear-gradient(to top, hsl(var(--navy)), transparent)",
             }}
           />
 
@@ -206,8 +206,8 @@ const Book = () => {
             <div
               className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium w-fit mb-7"
               style={{
-                background: "hsla(43, 44%, 54%, 0.15)",
-                border: "1px solid hsla(43, 44%, 54%, 0.2)",
+                background: "hsl(var(--gold) / 0.15)",
+                border: "1px solid hsl(var(--gold) / 0.2)",
                 color: "hsl(var(--blue))",
                 letterSpacing: "0.04em",
               }}
@@ -259,8 +259,8 @@ const Book = () => {
                   <div
                     className="w-9 h-9 rounded-lg flex items-center justify-center text-sm flex-shrink-0"
                     style={{
-                      background: "hsla(43, 44%, 54%, 0.15)",
-                      border: "1px solid hsla(43, 44%, 54%, 0.2)",
+                      background: "hsl(var(--gold) / 0.15)",
+                      border: "1px solid hsl(var(--gold) / 0.2)",
                     }}
                   >
                     {d.icon}
@@ -272,7 +272,7 @@ const Book = () => {
               ))}
             </div>
 
-            <div className="w-12 h-px mb-8" style={{ background: "hsla(43, 44%, 54%, 0.2)" }} />
+            <div className="w-12 h-px mb-8" style={{ background: "hsl(var(--gold) / 0.2)" }} />
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
@@ -288,8 +288,8 @@ const Book = () => {
                   key={i}
                   className="rounded-lg p-4"
                   style={{
-                    background: "hsl(40, 8%, 10%)",
-                    border: "1px solid hsla(43, 44%, 54%, 0.2)",
+                    background: "hsl(var(--navy-light))",
+                    border: "1px solid hsl(var(--gold) / 0.2)",
                   }}
                 >
                   <div
@@ -319,7 +319,7 @@ const Book = () => {
           {/* Progress bar */}
           <div
             className="h-0.5 rounded-full mb-9 overflow-hidden"
-            style={{ background: "hsl(40, 6%, 14%)" }}
+            style={{ background: "hsl(var(--navy-raised))" }}
           >
             <div
               className="h-full rounded-full transition-all duration-500 ease-out"
@@ -336,10 +336,10 @@ const Book = () => {
                   style={{
                     background:
                       submitted || step > s
-                        ? "hsla(43, 44%, 54%, 0.4)"
+                        ? "hsl(var(--gold) / 0.4)"
                         : step === s
                         ? "hsl(var(--blue))"
-                        : "hsl(40, 6%, 18%)",
+                        : "hsl(var(--navy-raised))",
                   }}
                 />
                 {i < 2 && (
@@ -348,8 +348,8 @@ const Book = () => {
                     style={{
                       background:
                         submitted || step > s
-                          ? "hsla(43, 44%, 54%, 0.4)"
-                          : "hsl(40, 6%, 18%)",
+                          ? "hsl(var(--gold) / 0.4)"
+                          : "hsl(var(--navy-raised))",
                     }}
                   />
                 )}
@@ -409,8 +409,8 @@ const Book = () => {
               <div
                 className="rounded-xl p-6 text-left max-w-md mx-auto"
                 style={{
-                  background: "hsl(40, 8%, 10%)",
-                  border: "1px solid hsla(43, 44%, 54%, 0.2)",
+                  background: "hsl(var(--navy-light))",
+                  border: "1px solid hsl(var(--gold) / 0.2)",
                 }}
               >
                 {[
@@ -423,7 +423,7 @@ const Book = () => {
                     key={i}
                     className="flex items-center gap-3 py-2.5 text-sm"
                     style={{
-                      borderBottom: i < arr.length - 1 ? "1px solid hsla(43, 44%, 54%, 0.2)" : "none",
+                      borderBottom: i < arr.length - 1 ? "1px solid hsl(var(--gold) / 0.2)" : "none",
                       color: "hsl(0, 0%, 54%)",
                     }}
                   >
@@ -440,8 +440,8 @@ const Book = () => {
               <div
                 className="rounded-xl p-6 text-left max-w-md mx-auto mt-4 animate-fade-in"
                 style={{
-                  background: "hsl(40, 8%, 10%)",
-                  border: "1px solid hsla(43, 44%, 54%, 0.2)",
+                  background: "hsl(var(--navy-light))",
+                  border: "1px solid hsl(var(--gold) / 0.2)",
                 }}
               >
                 <p
@@ -463,7 +463,7 @@ const Book = () => {
                       key={r.label}
                       className="flex gap-3 py-2.5 text-sm"
                       style={{
-                        borderBottom: i < arr.length - 1 ? "1px solid hsla(43, 44%, 54%, 0.2)" : "none",
+                        borderBottom: i < arr.length - 1 ? "1px solid hsl(var(--gold) / 0.2)" : "none",
                         color: "hsl(0, 0%, 54%)",
                       }}
                     >
@@ -570,7 +570,7 @@ const Book = () => {
                       value={revenueIndex}
                       onChange={(e) => setRevenueIndex(Number(e.target.value))}
                       className="w-full accent-[hsl(var(--blue))] cursor-pointer"
-                      style={{ height: 4, background: "hsl(40, 6%, 18%)", borderRadius: 2, border: "none", padding: 0 }}
+                      style={{ height: 4, background: "hsl(var(--navy-raised))", borderRadius: 2, border: "none", padding: 0 }}
                     />
                     <div className="flex justify-between mt-2 text-[11px]" style={{ color: "hsl(0, 0%, 36%)" }}>
                       <span>Under $50K</span>
@@ -614,13 +614,13 @@ const Book = () => {
                       rows={4}
                       className="w-full rounded-lg px-4 py-3.5 text-[15px] outline-none transition-colors resize-y"
                       style={{
-                        background: "hsl(40, 8%, 10%)",
-                        border: "1px solid hsla(43, 44%, 54%, 0.2)",
+                        background: "hsl(var(--navy-light))",
+                        border: "1px solid hsl(var(--gold) / 0.2)",
                         color: "hsl(0, 0%, 94%)",
                         fontFamily: "var(--font-body)",
                       }}
                       onFocus={(e) => (e.target.style.borderColor = "hsl(var(--blue))")}
-                      onBlur={(e) => (e.target.style.borderColor = "hsla(43, 44%, 54%, 0.2)")}
+                      onBlur={(e) => (e.target.style.borderColor = "hsl(var(--gold) / 0.2)")}
                     />
                     <div className="text-right text-[11px] mt-1.5" style={{ color: "hsl(0, 0%, 36%)" }}>
                       {biggestChallenge.length} / 500
@@ -636,7 +636,7 @@ const Book = () => {
               {/* NAV BUTTONS */}
               <div
                 className="flex items-center justify-between mt-9 pt-7"
-                style={{ borderTop: "1px solid hsla(43, 44%, 54%, 0.2)" }}
+                style={{ borderTop: "1px solid hsl(var(--gold) / 0.2)" }}
               >
                 {step > 1 ? (
                   <button
@@ -644,16 +644,16 @@ const Book = () => {
                     className="rounded-lg px-7 py-3.5 text-sm font-medium transition-colors cursor-pointer"
                     style={{
                       background: "transparent",
-                      border: "1px solid hsla(43, 44%, 54%, 0.2)",
+                      border: "1px solid hsl(var(--gold) / 0.2)",
                       color: "hsl(0, 0%, 54%)",
                       fontFamily: "var(--font-body)",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = "hsla(43, 44%, 54%, 0.5)";
+                      e.currentTarget.style.borderColor = "hsl(var(--gold) / 0.5)";
                       e.currentTarget.style.color = "hsl(0, 0%, 94%)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = "hsla(43, 44%, 54%, 0.2)";
+                      e.currentTarget.style.borderColor = "hsl(var(--gold) / 0.2)";
                       e.currentTarget.style.color = "hsl(0, 0%, 54%)";
                     }}
                   >
@@ -669,12 +669,12 @@ const Book = () => {
                     className="rounded-lg px-9 py-3.5 text-[15px] font-semibold flex items-center gap-2 transition-all cursor-pointer"
                     style={{
                       background: "hsl(var(--blue))",
-                      color: "hsl(40, 10%, 4%)",
+                      color: "hsl(var(--navy))",
                       fontFamily: "var(--font-body)",
                       letterSpacing: "0.02em",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "hsl(45, 65%, 55%)";
+                      e.currentTarget.style.background = "hsl(var(--gold-light))";
                       e.currentTarget.style.transform = "translateY(-1px)";
                     }}
                     onMouseLeave={(e) => {
@@ -692,11 +692,11 @@ const Book = () => {
                       className="rounded-lg px-10 py-4 text-[15px] font-semibold w-full transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                       style={{
                         background: "hsl(var(--blue))",
-                        color: "hsl(40, 10%, 4%)",
+                        color: "hsl(var(--navy))",
                         fontFamily: "var(--font-body)",
                         letterSpacing: "0.03em",
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "hsl(45, 65%, 55%)")}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "hsl(var(--gold-light))")}
                       onMouseLeave={(e) => (e.currentTarget.style.background = "hsl(var(--blue))")}
                     >
                       {sending ? "Sending…" : "Reserve My Session →"}
@@ -770,18 +770,18 @@ function FormInput({
       placeholder={placeholder}
       className="w-full rounded-lg px-4 py-3.5 text-[15px] outline-none transition-colors"
       style={{
-        background: "hsl(40, 8%, 10%)",
-        border: "1px solid hsla(43, 44%, 54%, 0.2)",
+        background: "hsl(var(--navy-light))",
+        border: "1px solid hsl(var(--gold) / 0.2)",
         color: "hsl(0, 0%, 94%)",
         fontFamily: "var(--font-body)",
       }}
       onFocus={(e) => {
         e.target.style.borderColor = "hsl(var(--blue))";
-        e.target.style.background = "hsl(40, 6%, 14%)";
+        e.target.style.background = "hsl(var(--navy-raised))";
       }}
       onBlur={(e) => {
-        e.target.style.borderColor = "hsla(43, 44%, 54%, 0.2)";
-        e.target.style.background = "hsl(40, 8%, 10%)";
+        e.target.style.borderColor = "hsl(var(--gold) / 0.2)";
+        e.target.style.background = "hsl(var(--navy-light))";
       }}
     />
   );
@@ -804,8 +804,8 @@ function FormSelect({
       onChange={(e) => onChange(e.target.value)}
       className="w-full rounded-lg px-4 py-3.5 text-[15px] outline-none transition-colors cursor-pointer appearance-none"
       style={{
-        background: "hsl(40, 8%, 10%)",
-        border: "1px solid hsla(43, 44%, 54%, 0.2)",
+        background: "hsl(var(--navy-light))",
+        border: "1px solid hsl(var(--gold) / 0.2)",
         color: value ? "hsl(0, 0%, 94%)" : "hsl(0, 0%, 36%)",
         fontFamily: "var(--font-body)",
         backgroundImage:
@@ -815,13 +815,13 @@ function FormSelect({
         paddingRight: 40,
       }}
       onFocus={(e) => (e.target.style.borderColor = "hsl(var(--blue))")}
-      onBlur={(e) => (e.target.style.borderColor = "hsla(43, 44%, 54%, 0.2)")}
+      onBlur={(e) => (e.target.style.borderColor = "hsl(var(--gold) / 0.2)")}
     >
       <option value="" disabled>
         {placeholder}
       </option>
       {options.map((o) => (
-        <option key={o} value={o} style={{ background: "hsl(40, 8%, 10%)", color: "hsl(0, 0%, 94%)" }}>
+        <option key={o} value={o} style={{ background: "hsl(var(--navy-light))", color: "hsl(0, 0%, 94%)" }}>
           {o}
         </option>
       ))}
@@ -850,8 +850,8 @@ function RadioGroup({
           key={o}
           className="flex items-start gap-3 rounded-lg px-4 py-3.5 cursor-pointer transition-colors"
           style={{
-            background: value === o ? "hsla(43, 44%, 54%, 0.15)" : "hsl(40, 8%, 10%)",
-            border: `1px solid ${value === o ? "hsl(var(--blue))" : "hsla(43, 44%, 54%, 0.2)"}`,
+            background: value === o ? "hsl(var(--gold) / 0.15)" : "hsl(var(--navy-light))",
+            border: `1px solid ${value === o ? "hsl(var(--blue))" : "hsl(var(--gold) / 0.2)"}`,
             color: value === o ? "hsl(0, 0%, 94%)" : "hsl(0, 0%, 54%)",
             fontSize: 14,
             lineHeight: 1.5,
@@ -865,7 +865,7 @@ function RadioGroup({
             }}
           >
             {value === o && (
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "hsl(40, 10%, 4%)" }} />
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "hsl(var(--navy))" }} />
             )}
           </span>
           {o}
@@ -893,8 +893,8 @@ function CheckboxGroup({
             key={o}
             className="flex items-start gap-3 rounded-lg px-4 py-3.5 cursor-pointer transition-colors"
             style={{
-              background: checked ? "hsla(43, 44%, 54%, 0.15)" : "hsl(40, 8%, 10%)",
-              border: `1px solid ${checked ? "hsl(var(--blue))" : "hsla(43, 44%, 54%, 0.2)"}`,
+              background: checked ? "hsl(var(--gold) / 0.15)" : "hsl(var(--navy-light))",
+              border: `1px solid ${checked ? "hsl(var(--blue))" : "hsl(var(--gold) / 0.2)"}`,
               color: checked ? "hsl(0, 0%, 94%)" : "hsl(0, 0%, 54%)",
               fontSize: 14,
               lineHeight: 1.5,
@@ -905,7 +905,7 @@ function CheckboxGroup({
               style={{
                 border: `1.5px solid ${checked ? "hsl(var(--blue))" : "hsl(0, 0%, 36%)"}`,
                 background: checked ? "hsl(var(--blue))" : "transparent",
-                color: checked ? "hsl(40, 10%, 4%)" : "transparent",
+                color: checked ? "hsl(var(--navy))" : "transparent",
               }}
             >
               ✓

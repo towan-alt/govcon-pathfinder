@@ -36,7 +36,7 @@ const initials = (name: string) =>
 
 const TestimonialsSection = () => {
   return (
-    <section id="testimonials" className="py-20 lg:py-24" style={{ background: "hsl(0 0% 4%)" }}>
+    <section id="testimonials" className="py-20 lg:py-24" style={{ background: "hsl(var(--navy))" }}>
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="space-y-4">
@@ -81,7 +81,7 @@ const TestimonialsSection = () => {
                 <figcaption className="flex items-center gap-3 border-t border-white/10 pt-4">
                   <span
                     className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full font-display text-sm font-bold text-primary"
-                    style={{ background: "hsl(0 0% 100% / 0.08)", border: "1px solid hsl(45 55% 55% / 0.35)" }}
+                    style={{ background: "hsl(0 0% 100% / 0.08)", border: "1px solid hsl(var(--gold) / 0.35)" }}
                     aria-hidden="true"
                   >
                     {initials(t.name)}

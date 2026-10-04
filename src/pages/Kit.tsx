@@ -91,7 +91,7 @@ const Kit = () => {
   };
 
   return (
-    <main className="min-h-screen" style={{ background: "hsl(0 0% 4%)" }}>
+    <main className="min-h-screen" style={{ background: "hsl(var(--navy))" }}>
       <Navbar />
 
       <section className="pt-32 pb-20 lg:pt-40 lg:pb-28">
@@ -112,7 +112,7 @@ const Kit = () => {
                 in the right order, without the guesswork.
               </p>
 
-              <div className="rounded-lg border p-6 space-y-3" style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(0 0% 7%)" }}>
+              <div className="rounded-lg border p-6 space-y-3" style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(var(--navy-light))" }}>
                 <p className="text-xs font-bold uppercase tracking-wider text-primary">What's inside</p>
                 <ul className="space-y-2.5">
                   {chapters.map((c) => (
@@ -153,7 +153,7 @@ const Kit = () => {
               {status === "sent" ? (
                 <div
                   className="rounded-lg border p-8 space-y-4"
-                  style={{ borderColor: "hsl(45 55% 55% / 0.35)", background: "hsl(0 0% 7%)" }}
+                  style={{ borderColor: "hsl(var(--gold) / 0.35)", background: "hsl(var(--navy-light))" }}
                 >
                   <h2 className="font-display text-2xl font-bold text-white">Check your inbox</h2>
                   <p className="text-sm text-white/60 leading-relaxed">
@@ -185,7 +185,7 @@ const Kit = () => {
                 <form
                   onSubmit={submit}
                   className="rounded-lg border p-8 space-y-5"
-                  style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(0 0% 7%)" }}
+                  style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(var(--navy-light))" }}
                 >
                   <div className="space-y-1">
                     <h2 className="font-display text-2xl font-bold text-white">Get your free copy</h2>

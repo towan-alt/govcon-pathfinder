@@ -27,15 +27,15 @@ const AgencyLogoBar = () => {
   return (
     <section
       className="py-8 border-y overflow-hidden"
-      style={{ background: "hsl(0 0% 4%)", borderColor: "hsl(0 0% 100% / 0.05)" }}
+      style={{ background: "hsl(var(--navy))", borderColor: "hsl(0 0% 100% / 0.05)" }}
       aria-label="Past performance references"
     >
       <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60 mb-6 font-body">
         Past Performance — Contracts Executed With Federal Agencies Including
       </p>
       <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-24 z-10" style={{ background: "linear-gradient(to right, hsl(0 0% 4%), transparent)" }} />
-        <div className="absolute right-0 top-0 bottom-0 w-24 z-10" style={{ background: "linear-gradient(to left, hsl(0 0% 4%), transparent)" }} />
+        <div className="absolute left-0 top-0 bottom-0 w-24 z-10" style={{ background: "linear-gradient(to right, hsl(var(--navy)), transparent)" }} />
+        <div className="absolute right-0 top-0 bottom-0 w-24 z-10" style={{ background: "linear-gradient(to left, hsl(var(--navy)), transparent)" }} />
 
         <div className="flex animate-scroll">
           {[...agencies, ...agencies].map((agency, i) => (

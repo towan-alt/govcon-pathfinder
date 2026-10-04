@@ -36,7 +36,7 @@ const columns = [
 
 const SiteFooter = () => {
   return (
-    <footer className="border-t pt-14 pb-10" style={{ background: "hsl(0 0% 2%)", borderColor: "hsl(0 0% 100% / 0.08)" }}>
+    <footer className="border-t pt-14 pb-10" style={{ background: "hsl(var(--navy))", borderColor: "hsl(0 0% 100% / 0.08)" }}>
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="space-y-4">

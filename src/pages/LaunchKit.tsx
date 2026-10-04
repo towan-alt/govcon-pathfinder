@@ -79,7 +79,7 @@ const LaunchKit = () => {
   );
 
   return (
-    <main className="min-h-screen" style={{ background: "hsl(0 0% 4%)" }}>
+    <main className="min-h-screen" style={{ background: "hsl(var(--navy))" }}>
       {/* Minimal funnel header — logo only, no nav distractions */}
       <header className="absolute top-0 left-0 right-0 z-10">
         <div className="container mx-auto px-6 h-16 flex items-center">
@@ -113,7 +113,7 @@ const LaunchKit = () => {
                 src={coverUrl}
                 alt="GovCon Launch Kit Booklet cover"
                 className="w-64 md:w-80 rounded-lg shadow-2xl border rotate-1"
-                style={{ borderColor: "hsl(45 55% 55% / 0.25)" }}
+                style={{ borderColor: "hsl(var(--gold) / 0.25)" }}
               />
             </div>
           </div>
@@ -121,7 +121,7 @@ const LaunchKit = () => {
       </section>
 
       {/* Pain points */}
-      <section className="py-20" style={{ background: "hsl(0 0% 6%)" }}>
+      <section className="py-20" style={{ background: "hsl(var(--navy-medium))" }}>
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="text-center space-y-4 mb-14">
             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Sound familiar?</p>
@@ -135,7 +135,7 @@ const LaunchKit = () => {
               <div
                 key={p.title}
                 className="rounded-lg border p-7 space-y-3"
-                style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(0 0% 8%)" }}
+                style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(var(--navy-light))" }}
               >
                 <h3 className="font-display text-lg font-bold text-white leading-snug">{p.title}</h3>
                 <p className="text-sm text-white/55 leading-relaxed">{p.body}</p>
@@ -170,7 +170,7 @@ const LaunchKit = () => {
                 <li
                   key={o}
                   className="flex gap-3 rounded-lg border p-4 text-sm text-white/75 leading-relaxed"
-                  style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(0 0% 7%)" }}
+                  style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(var(--navy-light))" }}
                 >
                   <span className="text-primary mt-0.5 shrink-0">✓</span>
                   <span>{o}</span>
@@ -182,7 +182,7 @@ const LaunchKit = () => {
       </section>
 
       {/* Chapter list */}
-      <section className="py-20" style={{ background: "hsl(0 0% 6%)" }}>
+      <section className="py-20" style={{ background: "hsl(var(--navy-medium))" }}>
         <div className="container mx-auto px-6 max-w-4xl text-center">
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-4">Inside the booklet</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-12">
@@ -193,7 +193,7 @@ const LaunchKit = () => {
               <div
                 key={c}
                 className="flex items-center gap-4 rounded-lg border p-4"
-                style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(0 0% 8%)" }}
+                style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(var(--navy-light))" }}
               >
                 <span className="font-display text-lg font-bold text-primary shrink-0 w-8">
                   {String(i + 1).padStart(2, "0")}
@@ -208,7 +208,7 @@ const LaunchKit = () => {
       {/* About Towan */}
       <section className="py-20">
         <div className="container mx-auto px-6 max-w-4xl">
-          <div className="rounded-lg border p-8 md:p-12 space-y-6" style={{ borderColor: "hsl(45 55% 55% / 0.25)", background: "hsl(0 0% 7%)" }}>
+          <div className="rounded-lg border p-8 md:p-12 space-y-6" style={{ borderColor: "hsl(var(--gold) / 0.25)", background: "hsl(var(--navy-light))" }}>
             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Written by Towan Isom</p>
             <h2 className="font-display text-2xl md:text-3xl font-bold text-white leading-snug">
               There is a difference between someone who teaches government contracting and someone
@@ -241,7 +241,7 @@ const LaunchKit = () => {
       </section>
 
       {/* FAQ */}
-      <section className="py-20" style={{ background: "hsl(0 0% 6%)" }}>
+      <section className="py-20" style={{ background: "hsl(var(--navy-medium))" }}>
         <div className="container mx-auto px-6 max-w-3xl">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white text-center mb-12">
             Questions, <em className="text-primary italic">answered</em>
@@ -251,7 +251,7 @@ const LaunchKit = () => {
               <details
                 key={f.q}
                 className="group rounded-lg border p-6"
-                style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(0 0% 8%)" }}
+                style={{ borderColor: "hsl(0 0% 100% / 0.08)", background: "hsl(var(--navy-light))" }}
               >
                 <summary className="cursor-pointer list-none flex items-center justify-between gap-4">
                   <span className="font-display text-base font-bold text-white">{f.q}</span>

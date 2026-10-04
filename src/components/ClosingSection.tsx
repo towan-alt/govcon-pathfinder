@@ -4,7 +4,7 @@ import { trackCta } from "@/lib/track";
 
 const ClosingSection = () => {
   return (
-    <section className="py-20 lg:py-24" style={{ background: "hsl(0 0% 4%)" }}>
+    <section className="py-20 lg:py-24" style={{ background: "hsl(var(--navy))" }}>
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center space-y-7">
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white !leading-[1.15]">
