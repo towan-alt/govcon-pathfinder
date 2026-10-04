@@ -112,22 +112,22 @@ const Training = () => {
     navigate(choice === "live" ? "/training/registered" : "/training/watch");
   };
 
-  const inputCls = "w-full rounded-md border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground";
+  const inputCls = "w-full rounded-md border bg-background px-4 py-2.5 md:py-3 text-sm text-foreground placeholder:text-muted-foreground";
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <main>
         {/* HERO */}
-        <section className="section-navy pt-28 pb-14 lg:pt-36 lg:pb-20">
-          <div className="container mx-auto px-6 grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-14 items-start">
+        <section className="section-navy pt-24 pb-14 lg:pt-36 lg:pb-20">
+          <div className="container mx-auto px-5 md:px-6 grid lg:grid-cols-[1.15fr_0.85fr] gap-5 lg:gap-14 items-start">
             <div>
               <p className="eyebrow text-xs">Free {TRAINING_MINUTES}-Minute Training for Small Business Owners</p>
-              <h1 className="font-display text-3xl md:text-5xl font-bold text-white mt-4 !leading-[1.12]">
+              <h1 className="font-display text-[1.6rem] md:text-5xl font-bold text-white mt-3 !leading-[1.15]">
                 The 5 Costly Mistakes That Keep Small Businesses From Winning Their{" "}
                 <em className="text-primary italic">First Federal Contract</em>
               </h1>
-              <p className="mt-5 text-base md:text-lg text-white/80 leading-relaxed max-w-xl">
+              <p className="hidden lg:block mt-5 text-base md:text-lg text-white/80 leading-relaxed max-w-xl">
                 The federal government sets aside billions in contracts for small businesses every year. In {TRAINING_MINUTES} minutes, learn why most never see a dollar of it, and the exact steps that change that.
               </p>
               <div className="hidden lg:block mt-8 space-y-6">
@@ -139,14 +139,14 @@ const Training = () => {
             </div>
 
             {/* REGISTRATION CARD */}
-            <form id="register" onSubmit={submit} noValidate className="rounded-2xl bg-card text-card-foreground p-6 md:p-7 shadow-2xl space-y-4 border-t-4 border-primary">
-              <p className="font-display text-xl font-bold text-foreground">Save your free seat</p>
-              <div className="grid gap-3" role="radiogroup" aria-label="Choose your session">
+            <form id="register" onSubmit={submit} noValidate className="rounded-2xl bg-card text-card-foreground p-5 md:p-7 shadow-2xl space-y-3 md:space-y-4 border-t-4 border-primary">
+              <p className="hidden md:block font-display text-xl font-bold text-foreground">Save your free seat</p>
+              <div className="grid gap-2 md:gap-3" role="radiogroup" aria-label="Choose your session">
                 {([
                   { key: "live", icon: Radio, title: `Live: ${sessionLabel}`, sub: "Ask your questions live" },
                   { key: "replay", icon: PlayCircle, title: "On-Demand Replay", sub: "Watch now" },
                 ] as const).map((o) => (
-                  <label key={o.key} className={`flex items-start gap-3 rounded-lg border-2 p-4 cursor-pointer transition-colors ${choice === o.key ? "border-primary bg-primary/10" : "border-border hover:border-primary/50"}`}>
+                  <label key={o.key} className={`flex items-start gap-3 rounded-lg border-2 p-3 md:p-4 cursor-pointer transition-colors ${choice === o.key ? "border-primary bg-primary/10" : "border-border hover:border-primary/50"}`}>
                     <input type="radio" name="session" value={o.key} checked={choice === o.key} onChange={() => setChoice(o.key)} className="mt-1 accent-primary" />
                     <o.icon className="h-5 w-5 mt-0.5 shrink-0 text-foreground" />
                     <span>
@@ -178,6 +178,9 @@ const Training = () => {
             </form>
 
             <div className="lg:hidden space-y-5">
+              <p className="text-base text-white/80 leading-relaxed">
+                The federal government sets aside billions in contracts for small businesses every year. In {TRAINING_MINUTES} minutes, learn why most never see a dollar of it, and the exact steps that change that.
+              </p>
               <Countdown cd={cd} label={sessionLabel} />
               <p className="text-sm text-white/70 border-l-2 border-primary pl-4">
                 Fiscal Year 2027 began October 1. Agency forecasts are posting now. The businesses that win in September start positioning in October.
