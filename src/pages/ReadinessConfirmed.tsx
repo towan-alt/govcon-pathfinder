@@ -4,15 +4,14 @@ import { ArrowRight, CalendarClock, Download, Loader2, ClipboardList } from "luc
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import { supabase } from "@/integrations/supabase/client";
-import { getStripeEnvironment } from "@/lib/stripe";
-import { BOOKING_URL, getLead, PURCHASE_KEY, saveLead, STARTER_KIT_URL } from "@/lib/funnel";
+import { BOOKING_URL, getLead, PURCHASE_KEY, saveLead, STARTER_KIT_URL, SUPPORT_EMAIL } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
 
 type State = "checking" | "paid" | "unpaid" | "error";
 
 const ReadinessConfirmed = () => {
   const [params] = useSearchParams();
-  const sessionId = params.get("session_id");
+  const sessionId = params.get("orderId") ?? params.get("order_id");
   const [state, setState] = useState<State>("checking");
   const [name, setName] = useState(getLead()?.firstName ?? "");
 
@@ -22,10 +21,10 @@ const ReadinessConfirmed = () => {
       return;
     }
     supabase.functions
-      .invoke("verify-checkout", { body: { sessionId, environment: getStripeEnvironment() } })
+      .invoke("square-verify", { body: { orderId: sessionId, product: "readiness_review_bundle" } })
       .then(({ data, error }) => {
         if (error || !data) return setState("error");
-        if (!data.paid) return setState("unpaid");
+        if (!data.paid) return setState("error");
         const first = (data.name as string | null)?.split(" ")[0];
         if (!name && first) setName(first);
         if (data.email) saveLead({ email: data.email, ...(first && !getLead()?.firstName ? { firstName: first } : {}) });
@@ -47,9 +46,13 @@ const ReadinessConfirmed = () => {
           <section className="pt-36 pb-20">
             <div className="container mx-auto px-6 max-w-xl text-center space-y-5">
               <h1 className="font-display text-3xl font-bold text-foreground !leading-[1.2]">
-                {state === "error" ? "We couldn't confirm your payment yet" : "No completed payment found"}
+                {state === "error" ? "We're confirming your payment" : "No completed payment found"}
               </h1>
-              <p className="text-foreground/80">If you just paid, refresh in a moment. Otherwise you can book your review below.</p>
+              <p className="text-foreground/80">
+                {state === "error"
+                  ? <>If you just paid, refresh in a moment. Still stuck? Email <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold underline">{SUPPORT_EMAIL}</a> and we'll sort it out.</>
+                  : "If you just paid, refresh in a moment. Otherwise you can book your review below."}
+              </p>
               <Link to="/readiness-review" className="btn-gold gap-2">Book a Readiness Review <ArrowRight className="h-4 w-4" /></Link>
             </div>
           </section>
