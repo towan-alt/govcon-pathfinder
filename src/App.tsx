@@ -23,6 +23,7 @@ import Unsubscribe from "./pages/Unsubscribe.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
+import RouteSeo from "@/components/RouteSeo";
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -30,6 +31,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <RouteSeo />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
