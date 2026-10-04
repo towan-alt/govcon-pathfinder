@@ -34,11 +34,11 @@ const VideoSection = () => {
               ))}
             </ul>
             <Link
-              to="/assessment"
+              to="/training"
               onClick={() => trackCta("video-assessment")}
               className="btn-gold inline-flex items-center gap-2 text-sm px-7 py-3.5 rounded-md"
             >
-              Take the Free Assessment
+              Watch the Free Training
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

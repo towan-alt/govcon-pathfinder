@@ -28,11 +28,11 @@ const HeroSection = () => {
 
             <div className="flex flex-wrap gap-4 pt-1">
               <Link
-                to="/assessment"
+                to="/training"
                 onClick={() => trackCta("hero-assessment")}
                 className="btn-gold inline-flex items-center gap-2 text-sm px-8 py-4 rounded-md"
               >
-                Take the Free GovCon Readiness Assessment
+                Watch the Free 30-Minute Training
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
@@ -45,7 +45,7 @@ const HeroSection = () => {
             </div>
 
             <p className="text-xs text-white/60">
-              Free · 10 questions · about 3 minutes · one recommended next step
+              Free · 30 minutes · pick a time that works for you
             </p>
           </div>
 

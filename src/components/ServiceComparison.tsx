@@ -110,7 +110,7 @@ const ServiceComparison = () => {
 
           <div className="text-center">
             <Link
-              to="/assessment"
+              to="/training"
               onClick={() => trackCta("services-help-me-choose")}
               className="btn-gold inline-flex items-center gap-2 px-8 py-3.5 rounded-md text-sm"
             >
