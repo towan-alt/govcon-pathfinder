@@ -36,16 +36,16 @@ const HeroSection = () => {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/book"
+                to="/readiness-review"
                 onClick={() => trackCta("hero-book")}
                 className="btn-outline-light text-sm px-8 py-4 rounded-md"
               >
-                Book a Strategy Call
+                Book a Readiness Review
               </Link>
             </div>
 
             <p className="text-xs text-white/60">
-              Free · 8 questions · about two minutes · one recommended next step
+              Free · 10 questions · about 3 minutes · one recommended next step
             </p>
           </div>
 

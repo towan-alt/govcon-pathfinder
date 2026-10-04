@@ -61,7 +61,7 @@ const OfferVIPDoneForYou = () => {
               </p>
 
               <a
-                href="/book"
+                href="/readiness-review"
                 onClick={() => trackCta("vip-dfy-reserve")}
                 className="btn-dark text-lg px-14 py-6 rounded-xl"
               >

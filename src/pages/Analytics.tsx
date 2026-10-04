@@ -371,7 +371,7 @@ const Analytics = () => {
                   From kit subscriber to customer
                 </h2>
                 <p className="text-muted-foreground text-sm mt-1">
-                  People who asked for the booklet, and how many later booked a strategy session
+                  People who asked for the booklet, and how many later booked a session
                   (matched by email address).
                 </p>
               </div>

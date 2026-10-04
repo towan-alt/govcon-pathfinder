@@ -103,11 +103,11 @@ const About = () => {
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link
-                    to="/book"
+                    to="/readiness-review"
                     onClick={() => trackCta("about-hero-book")}
                     className="rounded-md border border-primary/40 px-7 py-3.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
                   >
-                    Book a Strategy Call
+                    Book a Readiness Review
                   </Link>
                 </div>
               </div>
@@ -342,7 +342,7 @@ const About = () => {
                   Find out where your business actually stands
                 </h2>
                 <p className="text-sm text-foreground/75 leading-relaxed max-w-lg mx-auto">
-                  Eight questions, a few minutes, and a clear read on your next step — free.
+                  Ten questions, about 3 minutes, and a clear read on your next step — free.
                 </p>
                 <Link
                   to="/assessment"

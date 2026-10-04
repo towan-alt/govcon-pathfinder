@@ -5,11 +5,11 @@ import { trackCta } from "@/lib/track";
 const rows = [
   {
     id: "free-session",
-    offer: "Free Strategy Session",
+    offer: "Readiness Review",
     bestFor: "Unsure where to begin",
-    outcome: "Readiness diagnosis and a clear first step",
-    investment: "Free",
-    cta: { label: "Book a session", to: "/book" },
+    outcome: "60-minute 1:1 session, Top 5 agency list and a written 90-Day Federal Action Plan",
+    investment: "$497 one-time, credited toward any program within 14 days",
+    cta: { label: "Book a Readiness Review", to: "/readiness-review" },
     featured: false,
   },
   {

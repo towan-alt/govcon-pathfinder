@@ -18,7 +18,7 @@ const Contact = () => {
                 Get in touch with {BRAND.platform}
               </h1>
               <p className="text-base text-foreground/75 leading-relaxed">
-                The fastest route to a real answer about your business is a strategy call. For anything
+                The fastest route to a real answer about your business is a Readiness Review. For anything
                 else — speaking requests, partnerships, press or support — email works well.
               </p>
             </div>
@@ -27,7 +27,7 @@ const Contact = () => {
               <div className="rounded-xl border border-primary/25 bg-card p-6 space-y-4">
                 <h2 className="font-display text-lg font-bold text-foreground">Talk about your business</h2>
                 <p className="text-sm text-foreground/75 leading-relaxed">
-                  Start with the free readiness assessment, or book a free strategy session directly.
+                  Start with the free readiness assessment, or book a Readiness Review directly.
                 </p>
                 <div className="flex flex-col gap-3">
                   <Link
@@ -39,11 +39,11 @@ const Contact = () => {
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link
-                    to="/book"
+                    to="/readiness-review"
                     onClick={() => trackCta("contact-book")}
                     className="text-sm font-semibold text-foreground hover:text-primary"
                   >
-                    Book a strategy call
+                    Book a Readiness Review
                   </Link>
                 </div>
               </div>

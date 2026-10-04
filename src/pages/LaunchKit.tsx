@@ -55,7 +55,7 @@ const faqs = [
   },
   {
     q: "What happens after I download it?",
-    a: "You work through the roadmap at your own pace. If you want help, you can book a free strategy call with Towan — but there's no obligation.",
+    a: "You work through the roadmap at your own pace. If you want help, you can book a Readiness Review with Towan. There's no obligation.",
   },
 ];
 
