@@ -160,7 +160,7 @@ export function emailFor(key: string, c: Ctx): Email | null {
 export function smsFor(key: string, c: Ctx): string | null {
   switch (key) {
     case "confirm":
-      return `GoGovCon: You're in, ${c.firstName}! Training ${c.sessionLabel}. Link: ${c.watchUrl} Reply STOP to opt out`;
+      return `GoGovCon: You're in! Your training link: ${c.watchUrl} Reply STOP to opt out`;
     case "starting_15m":
       return `GoGovCon: Your training starts in 15 min. Join: ${c.watchUrl}`;
     case "live_now":
