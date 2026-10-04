@@ -267,7 +267,7 @@ const LaunchKit = () => {
       {/* Final CTA */}
       <section className="py-24 text-center">
         <div className="container mx-auto px-6 max-w-2xl space-y-6">
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-white leading-tight">
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-white !leading-[1.12]">
             Your first federal contract starts with{" "}
             <em className="text-primary italic">the right first step.</em>
           </h2>
