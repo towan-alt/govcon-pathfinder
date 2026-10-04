@@ -204,14 +204,6 @@ const Training = () => {
   );
 };
 
-const Field = ({ id, label, error, children }: { id: string; label: string; error?: string; children: React.ReactNode }) => (
-  <div className="space-y-1.5">
-    <label htmlFor={id} className="text-sm font-medium text-foreground">{label}</label>
-    {children}
-    {error && <p className="text-xs text-destructive">{error}</p>}
-  </div>
-);
-
 const Countdown = ({ cd, label }: { cd: ReturnType<typeof useCountdown>; label: string }) => (
   <div>
     <p className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-3">Next live session: {label}</p>
