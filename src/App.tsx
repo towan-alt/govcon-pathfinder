@@ -11,7 +11,6 @@ import LegalPage from "./pages/LegalPage.tsx";
 import Book from "./pages/Book.tsx";
 import NaicsPage from "./pages/NaicsPage.tsx";
 import Analytics from "./pages/Analytics.tsx";
-import CheckoutReturn from "./pages/CheckoutReturn.tsx";
 import ConfirmEmail from "./pages/ConfirmEmail.tsx";
 import Training from "./pages/Training.tsx";
 import TrainingRegistered from "./pages/TrainingRegistered.tsx";
@@ -42,7 +41,6 @@ const App = () => (
           <Route path="/book" element={<Book />} />
           <Route path="/naics" element={<NaicsPage />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/checkout/return" element={<CheckoutReturn />} />
           <Route path="/confirm" element={<ConfirmEmail />} />
           <Route path="/training" element={<Training />} />
           <Route path="/training/registered" element={<TrainingRegistered />} />
