@@ -15,6 +15,13 @@
       "when": 1791157645469,
       "tag": "0001_assessment_followup",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791158003420,
+      "tag": "0002_naics_reports",
+      "breakpoints": true
     }
   ]
 }

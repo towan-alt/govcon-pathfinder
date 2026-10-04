@@ -3,6 +3,7 @@ import { Instagram, Search, X, Youtube } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/integrations/supabase/client";
 import { getDevice, getSource, trackCta, trackEvent } from "@/lib/track";
+import { BOOKING_URL } from "@/lib/funnel";
 
 const naicsDatabase = [
   { code: "541512", title: "Computer Systems Design Services", description: "IT consulting, systems integration, computer hardware consulting, and technology strategy services. This is one of the highest-volume NAICS codes in federal IT contracting — used across DoD, DHS, and most civilian agencies.", keywords: ["it", "software", "computer", "systems", "technology", "development", "programming", "web", "app", "digital", "cybersecurity", "cyber", "integration"], tags: ["Information Technology", "Services"] },
@@ -165,6 +166,13 @@ const NaicsPage = () => {
       );
       setSubStatus("sent");
       void trackEvent("naics_subscribe");
+      // Email the open SAM.gov opportunities for this NAICS code.
+      void supabase.functions.invoke("naics-report", {
+        body: {
+          firstName: subFirst.trim(), lastName: subLast.trim(), email: subEmail.trim(), naics: subNaics.trim(),
+          origin: window.location.origin, scheduleUrl: BOOKING_URL || undefined,
+        },
+      }).catch(() => null);
 
     } catch (err) {
       setSubStatus("idle");
@@ -426,7 +434,8 @@ const NaicsPage = () => {
                 <p className="text-sm text-white/60 leading-relaxed">
                   We just emailed you a confirmation link for NAICS{" "}
                   <span className="text-primary font-semibold">{subNaics}</span>. Click it and
-                  we'll send your starting-point questions right away.
+                  we'll send your starting-point questions right away. Your report of open federal
+                  opportunities for this code is on its way to your inbox too.
                 </p>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/60">
                   Follow Towan Isom, CEO for more
