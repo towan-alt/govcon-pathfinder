@@ -17,7 +17,7 @@ const AssessmentCtaSection = () => {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             Start Here · Free
           </p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-[1.15]">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">
             The Free GovCon Readiness Assessment
           </h2>
           <p className="text-base text-foreground/80 leading-relaxed max-w-2xl mx-auto">

@@ -18,7 +18,7 @@ const VideoSection = () => {
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <p className="eyebrow text-xs">See It In Action</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
               Watch {BRAND.founder} walk through {BRAND.method}
             </h2>
             <p className="text-base text-white/75 leading-relaxed">

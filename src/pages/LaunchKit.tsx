@@ -97,7 +97,7 @@ const LaunchKit = () => {
               <span className="inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-primary border border-primary/30 rounded-full px-4 py-1.5">
                 Free booklet · Instant download
               </span>
-              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.08]">
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white !leading-[1.08]">
                 New opportunities. New business.{" "}
                 <em className="text-primary italic">New money.</em>
               </h1>
@@ -267,7 +267,7 @@ const LaunchKit = () => {
       {/* Final CTA */}
       <section className="py-24 text-center">
         <div className="container mx-auto px-6 max-w-2xl space-y-6">
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-white leading-tight">
+          <h2 className="font-display text-3xl md:text-5xl font-bold text-white !leading-[1.12]">
             Your first federal contract starts with{" "}
             <em className="text-primary italic">the right first step.</em>
           </h2>

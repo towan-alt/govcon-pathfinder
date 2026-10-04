@@ -22,7 +22,7 @@ const OfferVIPDoneForYou = () => {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground font-display">
               One-on-One Intensive · Done For You · Limited Availability
             </p>
-            <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl lg:text-5xl">
+            <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl lg:text-5xl !leading-[1.15]">
               The VIP Done-For-You Strategy Engagement
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

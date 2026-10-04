@@ -40,7 +40,7 @@ const FaqSection = () => {
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="space-y-3">
             <p className="eyebrow-dark text-xs">Questions</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-[1.15]">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">
               Frequently asked
             </h2>
           </div>

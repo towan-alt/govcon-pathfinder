@@ -39,7 +39,7 @@ const ServiceComparison = () => {
         <div className="max-w-5xl mx-auto space-y-10">
           <div className="space-y-4">
             <p className="eyebrow-dark text-xs">Ways To Work Together</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-[1.15]">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">
               Three ways in.{" "}
               <em className="text-primary italic">One that fits you.</em>
             </h2>

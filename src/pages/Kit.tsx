@@ -102,7 +102,7 @@ const Kit = () => {
               <span className="inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
                 Free download
               </span>
-              <h1 className="font-display text-4xl md:text-5xl font-bold text-white leading-[1.1]">
+              <h1 className="font-display text-4xl md:text-5xl font-bold text-white !leading-[1.1]">
                 The GovCon Launch Kit{" "}
                 <em className="text-primary italic">Booklet</em>
               </h1>

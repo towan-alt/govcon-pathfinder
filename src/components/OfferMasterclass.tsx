@@ -27,7 +27,7 @@ const OfferMasterclass = () => {
           <div className="space-y-4 mb-12">
             <div className="divider" />
             <p className="eyebrow-dark">Monthly Live Training · Open Enrollment</p>
-            <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl lg:text-5xl">
+            <h2 className="font-display text-3xl font-extrabold text-foreground md:text-4xl lg:text-5xl !leading-[1.15]">
               The GovCon Masterclass: Monthly Intel from Someone Who's Actually Won
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl">

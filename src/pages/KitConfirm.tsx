@@ -55,7 +55,7 @@ const KitConfirm = () => {
 
             {state.kind === "ready" && (
               <>
-                <h1 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
+                <h1 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
                   You're verified, {state.firstName}. Here's your{" "}
                   <em className="text-primary italic">Launch Kit</em>.
                 </h1>

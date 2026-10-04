@@ -204,7 +204,7 @@ const NaicsPage = () => {
             </span>
             <span className="w-8 h-px bg-primary" />
           </div>
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-white mb-2">
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-white mb-2 !leading-[1.1]">
             Find your NAICS code.
           </h1>
           <p className="font-display text-3xl md:text-4xl italic text-primary mb-6">

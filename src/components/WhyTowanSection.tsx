@@ -32,7 +32,7 @@ const WhyTowanSection = () => {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 Why {BRAND.founder}
               </p>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-[1.15]">
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">
                 You are not learning from someone who only{" "}
                 <span className="text-primary italic">teaches</span> government contracting.
               </h2>

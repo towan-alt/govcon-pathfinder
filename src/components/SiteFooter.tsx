@@ -47,8 +47,8 @@ const SiteFooter = () => {
               </span>
             </div>
             <p className="text-sm text-white/70 leading-relaxed max-w-xs">
-              {BRAND.tagline} Federal contracting strategy for small businesses that intend to
-              compete and deliver.
+              {BRAND.tagline} Federal contracting strategy for small businesses that intend to sell
+              to the government and grow.
             </p>
             <div className="flex items-center gap-3 pt-1">
               <a
