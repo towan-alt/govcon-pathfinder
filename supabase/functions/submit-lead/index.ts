@@ -24,7 +24,7 @@ Deno.serve(async (req) => {
     const lastName = String(body.lastName ?? "").trim();
     const email = String(body.email ?? "").trim();
 
-    if (!firstName || !lastName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!firstName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return new Response(
         JSON.stringify({ error: "Name and a valid email are required." }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },

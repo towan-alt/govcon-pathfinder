@@ -93,7 +93,7 @@ const Training = () => {
     const { data, error } = await supabase.functions.invoke("submit-lead", {
       body: {
         firstName: firstName.trim(),
-        lastName: "(webinar)",
+        lastName: "",
         email: email.trim(),
         phone: phone.trim(),
         recommendation: `Webinar registration: ${label}${sms ? " · SMS reminders opted in" : ""}`,
