@@ -2,6 +2,24 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
+type TrainingCounts = { registered: number; attended: number; watched50: number; cta: number; assessment: number; checkout: number; purchased: number };
+type TrainingStats = { byType: Record<string, TrainingCounts>; messages: Record<string, { sent: number; skipped: number; failed: number }> };
+const TRAINING_TYPES = [
+  { key: "all", label: "All" },
+  { key: "showing", label: "Showing" },
+  { key: "live", label: "Live" },
+  { key: "instant", label: "Instant" },
+] as const;
+const TRAINING_STEPS: { key: keyof TrainingCounts; label: string }[] = [
+  { key: "registered", label: "Registered" },
+  { key: "attended", label: "Showed up" },
+  { key: "watched50", label: "Watched 50%+" },
+  { key: "cta", label: "Clicked CTA" },
+  { key: "assessment", label: "Completed assessment" },
+  { key: "checkout", label: "Started checkout" },
+  { key: "purchased", label: "Purchased" },
+];
+
 type Event = {
   event_name: string;
   cta_id: string | null;
@@ -50,6 +68,11 @@ const Analytics = () => {
         else setEvents((data ?? []) as Event[]);
         setLoading(false);
       });
+
+    setTraining(null);
+    supabase.functions.invoke("training", { body: { action: "stats", days } }).then(({ data }) => {
+      if (!cancelled && data?.byType) setTraining(data as TrainingStats);
+    });
 
     setSales(null);
     setSalesError(null);
@@ -171,6 +194,8 @@ const Analytics = () => {
     };
   }, [events]);
 
+
+  const [training, setTraining] = useState<TrainingStats | null>(null);
 
   // Training funnel: unique sessions reaching each step
   const trainingSteps = useMemo(() => {
@@ -343,6 +368,73 @@ const Analytics = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            {/* Training registrations by session type */}
+            <div className="space-y-4">
+              <div>
+                <h2 className="font-display text-xl font-bold text-foreground">Training funnel by session type</h2>
+                <p className="text-muted-foreground text-sm mt-1">Registrations matched to attendance, assessment and purchase by email.</p>
+              </div>
+              {!training ? (
+                <p className="text-sm text-muted-foreground">Loading training numbers…</p>
+              ) : (
+                <div className="rounded-xl border border-border bg-card overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="text-left text-muted-foreground border-b border-border">
+                        <th className="p-3 font-semibold">Step</th>
+                        {TRAINING_TYPES.map((t) => <th key={t.key} className="p-3 font-semibold text-right">{t.label}</th>)}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {TRAINING_STEPS.map((st, i) => (
+                        <tr key={st.key} className="border-b border-border last:border-0">
+                          <td className="p-3 text-foreground">{st.label}</td>
+                          {TRAINING_TYPES.map((t) => {
+                            const row = training.byType[t.key];
+                            const v = row?.[st.key] ?? 0;
+                            const prev = i === 0 ? null : row?.[TRAINING_STEPS[i - 1].key] ?? 0;
+                            return (
+                              <td key={t.key} className="p-3 text-right text-foreground">
+                                <span className="font-semibold">{v}</span>
+                                {prev !== null && <span className="block text-xs text-muted-foreground">{pct(v, prev)}</span>}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+              {training && (
+                <div className="rounded-xl border border-border bg-card overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="text-left text-muted-foreground border-b border-border">
+                        <th className="p-3 font-semibold">Follow-up message</th>
+                        <th className="p-3 font-semibold text-right">Sent</th>
+                        <th className="p-3 font-semibold text-right">Skipped</th>
+                        <th className="p-3 font-semibold text-right">Failed</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(training.messages).sort().map(([k, v]) => (
+                        <tr key={k} className="border-b border-border last:border-0">
+                          <td className="p-3 text-foreground">{k}</td>
+                          <td className="p-3 text-right font-semibold text-foreground">{v.sent}</td>
+                          <td className="p-3 text-right text-foreground/80">{v.skipped}</td>
+                          <td className="p-3 text-right text-foreground/80">{v.failed}</td>
+                        </tr>
+                      ))}
+                      {!Object.keys(training.messages).length && (
+                        <tr><td colSpan={4} className="p-3 text-muted-foreground">No messages processed yet.</td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
 
             {/* Launch Kit funnel */}

@@ -232,6 +232,7 @@ const Assessment = () => {
     sessionStorage.setItem(RESULT_KEY, JSON.stringify(stored));
     setResult(stored);
     void trackEvent("assessment_complete", tier.key);
+    void supabase.functions.invoke("training", { body: { action: "assessment", email: email.trim(), score, tier: tier.name, gap: PILLAR_LABELS[gap] } }).catch(() => null);
     window.scrollTo({ top: 0 });
   };
 
