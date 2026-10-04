@@ -2,7 +2,6 @@
 // Prices live here too so the browser can never set its own price.
 export const PRODUCTS: Record<string, { name: string; cents: number; returnPath: string }> = {
   readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, returnPath: "/readiness-review/confirmed" },
-  launch_kit_pro: { name: "GovCon Launch Kit Pro", cents: 9700, returnPath: "/checkout/return" },
 };
 
 export const corsHeaders = {
