@@ -97,7 +97,7 @@ const LaunchKit = () => {
               <span className="inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-primary border border-primary/30 rounded-full px-4 py-1.5">
                 Free booklet · Instant download
               </span>
-              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.08]">
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white !leading-[1.08]">
                 New opportunities. New business.{" "}
                 <em className="text-primary italic">New money.</em>
               </h1>

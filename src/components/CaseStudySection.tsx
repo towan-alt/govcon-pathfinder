@@ -17,7 +17,7 @@ const CaseStudySection = () => {
         <div className="max-w-5xl mx-auto space-y-10">
           <div className="space-y-4">
             <p className="eyebrow text-xs">Case Study</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
               SBA's T.H.R.I.V.E. Emerging Leaders program,{" "}
               <em className="text-primary italic">delivered by Towan's firm.</em>
             </h2>

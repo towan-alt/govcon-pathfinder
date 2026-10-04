@@ -81,7 +81,7 @@ const About = () => {
             <div className="max-w-5xl mx-auto grid lg:grid-cols-[1fr_320px] gap-12 items-center">
               <div className="space-y-6">
                 <p className="eyebrow text-xs">About {BRAND.founder}</p>
-                <h1 className="font-display text-3xl md:text-5xl font-bold text-white leading-[1.1]">
+                <h1 className="font-display text-3xl md:text-5xl font-bold text-white !leading-[1.1]">
                   A 30-year federal contractor who{" "}
                   <em className="text-primary italic">teaches what she still does.</em>
                 </h1>
@@ -173,7 +173,7 @@ const About = () => {
             <div className="max-w-4xl mx-auto space-y-10">
               <div className="space-y-4">
                 <p className="eyebrow text-xs">1996 to now</p>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
                   Thirty years in federal contracting,{" "}
                   <em className="text-primary italic">and counting.</em>
                 </h2>
@@ -248,7 +248,7 @@ const About = () => {
             <div className="max-w-4xl mx-auto space-y-10">
               <div className="space-y-4">
                 <p className="eyebrow text-xs">Case Study in full</p>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
                   A {FIGURES.thriveValue} national program that trained{" "}
                   <em className="text-primary italic">{FIGURES.thriveTrained} small business owners.</em>
                 </h2>

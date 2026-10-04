@@ -41,7 +41,7 @@ const TestimonialsSection = () => {
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="space-y-4">
             <p className="eyebrow text-xs">Client Results</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
               What people say after doing{" "}
               <em className="text-primary italic">the work</em>
             </h2>

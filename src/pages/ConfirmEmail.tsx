@@ -59,7 +59,7 @@ const ConfirmEmail = () => {
                 <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-primary/15 border border-primary/40">
                   <span className="text-primary text-3xl">✓</span>
                 </div>
-                <h1 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.15]">
+                <h1 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
                   {state.alreadyVerified ? "Already confirmed" : "You're confirmed"},{" "}
                   <em className="text-primary italic">{state.firstName}</em>.
                 </h1>
