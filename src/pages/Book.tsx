@@ -419,7 +419,7 @@ const Book = () => {
                   { icon: "⏱", label: "Session length:", value: "60 minutes, 1:1" },
                   { icon: "📧", label: "Next step:", value: "Check your email for confirmation" },
                   { icon: "📋", label: "Prep tip:", value: "Have your SAM.gov UEI number handy" },
-                  { icon: "🔒", label: "Spots:", value: "Your written plan arrives within 48 hours of the session" },
+                  { icon: "🔒", label: "Plan:", value: "Your written plan arrives within 48 hours of the session" },
                 ].map((r, i, arr) => (
                   <div
                     key={i}
