@@ -12,7 +12,7 @@ const ClosingSection = () => {
             <em className="text-primary italic">before you bid.</em>
           </h2>
           <p className="text-base text-white/75 max-w-xl mx-auto leading-relaxed">
-            Eight questions, about two minutes, and one recommended next step based on where your
+            Ten questions, about 3 minutes, and one recommended next step based on where your
             business actually is today.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-2">
@@ -25,11 +25,11 @@ const ClosingSection = () => {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              to="/book"
+              to="/readiness-review"
               onClick={() => trackCta("closing-book")}
               className="btn-outline-light text-sm px-10 py-4 rounded-md"
             >
-              Book a Strategy Call
+              Book a Readiness Review
             </Link>
           </div>
           <p className="text-xs text-white/60">

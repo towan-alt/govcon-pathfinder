@@ -172,6 +172,20 @@ const Analytics = () => {
   }, [events]);
 
 
+  // Training funnel: unique sessions reaching each step
+  const trainingSteps = useMemo(() => {
+    const steps = [
+      { key: "training_register", label: "Registered for training" },
+      { key: "assessment_start", label: "Started assessment" },
+      { key: "assessment_complete", label: "Completed assessment" },
+      { key: "review_view", label: "Viewed Readiness Review" },
+      { key: "review_checkout_start", label: "Started checkout" },
+      { key: "review_purchased", label: "Purchased" },
+    ];
+    const sets = steps.map((st) => new Set(events.filter((e) => e.event_name === st.key).map((e) => e.session_id ?? "unknown")));
+    return steps.map((st, i) => ({ ...st, count: sets[i].size }));
+  }, [events]);
+
   const t = stats.totals;
   const k = kitStats.totals;
 
@@ -303,6 +317,34 @@ const Analytics = () => {
               </div>
             </div>
 
+            {/* Training funnel */}
+            <div className="space-y-4">
+              <div>
+                <h2 className="font-display text-xl font-bold text-foreground">Training funnel</h2>
+                <p className="text-muted-foreground text-sm mt-1">Free training to assessment to Readiness Review purchase. Unique visitors per step.</p>
+              </div>
+              <div className="rounded-xl border border-border bg-card overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-muted-foreground border-b border-border">
+                      <th className="p-3 font-semibold">Step</th>
+                      <th className="p-3 font-semibold text-right">Visitors</th>
+                      <th className="p-3 font-semibold text-right">From previous step</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {trainingSteps.map((st, i) => (
+                      <tr key={st.key} className="border-b border-border last:border-0">
+                        <td className="p-3 text-foreground">{st.label}</td>
+                        <td className="p-3 text-right font-semibold text-foreground">{st.count}</td>
+                        <td className="p-3 text-right text-foreground/80">{i === 0 ? "—" : pct(st.count, trainingSteps[i - 1].count)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
             {/* Launch Kit funnel */}
 
 
@@ -371,7 +413,7 @@ const Analytics = () => {
                   From kit subscriber to customer
                 </h2>
                 <p className="text-muted-foreground text-sm mt-1">
-                  People who asked for the booklet, and how many later booked a strategy session
+                  People who asked for the booklet, and how many later booked a session
                   (matched by email address).
                 </p>
               </div>

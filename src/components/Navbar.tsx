@@ -5,6 +5,7 @@ import { BRAND } from "@/lib/brand";
 import { trackCta } from "@/lib/track";
 
 const navLinks = [
+  { label: "Free Training", href: "/training" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/#services" },
   { label: "Results", href: "/#results" },
@@ -91,13 +92,13 @@ const Navbar = () => {
             Free Assessment
           </Link>
           <Link
-            to="/book"
-            onClick={() => trackCta("nav-book")}
+            to="/readiness-review"
+            onClick={() => trackCta("nav-review")}
             className={`text-xs font-semibold uppercase tracking-wider transition-colors hover:text-primary ${
               scrolled ? "text-foreground/75" : "text-white/80"
             }`}
           >
-            Book a Call
+            Readiness Review
           </Link>
         </div>
 
@@ -136,14 +137,14 @@ const Navbar = () => {
               Free Assessment
             </Link>
             <Link
-              to="/book"
+              to="/readiness-review"
               onClick={() => {
-                trackCta("nav-mobile-book");
+                trackCta("nav-mobile-review");
                 setMobileOpen(false);
               }}
               className="text-sm font-semibold uppercase tracking-wider text-foreground/80 hover:text-primary text-center py-2"
             >
-              Book a Call
+              Readiness Review
             </Link>
           </div>
         </div>

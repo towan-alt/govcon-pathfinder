@@ -79,11 +79,11 @@ const KitUpgrade = () => {
                 <p className="text-xs text-muted-foreground mt-4">
                   Prefer to talk it through first?{" "}
                   <Link
-                    to="/book"
+                    to="/readiness-review"
                     onClick={() => trackCta("kit-upgrade-book")}
                     className="text-primary font-semibold underline"
                   >
-                    Book a free strategy call
+                    Book a Readiness Review
                   </Link>
                   .
                 </p>

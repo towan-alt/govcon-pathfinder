@@ -71,11 +71,11 @@ const KitConfirm = () => {
                     Download the booklet
                   </a>
                   <a
-                    href="/book"
+                    href="/readiness-review"
                     className="text-sm px-10 py-4 rounded-md border text-white/80 hover:text-primary hover:border-primary transition-colors"
                     style={{ borderColor: "hsl(0 0% 100% / 0.15)" }}
                   >
-                    Book a strategy call
+                    Book a Readiness Review
                   </a>
                 </div>
                 <p className="text-xs text-white/55">

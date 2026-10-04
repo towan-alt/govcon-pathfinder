@@ -346,11 +346,11 @@ const NaicsPage = () => {
               <div>
                 <h3 className="text-lg font-bold text-white mb-1">Not sure which code is the right fit for your business?</h3>
                 <p className="text-sm text-white/60">
-                  Choosing the wrong NAICS code is one of the most common — and costly — mistakes new federal contractors make. Book a free clarity call and Towan will review your business and confirm the right code personally.
+                  Choosing the wrong NAICS code is one of the most common — and costly — mistakes new federal contractors make. Book a Readiness Review and Towan will review your business and confirm the right code personally.
                 </p>
               </div>
-              <a href="/book" className="btn-gold text-xs px-8 py-3 rounded-md font-bold uppercase tracking-wider shrink-0">
-                Book a Free Clarity Call
+              <a href="/readiness-review" className="btn-gold text-xs px-8 py-3 rounded-md font-bold uppercase tracking-wider shrink-0">
+                Book a Readiness Review
               </a>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { BRAND } from "@/lib/brand";
 import { trackCta } from "@/lib/track";
 
 const promises = [
-  "8 questions, about two minutes",
+  "10 questions, about 3 minutes",
   "A readiness score across positioning, registration and capture",
   "One recommended next step — not a menu of options",
 ];
@@ -21,7 +21,7 @@ const AssessmentCtaSection = () => {
             The Free GovCon Readiness Assessment
           </h2>
           <p className="text-base text-foreground/80 leading-relaxed max-w-2xl mx-auto">
-            Answer eight questions about your business and {BRAND.method} will tell you where you
+            Answer ten questions about your business and {BRAND.method} will tell you where you
             actually stand in the federal marketplace — and which step to take next.
           </p>
 
