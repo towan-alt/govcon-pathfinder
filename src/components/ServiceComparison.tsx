@@ -4,15 +4,6 @@ import { trackCta } from "@/lib/track";
 
 const rows = [
   {
-    id: "free-session",
-    offer: "Readiness Review",
-    bestFor: "Unsure where to begin",
-    outcome: "60-minute 1:1 session, Top 5 agency list and a written 90-Day Federal Action Plan",
-    investment: "$497 one-time, credited toward any program within 14 days",
-    cta: { label: "Book a Readiness Review", to: "/readiness-review" },
-    featured: false,
-  },
-  {
     id: "vip",
     offer: "VIP Engagement",
     bestFor: "Needs a customized plan",
@@ -31,11 +22,11 @@ const ServiceComparison = () => {
           <div className="space-y-4">
             <p className="eyebrow-dark text-xs">Ways To Work Together</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">
-              Two ways in.{" "}
-              <em className="text-primary italic">One that fits you.</em>
+              One clear path.{" "}
+              <em className="text-primary italic">Built around you.</em>
             </h2>
             <p className="text-base text-foreground/75 max-w-2xl leading-relaxed">
-              Not sure which one? The free readiness assessment picks for you, based on where your
+              Not sure you're ready? The free readiness assessment shows you, based on where your
               business actually is today.
             </p>
           </div>
