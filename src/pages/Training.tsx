@@ -1,16 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ArrowRight, Check, Loader2, Radio, PlayCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import AgencyLogoBar from "@/components/AgencyLogoBar";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { FunnelFaq, StatsStrip, StickyMobileCta } from "@/components/funnel/FunnelBits";
+import TrainingRegisterForm from "@/components/training/TrainingRegisterForm";
 import towanHero from "@/assets/towan-hero.jpg";
-import { supabase } from "@/integrations/supabase/client";
 import { BRAND, FIGURES } from "@/lib/brand";
-import { formatSession, nextSessionStart, saveLead, getLead, TRAINING_MINUTES } from "@/lib/funnel";
-import { getDevice, getSource, trackCta, trackEvent } from "@/lib/track";
+import { formatSession, nextSessionStart, TRAINING_MINUTES } from "@/lib/funnel";
+import { trackCta, trackEvent } from "@/lib/track";
 
 const MISTAKES = [
   { title: "Registering and waiting", text: "Why SAM.gov registration alone produces zero contracts, and what has to happen next." },
@@ -55,19 +54,10 @@ function useCountdown(target: Date) {
 }
 
 const Training = () => {
-  const navigate = useNavigate();
   const session = useMemo(() => nextSessionStart(), []);
   const sessionLabel = formatSession(session);
   const cd = useCountdown(session);
 
-  const prior = getLead();
-  const [choice, setChoice] = useState<"live" | "replay">("live");
-  const [firstName, setFirstName] = useState(prior?.firstName ?? "");
-  const [email, setEmail] = useState(prior?.email ?? "");
-  const [phone, setPhone] = useState(prior?.phone ?? "");
-  const [sms, setSms] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     void trackEvent("training_view");
@@ -78,41 +68,6 @@ const Training = () => {
     document.getElementById("register")?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const errs: Record<string, string> = {};
-    if (!firstName.trim()) errs.firstName = "Please enter your first name.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errs.email = "Please enter a valid email.";
-    if (phone.trim() && phone.replace(/\D/g, "").length < 10) errs.phone = "Please enter a 10-digit mobile number or leave it blank.";
-    if (sms && !phone.trim()) errs.phone = "Add a mobile number to get text reminders.";
-    setErrors(errs);
-    if (Object.keys(errs).length) return;
-
-    setSending(true);
-    const label = choice === "live" ? `live ${sessionLabel}` : "replay";
-    const { data, error } = await supabase.functions.invoke("submit-lead", {
-      body: {
-        firstName: firstName.trim(),
-        lastName: "",
-        email: email.trim(),
-        phone: phone.trim(),
-        recommendation: `Webinar registration: ${label}${sms ? " · SMS reminders opted in" : ""}`,
-        device: getDevice(),
-        source: getSource(),
-        origin: window.location.origin,
-      },
-    });
-    setSending(false);
-    if (error || (data as { error?: string })?.error) {
-      setErrors({ form: "We couldn't save your seat. Please try again; your details are still here." });
-      return;
-    }
-    saveLead({ firstName: firstName.trim(), email: email.trim(), phone: phone.trim(), session: choice, sessionIso: session.toISOString() });
-    void trackEvent("training_register", choice);
-    navigate(choice === "live" ? "/training/registered" : "/training/watch");
-  };
-
-  const inputCls = "w-full rounded-md border bg-background px-4 py-2.5 md:py-3 text-sm text-foreground placeholder:text-muted-foreground";
 
   return (
     <div className="min-h-screen bg-background">
@@ -139,43 +94,7 @@ const Training = () => {
             </div>
 
             {/* REGISTRATION CARD */}
-            <form id="register" onSubmit={submit} noValidate className="rounded-2xl bg-card text-card-foreground p-5 md:p-7 shadow-2xl space-y-3 md:space-y-4 border-t-4 border-primary">
-              <p className="hidden md:block font-display text-xl font-bold text-foreground">Save your free seat</p>
-              <div className="grid gap-2 md:gap-3" role="radiogroup" aria-label="Choose your session">
-                {([
-                  { key: "live", icon: Radio, title: `Live: ${sessionLabel}`, sub: "Ask your questions live" },
-                  { key: "replay", icon: PlayCircle, title: "On-Demand Replay", sub: "Watch now" },
-                ] as const).map((o) => (
-                  <label key={o.key} className={`flex items-start gap-3 rounded-lg border-2 p-3 md:p-4 cursor-pointer transition-colors ${choice === o.key ? "border-primary bg-primary/10" : "border-border hover:border-primary/50"}`}>
-                    <input type="radio" name="session" value={o.key} checked={choice === o.key} onChange={() => setChoice(o.key)} className="mt-1 accent-primary" />
-                    <o.icon className="h-5 w-5 mt-0.5 shrink-0 text-foreground" />
-                    <span>
-                      <span className="block text-sm font-bold text-foreground">{o.title}</span>
-                      <span className="block text-xs text-muted-foreground">{o.sub}</span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-              <Field id="t-first" label="First name" error={errors.firstName}>
-                <input id="t-first" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} maxLength={80} className={`${inputCls} ${errors.firstName ? "border-destructive" : "border-border"}`} />
-              </Field>
-              <Field id="t-email" label="Email" error={errors.email}>
-                <input id="t-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={255} className={`${inputCls} ${errors.email ? "border-destructive" : "border-border"}`} />
-              </Field>
-              <Field id="t-phone" label="Mobile (optional)" error={errors.phone}>
-                <input id="t-phone" type="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={30} className={`${inputCls} ${errors.phone ? "border-destructive" : "border-border"}`} />
-              </Field>
-              <label className="flex items-start gap-2.5 text-xs text-foreground/80 leading-relaxed">
-                <input type="checkbox" checked={sms} onChange={(e) => setSms(e.target.checked)} className="mt-0.5 accent-primary" />
-                Text me reminders. Msg and data rates may apply. Reply STOP to opt out.
-              </label>
-              {errors.form && <p className="text-sm text-destructive" role="alert">{errors.form}</p>}
-              <button type="submit" disabled={sending} className="btn-gold w-full gap-2 py-4 disabled:opacity-60">
-                {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                Save My Seat
-              </button>
-              <p className="text-xs text-muted-foreground text-center">We respect your privacy. No spam, unsubscribe anytime.</p>
-            </form>
+            <TrainingRegisterForm />
 
             <div className="lg:hidden space-y-5">
               <p className="text-base text-white/80 leading-relaxed">
