@@ -290,6 +290,45 @@ export type Database = {
         }
         Relationships: []
       }
+      naics_reports: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string | null
+          naics: string
+          opportunity_count: number | null
+          sent_at: string | null
+          status: string
+          status_reason: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name?: string | null
+          naics: string
+          opportunity_count?: number | null
+          sent_at?: string | null
+          status?: string
+          status_reason?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string | null
+          naics?: string
+          opportunity_count?: number | null
+          sent_at?: string | null
+          status?: string
+          status_reason?: string | null
+        }
+        Relationships: []
+      }
       sms_opt_outs: {
         Row: {
           opted_out_at: string
