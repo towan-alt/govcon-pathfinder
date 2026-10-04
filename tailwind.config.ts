@@ -15,7 +15,8 @@ export default {
     extend: {
       fontFamily: {
         display: ["'Playfair Display'", "Georgia", "serif"],
-        body: ["'DM Sans'", "'Open Sans'", "sans-serif"],
+        sans: ["Montserrat", "system-ui", "sans-serif"],
+        body: ["Montserrat", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -59,6 +60,8 @@ export default {
           DEFAULT: "hsl(var(--gold))",
           light: "hsl(var(--gold-light))",
         },
+        teal: "hsl(var(--teal))",
+        "light-gray": "hsl(var(--light-gray))",
         cream: {
           DEFAULT: "hsl(var(--cream))",
           dark: "hsl(var(--cream-dark))",

@@ -35,7 +35,7 @@ const faqs = [
 
 const FaqSection = () => {
   return (
-    <section id="faq" className="bg-background py-20 lg:py-24">
+    <section id="faq" className="bg-ti-pattern py-20 lg:py-24">
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="space-y-3">

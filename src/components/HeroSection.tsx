@@ -17,7 +17,7 @@ const HeroSection = () => {
 
             <h1 className="font-display text-3xl md:text-4xl lg:text-[3rem] font-bold text-white !leading-[1.12]">
               Sell to the Government.{" "}
-              <em className="text-primary not-italic">Grow Your Business.</em>
+              <em className="text-primary italic">Grow Your Business.</em>
             </h1>
 
             <p className="text-base text-white/75 leading-relaxed max-w-xl">

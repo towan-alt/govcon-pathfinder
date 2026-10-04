@@ -27,7 +27,7 @@ const VideoFrame = ({ poster, posterAlt, title, videoId, transcript, src }: Vide
     <div className="space-y-3">
       <div
         className="relative aspect-video rounded-xl overflow-hidden shadow-2xl"
-        style={{ background: "hsl(0 0% 8%)" }}
+        style={{ background: "hsl(var(--navy-light))" }}
       >
         {!isPlaying ? (
           <>
@@ -62,7 +62,7 @@ const VideoFrame = ({ poster, posterAlt, title, videoId, transcript, src }: Vide
         ) : (
           <div
             className="absolute inset-0 flex items-center justify-center px-6 text-center"
-            style={{ background: "hsl(0 0% 6%)" }}
+            style={{ background: "hsl(var(--navy-medium))" }}
           >
             <p className="text-white/70 text-sm">
               This video is being captioned and will appear here shortly.

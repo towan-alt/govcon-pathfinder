@@ -121,7 +121,7 @@ const About = () => {
         </section>
 
         {/* Stats */}
-        <section className="py-16" style={{ background: "hsl(0 0% 4%)" }}>
+        <section className="py-16" style={{ background: "hsl(var(--navy))" }}>
           <div className="container mx-auto px-6">
             <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
               {STATS.map((s) => (
@@ -243,7 +243,7 @@ const About = () => {
         </section>
 
         {/* T.H.R.I.V.E. case study */}
-        <section className="py-20" style={{ background: "hsl(0 0% 4%)" }}>
+        <section className="py-20" style={{ background: "hsl(var(--navy))" }}>
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto space-y-10">
               <div className="space-y-4">

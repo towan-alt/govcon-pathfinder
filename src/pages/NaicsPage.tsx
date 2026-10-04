@@ -404,7 +404,7 @@ const NaicsPage = () => {
         >
           <div
             className="relative w-full max-w-md rounded-xl border p-8 shadow-2xl"
-            style={{ borderColor: "hsl(45 55% 55% / 0.3)", background: "hsl(0 0% 7%)" }}
+            style={{ borderColor: "hsl(var(--gold) / 0.3)", background: "hsl(var(--navy-light))" }}
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -539,7 +539,7 @@ const NaicsPage = () => {
                         value={subNaics}
                         onChange={(e) => setSubNaics(e.target.value)}
                         className="w-full rounded-md border px-3 py-2.5 text-sm text-primary font-semibold focus:outline-none focus:border-primary"
-                        style={{ borderColor: "hsl(45 55% 55% / 0.35)", background: "hsl(0 0% 10%)" }}
+                        style={{ borderColor: "hsl(var(--gold) / 0.35)", background: "hsl(0 0% 10%)" }}
                       />
                     </div>
                     <div>

@@ -2,7 +2,7 @@ import { STATS, FIGURES } from "@/lib/brand";
 
 const StatsSection = () => {
   return (
-    <section id="credibility" className="py-16 lg:py-20" style={{ background: "hsl(0 0% 4%)" }}>
+    <section id="credibility" className="py-16 lg:py-20" style={{ background: "hsl(var(--navy))" }}>
       <div className="container mx-auto px-6">
         <div className="max-w-5xl mx-auto">
           <p className="eyebrow text-xs text-center mb-10">The Track Record</p>

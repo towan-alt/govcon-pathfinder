@@ -36,7 +36,7 @@ const KitConfirm = () => {
   }, []);
 
   return (
-    <main className="min-h-screen" style={{ background: "hsl(0 0% 4%)" }}>
+    <main className="min-h-screen" style={{ background: "hsl(var(--navy))" }}>
       <Navbar />
 
       <section className="pt-36 pb-24 lg:pt-44">
