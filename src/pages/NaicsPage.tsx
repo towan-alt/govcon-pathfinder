@@ -434,7 +434,8 @@ const NaicsPage = () => {
                 <p className="text-sm text-white/60 leading-relaxed">
                   We just emailed you a confirmation link for NAICS{" "}
                   <span className="text-primary font-semibold">{subNaics}</span>. Click it and
-                  we'll send your starting-point questions right away.
+                  we'll send your starting-point questions right away. Your report of open federal
+                  opportunities for this code is on its way to your inbox too.
                 </p>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/60">
                   Follow Towan Isom, CEO for more
