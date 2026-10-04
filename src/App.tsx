@@ -22,6 +22,7 @@ import TrainingRegistered from "./pages/TrainingRegistered.tsx";
 import TrainingWatch from "./pages/TrainingWatch.tsx";
 import ReadinessReview from "./pages/ReadinessReview.tsx";
 import ReadinessConfirmed from "./pages/ReadinessConfirmed.tsx";
+import Unsubscribe from "./pages/Unsubscribe.tsx";
 
 import NotFound from "./pages/NotFound.tsx";
 
@@ -56,6 +57,7 @@ const App = () => (
           <Route path="/training/watch" element={<TrainingWatch />} />
           <Route path="/readiness-review" element={<ReadinessReview />} />
           <Route path="/readiness-review/confirmed" element={<ReadinessConfirmed />} />
+          <Route path="/unsubscribe" element={<Unsubscribe />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
