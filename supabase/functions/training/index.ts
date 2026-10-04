@@ -118,7 +118,7 @@ Deno.serve(async (req) => {
           }
         }
         const { data: msgs } = await sb.from("training_messages")
-          .select("template_key, sent_template, channel, status").gte("created_at", since).neq("status", "queued").limit(20000);
+          .select("template_key, sent_template, channel, status").eq("sequence", "training").gte("created_at", since).neq("status", "queued").limit(20000);
         const messages: Record<string, { sent: number; skipped: number; failed: number }> = {};
         for (const m of msgs ?? []) {
           const k = `${m.sent_template ?? m.template_key} (${m.channel})`;

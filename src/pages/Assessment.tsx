@@ -6,7 +6,7 @@ import SiteFooter from "@/components/SiteFooter";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { BRAND } from "@/lib/brand";
-import { getLead, saveLead, PILLAR_LABELS, RESULT_KEY, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE, type AssessmentResult, type PillarKey } from "@/lib/funnel";
+import { ASSESSMENT_CONSENT_BEFORE, ASSESSMENT_RESULT_NOTE, getLead, saveLead, PILLAR_LABELS, RESULT_KEY, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE, type AssessmentResult, type PillarKey } from "@/lib/funnel";
 import { getDevice, getSource, trackCta, trackEvent } from "@/lib/track";
 
 type Option = { label: string; points: number };
@@ -227,8 +227,17 @@ const Assessment = () => {
       setError("Something went wrong saving your result. Please try again.");
       return;
     }
+    const { data: saved } = await supabase.functions.invoke("assessment", {
+      body: {
+        action: "submit",
+        firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), phone: phone.trim(),
+        score, tier: tier.name, pillars, gap,
+        answers: QUESTIONS.map((q) => ({ question: q.question, answer: q.options.find((o) => o.points === answers[q.id])?.label ?? "" })),
+        origin: window.location.origin, pageUrl: window.location.href,
+      },
+    }).catch(() => ({ data: null }));
     saveLead({ firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), phone: phone.trim() });
-    const stored: StoredResult = { score, tierKey: tier.key, firstName: firstName.trim(), pillars, gap };
+    const stored: StoredResult = { score, tierKey: tier.key, firstName: firstName.trim(), pillars, gap, reportToken: (saved as { token?: string } | null)?.token };
     sessionStorage.setItem(RESULT_KEY, JSON.stringify(stored));
     setResult(stored);
     void trackEvent("assessment_complete", tier.key);
@@ -297,7 +306,10 @@ const Assessment = () => {
                 </div>
 
                 <p className="text-sm text-muted-foreground text-center">
-                  Your result is saved. Check your inbox and click the confirmation link so we can email your next steps.
+                  {ASSESSMENT_RESULT_NOTE}
+                  {result.reportToken && (
+                    <> <Link to={`/assessment/report?t=${result.reportToken}`} className="underline text-foreground">View your full report</Link></>
+                  )}
                 </p>
                 <div className="text-center">
                   <button onClick={restart} className="text-sm font-semibold text-muted-foreground hover:text-foreground">Retake the assessment</button>
@@ -408,10 +420,11 @@ const Assessment = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label htmlFor="a-phone" className="text-sm font-medium text-foreground">
-                        Mobile (optional)
+                        Mobile number (optional, for text updates)
                       </label>
                       <input
                         id="a-phone"
+                        type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground"
@@ -420,6 +433,12 @@ const Assessment = () => {
                     </div>
 
                     {error && <p className="text-sm text-destructive">{error}</p>}
+
+                    <p className="text-xs leading-relaxed text-foreground">
+                      {ASSESSMENT_CONSENT_BEFORE}{" "}
+                      <Link to="/privacy" className="underline">Privacy Policy</Link> and{" "}
+                      <Link to="/terms" className="underline">Terms</Link>.
+                    </p>
 
                     <button
                       type="submit"

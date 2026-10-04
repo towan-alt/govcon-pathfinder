@@ -224,3 +224,10 @@
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+@media print {
+  @page { size: letter; margin: 0.5in; }
+  .report-print { font-size: 11pt; }
+  .report-print .section-navy { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .report-print .bg-primary { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

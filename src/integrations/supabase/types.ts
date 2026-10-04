@@ -14,6 +14,111 @@ export type Database = {
   }
   public: {
     Tables: {
+      assessment_results: {
+        Row: {
+          answers: Json
+          created_at: string
+          email: string
+          first_name: string
+          gap: string
+          id: string
+          last_name: string | null
+          phone: string | null
+          pillars: Json
+          purchased_at: string | null
+          report_token: string
+          report_views: number
+          score: number
+          site_origin: string | null
+          sms_consent: boolean
+          tier: string
+          unsub_token: string
+          unsubscribed_at: string | null
+        }
+        Insert: {
+          answers: Json
+          created_at?: string
+          email: string
+          first_name: string
+          gap: string
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          pillars: Json
+          purchased_at?: string | null
+          report_token?: string
+          report_views?: number
+          score: number
+          site_origin?: string | null
+          sms_consent?: boolean
+          tier: string
+          unsub_token?: string
+          unsubscribed_at?: string | null
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          email?: string
+          first_name?: string
+          gap?: string
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          pillars?: Json
+          purchased_at?: string | null
+          report_token?: string
+          report_views?: number
+          score?: number
+          site_origin?: string | null
+          sms_consent?: boolean
+          tier?: string
+          unsub_token?: string
+          unsubscribed_at?: string | null
+        }
+        Relationships: []
+      }
+      consent_log: {
+        Row: {
+          consent_at: string
+          consent_text: string
+          consent_version: string
+          email: string
+          email_consent: boolean
+          id: string
+          ip: string | null
+          page_url: string | null
+          phone: string | null
+          sms_consent: boolean
+          user_agent: string | null
+        }
+        Insert: {
+          consent_at?: string
+          consent_text: string
+          consent_version: string
+          email: string
+          email_consent: boolean
+          id?: string
+          ip?: string | null
+          page_url?: string | null
+          phone?: string | null
+          sms_consent: boolean
+          user_agent?: string | null
+        }
+        Update: {
+          consent_at?: string
+          consent_text?: string
+          consent_version?: string
+          email?: string
+          email_consent?: boolean
+          id?: string
+          ip?: string | null
+          page_url?: string | null
+          phone?: string | null
+          sms_consent?: boolean
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       funnel_events: {
         Row: {
           created_at: string
@@ -185,39 +290,60 @@ export type Database = {
         }
         Relationships: []
       }
+      sms_opt_outs: {
+        Row: {
+          opted_out_at: string
+          phone: string
+        }
+        Insert: {
+          opted_out_at?: string
+          phone: string
+        }
+        Update: {
+          opted_out_at?: string
+          phone?: string
+        }
+        Relationships: []
+      }
       training_messages: {
         Row: {
+          assessment_email: string | null
           channel: string
           created_at: string
           id: string
           processed_at: string | null
-          registration_id: string
+          registration_id: string | null
           send_at: string
           sent_template: string | null
+          sequence: string
           status: string
           status_reason: string | null
           template_key: string
         }
         Insert: {
+          assessment_email?: string | null
           channel: string
           created_at?: string
           id?: string
           processed_at?: string | null
-          registration_id: string
+          registration_id?: string | null
           send_at: string
           sent_template?: string | null
+          sequence?: string
           status?: string
           status_reason?: string | null
           template_key: string
         }
         Update: {
+          assessment_email?: string | null
           channel?: string
           created_at?: string
           id?: string
           processed_at?: string | null
-          registration_id?: string
+          registration_id?: string | null
           send_at?: string
           sent_template?: string | null
+          sequence?: string
           status?: string
           status_reason?: string | null
           template_key?: string

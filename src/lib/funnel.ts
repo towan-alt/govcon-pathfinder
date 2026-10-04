@@ -61,6 +61,7 @@ export type AssessmentResult = {
   firstName: string;
   pillars?: Record<PillarKey, number>;
   gap?: PillarKey;
+  reportToken?: string;
 };
 
 export const PILLAR_LABELS: Record<PillarKey, string> = {
@@ -240,3 +241,9 @@ export function trainingSessionOptions(now = new Date()): TrainingSessionOption[
 }
 
 export const REG_KEY = "ggc_training_reg";
+
+/** Assessment consent (must match CONSENT_TEXT in supabase/functions/_shared/assessment-templates.ts). */
+export const ASSESSMENT_CONSENT_BEFORE =
+  'By clicking "Show My Result," you agree to receive your Readiness Report and follow-up emails from GoGovCon. If you provide a mobile number, you also agree to receive recurring automated marketing text messages from GoGovCon at that number. Consent to texts is not a condition of any purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. You can unsubscribe from emails at any time using the link in every email. See our';
+export const ASSESSMENT_RESULT_NOTE =
+  "Your report is on its way to your inbox. You're enrolled in GoGovCon emails and, if you shared your mobile number, text updates. Opt out any time.";

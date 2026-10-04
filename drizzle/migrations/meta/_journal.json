@@ -8,6 +8,13 @@
       "when": 1791147821276,
       "tag": "0000_training_automation",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791157645469,
+      "tag": "0001_assessment_followup",
+      "breakpoints": true
     }
   ]
 }
