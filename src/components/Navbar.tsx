@@ -10,7 +10,6 @@ const navLinks = [
   { label: "Services", href: "/#services" },
   { label: "Results", href: "/#results" },
   { label: "NAICS Finder", href: "/naics" },
-  { label: "Free Kit", href: "/kit" },
 ];
 
 const Navbar = () => {

@@ -19,7 +19,6 @@ const columns = [
       { label: "Readiness Assessment", to: "/assessment" },
       { label: "Free Training", to: "/training" },
       { label: "Book a Readiness Review", to: "/readiness-review" },
-      { label: "Free Launch Kit", to: "/kit" },
       { label: "NAICS Finder", to: "/naics" },
     ],
   },

@@ -11,10 +11,6 @@ import LegalPage from "./pages/LegalPage.tsx";
 import Book from "./pages/Book.tsx";
 import NaicsPage from "./pages/NaicsPage.tsx";
 import Analytics from "./pages/Analytics.tsx";
-import Kit from "./pages/Kit.tsx";
-import LaunchKit from "./pages/LaunchKit.tsx";
-import KitConfirm from "./pages/KitConfirm.tsx";
-import KitUpgrade from "./pages/KitUpgrade.tsx";
 import CheckoutReturn from "./pages/CheckoutReturn.tsx";
 import ConfirmEmail from "./pages/ConfirmEmail.tsx";
 import Training from "./pages/Training.tsx";
@@ -46,10 +42,6 @@ const App = () => (
           <Route path="/book" element={<Book />} />
           <Route path="/naics" element={<NaicsPage />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/kit" element={<Kit />} />
-          <Route path="/launch-kit" element={<LaunchKit />} />
-          <Route path="/kit/confirm" element={<KitConfirm />} />
-          <Route path="/kit/upgrade" element={<KitUpgrade />} />
           <Route path="/checkout/return" element={<CheckoutReturn />} />
           <Route path="/confirm" element={<ConfirmEmail />} />
           <Route path="/training" element={<Training />} />
