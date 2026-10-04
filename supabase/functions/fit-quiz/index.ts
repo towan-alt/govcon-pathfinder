@@ -12,12 +12,6 @@ const OPTIONS = [
     href: "/book",
   },
   {
-    id: "masterclass",
-    name: "Monthly GovCon Masterclass",
-    price: "$197/month",
-    href: "/#masterclass",
-  },
-  {
     id: "vip",
     name: "VIP Done-For-You Strategy Engagement",
     price: "$997",
@@ -28,10 +22,9 @@ const OPTIONS = [
 const SYSTEM = `You are an advisor for GoGovCon, Towan Isom's government contracting coaching practice.
 You recommend exactly one starting option for a small business owner, based on their answers.
 
-The three options are:
+The two options are:
 1. "strategy-session" — Free 15-minute strategy session. Best for beginners, the unregistered, the unsure, and anyone who has never bid.
-2. "masterclass" — $197/month live monthly masterclass. Best for people who are registered and want to learn the process steadily on their own time, on a modest budget.
-3. "vip" — $997 VIP done-for-you engagement. Best for people who are registered, have real revenue or urgency, and want deliverables built for them fast.
+2. "vip" — $997 VIP done-for-you engagement. Best for people who are registered, have real revenue or urgency, and want deliverables built for them fast.
 
 Write in plain, warm, direct language. No jargon, no acronyms without a short explanation.
 Reference their stated work area and goal specifically.`;
@@ -41,7 +34,7 @@ const schema = {
   additionalProperties: false,
   required: ["recommended_id", "headline", "why", "next_steps", "also_consider"],
   properties: {
-    recommended_id: { type: "string", enum: ["strategy-session", "masterclass", "vip"] },
+    recommended_id: { type: "string", enum: ["strategy-session", "vip"] },
     headline: { type: "string", description: "One short sentence naming the best starting point." },
     why: { type: "string", description: "2-3 sentences on why this fits their goal and work area." },
     next_steps: {

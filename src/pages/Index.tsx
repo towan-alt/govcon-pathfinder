@@ -8,7 +8,6 @@ import CaseStudySection from "@/components/CaseStudySection";
 import AssessmentCtaSection from "@/components/AssessmentCtaSection";
 import ServiceComparison from "@/components/ServiceComparison";
 import OfferVIPDoneForYou from "@/components/OfferVIPDoneForYou";
-import OfferMasterclass from "@/components/OfferMasterclass";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import VideoSection from "@/components/VideoSection";
 import FaqSection from "@/components/FaqSection";
@@ -29,7 +28,6 @@ const Index = () => {
         <AssessmentCtaSection />
         <ServiceComparison />
         <OfferVIPDoneForYou />
-        <OfferMasterclass />
         <VideoSection />
         <TestimonialsSection />
         <FaqSection />

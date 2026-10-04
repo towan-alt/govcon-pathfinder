@@ -58,7 +58,7 @@ const CONTENT: Record<LegalKey, { title: string; intro: string; blocks: Block[] 
       {
         heading: "Programs and payments",
         body: [
-          "The Monthly Masterclass is billed monthly and you may cancel at any time; cancellation stops future billing and does not refund a completed month. One-time engagements are billed once at purchase and scheduled with you directly.",
+          "One-time engagements are billed once at purchase and scheduled with you directly.",
           "Prices shown on this site are in U.S. dollars and may change. The price shown at checkout is the price that applies to your purchase.",
         ],
       },

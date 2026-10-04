@@ -27,10 +27,6 @@ const faqs = [
     q: "Do the agency seals mean those agencies endorse GoGovCon?",
     a: "No. Agency seals appear as past-performance references for contracts Towan's firm has executed. They do not imply endorsement by any federal agency.",
   },
-  {
-    q: "Can I cancel the monthly masterclass?",
-    a: "Yes. The masterclass is month to month and you can cancel anytime. Recordings of sessions you attended stay available while your membership is active.",
-  },
 ];
 
 const FaqSection = () => {

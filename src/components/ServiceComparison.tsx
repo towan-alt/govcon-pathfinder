@@ -13,15 +13,6 @@ const rows = [
     featured: false,
   },
   {
-    id: "masterclass",
-    offer: "Monthly Masterclass",
-    bestFor: "Learning with ongoing support",
-    outcome: "Monthly live training, templates and Q&A",
-    investment: "$197/month",
-    cta: { label: "See what's covered", to: "/#masterclass" },
-    featured: false,
-  },
-  {
     id: "vip",
     offer: "VIP Engagement",
     bestFor: "Needs a customized plan",
@@ -40,7 +31,7 @@ const ServiceComparison = () => {
           <div className="space-y-4">
             <p className="eyebrow-dark text-xs">Ways To Work Together</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">
-              Three ways in.{" "}
+              Two ways in.{" "}
               <em className="text-primary italic">One that fits you.</em>
             </h2>
             <p className="text-base text-foreground/75 max-w-2xl leading-relaxed">
