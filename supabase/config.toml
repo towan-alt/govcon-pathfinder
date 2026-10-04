@@ -1,10 +1,7 @@
 project_id = "qjvctpmpxeadawbigroz"
 
-[functions.create-checkout]
+[functions.square-checkout]
 verify_jwt = false
 
-[functions.payments-webhook]
-verify_jwt = false
-
-[functions.verify-checkout]
+[functions.square-verify]
 verify_jwt = false
