@@ -8,8 +8,19 @@ export const REPLAY_VIDEO_URL = "";
 export const BOOKING_URL = "";
 export const STARTER_KIT_URL = "";
 
-export const REVIEW_PRICE_ID = "readiness_review_bundle_497";
-export const REVIEW_PRICE = "$497";
+/** Static Square Payment Link fallbacks, used only when Square secrets aren't set. */
+export const SQUARE_LINK_READINESS_REVIEW = "";
+export const SQUARE_LINK_LAUNCH_KIT_PRO = "";
+
+/** Square products. Keep in sync with supabase/functions/_shared/square.ts. */
+export const SQUARE_PRODUCTS = {
+  readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", staticLink: SQUARE_LINK_READINESS_REVIEW },
+  launch_kit_pro: { name: "GovCon Launch Kit Pro", cents: 9700, price: "$97", returnPath: "/checkout/return", staticLink: SQUARE_LINK_LAUNCH_KIT_PRO },
+} as const;
+export type SquareProductKey = keyof typeof SQUARE_PRODUCTS;
+
+export const SUPPORT_EMAIL = "hello@gogovcon.com";
+export const REVIEW_PRICE = SQUARE_PRODUCTS.readiness_review_bundle.price;
 export const REVIEW_CREDIT_DAYS = 14;
 export const TRAINING_MINUTES = 30;
 export const ASSESSMENT_LENGTH = "10 questions · about 3 minutes";
