@@ -38,6 +38,8 @@ Deno.serve(async (req) => {
       const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
       await sb.from("training_registrations").update({ purchased_at: new Date().toISOString() })
         .ilike("email", email).is("purchased_at", null);
+      await sb.from("assessment_results").update({ purchased_at: new Date().toISOString() })
+        .ilike("email", email).is("purchased_at", null);
     }
     return json({ paid, email, name: null });
   } catch (e) {

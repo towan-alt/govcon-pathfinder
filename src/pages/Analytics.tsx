@@ -44,6 +44,7 @@ const Analytics = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [training, setTraining] = useState<TrainingStats | null>(null);
+  const [assess, setAssess] = useState<{ messages: Record<string, { sent: number; skipped: number; failed: number }>; reportViews: number; results: number; purchased: number } | null>(null);
 
 
   useEffect(() => {
@@ -67,6 +68,10 @@ const Analytics = () => {
     setTraining(null);
     supabase.functions.invoke("training", { body: { action: "stats", days } }).then(({ data }) => {
       if (!cancelled && data?.byType) setTraining(data as TrainingStats);
+    });
+    setAssess(null);
+    supabase.functions.invoke("assessment", { body: { action: "stats", days } }).then(({ data }) => {
+      if (!cancelled && data?.messages) setAssess(data);
     });
 
 
@@ -372,6 +377,37 @@ const Analytics = () => {
                         </tr>
                       ))}
                       {!Object.keys(training.messages).length && (
+                        <tr><td colSpan={4} className="p-3 text-muted-foreground">No messages processed yet.</td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+              {assess && (
+                <div className="rounded-xl border border-border bg-card overflow-x-auto">
+                  <div className="p-4 border-b border-border">
+                    <h3 className="font-display text-lg font-bold text-foreground">Assessment emails</h3>
+                    <p className="text-sm text-foreground/80">{assess.results} reports · {assess.reportViews} report page views · {assess.purchased} Readiness Review purchases from the assessment sequence</p>
+                  </div>
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="text-left text-muted-foreground border-b border-border">
+                        <th className="p-3 font-semibold">Message</th>
+                        <th className="p-3 font-semibold text-right">Sent</th>
+                        <th className="p-3 font-semibold text-right">Skipped</th>
+                        <th className="p-3 font-semibold text-right">Failed</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(assess.messages).sort().map(([k, v]) => (
+                        <tr key={k} className="border-b border-border last:border-0">
+                          <td className="p-3 text-foreground">{k}</td>
+                          <td className="p-3 text-right font-semibold text-foreground">{v.sent}</td>
+                          <td className="p-3 text-right text-foreground/80">{v.skipped}</td>
+                          <td className="p-3 text-right text-foreground/80">{v.failed}</td>
+                        </tr>
+                      ))}
+                      {!Object.keys(assess.messages).length && (
                         <tr><td colSpan={4} className="p-3 text-muted-foreground">No messages processed yet.</td></tr>
                       )}
                     </tbody>

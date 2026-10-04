@@ -4,14 +4,21 @@ import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import { trainingAction } from "@/lib/trainingApi";
+import { supabase } from "@/integrations/supabase/client";
 
 const Unsubscribe = () => {
   const [params] = useSearchParams();
   const token = params.get("t");
+  const isAssessment = params.get("s") === "a";
   const [state, setState] = useState<"ask" | "working" | "done" | "invalid">(token ? "ask" : "invalid");
 
   const confirm = async () => {
     setState("working");
+    if (isAssessment) {
+      const { data, error } = await supabase.functions.invoke("assessment", { body: { action: "unsubscribe", token } });
+      setState(!error && (data as { ok?: boolean })?.ok ? "done" : "invalid");
+      return;
+    }
     const res = await trainingAction({ action: "unsubscribe", token });
     setState(res && !res.error && (res.data as { ok?: boolean })?.ok ? "done" : "invalid");
   };
