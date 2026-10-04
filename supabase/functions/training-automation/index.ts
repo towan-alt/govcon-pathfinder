@@ -1,8 +1,22 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { createHash, timingSafeEqual } from "node:crypto";
 import { authenticateCronRequest } from "../_shared/cron-auth.ts";
+
+/** Same pattern as _shared/cron-auth.ts; uses the managed cron secret when present, else TRAINING_CRON_SECRET. */
+function authenticate(req: Request): Response | null {
+  if (Deno.env.get("LOVABLE_CRON_SECRET")) {
+    const managed = authenticateCronRequest(req);
+    if (!managed) return null;
+  }
+  const secret = Deno.env.get("TRAINING_CRON_SECRET");
+  if (!secret) return new Response("Server configuration error", { status: 500 });
+  const token = /^Bearer ([^\s,]+)$/.exec(req.headers.get("authorization") ?? "")?.[1];
+  if (!token) return new Response("Unauthorized", { status: 401 });
+  const d = (v: string) => createHash("sha256").update(v, "utf8").digest();
+  return timingSafeEqual(d(token), d(secret)) ? null : new Response("Unauthorized", { status: 401 });
+}
 import { EMAIL_FROM, emailFor, renderEmail, smsFor, type Ctx } from "../_shared/training-templates.ts";
 
-const H = 3600000;
 const TZ = "America/New_York";
 
 function label(d: Date) {
@@ -53,7 +67,7 @@ function resolve(key: string, r: Reg, now: number): { template?: string; skip?: 
 }
 
 Deno.serve(async (req) => {
-  const denied = authenticateCronRequest(req);
+  const denied = authenticate(req);
   if (denied) return denied;
 
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -133,6 +147,5 @@ Deno.serve(async (req) => {
       await finish("failed", e instanceof Error ? e.message.slice(0, 200) : "error", template);
     }
   }
-  void H;
   return new Response(JSON.stringify({ processed: due?.length ?? 0, sent, skipped, failed }), { headers: { "Content-Type": "application/json" } });
 });
