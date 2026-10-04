@@ -54,7 +54,7 @@ const WhyTowanSection = () => {
                   onClick={() => trackCta("about-assessment")}
                   className="btn-gold inline-flex items-center gap-2 px-7 py-3.5 rounded-md text-sm"
                 >
-                  Take the Free Readiness Assessment
+                  Watch the Free Training
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
