@@ -36,11 +36,11 @@ const HeroSection = () => {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/readiness-review"
+                to="/#vip-dfy"
                 onClick={() => trackCta("hero-book")}
                 className="btn-outline-light text-sm px-8 py-4 rounded-md"
               >
-                Book a Readiness Review
+                See the VIP Engagement
               </Link>
             </div>
 

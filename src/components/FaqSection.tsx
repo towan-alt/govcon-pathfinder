@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "What happens after I take the assessment?",
-    a: "You see your readiness result immediately, along with the one next step that fits your stage: your score across the five pillars, your biggest gap, and the Readiness Review if you want a written 90-day plan built with Towan. You are never pushed into anything.",
+    a: "You see your readiness result immediately, along with the one next step that fits your stage: your score across the five pillars, your biggest gap. You are never pushed into anything.",
   },
   {
     q: "Is a contract win guaranteed?",

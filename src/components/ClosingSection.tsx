@@ -25,11 +25,11 @@ const ClosingSection = () => {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              to="/readiness-review"
+              to="/#vip-dfy"
               onClick={() => trackCta("closing-book")}
               className="btn-outline-light text-sm px-10 py-4 rounded-md"
             >
-              Book a Readiness Review
+              See the VIP Engagement
             </Link>
           </div>
           <p className="text-xs text-white/60">
