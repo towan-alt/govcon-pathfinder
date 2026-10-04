@@ -181,7 +181,7 @@
 
   .eyebrow-dark {
     @apply text-xs font-semibold uppercase tracking-[0.2em];
-    color: hsl(var(--gold));
+    color: hsl(var(--foreground));
     font-family: var(--font-body);
   }
 
