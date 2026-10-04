@@ -5,7 +5,6 @@ import { BRAND } from "@/lib/brand";
 import { trackCta } from "@/lib/track";
 
 const navLinks = [
-  { label: "Free Training", href: "/training" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/#services" },
   { label: "Results", href: "/#results" },
@@ -84,20 +83,11 @@ const Navbar = () => {
             </Link>
           ))}
           <Link
-            to="/assessment"
-            onClick={() => trackCta("nav-assessment")}
+            to="/training"
+            onClick={() => trackCta("nav-training")}
             className="btn-gold text-xs px-6 py-3 rounded-md"
           >
-            Free Assessment
-          </Link>
-          <Link
-            to="/readiness-review"
-            onClick={() => trackCta("nav-review")}
-            className={`text-xs font-semibold uppercase tracking-wider transition-colors hover:text-primary ${
-              scrolled ? "text-foreground/75" : "text-white/80"
-            }`}
-          >
-            Readiness Review
+            Free Training
           </Link>
         </div>
 
@@ -126,24 +116,14 @@ const Navbar = () => {
           ))}
           <div className="flex flex-col gap-3 pt-3">
             <Link
-              to="/assessment"
+              to="/training"
               onClick={() => {
-                trackCta("nav-mobile-assessment");
+                trackCta("nav-mobile-training");
                 setMobileOpen(false);
               }}
               className="btn-gold text-sm px-6 py-3 rounded-md text-center"
             >
-              Free Assessment
-            </Link>
-            <Link
-              to="/readiness-review"
-              onClick={() => {
-                trackCta("nav-mobile-review");
-                setMobileOpen(false);
-              }}
-              className="text-sm font-semibold uppercase tracking-wider text-foreground/80 hover:text-primary text-center py-2"
-            >
-              Readiness Review
+              Free Training
             </Link>
           </div>
         </div>
