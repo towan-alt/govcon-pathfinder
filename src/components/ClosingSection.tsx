@@ -17,7 +17,7 @@ const ClosingSection = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-2">
             <Link
-              to="/assessment"
+              to="/training"
               onClick={() => trackCta("closing-assessment")}
               className="btn-gold inline-flex items-center gap-2 text-sm px-10 py-4 rounded-md"
             >

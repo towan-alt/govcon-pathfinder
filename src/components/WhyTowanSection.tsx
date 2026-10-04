@@ -50,7 +50,7 @@ const WhyTowanSection = () => {
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Link
-                  to="/assessment"
+                  to="/training"
                   onClick={() => trackCta("about-assessment")}
                   className="btn-gold inline-flex items-center gap-2 px-7 py-3.5 rounded-md text-sm"
                 >
