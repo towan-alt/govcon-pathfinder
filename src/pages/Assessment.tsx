@@ -6,6 +6,7 @@ import SiteFooter from "@/components/SiteFooter";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { BRAND } from "@/lib/brand";
+import { getLead, saveLead, PILLAR_LABELS, RESULT_KEY, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE, type AssessmentResult, type PillarKey } from "@/lib/funnel";
 import { getDevice, getSource, trackCta, trackEvent } from "@/lib/track";
 
 type Option = { label: string; points: number };
@@ -29,7 +30,7 @@ const QUESTIONS: Question[] = [
       { label: "No idea yet", points: 0 },
       { label: "I have a rough idea", points: 1 },
       { label: "Yes, a primary code", points: 2 },
-      { label: "Yes — primary plus secondary codes", points: 3 },
+      { label: "Yes, primary plus secondary codes", points: 3 },
     ],
   },
   {
@@ -73,6 +74,26 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "find",
+    question: "How do you find opportunities?",
+    options: [
+      { label: "I don't know where to look", points: 0 },
+      { label: "I search now and then", points: 1 },
+      { label: "Saved SAM.gov searches", points: 2 },
+      { label: "A weekly routine: alerts, forecasts and eBuy", points: 3 },
+    ],
+  },
+  {
+    id: "meet",
+    question: "In the last 6 months, have you met agency small business specialists or prime contractors?",
+    options: [
+      { label: "No", points: 0 },
+      { label: "Attended an event, no follow-up", points: 1 },
+      { label: "One or two real conversations", points: 2 },
+      { label: "Yes, with ongoing follow-up", points: 3 },
+    ],
+  },
+  {
     id: "proposals",
     question: "How many federal bids have you submitted in the last 12 months?",
     options: [
@@ -94,69 +115,56 @@ const QUESTIONS: Question[] = [
   },
 ];
 
+const PILLARS: Record<PillarKey, string[]> = {
+  registered: ["sam", "naics"],
+  certified: ["certs", "capability"],
+  positioned: ["agencies", "experience"],
+  pipeline: ["find", "meet"],
+  proposal: ["proposals", "capacity"],
+};
+
 const MAX_POINTS = QUESTIONS.length * 3;
 
-type Tier = {
-  key: string;
-  name: string;
-  headline: string;
-  summary: string;
-  step: string;
-  cta: { label: string; to: string };
-  secondary: { label: string; to: string };
-};
+type Tier = { key: string; name: string; headline: string };
 
 const TIERS: Tier[] = [
-  {
-    key: "foundation",
-    name: "Foundation Stage",
-    headline: "Build the foundation before you bid.",
-    summary:
-      "Your registration, codes and positioning aren't fully in place yet. Bidding now would burn time on opportunities you can't win. First, get the basics right in the correct order.",
-    step: "Start with a free strategy session so Towan can map your setup sequence.",
-    cta: { label: "Book a Free Strategy Session", to: "/book" },
-    secondary: { label: "Get the free Launch Kit", to: "/kit" },
-  },
-  {
-    key: "positioning",
-    name: "Positioning Stage",
-    headline: "You're registered. Now get found and get competitive.",
-    summary:
-      "The fundamentals exist, but your positioning, targeting and capture habits aren't producing consistent opportunities yet. What you need is regular training and a rhythm you can keep.",
-    step: "The Monthly Masterclass gives you a new high-impact topic, templates and live Q&A each month.",
-    cta: { label: "See the Monthly Masterclass", to: "/#masterclass" },
-    secondary: { label: "Or book a free strategy session", to: "/book" },
-  },
-  {
-    key: "pursuit",
-    name: "Pursuit Stage",
-    headline: "You're ready to pursue real opportunities with a plan.",
-    summary:
-      "You have registration, positioning and delivery capacity. The gap now is a focused targeting and capture plan built specifically for your business rather than general training.",
-    step: "The VIP Engagement produces your agency target list, positioning and written action plan.",
-    cta: { label: "See the VIP Engagement", to: "/#vip-dfy" },
-    secondary: { label: "Or book a free strategy session", to: "/book" },
-  },
+  { key: "foundation", name: "Foundation", headline: "Build the foundation before you bid." },
+  { key: "positioning", name: "Positioning", headline: "You're registered. Now get found and get competitive." },
+  { key: "bidready", name: "Bid Ready", headline: "You're ready to pursue real opportunities with a plan." },
 ];
 
-const tierFor = (score: number): Tier => {
-  const pct = score / MAX_POINTS;
-  if (pct < 0.4) return TIERS[0];
-  if (pct < 0.7) return TIERS[1];
-  return TIERS[2];
+const tierFor = (score100: number): Tier => (score100 < 40 ? TIERS[0] : score100 < 70 ? TIERS[1] : TIERS[2]);
+
+const GAP_TEXT: Record<PillarKey, string> = {
+  registered: "Your biggest gap is Registered. Until your SAM.gov record and NAICS codes are complete and accurate, buyers searching for what you sell won't find you. Fixing this first makes every other step count.",
+  certified: "Your biggest gap is Certified. The set-asides you qualify for and a tailored capability statement are how agencies decide to look closer. Right now you're leaving that advantage on the table.",
+  positioned: "Your biggest gap is Positioned. Without a short list of target agencies and a clear story about your past work, you're competing against everyone for everything. Focus is what moves you forward.",
+  pipeline: "Your biggest gap is Pipeline. Contracts are shaped long before the RFP posts, and right now you're not in those early conversations. A weekly routine and real relationships change that.",
+  proposal: "Your biggest gap is Proposal. Winning means bidding consistently and proving you can deliver. A repeatable bid process and a delivery plan turn opportunities into awards.",
 };
 
-const RESULT_KEY = "ggc_assessment_result";
+const computePillars = (answers: Record<string, number>) => {
+  const out = {} as Record<PillarKey, number>;
+  (Object.keys(PILLARS) as PillarKey[]).forEach((k) => {
+    const pts = PILLARS[k].reduce((sum, id) => sum + (answers[id] ?? 0), 0);
+    out[k] = Math.round((pts / (PILLARS[k].length * 3)) * 100);
+  });
+  return out;
+};
 
-type StoredResult = { score: number; tierKey: string; firstName: string };
+const lowestPillar = (p: Record<PillarKey, number>): PillarKey =>
+  (Object.keys(p) as PillarKey[]).reduce((a, b) => (p[b] < p[a] ? b : a));
+
+type StoredResult = AssessmentResult;
 
 const Assessment = () => {
-  const [step, setStep] = useState(0); // 0..QUESTIONS.length-1, then capture form
+  const lead = getLead();
+  const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [firstName, setFirstName] = useState(lead?.firstName ?? "");
+  const [lastName, setLastName] = useState(lead?.lastName ?? "");
+  const [email, setEmail] = useState(lead?.email ?? "");
+  const [phone, setPhone] = useState(lead?.phone ?? "");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<StoredResult | null>(null);
@@ -166,23 +174,21 @@ const Assessment = () => {
     const raw = sessionStorage.getItem(RESULT_KEY);
     if (raw) {
       try {
-        setResult(JSON.parse(raw) as StoredResult);
+        const parsed = JSON.parse(raw) as StoredResult;
+        if (parsed.pillars) setResult(parsed);
+        else sessionStorage.removeItem(RESULT_KEY);
       } catch {
         sessionStorage.removeItem(RESULT_KEY);
       }
     }
   }, []);
 
-  const score = useMemo(
-    () => QUESTIONS.reduce((sum, q) => sum + (answers[q.id] ?? 0), 0),
-    [answers],
-  );
+  const rawScore = useMemo(() => QUESTIONS.reduce((sum, q) => sum + (answers[q.id] ?? 0), 0), [answers]);
+  const score = Math.round((rawScore / MAX_POINTS) * 100);
 
   const answeredAll = QUESTIONS.every((q) => answers[q.id] !== undefined);
   const onCapture = step >= QUESTIONS.length;
-  const progress = Math.round(
-    (Math.min(step, QUESTIONS.length) / (QUESTIONS.length + 1)) * 100,
-  );
+  const progress = Math.round((Math.min(step, QUESTIONS.length) / (QUESTIONS.length + 1)) * 100);
 
   const choose = (qid: string, points: number) => {
     setAnswers((prev) => ({ ...prev, [qid]: points }));
@@ -192,15 +198,15 @@ const Assessment = () => {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     if (!firstName.trim() || !lastName.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Please enter your first name, last name and a valid email address.");
       return;
     }
-
     const tier = tierFor(score);
+    const pillars = computePillars(answers);
+    const gap = lowestPillar(pillars);
+    const pillarText = (Object.keys(pillars) as PillarKey[]).map((k) => `${PILLAR_LABELS[k]} ${pillars[k]}`).join(", ");
     setSending(true);
-
     const { error: fnError } = await supabase.functions.invoke("submit-lead", {
       body: {
         firstName: firstName.trim(),
@@ -209,27 +215,24 @@ const Assessment = () => {
         phone: phone.trim(),
         journeyStage: tier.name,
         samStatus: QUESTIONS[0].options[answers.sam ?? 0].label,
-        recommendation: `Readiness assessment: ${tier.name} (${score}/${MAX_POINTS}) — ${tier.cta.label}`,
-        biggestChallenge: QUESTIONS.map(
-          (q) => `${q.question} → ${q.options[answers[q.id] ?? 0].label}`,
-        ).join("\n"),
+        recommendation: `Readiness assessment: ${tier.name} (${score}/100). Pillars: ${pillarText}. Biggest gap: ${PILLAR_LABELS[gap]}. Next: Readiness Review`,
+        biggestChallenge: QUESTIONS.map((q) => `${q.question} : ${q.options[answers[q.id] ?? 0].label}`).join("\n"),
         device: getDevice(),
         source: getSource(),
         origin: window.location.origin,
       },
     });
-
     setSending(false);
-
     if (fnError) {
       setError("Something went wrong saving your result. Please try again.");
       return;
     }
-
-    const stored: StoredResult = { score, tierKey: tier.key, firstName: firstName.trim() };
+    saveLead({ firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), phone: phone.trim() });
+    const stored: StoredResult = { score, tierKey: tier.key, firstName: firstName.trim(), pillars, gap };
     sessionStorage.setItem(RESULT_KEY, JSON.stringify(stored));
     setResult(stored);
     void trackEvent("assessment_complete", tier.key);
+    window.scrollTo({ top: 0 });
   };
 
   const restart = () => {
@@ -237,15 +240,9 @@ const Assessment = () => {
     setResult(null);
     setAnswers({});
     setStep(0);
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPhone("");
   };
 
-  const shownTier = result
-    ? TIERS.find((t) => t.key === result.tierKey) ?? TIERS[0]
-    : null;
+  const shownTier = result ? TIERS.find((t) => t.key === result.tierKey) ?? tierFor(result.score) : null;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -254,75 +251,73 @@ const Assessment = () => {
       <main className="flex-1 pt-28 pb-20">
         <div className="container mx-auto px-6">
           <div className="max-w-2xl mx-auto">
-            {result && shownTier ? (
+            {result && shownTier && result.pillars && result.gap ? (
               <div className="space-y-8">
-                <div className="text-center space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                    Your Result
-                  </p>
-                  <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight">
-                    {shownTier.name}
-                  </h1>
-                  <p className="text-sm text-muted-foreground">
-                    Readiness score: {result.score} of {MAX_POINTS}
+                <div className="text-center space-y-4">
+                  <p className="eyebrow-dark text-xs">Your GovCon Readiness Score</p>
+                  <ScoreRing score={result.score} />
+                  <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">{shownTier.name}</h1>
+                  <p className="text-lg text-foreground/80">{shownTier.headline}</p>
+                </div>
+
+                <div className="rounded-2xl border border-border bg-card p-6 md:p-8 space-y-4">
+                  <h2 className="font-display text-xl font-bold text-foreground">Your five pillars</h2>
+                  {(Object.keys(result.pillars) as PillarKey[]).map((k) => {
+                    const isGap = k === result.gap;
+                    return (
+                      <div key={k} className={`rounded-lg p-3 ${isGap ? "ring-2 ring-primary" : ""}`}>
+                        <div className="flex justify-between text-sm font-semibold text-foreground mb-1.5">
+                          <span>{PILLAR_LABELS[k]}{isGap && <span className="ml-2 rounded bg-primary px-2 py-0.5 text-[10px] uppercase tracking-widest text-primary-foreground">Biggest gap</span>}</span>
+                          <span>{result.pillars![k]}</span>
+                        </div>
+                        <div className="h-2.5 rounded-full bg-muted overflow-hidden">
+                          <div className="h-full rounded-full bg-primary" style={{ width: `${Math.max(4, result.pillars![k])}%` }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <p className="text-base text-foreground/85 leading-relaxed pt-2">
+                    {result.firstName ? `${result.firstName}, ` : ""}{GAP_TEXT[result.gap]}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-primary/25 bg-card p-8 space-y-5">
-                  <h2 className="font-display text-xl font-bold text-foreground">
-                    {shownTier.headline}
-                  </h2>
-                  <p className="text-base text-foreground/80 leading-relaxed">{shownTier.summary}</p>
-                  <p className="text-base text-foreground font-medium leading-relaxed">
-                    {shownTier.step}
-                  </p>
-                  <div className="flex flex-wrap items-center gap-4 pt-2">
-                    <Link
-                      to={shownTier.cta.to}
-                      onClick={() => trackCta(`assessment-result-${shownTier.key}`)}
-                      className="btn-gold inline-flex items-center gap-2 px-8 py-3.5 rounded-md text-sm"
-                    >
-                      {shownTier.cta.label}
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                    <Link
-                      to={shownTier.secondary.to}
-                      onClick={() => trackCta(`assessment-result-alt-${shownTier.key}`)}
-                      className="text-sm font-semibold text-foreground hover:text-primary"
-                    >
-                      {shownTier.secondary.label}
-                    </Link>
-                  </div>
+                <div className="rounded-2xl section-navy p-6 md:p-8 space-y-5">
+                  <h2 className="font-display text-2xl font-bold text-white !leading-[1.2]">Turn your score into a 90-Day Federal Action Plan</h2>
+                  <ul className="space-y-2.5">
+                    {REVIEW_INCLUDES.map((i) => (
+                      <li key={i.title} className="flex gap-3 text-sm text-white/85"><CheckCircle2 className="h-5 w-5 text-primary shrink-0" />{i.title}</li>
+                    ))}
+                  </ul>
+                  <p className="font-display text-4xl font-bold text-primary">{REVIEW_PRICE}</p>
+                  <p className="text-sm text-white/75">{REVIEW_CREDIT_LINE}</p>
+                  <Link to="/readiness-review" onClick={() => trackCta(`assessment-result-${shownTier.key}`)} className="btn-gold gap-2 w-full sm:w-auto">
+                    See the Readiness Review <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  {shownTier.key === "foundation" && (
+                    <p className="text-sm">
+                      <Link to="/kit" onClick={() => trackCta("assessment-result-kit")} className="text-teal underline">Not ready to invest? Get the free Launch Kit</Link>
+                    </p>
+                  )}
                 </div>
 
-                <div className="rounded-xl border border-border bg-card p-6 flex items-start gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-foreground/80 leading-relaxed">
-                    Thanks{result.firstName ? `, ${result.firstName}` : ""} — your result is saved.
-                    Check your inbox and click the confirmation link so we can email your next steps.
-                  </p>
-                </div>
-
+                <p className="text-sm text-muted-foreground text-center">
+                  Your result is saved. Check your inbox and click the confirmation link so we can email your next steps.
+                </p>
                 <div className="text-center">
-                  <button
-                    onClick={restart}
-                    className="text-sm font-semibold text-muted-foreground hover:text-primary"
-                  >
-                    Retake the assessment
-                  </button>
+                  <button onClick={restart} className="text-sm font-semibold text-muted-foreground hover:text-foreground">Retake the assessment</button>
                 </div>
               </div>
             ) : (
               <div className="space-y-8">
                 <div className="space-y-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                    Free · About Two Minutes
+                    Free · 10 Questions · About 3 Minutes
                   </p>
                   <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight">
                     The GovCon Readiness Assessment
                   </h1>
                   <p className="text-base text-foreground/75 leading-relaxed">
-                    Eight questions. One clear next step, chosen by {BRAND.method}.
+                    Ten questions across the five pillars of the {BRAND.method}. One clear next step.
                   </p>
                 </div>
 
@@ -468,3 +463,20 @@ const Assessment = () => {
 };
 
 export default Assessment;
+
+const ScoreRing = ({ score }: { score: number }) => {
+  const r = 54;
+  const c = 2 * Math.PI * r;
+  return (
+    <div className="relative mx-auto h-40 w-40">
+      <svg viewBox="0 0 128 128" className="h-full w-full -rotate-90" aria-hidden="true">
+        <circle cx="64" cy="64" r={r} fill="none" strokeWidth="10" className="stroke-muted" />
+        <circle cx="64" cy="64" r={r} fill="none" strokeWidth="10" strokeLinecap="round" className="stroke-primary" strokeDasharray={c} strokeDashoffset={c * (1 - score / 100)} />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-display text-4xl font-bold text-foreground">{score}</span>
+        <span className="text-xs text-muted-foreground">out of 100</span>
+      </div>
+    </div>
+  );
+};
