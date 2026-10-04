@@ -165,6 +165,13 @@ const NaicsPage = () => {
       );
       setSubStatus("sent");
       void trackEvent("naics_subscribe");
+      // Email the open SAM.gov opportunities for this NAICS code.
+      void supabase.functions.invoke("naics-report", {
+        body: {
+          firstName: subFirst.trim(), lastName: subLast.trim(), email: subEmail.trim(), naics: subNaics.trim(),
+          origin: window.location.origin, scheduleUrl: BOOKING_URL || undefined,
+        },
+      }).catch(() => null);
 
     } catch (err) {
       setSubStatus("idle");
