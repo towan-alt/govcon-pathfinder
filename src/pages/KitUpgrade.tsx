@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
-import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
-import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
+import { SandboxNote, SquareCheckoutButton, getSquareStatus } from "@/components/SquareCheckoutButton";
+import { getLead, SQUARE_PRODUCTS } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
 import logo from "@/assets/logo-ti.png";
-
-const PRICE_ID = "launch_kit_pro_onetime";
 
 const INCLUDED = [
   "Fill-in-the-blank capability statement template (the one that wins meetings)",
@@ -18,22 +16,20 @@ const INCLUDED = [
 ];
 
 const KitUpgrade = () => {
-  const [showCheckout, setShowCheckout] = useState(false);
+  const [status, setStatus] = useState<Awaited<ReturnType<typeof getSquareStatus>> | undefined>(undefined);
 
   useEffect(() => {
     trackEvent("upgrade_view");
+    void getSquareStatus().then(setStatus);
   }, []);
 
   const startCheckout = () => {
     trackCta("kit-upgrade-buy");
     trackEvent("upgrade_checkout_start");
-    setShowCheckout(true);
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <PaymentTestModeBanner />
-
       <div className="container mx-auto px-6 py-14 max-w-4xl">
         <Link to="/" className="inline-flex items-center gap-3 mb-12">
           <img src={logo} alt="GoGovCon" className="h-9 w-auto" />
@@ -65,17 +61,16 @@ const KitUpgrade = () => {
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               GovCon Launch Kit Pro
             </p>
-            <p className="font-display text-5xl font-extrabold text-primary mt-3">$97</p>
+            <p className="font-display text-5xl font-extrabold text-primary mt-3">{SQUARE_PRODUCTS.launch_kit_pro.price}</p>
             <p className="text-xs text-muted-foreground mt-1">One-time payment · instant access</p>
 
-            {!showCheckout ? (
-              <>
-                <button
-                  onClick={startCheckout}
-                  className="btn-gold w-full text-sm px-8 py-3.5 rounded-md mt-6"
-                >
-                  Get Launch Kit Pro
-                </button>
+            <>
+                <div className="mt-6 space-y-2">
+                  <SquareCheckoutButton product="launch_kit_pro" email={getLead()?.email || undefined} status={status} onStart={startCheckout} className="btn-gold w-full text-sm px-8 py-3.5 rounded-md">
+                    Get Launch Kit Pro
+                  </SquareCheckoutButton>
+                  <SandboxNote status={status} />
+                </div>
                 <p className="text-xs text-muted-foreground mt-4">
                   Prefer to talk it through first?{" "}
                   <Link
@@ -88,11 +83,6 @@ const KitUpgrade = () => {
                   .
                 </p>
               </>
-            ) : (
-              <div className="mt-6">
-                <StripeEmbeddedCheckout priceId={PRICE_ID} />
-              </div>
-            )}
           </div>
         </div>
       </div>

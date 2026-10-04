@@ -68,7 +68,7 @@ const OfferMasterclass = () => {
             </p>
             <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Cancel anytime · Enrollment open now</p>
             <a
-              href="/readiness-review"
+              href="/book"
               onClick={() => trackCta("masterclass-join")}
               className="btn-dark text-lg px-14 py-6 rounded-xl"
             >
