@@ -463,6 +463,36 @@ export type Database = {
         }
         Relationships: []
       }
+      purchases: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          payload: Json | null
+          price_cents: number | null
+          product: string
+          sale_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          payload?: Json | null
+          price_cents?: number | null
+          product: string
+          sale_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          payload?: Json | null
+          price_cents?: number | null
+          product?: string
+          sale_id?: string
+        }
+        Relationships: []
+      }
       sms_opt_outs: {
         Row: {
           opted_out_at: string
