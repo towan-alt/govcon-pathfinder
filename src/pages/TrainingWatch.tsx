@@ -130,11 +130,11 @@ const TrainingWatch = () => {
     <div className={`${sticky ? "fixed inset-x-0 bottom-0 z-40 p-3 lg:hidden" : "animate-fade-in"} `}>
       <div className="rounded-2xl bg-primary p-5 md:p-6 shadow-2xl flex flex-col md:flex-row md:items-center gap-4 justify-between">
         <div>
-          <p className="font-display text-lg md:text-2xl font-bold text-primary-foreground !leading-[1.2]">Your next step: get your free Readiness Score</p>
-          {!sticky && <p className="text-sm text-primary-foreground/85 mt-1">{ASSESSMENT_LENGTH}. Then see how the Readiness Review turns your score into a 90-Day Federal Action Plan.</p>}
+          <p className="font-display text-lg md:text-2xl font-bold text-primary-foreground !leading-[1.2]">Your next step: the $19 GovCon Launch Kit</p>
+          {!sticky && <p className="text-sm text-primary-foreground/85 mt-1">Put your business foundation in place: EIN, banking, NAICS, SAM.gov and a setup roadmap.</p>}
         </div>
-        <Link to="/assessment" onClick={() => ctaClick(sticky ? "watch-cta-sticky" : "watch-cta")} className="shrink-0 inline-flex items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3 text-sm font-bold text-white">
-          Get My Free Score <ArrowRight className="h-4 w-4" />
+        <Link to="/launch-kit" onClick={() => ctaClick(sticky ? "watch-cta-sticky" : "watch-cta")} className="shrink-0 inline-flex items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3 text-sm font-bold text-white">
+          Get the Launch Kit · $19 <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
     </div>
@@ -240,10 +240,10 @@ const TrainingWatch = () => {
 
             <aside className="lg:sticky lg:top-28 rounded-2xl bg-card p-6 space-y-4 border-t-4 border-primary">
               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Your next step</p>
-              <h2 className="font-display text-2xl font-bold text-foreground !leading-[1.2]">Get your score</h2>
-              <p className="text-sm text-foreground/80">Find out which of the five mistakes is costing you the most. {ASSESSMENT_LENGTH}, free.</p>
-              <Link to="/assessment" onClick={() => ctaClick("watch-assessment")} className="btn-gold w-full gap-2 py-3.5">
-                Get My Free Score <ArrowRight className="h-4 w-4" />
+              <h2 className="font-display text-2xl font-bold text-foreground !leading-[1.2]">Get the Launch Kit</h2>
+              <p className="text-sm text-foreground/80">Get your business foundation in place with the guide, setup roadmap and official resource links. $19, one time.</p>
+              <Link to="/launch-kit" onClick={() => ctaClick("watch-launch-kit")} className="btn-gold w-full gap-2 py-3.5">
+                Get the Launch Kit · $19 <ArrowRight className="h-4 w-4" />
               </Link>
             </aside>
           </div>
