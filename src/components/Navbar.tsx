@@ -6,9 +6,9 @@ import { trackCta } from "@/lib/track";
 
 const navLinks = [
   { label: "About", href: "/about" },
+  { label: "How It Works", href: "/#how-it-works" },
   { label: "Services", href: "/#services" },
-  { label: "Results", href: "/#results" },
-  { label: "NAICS Finder", href: "/naics" },
+  { label: "Resources", href: "/training" },
 ];
 
 const Navbar = () => {
@@ -85,11 +85,11 @@ const Navbar = () => {
             </Link>
           ))}
           <Link
-            to="/training"
-            onClick={() => trackCta("nav-training")}
+            to="/naics"
+            onClick={() => trackCta("nav-naics-report")}
             className="btn-gold text-xs px-6 py-3 rounded-md"
           >
-            Free Training
+            Free NAICS Report
           </Link>
         </div>
 
@@ -118,14 +118,14 @@ const Navbar = () => {
           ))}
           <div className="flex flex-col gap-3 pt-3">
             <Link
-              to="/training"
+              to="/naics"
               onClick={() => {
-                trackCta("nav-mobile-training");
+                trackCta("nav-mobile-naics-report");
                 setMobileOpen(false);
               }}
               className="btn-gold text-sm px-6 py-3 rounded-md text-center"
             >
-              Free Training
+              Free NAICS Report
             </Link>
           </div>
         </div>
