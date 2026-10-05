@@ -8,18 +8,17 @@ export const REPLAY_VIDEO_URL = "";
 export const BOOKING_URL = "";
 export const STARTER_KIT_URL = "";
 
-/** Static Square Payment Link fallbacks, used only when Square secrets aren't set. */
-export const SQUARE_LINK_READINESS_REVIEW = "";
-export const SQUARE_LINK_VIP_ENGAGEMENT = "";
-export const SQUARE_LINK_LAUNCH_KIT = "";
-
-/** Square products. Keep in sync with supabase/functions/_shared/square.ts. */
-export const SQUARE_PRODUCTS = {
-  launch_kit: { name: "GovCon Launch Kit", cents: 1900, price: "$19", returnPath: "/launch-kit/confirmed", staticLink: SQUARE_LINK_LAUNCH_KIT },
-  readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", staticLink: SQUARE_LINK_READINESS_REVIEW },
-  vip_engagement: { name: "VIP Engagement", cents: 250000, price: "$2,500", returnPath: "/vip-engagement/confirmed", staticLink: SQUARE_LINK_VIP_ENGAGEMENT },
+/**
+ * Payhip product checkout links. Create each product in the Payhip dashboard
+ * and paste its hosted checkout URL here (https://payhip.com/b/XXXX).
+ * Empty string shows "Checkout coming soon".
+ */
+export const PAYHIP_PRODUCTS = {
+  launch_kit: { name: "GovCon Launch Kit", cents: 1900, price: "$19", returnPath: "/launch-kit/confirmed", url: "" },
+  readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", url: "" },
+  vip_engagement: { name: "VIP Engagement", cents: 250000, price: "$2,500", returnPath: "/vip-engagement/confirmed", url: "" },
 } as const;
-export type SquareProductKey = keyof typeof SQUARE_PRODUCTS;
+export type PayhipProductKey = keyof typeof PAYHIP_PRODUCTS;
 
 export const SUPPORT_EMAIL = "hello@gogovcon.com";
 export const REVIEW_PRICE = SQUARE_PRODUCTS.readiness_review_bundle.price;
