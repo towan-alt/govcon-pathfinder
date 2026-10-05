@@ -6,23 +6,22 @@
 /** Set these when the real assets exist. Empty string shows a placeholder. */
 export const REPLAY_VIDEO_URL = "";
 export const BOOKING_URL = "";
-export const STARTER_KIT_URL = "";
+export const STARTER_KIT_URL = "/__l5e/assets-v1/e086a140-3733-47bb-97e6-b6df17081e44/gogovcon-launch-kit.pdf";
 
-/** Static Square Payment Link fallbacks, used only when Square secrets aren't set. */
-export const SQUARE_LINK_READINESS_REVIEW = "";
-export const SQUARE_LINK_VIP_ENGAGEMENT = "";
-export const SQUARE_LINK_LAUNCH_KIT = "";
-
-/** Square products. Keep in sync with supabase/functions/_shared/square.ts. */
-export const SQUARE_PRODUCTS = {
-  launch_kit: { name: "GovCon Launch Kit", cents: 1900, price: "$19", returnPath: "/launch-kit/confirmed", staticLink: SQUARE_LINK_LAUNCH_KIT },
-  readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", staticLink: SQUARE_LINK_READINESS_REVIEW },
-  vip_engagement: { name: "VIP Engagement", cents: 250000, price: "$2,500", returnPath: "/vip-engagement/confirmed", staticLink: SQUARE_LINK_VIP_ENGAGEMENT },
+/**
+ * Payhip product checkout links. Create each product in the Payhip dashboard
+ * and paste its hosted checkout URL here (https://payhip.com/b/XXXX).
+ * Empty string shows "Checkout coming soon".
+ */
+export const PAYHIP_PRODUCTS = {
+  launch_kit: { name: "GovCon Launch Kit", cents: 1900, price: "$19", returnPath: "/launch-kit/confirmed", url: "" },
+  readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", url: "" },
+  vip_engagement: { name: "VIP Engagement", cents: 250000, price: "$2,500", returnPath: "/vip-engagement/confirmed", url: "" },
 } as const;
-export type SquareProductKey = keyof typeof SQUARE_PRODUCTS;
+export type PayhipProductKey = keyof typeof PAYHIP_PRODUCTS;
 
 export const SUPPORT_EMAIL = "hello@gogovcon.com";
-export const REVIEW_PRICE = SQUARE_PRODUCTS.readiness_review_bundle.price;
+export const REVIEW_PRICE = PAYHIP_PRODUCTS.readiness_review_bundle.price;
 export const REVIEW_CREDIT_DAYS = 14;
 export const TRAINING_MINUTES = 30;
 export const ASSESSMENT_LENGTH = "10 questions · about 3 minutes";
@@ -57,7 +56,7 @@ export const REVIEW_PROMISE =
 
 export const REVIEW_CREDIT_LINE = `The ${REVIEW_PRICE} is credited toward any GoGovCon program you enroll in within ${REVIEW_CREDIT_DAYS} days of your session.`;
 
-export const VIP_PRICE = SQUARE_PRODUCTS.vip_engagement.price;
+export const VIP_PRICE = PAYHIP_PRODUCTS.vip_engagement.price;
 export const VIP_SESSION_LINE = "A 2-hour virtual 1:1 intensive with Towan Isom.";
 export const VIP_POSITIONING = "Build a deeper strategy for pursuing the right federal opportunities.";
 export const VIP_INCLUDES = [
@@ -73,7 +72,7 @@ export const VIP_INCLUDES = [
   { title: "Community and opportunity emails", text: "The same Slack channel, WhatsApp group, matched opportunity emails and monthly on-demand sessions available to Readiness Review clients." },
 ] as const;
 
-export const KIT_PRICE = SQUARE_PRODUCTS.launch_kit.price;
+export const KIT_PRICE = PAYHIP_PRODUCTS.launch_kit.price;
 export const KIT_TAGLINE = "Get your business foundation in place.";
 export const KIT_INCLUDES = [
   { title: "The GovCon Launch Kit booklet", text: "The complete downloadable guide, yours to keep and work through at your own pace." },

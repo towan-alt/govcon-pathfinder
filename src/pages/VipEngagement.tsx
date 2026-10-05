@@ -4,7 +4,7 @@ import { ArrowRight, Check, Lock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import { SandboxNote, SquareCheckoutButton, getSquareStatus } from "@/components/SquareCheckoutButton";
+import { PayhipCheckoutButton } from "@/components/PayhipCheckoutButton";
 import { FunnelFaq, StatsStrip, StickyMobileCta } from "@/components/funnel/FunnelBits";
 import { BRAND, FIGURES } from "@/lib/brand";
 import { getLead, VIP_INCLUDES, VIP_POSITIONING, VIP_PRICE, VIP_SESSION_LINE } from "@/lib/funnel";
@@ -28,11 +28,9 @@ const FAQ = [
 
 const VipEngagement = () => {
   const lead = getLead();
-  const [status, setStatus] = useState<Awaited<ReturnType<typeof getSquareStatus>> | undefined>(undefined);
 
   useEffect(() => {
     void trackEvent("vip_view");
-    void getSquareStatus().then(setStatus);
   }, []);
 
   const start = (ctaId: string) => {
@@ -41,9 +39,9 @@ const VipEngagement = () => {
     if (lead?.email) void trainingAction({ action: "checkout", email: lead.email });
   };
   const buy = (ctaId: string, cls: string, label: React.ReactNode) => (
-    <SquareCheckoutButton product="vip_engagement" email={lead?.email || undefined} status={status} onStart={() => start(ctaId)} className={cls}>
+    <PayhipCheckoutButton product="vip_engagement" onStart={() => start(ctaId)} className={cls}>
       {label}
-    </SquareCheckoutButton>
+    </PayhipCheckoutButton>
   );
 
   return (
@@ -72,7 +70,6 @@ const VipEngagement = () => {
               <p className="font-display text-5xl font-bold text-foreground">{VIP_PRICE}</p>
               <p className="text-sm text-foreground/80">One-time payment. {VIP_SESSION_LINE}</p>
               {buy("vip-hero-buy", "btn-gold w-full gap-2 py-4", <>Book My VIP Engagement · {VIP_PRICE}</>)}
-              <SandboxNote status={status} />
               <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground text-center">
                 <Lock className="h-3.5 w-3.5" /> Secure checkout. You'll pick your session time right after payment.
               </p>

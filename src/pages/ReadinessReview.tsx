@@ -4,7 +4,7 @@ import { ArrowRight, Check, Lock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import BrandLogo from "@/components/BrandLogo";
-import { SandboxNote, SquareCheckoutButton, getSquareStatus } from "@/components/SquareCheckoutButton";
+import { PayhipCheckoutButton } from "@/components/PayhipCheckoutButton";
 import { StickyMobileCta } from "@/components/funnel/FunnelBits";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { BRAND, FIGURES } from "@/lib/brand";
@@ -59,11 +59,9 @@ const PROOF = [
 const ReadinessReview = () => {
   const result = getAssessmentResult();
   const lead = getLead();
-  const [status, setStatus] = useState<Awaited<ReturnType<typeof getSquareStatus>> | undefined>(undefined);
 
   useEffect(() => {
     void trackEvent("review_view");
-    void getSquareStatus().then(setStatus);
   }, []);
 
   const start = (ctaId: string) => {
@@ -72,9 +70,9 @@ const ReadinessReview = () => {
     if (lead?.email) void trainingAction({ action: "checkout", email: lead.email });
   };
   const buy = (ctaId: string, cls: string, label: React.ReactNode) => (
-    <SquareCheckoutButton product="readiness_review_bundle" email={lead?.email || undefined} status={status} onStart={() => start(ctaId)} className={`${cls} !rounded-[2px] uppercase tracking-wider`}>
+    <PayhipCheckoutButton product="readiness_review_bundle" onStart={() => start(ctaId)} className={`${cls} !rounded-[2px] uppercase tracking-wider`}>
       {label}
-    </SquareCheckoutButton>
+    </PayhipCheckoutButton>
   );
 
   const gapLabel = result?.gap ? PILLAR_LABELS[result.gap] : null;
@@ -119,9 +117,8 @@ const ReadinessReview = () => {
                 ))}
               </ol>
               {buy("review-hero-buy", "btn-gold w-full gap-2 py-4", <>Book My Readiness Review</>)}
-              <SandboxNote status={status} />
               <p className="flex items-center justify-center gap-1.5 text-xs text-white/75 text-center">
-                <Lock className="h-3.5 w-3.5" /> Secure checkout by Square. Pick your session time right after payment.
+                <Lock className="h-3.5 w-3.5" /> Secure checkout by Payhip. Pick your session time right after payment.
               </p>
               <p className="text-xs text-white/75 text-center">{REVIEW_CREDIT_LINE}</p>
             </div>
