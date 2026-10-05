@@ -16,4 +16,4 @@
 - [ ] Member resources library (monthly session recordings by topic/date) — needs access duration + Slack/WhatsApp invite links
 - [ ] Stage-based email sequences beyond purchase confirmation (free-report → kit → review → VIP) — needs approved copy
 - [ ] Still needed from owner: Square keys, Resend key + verified gogovcon.com domain, Twilio keys, SAM_GOV_API_KEY, gold Capitol logo PNG, BOOKING_URL, booklet PDF, mailing address, member access terms, opportunity-email frequency
-- [ ] Wire real booklet PDF (GoGovCon_book_v2_5_1.pdf) as the Launch Kit download (user request 2026-10-05)
+- [x] Wire real booklet PDF as the Launch Kit download (CDN asset, STARTER_KIT_URL)
