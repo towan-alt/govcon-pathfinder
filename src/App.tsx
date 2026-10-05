@@ -20,6 +20,7 @@ import ReadinessReview from "./pages/ReadinessReview.tsx";
 import ReadinessConfirmed from "./pages/ReadinessConfirmed.tsx";
 import LaunchKit from "./pages/LaunchKit.tsx";
 import LaunchKitConfirmed from "./pages/LaunchKitConfirmed.tsx";
+import Portal from "./pages/Portal.tsx";
 import VipEngagement from "./pages/VipEngagement.tsx";
 import VipConfirmed from "./pages/VipConfirmed.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
@@ -57,6 +58,7 @@ const App = () => (
           <Route path="/readiness-review/confirmed" element={<ReadinessConfirmed />} />
           <Route path="/launch-kit" element={<LaunchKit />} />
           <Route path="/launch-kit/confirmed" element={<LaunchKitConfirmed />} />
+          <Route path="/portal" element={<Portal />} />
           <Route path="/vip-engagement" element={<VipEngagement />} />
           <Route path="/vip-engagement/confirmed" element={<VipConfirmed />} />
           <Route path="/unsubscribe" element={<Unsubscribe />} />
