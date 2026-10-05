@@ -86,8 +86,8 @@ const TrainingRegistered = () => {
           <div className="container mx-auto px-6 max-w-4xl">
             <div className="grid md:grid-cols-3 gap-5">
               {STEPS.map((s, i) => (
-                <div key={s.title} className="rounded-xl border border-border bg-card p-6">
-                  <p className="font-display text-3xl font-bold text-primary">{i + 1}</p>
+                <div key={s.title} className="rounded-xl border border-border bg-card p-6 text-center">
+                  <p className="font-display text-3xl font-bold text-primary">Step {i + 1}</p>
                   <h2 className="font-display text-lg font-bold text-foreground mt-2">{s.title}</h2>
                   <p className="text-sm text-foreground/80 mt-2">{s.text}</p>
                 </div>
