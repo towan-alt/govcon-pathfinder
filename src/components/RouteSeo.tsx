@@ -17,6 +17,11 @@ const PAGES: Record<string, Meta> = {
     description:
       "Meet Towan Isom, GovCon expert and Founder, President & CEO of Isom Global Strategies. 74+ federal contracts across 76+ agencies and 9,000+ business owners trained.",
   },
+  "/webinar": {
+    title: "Free Government Contracting Webinar | GovCon Expert Method™",
+    description:
+      "Register for the free 30-minute government contracting webinar with GovCon expert Towan Isom. Pick a session time or watch the on-demand replay.",
+  },
   "/training": {
     title: "Free Government Contracting Training | GovCon Expert Method™",
     description:
