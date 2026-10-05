@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 
-const SITE = "https://govcon-pathfinder.lovable.app";
+const SITE = "https://gogovcon.com";
 const BRAND = "GoGovCon";
 
 type Meta = { title: string; description: string; noindex?: boolean };

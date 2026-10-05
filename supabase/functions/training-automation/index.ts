@@ -17,6 +17,7 @@ function authenticate(req: Request): Response | null {
 }
 import { EMAIL_FROM, emailFor, renderEmail, smsFor, type Ctx } from "../_shared/training-templates.ts";
 import * as A from "../_shared/assessment-templates.ts";
+import { creditEmailFor } from "../_shared/credit-templates.ts";
 
 const TZ = "America/New_York";
 

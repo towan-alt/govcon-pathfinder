@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://govcon-pathfinder.lovable.app/</loc><priority>1.0</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/about</loc><priority>0.9</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/training</loc><priority>0.9</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/naics</loc><priority>0.8</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/assessment</loc><priority>0.7</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/readiness-review</loc><priority>0.6</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/contact</loc><priority>0.5</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/privacy</loc><priority>0.2</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/terms</loc><priority>0.2</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/accessibility</loc><priority>0.2</priority></url>
-  <url><loc>https://govcon-pathfinder.lovable.app/disclaimer</loc><priority>0.2</priority></url>
+  <url><loc>https://gogovcon.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://gogovcon.com/about</loc><priority>0.9</priority></url>
+  <url><loc>https://gogovcon.com/training</loc><priority>0.9</priority></url>
+  <url><loc>https://gogovcon.com/naics</loc><priority>0.8</priority></url>
+  <url><loc>https://gogovcon.com/assessment</loc><priority>0.7</priority></url>
+  <url><loc>https://gogovcon.com/readiness-review</loc><priority>0.6</priority></url>
+  <url><loc>https://gogovcon.com/contact</loc><priority>0.5</priority></url>
+  <url><loc>https://gogovcon.com/privacy</loc><priority>0.2</priority></url>
+  <url><loc>https://gogovcon.com/terms</loc><priority>0.2</priority></url>
+  <url><loc>https://gogovcon.com/accessibility</loc><priority>0.2</priority></url>
+  <url><loc>https://gogovcon.com/disclaimer</loc><priority>0.2</priority></url>
 </urlset>

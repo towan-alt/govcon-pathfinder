@@ -101,9 +101,9 @@ export function emailFor(key: string, c: Ctx): Email | null {
     case "post_attended_high":
       return {
         subject: "Here's your next step",
-        preheader: "Get your Readiness Score in about 3 minutes.",
-        body: [hi, "Thank you for staying with me. You now know the 5 mistakes. The next question is which one is costing you the most.", "Your free Readiness Score answers that in about 3 minutes and shows your biggest gap across the five pillars of the GovCon Expert Method."],
-        button: { label: "Get My Readiness Score", url: c.assessmentUrl },
+        preheader: "Put your business foundation in place for $19.",
+        body: [hi, "Thank you for staying with me. You now know the 5 mistakes. The next step is getting your foundation right before you chase a single bid.", "The GovCon Launch Kit walks you through EIN, banking, NAICS codes and SAM.gov setup in the right order, with the official resource links. It's $19, one time, and you can download it right away."],
+        button: { label: "Get the Launch Kit · $19", url: c.reviewUrl.replace("/readiness-review", "/launch-kit") },
       };
     case "post_attended_low":
       return {
