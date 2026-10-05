@@ -77,7 +77,7 @@ const Training = () => {
         <section className="section-navy pt-24 pb-14 lg:pt-36 lg:pb-20">
           <div className="container mx-auto px-5 md:px-6 grid lg:grid-cols-[1.15fr_0.85fr] gap-5 lg:gap-14 items-start">
             <div>
-              <p className="eyebrow text-xs">Free {TRAINING_MINUTES}-Minute Training for Small Business Owners</p>
+              <p className="eyebrow text-xs">Free {TRAINING_MINUTES}-Minute Webinar for Small Business Owners</p>
               <h1 className="font-display text-[1.6rem] md:text-5xl font-bold text-white mt-3 !leading-[1.15]">
                 The 5 Costly Mistakes That Keep Small Businesses From Winning Their{" "}
                 <em className="text-primary italic">First Federal Contract</em>
