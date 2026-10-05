@@ -118,7 +118,7 @@ const ReadinessReview = () => {
               </ol>
               {buy("review-hero-buy", "btn-gold w-full gap-2 py-4", <>Book My Readiness Review</>)}
               <p className="flex items-center justify-center gap-1.5 text-xs text-white/75 text-center">
-                <Lock className="h-3.5 w-3.5" /> Secure checkout by Square. Pick your session time right after payment.
+                <Lock className="h-3.5 w-3.5" /> Secure checkout by Payhip. Pick your session time right after payment.
               </p>
               <p className="text-xs text-white/75 text-center">{REVIEW_CREDIT_LINE}</p>
             </div>

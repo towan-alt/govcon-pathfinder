@@ -75,7 +75,7 @@ const LaunchKit = () => {
                 The booklet, the roadmap and the resource links. Yours to keep.
               </p>
               {buyBtn}
-              <p className="text-xs text-white/60 text-center">Secure checkout by Square. Download right after payment.</p>
+              <p className="text-xs text-white/60 text-center">Secure checkout by Payhip. Download right after payment.</p>
             </div>
           </div>
         </section>
