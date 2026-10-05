@@ -17,3 +17,8 @@
 - [ ] Stage-based email sequences beyond purchase confirmation (free-report → kit → review → VIP) — needs approved copy
 - [ ] Still needed from owner: Square keys, Resend key + verified gogovcon.com domain, Twilio keys, SAM_GOV_API_KEY, gold Capitol logo PNG, BOOKING_URL, booklet PDF, mailing address, member access terms, opportunity-email frequency
 - [x] Wire real booklet PDF as the Launch Kit download (CDN asset, STARTER_KIT_URL)
+
+- [x] Webinar form: last name, business name, required mobile
+- [x] Center step numbers on registration confirmation
+- [ ] Email sequences: webinar follow-ups, assessment invites, 14-day $497 credit offer
+- [ ] SEO pass (canonical domain, Event schema)
