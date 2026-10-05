@@ -2,7 +2,7 @@
  * All GoGovCon Readiness Assessment follow-up copy lives here (approved copy, edit with care).
  * Each email: subject, preheader, paragraphs, button. Texts stay under 160 characters.
  */
-import { MAILING_ADDRESS } from "./training-templates.ts";
+import { LOGO_URL, MAILING_ADDRESS } from "./training-templates.ts";
 
 export const CONSENT_VERSION = "assessment-v1";
 export const CONSENT_TEXT =
@@ -253,12 +253,12 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "
 // Brand guide: near-black #231F20, gold #B79B44, light gray #D8D8D5, off-white #F4F4F4.
 const INK = "#231F20", GOLD = "#B79B44", LINE = "#D8D8D5", OFF = "#F4F4F4";
 
-function shell(preheader: string, inner: string, unsub: string) {
+function shell(preheader: string, inner: string, unsub: string, logoW = 110, band = "") {
   return `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#ffffff;font-family:Montserrat,Arial,sans-serif;color:${INK}">
 <span style="display:none;max-height:0;overflow:hidden">${esc(preheader)}</span>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:24px 12px">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">
-<tr><td style="background:${INK};padding:20px 28px;border-bottom:4px solid ${GOLD}"><span style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:#ffffff">Go<span style="color:${GOLD}">GovCon</span></span></td></tr>
+<tr><td align="center" style="background:#ffffff;padding:20px 28px;border-bottom:4px solid ${GOLD}"><img src="${LOGO_URL}" width="${logoW}" alt="GoGovCon by Towan Isom" style="display:block;width:${logoW}px;max-width:100%;height:auto;border:0"></td></tr>${band}
 <tr><td style="padding:28px;background:#ffffff;font-size:15px;line-height:1.6">${inner}</td></tr>
 <tr><td style="background:${OFF};padding:18px 28px;font-size:12px;color:${INK};line-height:1.5">${esc(FOOTER_REASON)}<br>${esc(MAILING_ADDRESS)}<br><a href="${esc(unsub)}" style="color:${INK}">Unsubscribe</a></td></tr>
 </table></td></tr></table></body></html>`;
@@ -314,7 +314,6 @@ export function renderReport(r: ReportData, unsub: string) {
   const links = `<p style="margin:20px 0 0;font-size:14px"><a href="${esc(r.report_url)}" style="color:${INK}">View or print your report online</a>${r.registered_training ? "" : `<br><a href="${esc(r.training_url)}" style="color:${INK}">Watch the free 30-minute training</a>`}</p>`;
   const inner = p(`Hi ${r.first_name || "there"},`) +
     p("Thank you for taking the GovCon Readiness Assessment. Here is your personal report. Keep it handy, because it shows exactly where you stand with federal contracting and what to do next.") +
-    `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 16px"><tr><td style="background:${GOLD};color:${INK};font-weight:700;font-size:28px;padding:14px 22px;border-radius:8px">${r.score}/100</td></tr></table>` +
     h2(`Your Score: ${r.score}/100, ${r.tier}`) + p(TIER_PARAGRAPH[r.tier] ?? "") +
     h2("Your Five Pillars") + p("Each pillar is scored from 0 to 100. Strong is 67 and above, Building is 34 to 66, and Gap is 33 and below.") + bars +
     h2(`Your Biggest Gap: ${PILLAR_NAMES[r.gap]}`) + p(gs.intro) + `<p style="margin:0 0 8px;font-weight:700">Your next three moves:</p>` + blockHtml({ ol: gs.moves }) +
