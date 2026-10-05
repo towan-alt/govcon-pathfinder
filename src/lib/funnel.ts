@@ -10,10 +10,12 @@ export const STARTER_KIT_URL = "";
 
 /** Static Square Payment Link fallbacks, used only when Square secrets aren't set. */
 export const SQUARE_LINK_READINESS_REVIEW = "";
+export const SQUARE_LINK_VIP_ENGAGEMENT = "";
 
 /** Square products. Keep in sync with supabase/functions/_shared/square.ts. */
 export const SQUARE_PRODUCTS = {
   readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", staticLink: SQUARE_LINK_READINESS_REVIEW },
+  vip_engagement: { name: "VIP Engagement", cents: 250000, price: "$2,500", returnPath: "/vip-engagement/confirmed", staticLink: SQUARE_LINK_VIP_ENGAGEMENT },
 } as const;
 export type SquareProductKey = keyof typeof SQUARE_PRODUCTS;
 
@@ -33,6 +35,19 @@ export const REVIEW_INCLUDES = [
 ] as const;
 
 export const REVIEW_CREDIT_LINE = `The ${REVIEW_PRICE} is credited toward any GoGovCon program you enroll in within ${REVIEW_CREDIT_DAYS} days of your session.`;
+
+export const VIP_PRICE = SQUARE_PRODUCTS.vip_engagement.price;
+export const VIP_SESSION_LINE = "A 2-hour virtual 1:1 intensive with Towan Isom.";
+export const VIP_INCLUDES = [
+  { title: "2-hour virtual strategy intensive", text: "A focused 1:1 working session with Towan, held over video, on your business and your federal path." },
+  { title: "Pre-session review", text: "Towan reviews your business, SAM.gov record and positioning before you meet, so the session starts working immediately." },
+  { title: "Written action plan", text: "Your plan in writing after the session, with the specific next steps for your business." },
+  { title: "Session recording", text: "The full recording of your session, so you can revisit every recommendation." },
+  { title: "Teaming recommendations and assistance", text: "Introductions and guidance on teaming partners that strengthen your bids." },
+  { title: "Private Slack channel access", text: "A direct channel to ask questions as you execute your plan." },
+  { title: "WhatsApp group access", text: "Ongoing access to the private client community." },
+  { title: "Follow-up email access", text: "Email access after the session for questions as you put the plan to work." },
+] as const;
 
 export const LEAD_KEY = "ggc_lead";
 export const PURCHASE_KEY = "ggc_review_purchased";

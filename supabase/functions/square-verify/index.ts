@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
         email = payment.buyer_email_address ?? email;
       }
     }
-    if (paid && email && productKey === "readiness_review_bundle") {
+    if (paid && email) {
       // Stops the training follow-up sequence for this buyer.
       const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
       await sb.from("training_registrations").update({ purchased_at: new Date().toISOString() })
