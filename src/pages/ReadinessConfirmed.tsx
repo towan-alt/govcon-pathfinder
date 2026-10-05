@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRight, CalendarClock, Download, Loader2, ClipboardList } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
+import BrandLogo from "@/components/BrandLogo";
 import { supabase } from "@/integrations/supabase/client";
 import { BOOKING_URL, getLead, PURCHASE_KEY, saveLead, STARTER_KIT_URL, SUPPORT_EMAIL } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
@@ -61,6 +62,7 @@ const ReadinessConfirmed = () => {
           <>
             <section className="section-navy pt-28 pb-12 lg:pt-36">
               <div className="container mx-auto px-6 max-w-3xl text-center">
+                <BrandLogo width={110} onDark className="mx-auto mb-6" />
                 <p className="eyebrow text-xs">Payment received</p>
                 <h1 className="font-display text-3xl md:text-5xl font-bold text-white mt-4 !leading-[1.12]">
                   You're confirmed{name ? `, ${name}` : ""}.

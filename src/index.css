@@ -42,6 +42,7 @@
     --navy-raised: 345 5% 21%;
     --gold: 45 46% 49%;
     --gold-light: 45 46% 58%;
+    --gold-dark: 44 48% 37%;
     --blue: var(--gold);
     --teal: 185 47% 48%;
     --light-gray: 60 4% 84%;
@@ -83,6 +84,7 @@
     --ring: 185 47% 48%;
     --gold: 45 46% 49%;
     --gold-light: 45 46% 58%;
+    --gold-dark: 44 48% 37%;
     --teal: 185 47% 48%;
   }
 }

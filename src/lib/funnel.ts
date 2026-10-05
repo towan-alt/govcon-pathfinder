@@ -262,3 +262,9 @@ export const ASSESSMENT_CONSENT_BEFORE =
   'By clicking "Show My Result," you agree to receive your Readiness Report and follow-up emails from GoGovCon. If you provide a mobile number, you also agree to receive recurring automated marketing text messages from GoGovCon at that number. Consent to texts is not a condition of any purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. You can unsubscribe from emails at any time using the link in every email. See our';
 export const ASSESSMENT_RESULT_NOTE =
   "Your report is on its way to your inbox. You're enrolled in GoGovCon emails and, if you shared your mobile number, text updates. Opt out any time.";
+
+/** Public site origin (published domain) used for absolute asset URLs such as the email logo. */
+export const PUBLIC_SITE_URL = "https://gogovcon.com";
+export const LOGO_PATH = "/brand/gogovcon-logo-gold.png";
+export const LOGO_URL = `${PUBLIC_SITE_URL}${LOGO_PATH}`;
+export const LOGO_ALT = "GoGovCon by Towan Isom";
