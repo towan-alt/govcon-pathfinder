@@ -675,7 +675,7 @@ const NaicsPage = () => {
                     onClick={() => trackCta("naics-subscribe")}
                     className="btn-gold w-full text-sm px-8 py-3.5 rounded-md disabled:opacity-60"
                   >
-                    {subStatus === "sending" ? "Subscribing…" : "Notify me of opportunities"}
+                    {subStatus === "sending" ? "Subscribing…" : "Email my free report"}
                   </button>
                 </form>
               </>
