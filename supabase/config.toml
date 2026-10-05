@@ -1,10 +1,11 @@
 project_id = "qjvctpmpxeadawbigroz"
 
-[functions.square-checkout]
+[functions.payhip-webhook]
 verify_jwt = false
 
-[functions.square-verify]
+[functions.payhip-lookup]
 verify_jwt = false
+
 
 [functions.training]
 verify_jwt = false
