@@ -5,6 +5,7 @@ import TrainingBanner from "@/components/TrainingBanner";
 import StatsSection from "@/components/StatsSection";
 import WhyTowanSection from "@/components/WhyTowanSection";
 import CaseStudySection from "@/components/CaseStudySection";
+import NaicsReportSection from "@/components/NaicsReportSection";
 import ServiceComparison from "@/components/ServiceComparison";
 import OfferVIPDoneForYou from "@/components/OfferVIPDoneForYou";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -20,14 +21,15 @@ const Index = () => {
       <main>
         <HeroSection />
         <AgencyLogoBar />
-        <TrainingBanner />
         <StatsSection />
-        <WhyTowanSection />
-        <CaseStudySection />
+        <NaicsReportSection />
         <ServiceComparison />
-        <OfferVIPDoneForYou />
-        <VideoSection />
+        <CaseStudySection />
         <TestimonialsSection />
+        <OfferVIPDoneForYou />
+        <WhyTowanSection />
+        <TrainingBanner />
+        <VideoSection />
         <FaqSection />
         <ClosingSection />
       </main>
