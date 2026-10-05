@@ -21,7 +21,7 @@ export const PAYHIP_PRODUCTS = {
 export type PayhipProductKey = keyof typeof PAYHIP_PRODUCTS;
 
 export const SUPPORT_EMAIL = "hello@gogovcon.com";
-export const REVIEW_PRICE = SQUARE_PRODUCTS.readiness_review_bundle.price;
+export const REVIEW_PRICE = PAYHIP_PRODUCTS.readiness_review_bundle.price;
 export const REVIEW_CREDIT_DAYS = 14;
 export const TRAINING_MINUTES = 30;
 export const ASSESSMENT_LENGTH = "10 questions · about 3 minutes";
@@ -56,7 +56,7 @@ export const REVIEW_PROMISE =
 
 export const REVIEW_CREDIT_LINE = `The ${REVIEW_PRICE} is credited toward any GoGovCon program you enroll in within ${REVIEW_CREDIT_DAYS} days of your session.`;
 
-export const VIP_PRICE = SQUARE_PRODUCTS.vip_engagement.price;
+export const VIP_PRICE = PAYHIP_PRODUCTS.vip_engagement.price;
 export const VIP_SESSION_LINE = "A 2-hour virtual 1:1 intensive with Towan Isom.";
 export const VIP_POSITIONING = "Build a deeper strategy for pursuing the right federal opportunities.";
 export const VIP_INCLUDES = [
@@ -72,7 +72,7 @@ export const VIP_INCLUDES = [
   { title: "Community and opportunity emails", text: "The same Slack channel, WhatsApp group, matched opportunity emails and monthly on-demand sessions available to Readiness Review clients." },
 ] as const;
 
-export const KIT_PRICE = SQUARE_PRODUCTS.launch_kit.price;
+export const KIT_PRICE = PAYHIP_PRODUCTS.launch_kit.price;
 export const KIT_TAGLINE = "Get your business foundation in place.";
 export const KIT_INCLUDES = [
   { title: "The GovCon Launch Kit booklet", text: "The complete downloadable guide, yours to keep and work through at your own pace." },
