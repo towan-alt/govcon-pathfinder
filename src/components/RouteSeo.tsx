@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 
-const SITE = "https://govcon-pathfinder.lovable.app";
+const SITE = "https://gogovcon.com";
 const BRAND = "GoGovCon";
 
 type Meta = { title: string; description: string; noindex?: boolean };
@@ -82,6 +82,22 @@ export default function RouteSeo() {
       <meta name="twitter:title" content={meta.title} />
       <meta name="twitter:description" content={meta.description} />
       {noindex && <meta name="robots" content="noindex, follow" />}
+      {(path === "/webinar" || path === "/training") && (
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Event",
+          name: "Free Government Contracting Webinar with Towan Isom",
+          description: meta.description,
+          eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+          eventStatus: "https://schema.org/EventScheduled",
+          eventSchedule: { "@type": "Schedule", repeatFrequency: "P1D", startTime: "12:00", scheduleTimezone: "America/New_York" },
+          location: { "@type": "VirtualLocation", url },
+          isAccessibleForFree: true,
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD", url, availability: "https://schema.org/InStock" },
+          organizer: { "@type": "Organization", name: BRAND, url: SITE },
+          performer: { "@type": "Person", name: "Towan Isom" },
+        })}</script>
+      )}
     </Helmet>
   );
 }
