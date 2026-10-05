@@ -155,6 +155,41 @@ Deno.serve(async (req) => {
       if (status === "sent") sent++; else if (status === "skipped") skipped++; else failed++;
     };
 
+    if (m.sequence === "credit") {
+      try {
+        const email = m.assessment_email ?? "";
+        const { data: c } = await sb.from("clients").select("first_name, portal_token, credit_expires_at, credit_redeemed_at")
+          .ilike("email", email).eq("product", "readiness_review_bundle").order("created_at", { ascending: false }).limit(1).maybeSingle();
+        const { data: vip } = await sb.from("purchases").select("id").ilike("email", email).eq("product", "vip_engagement").limit(1);
+        if (!c) await finish("skipped", "client missing", m.template_key);
+        else if (c.credit_redeemed_at || vip?.length) await finish("skipped", "credit redeemed", m.template_key);
+        else if (!c.credit_expires_at || new Date(c.credit_expires_at).getTime() < now) await finish("skipped", "credit expired", m.template_key);
+        else if (!resendKey) await finish("skipped", "not configured", m.template_key);
+        else {
+          const site = "https://gogovcon.com";
+          const e = creditEmailFor(m.template_key, {
+            firstName: c.first_name, expiresLabel: label(new Date(c.credit_expires_at)),
+            vipUrl: `${site}/vip-engagement`, portalUrl: `${site}/portal?t=${c.portal_token}`,
+          });
+          if (!e) await finish("skipped", "no template", m.template_key);
+          else {
+            const unsub = `mailto:${"hello@gogovcon.com"}?subject=Unsubscribe`;
+            const { html, text } = renderEmail(e, unsub);
+            const res = await fetch("https://api.resend.com/emails", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": m.id },
+              body: JSON.stringify({ from: EMAIL_FROM, to: [email], subject: e.subject, html, text }),
+            });
+            if (!res.ok) await finish("failed", `resend ${res.status}`, m.template_key);
+            else await finish("sent", null, m.template_key);
+          }
+        }
+      } catch (e) {
+        await finish("failed", e instanceof Error ? e.message.slice(0, 200) : "error", m.template_key);
+      }
+      continue;
+    }
+
     if (m.sequence === "assessment") {
       try {
         const out = await processAssessment(sb, m, { resendKey, twSid, twToken, twFrom }, optedOut);

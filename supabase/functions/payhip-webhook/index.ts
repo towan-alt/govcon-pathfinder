@@ -93,6 +93,13 @@ Deno.serve(async (req) => {
         ...(isReview && { credit_expires_at: new Date(Date.now() + 14 * 86400000).toISOString() }),
       }).select("portal_token").single();
 
+      if (client && isReview) {
+        const { CREDIT_SCHEDULE } = await import("../_shared/credit-templates.ts");
+        await sb.from("training_messages").insert(CREDIT_SCHEDULE.map((s) => ({
+          sequence: "credit", channel: "email", assessment_email: email, template_key: s.key,
+          send_at: new Date(Date.now() + s.dayOffset * 86400000).toISOString(),
+        })));
+      }
       if (client) {
         const portalUrl = `${origin}/portal?t=${client.portal_token}`;
         const subject = isVip ? "Your VIP Engagement: next steps" : "Your Readiness Review: complete your intake";
