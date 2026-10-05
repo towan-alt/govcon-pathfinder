@@ -337,8 +337,8 @@ const NaicsPage = () => {
                 </div>
                 <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-primary/30 bg-primary/5">
                   <p className="text-sm text-foreground text-center sm:text-left">
-                    Want alerts for opportunities under NAICS{" "}
-                    <span className="font-bold text-primary">{results[0]?.code}</span>?
+                    Get the free report of open federal opportunities under NAICS{" "}
+                    <span className="font-bold text-primary">{results[0]?.code}</span>, plus new matches every week.
                   </p>
                   <button
                     onClick={() => {
@@ -348,7 +348,7 @@ const NaicsPage = () => {
                     }}
                     className="btn-gold text-xs px-6 py-3 rounded-md font-bold uppercase tracking-wider shrink-0"
                   >
-                    Get notified
+                    Get my report
                   </button>
                 </div>
               </>
@@ -602,6 +602,65 @@ const NaicsPage = () => {
                         value={subMobile}
                         onChange={(e) => setSubMobile(e.target.value)}
                         placeholder="(555) 123-4567"
+                        className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="sub-business" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                      Business name *
+                    </label>
+                    <input
+                      id="sub-business"
+                      value={subBusiness}
+                      onChange={(e) => setSubBusiness(e.target.value)}
+                      maxLength={120}
+                      className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                      style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="sub-description" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                      What do you sell? *
+                    </label>
+                    <textarea
+                      id="sub-description"
+                      value={subDescription}
+                      onChange={(e) => setSubDescription(e.target.value)}
+                      placeholder="Describe your products or services in a sentence or two"
+                      maxLength={500}
+                      rows={2}
+                      className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                      style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label htmlFor="sub-website" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                        Website (optional)
+                      </label>
+                      <input
+                        id="sub-website"
+                        value={subWebsite}
+                        onChange={(e) => setSubWebsite(e.target.value)}
+                        placeholder="yourcompany.com"
+                        maxLength={200}
+                        className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="sub-industries" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                        Customers / industries
+                      </label>
+                      <input
+                        id="sub-industries"
+                        value={subIndustries}
+                        onChange={(e) => setSubIndustries(e.target.value)}
+                        placeholder="e.g. healthcare, IT"
+                        maxLength={200}
                         className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
                         style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
                       />
