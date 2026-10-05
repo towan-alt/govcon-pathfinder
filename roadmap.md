@@ -1,5 +1,10 @@
 # Roadmap
 
+## New
+- [ ] Switch payments from Square to Payhip (user request 2026-10-05) — Payhip is not a Lovable-managed provider; needs BYOK API integration or reconsideration
+- [ ] Webinar page: free registration + live date, awareness funnel ends there (not the training banner)
+- [ ] Point NAICS + training scheduling buttons to real booking link — needs the URL from user
+
 ## Funnel restructure (approved plan 2026-10-05)
 - [x] Homepage: new section order, hero primary CTA = "Get My NAICS Codes + Report", nav = About / How It Works / Services / Resources + free-report button
 - [x] /naics rebuild: full intake form (name, email, business, description, website, industries), on-screen suggested-codes report, Launch Kit next step
