@@ -90,7 +90,7 @@ export default function RouteSeo() {
           description: meta.description,
           eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
           eventStatus: "https://schema.org/EventScheduled",
-          eventSchedule: { "@type": "Schedule", repeatFrequency: "P1D", byDay: "https://schema.org/Monday", startTime: "12:00", scheduleTimezone: "America/New_York" },
+          eventSchedule: { "@type": "Schedule", repeatFrequency: "P1D", startTime: "12:00", scheduleTimezone: "America/New_York" },
           location: { "@type": "VirtualLocation", url },
           isAccessibleForFree: true,
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD", url, availability: "https://schema.org/InStock" },
