@@ -6,7 +6,7 @@
 /** Set these when the real assets exist. Empty string shows a placeholder. */
 export const REPLAY_VIDEO_URL = "";
 export const BOOKING_URL = "";
-export const STARTER_KIT_URL = "";
+export const STARTER_KIT_URL = "/__l5e/assets-v1/e086a140-3733-47bb-97e6-b6df17081e44/gogovcon-launch-kit.pdf";
 
 /**
  * Payhip product checkout links. Create each product in the Payhip dashboard
