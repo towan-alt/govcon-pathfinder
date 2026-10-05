@@ -331,5 +331,9 @@ export function renderReport(r: ReportData, unsub: string) {
     r.registered_training ? "" : `Watch the free 30-minute training: ${r.training_url}`,
     "To your success,\nTowan Isom\nFounder, GoGovCon", FOOTER_REASON, MAILING_ADDRESS, `Unsubscribe: ${unsub}`,
   ].filter(Boolean).join("\n\n");
-  return { subject, preheader, html: shell(preheader, inner, unsub), text };
+  const band = `<tr><td align="center" style="background:${INK};padding:26px 28px">
+<p style="margin:0;color:#ffffff;font-size:12px;font-weight:700;letter-spacing:2px">YOUR GOVCON READINESS REPORT</p>
+<p style="margin:10px 0;color:#ffffff;font-family:'Playfair Display',Georgia,serif;font-size:48px;font-weight:700;line-height:1">${r.score}<span style="font-size:22px;color:${GOLD}">/100</span></p>
+<span style="display:inline-block;background:${GOLD};color:${INK};font-size:12px;font-weight:700;letter-spacing:1px;padding:6px 14px;border-radius:999px">${esc(r.tier.toUpperCase())}</span></td></tr>`;
+  return { subject, preheader, html: shell(preheader, inner, unsub, 150, band), text };
 }
