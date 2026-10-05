@@ -1,16 +1,35 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { trackCta } from "@/lib/track";
+import { KIT_PRICE, REVIEW_PRICE, VIP_PRICE } from "@/lib/funnel";
 
 const rows = [
   {
+    id: "kit",
+    offer: "GovCon Launch Kit",
+    bestFor: "Getting your foundation in place",
+    outcome: "Booklet, setup roadmap and official resource links",
+    investment: KIT_PRICE,
+    cta: { label: "Get the Launch Kit", to: "/launch-kit" },
+    featured: false,
+  },
+  {
+    id: "review",
+    offer: "Comprehensive Readiness Review",
+    bestFor: "Knowing exactly where you stand",
+    outcome: "Scorecard, 5 target agencies, 90-day plan and a 60-minute session with Towan",
+    investment: REVIEW_PRICE,
+    cta: { label: "See the Readiness Review", to: "/readiness-review" },
+    featured: true,
+  },
+  {
     id: "vip",
     offer: "VIP Engagement",
-    bestFor: "Needs a customized plan",
-    outcome: "Targeting, positioning and a written action plan",
-    investment: "$997",
-    cta: { label: "See what's included", to: "/#vip-dfy" },
-    featured: true,
+    bestFor: "Deeper strategy and teaming",
+    outcome: "Two-hour intensive, teaming assistance and defined follow-up",
+    investment: VIP_PRICE,
+    cta: { label: "See the VIP Engagement", to: "/vip-engagement" },
+    featured: false,
   },
 ];
 
@@ -22,12 +41,12 @@ const ServiceComparison = () => {
           <div className="space-y-4">
             <p className="eyebrow-dark text-xs">Ways To Work Together</p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">
-              One clear path.{" "}
-              <em className="text-primary italic">Built around you.</em>
+              Three ways in.{" "}
+              <em className="text-primary italic">Pick where you are.</em>
             </h2>
             <p className="text-base text-foreground/75 max-w-2xl leading-relaxed">
-              Not sure you're ready? The free readiness assessment shows you, based on where your
-              business actually is today.
+              Each offer stands on its own. Start with the foundation, get a full diagnosis and plan,
+              or go straight to deep strategy work with Towan.
             </p>
           </div>
 
@@ -55,7 +74,7 @@ const ServiceComparison = () => {
                       <span className="font-display text-base font-bold text-foreground">{r.offer}</span>
                       {r.featured && (
                         <span className="ml-2 rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary align-middle">
-                          Most in-depth
+                          Most popular
                         </span>
                       )}
                     </th>
@@ -110,11 +129,11 @@ const ServiceComparison = () => {
 
           <div className="text-center">
             <Link
-              to="/training"
+              to="/naics"
               onClick={() => trackCta("services-help-me-choose")}
               className="btn-gold inline-flex items-center gap-2 px-8 py-3.5 rounded-md text-sm"
             >
-              Help Me Choose
+              Start With the Free Report
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
