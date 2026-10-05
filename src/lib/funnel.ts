@@ -51,6 +51,19 @@ export const VIP_INCLUDES = [
   { title: "Follow-up email access", text: "Email access after the session for questions as you put the plan to work." },
 ] as const;
 
+export const KIT_PRICE = SQUARE_PRODUCTS.launch_kit.price;
+export const KIT_TAGLINE = "Get your business foundation in place.";
+export const KIT_INCLUDES = [
+  { title: "The GovCon Launch Kit booklet", text: "The complete downloadable guide, yours to keep and work through at your own pace." },
+  { title: "EIN, banking, NAICS and SAM.gov guidance", text: "Plain-language direction on each registration and account your business needs." },
+  { title: "An organized setup roadmap", text: "The steps in order, so you always know what comes next." },
+  { title: "Official resource links", text: "Direct links to the government sites and tools, no hunting required." },
+  { title: "What to prepare next", text: "Clear direction on the materials that set you up for federal work." },
+] as const;
+export const KIT_NO_CALL_NOTE = "The Launch Kit is a self-guided resource. It does not include a consultation.";
+export const KIT_NEXT_OFFER = "You have the roadmap. Now find out how ready your business is and which agencies you should target.";
+export const NAICS_REPORT_NEXT_STEP = "Ready to get started? Put your business foundation in place with the GovCon Launch Kit.";
+
 export const LEAD_KEY = "ggc_lead";
 export const PURCHASE_KEY = "ggc_review_purchased";
 export const RESULT_KEY = "ggc_assessment_result";
