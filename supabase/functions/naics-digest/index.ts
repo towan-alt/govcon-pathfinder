@@ -73,6 +73,5 @@ Deno.serve(async (req) => {
   }
   await release(probe && sent > 0 ? null : lock.paused_reason);
 
-  // More due? Trigger one follow-up run in a minute instead of waiting a week.
   return json({ ok: true, sent, empty, failed, batch: subs?.length ?? 0 });
 });
