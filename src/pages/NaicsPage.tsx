@@ -439,7 +439,7 @@ const NaicsPage = () => {
                   <span className="text-primary text-2xl">✓</span>
                 </div>
                 <h3 className="font-display text-2xl font-bold text-white">
-                  Almost done — confirm your email
+                  Your report is on its way
                 </h3>
                 <p className="text-sm text-white/60 leading-relaxed">
                   We just emailed you a confirmation link for NAICS{" "}
@@ -447,6 +447,37 @@ const NaicsPage = () => {
                   we'll send your starting-point questions right away. Your report of open federal
                   opportunities for this code is on its way to your inbox too.
                 </p>
+
+                {results.length > 0 && (
+                  <div className="rounded-lg border border-white/10 bg-black/30 p-4 text-left space-y-3">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+                      Your suggested codes
+                    </p>
+                    {results.map((r) => (
+                      <div key={r.code} className="flex items-baseline gap-3">
+                        <span className="font-display text-base font-bold text-primary shrink-0">{r.code}</span>
+                        <span className="text-xs text-white/70">{r.title}</span>
+                      </div>
+                    ))}
+                    <p className="text-[11px] text-white/40 leading-relaxed">
+                      Suggestions based on the official NAICS catalog. Guidance, not an official classification.
+                    </p>
+                  </div>
+                )}
+
+                <div className="rounded-lg border border-primary/40 bg-primary/10 p-4 space-y-3">
+                  <p className="text-sm text-white/80 leading-relaxed">
+                    Ready to get started? Put your business foundation in place with the GovCon Launch Kit.
+                  </p>
+                  <a
+                    href="/launch-kit"
+                    onClick={() => trackCta("naics-sub-success-kit")}
+                    className="btn-gold inline-block text-sm px-6 py-3 rounded-md font-bold"
+                  >
+                    Get the Launch Kit · $19
+                  </a>
+                </div>
+
                 <p className="text-xs uppercase tracking-[0.2em] text-white/60">
                   Follow Towan Isom, CEO for more
                 </p>
@@ -495,19 +526,19 @@ const NaicsPage = () => {
               <>
                 <div className="space-y-2 mb-6">
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
-                    Get notified
+                    Free NAICS Codes + Report
                   </p>
                   <h3 className="font-display text-2xl font-bold text-white leading-snug">
-                    Get alerts for NAICS{" "}
+                    Get your report for NAICS{" "}
                     <span className="text-primary">{subNaics || "opportunities"}</span>
                   </h3>
                   <p className="text-sm text-white/55 leading-relaxed">
-                    Subscribe and we'll notify you about contracting opportunities and updates that
-                    match your code. All fields are required.
+                    Tell us about your business and we'll email your report of open federal
+                    opportunities for your code, plus new matches every week.
                   </p>
                 </div>
 
-                <form onSubmit={handleSubscribe} className="space-y-4">
+                <form onSubmit={handleSubscribe} className="space-y-4 max-h-[55vh] overflow-y-auto pr-1">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label htmlFor="sub-first" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
