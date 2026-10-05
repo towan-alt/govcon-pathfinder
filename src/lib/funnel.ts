@@ -59,15 +59,18 @@ export const REVIEW_CREDIT_LINE = `The ${REVIEW_PRICE} is credited toward any Go
 
 export const VIP_PRICE = SQUARE_PRODUCTS.vip_engagement.price;
 export const VIP_SESSION_LINE = "A 2-hour virtual 1:1 intensive with Towan Isom.";
+export const VIP_POSITIONING = "Build a deeper strategy for pursuing the right federal opportunities.";
 export const VIP_INCLUDES = [
+  { title: "Deeper pre-session research", text: "Research into your business, your target market and the specific opportunities you are considering, before you meet." },
   { title: "2-hour virtual strategy intensive", text: "A focused 1:1 working session with Towan, held over video, on your business and your federal path." },
-  { title: "Pre-session review", text: "Towan reviews your business, SAM.gov record and positioning before you meet, so the session starts working immediately." },
-  { title: "Written action plan", text: "Your plan in writing after the session, with the specific next steps for your business." },
+  { title: "Positioning and differentiation", text: "Customized recommendations on how your business is positioned against the agencies you want to win." },
+  { title: "Past-performance strategy", text: "How to present, frame and build the past performance agencies look for." },
+  { title: "Capture priorities and pursuit guidance", text: "Which pursuits are worth your time, and how to work them in order." },
+  { title: "Teaming recommendations and assistance", text: "Introductions and guidance on teaming partners that strengthen your bids, where appropriate." },
+  { title: "Written strategic action plan", text: "Your plan in writing after the session, with the specific next steps for your business." },
   { title: "Session recording", text: "The full recording of your session, so you can revisit every recommendation." },
-  { title: "Teaming recommendations and assistance", text: "Introductions and guidance on teaming partners that strengthen your bids." },
-  { title: "Private Slack channel access", text: "A direct channel to ask questions as you execute your plan." },
-  { title: "WhatsApp group access", text: "Ongoing access to the private client community." },
-  { title: "Follow-up email access", text: "Email access after the session for questions as you put the plan to work." },
+  { title: "Follow-up support", text: "Email access after the session for questions as you put the plan to work, within a defined scope and period." },
+  { title: "Community and opportunity emails", text: "The same Slack channel, WhatsApp group, matched opportunity emails and monthly on-demand sessions available to Readiness Review clients." },
 ] as const;
 
 export const KIT_PRICE = SQUARE_PRODUCTS.launch_kit.price;

@@ -7,7 +7,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import { SandboxNote, SquareCheckoutButton, getSquareStatus } from "@/components/SquareCheckoutButton";
 import { FunnelFaq, StatsStrip, StickyMobileCta } from "@/components/funnel/FunnelBits";
 import { BRAND, FIGURES } from "@/lib/brand";
-import { getLead, VIP_INCLUDES, VIP_PRICE, VIP_SESSION_LINE } from "@/lib/funnel";
+import { getLead, VIP_INCLUDES, VIP_POSITIONING, VIP_PRICE, VIP_SESSION_LINE } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
 import { trainingAction } from "@/lib/trainingApi";
 
@@ -21,7 +21,7 @@ const HOW = [
 const FAQ = [
   { q: "What happens after I pay?", a: "You'll pick your session time right away and complete a short intake so Towan can review your business before you meet. Your Slack and WhatsApp invitations follow by email." },
   { q: "Is the session really virtual?", a: "Yes. The full 2-hour intensive happens over video, so you can join from anywhere. You get the recording afterward." },
-  { q: "How is this different from the Readiness Review?", a: "The Readiness Review is a 60-minute session that produces your 90-day plan. The VIP Engagement is a 2-hour intensive with deeper pre-session research, teaming recommendations and assistance, and ongoing access through Slack, WhatsApp and email." },
+  { q: "How is this different from the Readiness Review?", a: "The Readiness Review ($497) is a comprehensive diagnosis: scorecard, five recommended agencies, a prioritized 90-day plan and one hour with Towan. The VIP Engagement ($2,500) is deeper strategic work: a two-hour intensive, personalized teaming assistance and defined follow-up. A direct VIP purchase includes the two-hour intensive and does not add a separate $497 session." },
   { q: "What do you mean by teaming assistance?", a: "Towan identifies teaming partners that strengthen your bids and helps you approach them, so you can pursue work you could not carry alone." },
   { q: "Can you guarantee a contract?", a: "No. Agencies make awards. You get the strategy, the plan, the introductions and the support to compete with focus." },
 ];
@@ -58,7 +58,7 @@ const VipEngagement = () => {
                 Two hours with Towan. <em className="text-primary italic">A plan you can execute.</em>
               </h1>
               <p className="mt-5 text-white/80 text-lg leading-relaxed max-w-xl">
-                {VIP_SESSION_LINE} Deeper research, a written plan, teaming assistance and ongoing access while you put it to work.
+                {VIP_POSITIONING} {VIP_SESSION_LINE} Deeper research, a written plan, teaming assistance and ongoing access while you put it to work.
               </p>
               <ul className="mt-8 space-y-3 hidden lg:block">
                 {VIP_INCLUDES.slice(0, 4).map((i) => (
