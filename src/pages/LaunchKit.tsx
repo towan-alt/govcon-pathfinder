@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Check, Download, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
-import { SquareCheckoutButton, SandboxNote, getSquareStatus } from "@/components/SquareCheckoutButton";
+import { PayhipCheckoutButton } from "@/components/PayhipCheckoutButton";
 import { StickyMobileCta, FunnelFaq } from "@/components/funnel/FunnelBits";
 import { KIT_PRICE, KIT_TAGLINE, KIT_INCLUDES, KIT_NO_CALL_NOTE, KIT_NEXT_OFFER, REVIEW_PRICE } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
@@ -27,21 +27,18 @@ const faq = [
 ];
 
 const LaunchKit = () => {
-  const [status, setStatus] = useState<Awaited<ReturnType<typeof getSquareStatus>>>(undefined);
   useEffect(() => {
-    getSquareStatus().then(setStatus);
     trackEvent("view_launch_kit");
   }, []);
 
   const buyBtn = (
-    <SquareCheckoutButton
+    <PayhipCheckoutButton
       product="launch_kit"
-      status={status}
       onStart={() => trackCta("launch-kit-buy")}
       className="btn-gold w-full inline-flex items-center justify-center gap-2 text-sm px-8 py-4 rounded-md font-bold"
     >
       Get the Launch Kit · {KIT_PRICE}
-    </SquareCheckoutButton>
+    </PayhipCheckoutButton>
   );
 
   return (
@@ -78,7 +75,6 @@ const LaunchKit = () => {
                 The booklet, the roadmap and the resource links. Yours to keep.
               </p>
               {buyBtn}
-              <SandboxNote status={status} />
               <p className="text-xs text-white/60 text-center">Secure checkout by Square. Download right after payment.</p>
             </div>
           </div>
@@ -138,14 +134,13 @@ const LaunchKit = () => {
       <StickyMobileCta watchId="buy-card">
         <div className="flex items-center justify-between gap-3">
           <p className="font-display text-lg font-bold text-white">{KIT_PRICE}</p>
-          <SquareCheckoutButton
+          <PayhipCheckoutButton
             product="launch_kit"
-            status={status}
             onStart={() => trackCta("launch-kit-buy-sticky")}
             className="btn-gold inline-flex items-center gap-2 text-sm px-6 py-3 rounded-md font-bold"
           >
             Get the Kit <ArrowRight className="h-4 w-4" />
-          </SquareCheckoutButton>
+          </PayhipCheckoutButton>
         </div>
       </StickyMobileCta>
     </div>
