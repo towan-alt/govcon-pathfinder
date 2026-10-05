@@ -32,6 +32,11 @@ const PAGES: Record<string, Meta> = {
     description:
       "Score your federal contracting readiness in 3 minutes across five pillars and get a personalized Readiness Report from GovCon expert Towan Isom.",
   },
+  "/launch-kit": {
+    title: "GovCon Launch Kit — $19 | GoGovCon",
+    description:
+      "Get your business foundation in place: the GovCon Launch Kit booklet, EIN, banking, NAICS and SAM.gov guidance, and an organized setup roadmap.",
+  },
   "/readiness-review": {
     title: "GovCon Readiness Review with Towan Isom | GoGovCon",
     description:
@@ -49,7 +54,7 @@ const PAGES: Record<string, Meta> = {
   "/disclaimer": { title: "Disclaimer | GoGovCon", description: "Important disclaimers about GoGovCon training and results." },
 };
 
-const PRIVATE = ["/assessment/report", "/book", "/analytics", "/confirm", "/training/registered", "/training/watch", "/readiness-review/confirmed", "/vip-engagement/confirmed", "/unsubscribe"];
+const PRIVATE = ["/assessment/report", "/book", "/analytics", "/confirm", "/training/registered", "/training/watch", "/readiness-review/confirmed", "/vip-engagement/confirmed", "/launch-kit/confirmed", "/portal", "/unsubscribe"];
 
 export default function RouteSeo() {
   const { pathname } = useLocation();

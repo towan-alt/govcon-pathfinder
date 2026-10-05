@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
     const intro = opps.length
       ? `Here are ${opps.length} open federal opportunities posted on SAM.gov in the last 90 days for NAICS ${naics}, soonest deadline first. You'll also get new ones every Monday.`
       : `There are no open SAM.gov opportunities posted in the last 90 days for NAICS ${naics} right now. That's useful to know: it usually means buyers use a related code or a contract vehicle. Let's talk about where your work is actually being bought.`;
-    const { html, text } = renderNaicsEmail({ first, intro, opps, scheduleUrl, unsubUrl, footerLine: "You requested this NAICS opportunity report on GoGovCon." });
+    const { html, text } = renderNaicsEmail({ first, intro, opps, scheduleUrl, unsubUrl, kitUrl: `${origin}/launch-kit`, footerLine: "You requested this NAICS opportunity report on GoGovCon." });
 
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",

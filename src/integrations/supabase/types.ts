@@ -77,6 +77,80 @@ export type Database = {
         }
         Relationships: []
       }
+      client_documents: {
+        Row: {
+          client_id: string
+          created_at: string
+          file_path: string
+          id: string
+          label: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          file_path: string
+          id?: string
+          label: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          file_path?: string
+          id?: string
+          label?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_documents_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          created_at: string
+          credit_expires_at: string | null
+          credit_redeemed_at: string | null
+          email: string
+          first_name: string | null
+          id: string
+          intake: Json
+          intake_submitted_at: string | null
+          plan_delivered_at: string | null
+          portal_token: string
+          product: string
+        }
+        Insert: {
+          created_at?: string
+          credit_expires_at?: string | null
+          credit_redeemed_at?: string | null
+          email: string
+          first_name?: string | null
+          id?: string
+          intake?: Json
+          intake_submitted_at?: string | null
+          plan_delivered_at?: string | null
+          portal_token?: string
+          product: string
+        }
+        Update: {
+          created_at?: string
+          credit_expires_at?: string | null
+          credit_redeemed_at?: string | null
+          email?: string
+          first_name?: string | null
+          id?: string
+          intake?: Json
+          intake_submitted_at?: string | null
+          plan_delivered_at?: string | null
+          portal_token?: string
+          product?: string
+        }
+        Relationships: []
+      }
       consent_log: {
         Row: {
           consent_at: string

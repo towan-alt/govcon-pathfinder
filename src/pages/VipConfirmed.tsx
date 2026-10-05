@@ -23,7 +23,7 @@ const VipConfirmed = () => {
       return;
     }
     supabase.functions
-      .invoke("square-verify", { body: { orderId: sessionId, product: "vip_engagement" } })
+      .invoke("square-verify", { body: { orderId: sessionId, product: "vip_engagement", origin: window.location.origin } })
       .then(({ data, error }) => {
         if (error || !data) return setState("error");
         if (!data.paid) return setState("error");

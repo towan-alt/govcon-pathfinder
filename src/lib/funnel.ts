@@ -11,9 +11,11 @@ export const STARTER_KIT_URL = "";
 /** Static Square Payment Link fallbacks, used only when Square secrets aren't set. */
 export const SQUARE_LINK_READINESS_REVIEW = "";
 export const SQUARE_LINK_VIP_ENGAGEMENT = "";
+export const SQUARE_LINK_LAUNCH_KIT = "";
 
 /** Square products. Keep in sync with supabase/functions/_shared/square.ts. */
 export const SQUARE_PRODUCTS = {
+  launch_kit: { name: "GovCon Launch Kit", cents: 1900, price: "$19", returnPath: "/launch-kit/confirmed", staticLink: SQUARE_LINK_LAUNCH_KIT },
   readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", staticLink: SQUARE_LINK_READINESS_REVIEW },
   vip_engagement: { name: "VIP Engagement", cents: 250000, price: "$2,500", returnPath: "/vip-engagement/confirmed", staticLink: SQUARE_LINK_VIP_ENGAGEMENT },
 } as const;
@@ -26,28 +28,63 @@ export const TRAINING_MINUTES = 30;
 export const ASSESSMENT_LENGTH = "10 questions · about 3 minutes";
 
 export const REVIEW_INCLUDES = [
-  { title: "GovCon Starter Kit", text: "Delivered the moment you book, so you can start before we meet." },
-  { title: "Pre-session review", text: "Towan reviews your assessment answers, SAM.gov record and website before the call." },
-  { title: "60-minute 1:1 strategy session", text: "A working session with Towan, focused on your business and your gap." },
-  { title: "Your Top 5 Target Agency List", text: "Agencies that buy what you sell, with small business contacts and buying patterns." },
-  { title: "Written 90-Day Federal Action Plan", text: "Your plan in writing, delivered within 48 hours of the session." },
-  { title: "Session recording", text: "Rewatch every recommendation whenever you need it." },
+  { title: "Personalized readiness scorecard", text: "Your business scored across the ten areas that decide federal readiness." },
+  { title: "Executive summary", text: "Your strengths, gaps and priorities in writing, verified by a qualified reviewer." },
+  { title: "Five recommended target agencies", text: "Agencies that buy what you sell, with the rationale and an initial action for each." },
+  { title: "Customized 90-day action plan", text: "Actions, owners, milestones and progress measures, delivered in writing within 48 hours of your session." },
+  { title: "One 60-minute planning session with Towan", text: "A working session with Towan Isom, plus the full session recording." },
+  { title: "GoGovCon Slack channel access", text: "A direct channel to ask questions as you execute your plan." },
+  { title: "Private WhatsApp group access", text: "Ongoing access to the private client community." },
+  { title: "Matched opportunity emails", text: "Opportunity listings delivered privately by email, matched to your NAICS codes, capabilities and target agencies." },
+  { title: "Monthly sessions with Towan, on demand", text: "Practical AI prompts, automations, contracting tips, tools and resources, available on demand." },
 ] as const;
+
+export const REVIEW_AREAS = [
+  "Business foundation and registration information",
+  "Positioning and differentiation",
+  "Agency fit",
+  "Past performance",
+  "Marketing materials",
+  "Pipeline and capture",
+  "Proposal readiness",
+  "Pricing readiness",
+  "Delivery capacity",
+  "Financial and operational readiness",
+] as const;
+
+export const REVIEW_PROMISE =
+  "Understand how prepared your business is to pursue, win, and deliver government contracts, with a comprehensive review, five recommended target agencies, a personalized 90-day action plan, and a planning session with Towan Isom.";
 
 export const REVIEW_CREDIT_LINE = `The ${REVIEW_PRICE} is credited toward any GoGovCon program you enroll in within ${REVIEW_CREDIT_DAYS} days of your session.`;
 
 export const VIP_PRICE = SQUARE_PRODUCTS.vip_engagement.price;
 export const VIP_SESSION_LINE = "A 2-hour virtual 1:1 intensive with Towan Isom.";
+export const VIP_POSITIONING = "Build a deeper strategy for pursuing the right federal opportunities.";
 export const VIP_INCLUDES = [
+  { title: "Deeper pre-session research", text: "Research into your business, your target market and the specific opportunities you are considering, before you meet." },
   { title: "2-hour virtual strategy intensive", text: "A focused 1:1 working session with Towan, held over video, on your business and your federal path." },
-  { title: "Pre-session review", text: "Towan reviews your business, SAM.gov record and positioning before you meet, so the session starts working immediately." },
-  { title: "Written action plan", text: "Your plan in writing after the session, with the specific next steps for your business." },
+  { title: "Positioning and differentiation", text: "Customized recommendations on how your business is positioned against the agencies you want to win." },
+  { title: "Past-performance strategy", text: "How to present, frame and build the past performance agencies look for." },
+  { title: "Capture priorities and pursuit guidance", text: "Which pursuits are worth your time, and how to work them in order." },
+  { title: "Teaming recommendations and assistance", text: "Introductions and guidance on teaming partners that strengthen your bids, where appropriate." },
+  { title: "Written strategic action plan", text: "Your plan in writing after the session, with the specific next steps for your business." },
   { title: "Session recording", text: "The full recording of your session, so you can revisit every recommendation." },
-  { title: "Teaming recommendations and assistance", text: "Introductions and guidance on teaming partners that strengthen your bids." },
-  { title: "Private Slack channel access", text: "A direct channel to ask questions as you execute your plan." },
-  { title: "WhatsApp group access", text: "Ongoing access to the private client community." },
-  { title: "Follow-up email access", text: "Email access after the session for questions as you put the plan to work." },
+  { title: "Follow-up support", text: "Email access after the session for questions as you put the plan to work, within a defined scope and period." },
+  { title: "Community and opportunity emails", text: "The same Slack channel, WhatsApp group, matched opportunity emails and monthly on-demand sessions available to Readiness Review clients." },
 ] as const;
+
+export const KIT_PRICE = SQUARE_PRODUCTS.launch_kit.price;
+export const KIT_TAGLINE = "Get your business foundation in place.";
+export const KIT_INCLUDES = [
+  { title: "The GovCon Launch Kit booklet", text: "The complete downloadable guide, yours to keep and work through at your own pace." },
+  { title: "EIN, banking, NAICS and SAM.gov guidance", text: "Plain-language direction on each registration and account your business needs." },
+  { title: "An organized setup roadmap", text: "The steps in order, so you always know what comes next." },
+  { title: "Official resource links", text: "Direct links to the government sites and tools, no hunting required." },
+  { title: "What to prepare next", text: "Clear direction on the materials that set you up for federal work." },
+] as const;
+export const KIT_NO_CALL_NOTE = "The Launch Kit is a self-guided resource. It does not include a consultation.";
+export const KIT_NEXT_OFFER = "You have the roadmap. Now find out how ready your business is and which agencies you should target.";
+export const NAICS_REPORT_NEXT_STEP = "Ready to get started? Put your business foundation in place with the GovCon Launch Kit.";
 
 export const LEAD_KEY = "ggc_lead";
 export const PURCHASE_KEY = "ggc_review_purchased";

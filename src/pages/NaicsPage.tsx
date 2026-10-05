@@ -71,6 +71,10 @@ const NaicsPage = () => {
   const [subEmail, setSubEmail] = useState("");
   const [subNaics, setSubNaics] = useState("");
   const [subMobile, setSubMobile] = useState("");
+  const [subBusiness, setSubBusiness] = useState("");
+  const [subDescription, setSubDescription] = useState("");
+  const [subWebsite, setSubWebsite] = useState("");
+  const [subIndustries, setSubIndustries] = useState("");
   const [subStatus, setSubStatus] = useState<"idle" | "sending" | "sent">(hasSubscription ? "sent" : "idle");
   const [subError, setSubError] = useState<string | null>(null);
 
@@ -133,6 +137,8 @@ const NaicsPage = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subEmail.trim())) missing.push("a valid email address");
     if (!subNaics.trim()) missing.push("your NAICS code");
     if (!/^[\d\s()+.-]{7,20}$/.test(subMobile.trim())) missing.push("a valid mobile number");
+    if (!subBusiness.trim()) missing.push("your business name");
+    if (!subDescription.trim()) missing.push("a short description of your products or services");
     if (missing.length > 0) {
       setSubError(`Please enter ${missing.join(", ")}.`);
       return;
@@ -146,6 +152,8 @@ const NaicsPage = () => {
           email: subEmail.trim(),
           phone: subMobile.trim(),
           naicsCode: subNaics.trim(),
+          businessName: subBusiness.trim(),
+          industry: subIndustries.trim() || undefined,
           referralSource: "NAICS Finder notifications",
           device: getDevice(),
           source: getSource(),
@@ -170,6 +178,8 @@ const NaicsPage = () => {
       void supabase.functions.invoke("naics-report", {
         body: {
           firstName: subFirst.trim(), lastName: subLast.trim(), email: subEmail.trim(), naics: subNaics.trim(),
+          businessName: subBusiness.trim(), description: subDescription.trim(),
+          website: subWebsite.trim() || undefined, industries: subIndustries.trim() || undefined,
           origin: window.location.origin, scheduleUrl: BOOKING_URL || undefined,
         },
       }).catch(() => null);
@@ -327,8 +337,8 @@ const NaicsPage = () => {
                 </div>
                 <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-lg border border-primary/30 bg-primary/5">
                   <p className="text-sm text-foreground text-center sm:text-left">
-                    Want alerts for opportunities under NAICS{" "}
-                    <span className="font-bold text-primary">{results[0]?.code}</span>?
+                    Get the free report of open federal opportunities under NAICS{" "}
+                    <span className="font-bold text-primary">{results[0]?.code}</span>, plus new matches every week.
                   </p>
                   <button
                     onClick={() => {
@@ -338,7 +348,7 @@ const NaicsPage = () => {
                     }}
                     className="btn-gold text-xs px-6 py-3 rounded-md font-bold uppercase tracking-wider shrink-0"
                   >
-                    Get notified
+                    Get my report
                   </button>
                 </div>
               </>
@@ -429,7 +439,7 @@ const NaicsPage = () => {
                   <span className="text-primary text-2xl">✓</span>
                 </div>
                 <h3 className="font-display text-2xl font-bold text-white">
-                  Almost done — confirm your email
+                  Your report is on its way
                 </h3>
                 <p className="text-sm text-white/60 leading-relaxed">
                   We just emailed you a confirmation link for NAICS{" "}
@@ -437,6 +447,37 @@ const NaicsPage = () => {
                   we'll send your starting-point questions right away. Your report of open federal
                   opportunities for this code is on its way to your inbox too.
                 </p>
+
+                {results.length > 0 && (
+                  <div className="rounded-lg border border-white/10 bg-black/30 p-4 text-left space-y-3">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+                      Your suggested codes
+                    </p>
+                    {results.map((r) => (
+                      <div key={r.code} className="flex items-baseline gap-3">
+                        <span className="font-display text-base font-bold text-primary shrink-0">{r.code}</span>
+                        <span className="text-xs text-white/70">{r.title}</span>
+                      </div>
+                    ))}
+                    <p className="text-[11px] text-white/40 leading-relaxed">
+                      Suggestions based on the official NAICS catalog. Guidance, not an official classification.
+                    </p>
+                  </div>
+                )}
+
+                <div className="rounded-lg border border-primary/40 bg-primary/10 p-4 space-y-3">
+                  <p className="text-sm text-white/80 leading-relaxed">
+                    Ready to get started? Put your business foundation in place with the GovCon Launch Kit.
+                  </p>
+                  <a
+                    href="/launch-kit"
+                    onClick={() => trackCta("naics-sub-success-kit")}
+                    className="btn-gold inline-block text-sm px-6 py-3 rounded-md font-bold"
+                  >
+                    Get the Launch Kit · $19
+                  </a>
+                </div>
+
                 <p className="text-xs uppercase tracking-[0.2em] text-white/60">
                   Follow Towan Isom, CEO for more
                 </p>
@@ -485,19 +526,19 @@ const NaicsPage = () => {
               <>
                 <div className="space-y-2 mb-6">
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
-                    Get notified
+                    Free NAICS Codes + Report
                   </p>
                   <h3 className="font-display text-2xl font-bold text-white leading-snug">
-                    Get alerts for NAICS{" "}
+                    Get your report for NAICS{" "}
                     <span className="text-primary">{subNaics || "opportunities"}</span>
                   </h3>
                   <p className="text-sm text-white/55 leading-relaxed">
-                    Subscribe and we'll notify you about contracting opportunities and updates that
-                    match your code. All fields are required.
+                    Tell us about your business and we'll email your report of open federal
+                    opportunities for your code, plus new matches every week.
                   </p>
                 </div>
 
-                <form onSubmit={handleSubscribe} className="space-y-4">
+                <form onSubmit={handleSubscribe} className="space-y-4 max-h-[55vh] overflow-y-auto pr-1">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label htmlFor="sub-first" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
@@ -567,6 +608,65 @@ const NaicsPage = () => {
                     </div>
                   </div>
 
+                  <div>
+                    <label htmlFor="sub-business" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                      Business name *
+                    </label>
+                    <input
+                      id="sub-business"
+                      value={subBusiness}
+                      onChange={(e) => setSubBusiness(e.target.value)}
+                      maxLength={120}
+                      className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                      style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="sub-description" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                      What do you sell? *
+                    </label>
+                    <textarea
+                      id="sub-description"
+                      value={subDescription}
+                      onChange={(e) => setSubDescription(e.target.value)}
+                      placeholder="Describe your products or services in a sentence or two"
+                      maxLength={500}
+                      rows={2}
+                      className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                      style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label htmlFor="sub-website" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                        Website (optional)
+                      </label>
+                      <input
+                        id="sub-website"
+                        value={subWebsite}
+                        onChange={(e) => setSubWebsite(e.target.value)}
+                        placeholder="yourcompany.com"
+                        maxLength={200}
+                        className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="sub-industries" className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5">
+                        Customers / industries
+                      </label>
+                      <input
+                        id="sub-industries"
+                        value={subIndustries}
+                        onChange={(e) => setSubIndustries(e.target.value)}
+                        placeholder="e.g. healthcare, IT"
+                        maxLength={200}
+                        className="w-full rounded-md border px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary"
+                        style={{ borderColor: "hsl(0 0% 100% / 0.12)", background: "hsl(0 0% 10%)" }}
+                      />
+                    </div>
+                  </div>
+
                   {subError && <p className="text-sm text-red-400">{subError}</p>}
 
                   <button
@@ -575,7 +675,7 @@ const NaicsPage = () => {
                     onClick={() => trackCta("naics-subscribe")}
                     className="btn-gold w-full text-sm px-8 py-3.5 rounded-md disabled:opacity-60"
                   >
-                    {subStatus === "sending" ? "Subscribing…" : "Notify me of opportunities"}
+                    {subStatus === "sending" ? "Subscribing…" : "Email my free report"}
                   </button>
                 </form>
               </>

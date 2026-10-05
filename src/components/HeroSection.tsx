@@ -28,24 +28,24 @@ const HeroSection = () => {
 
             <div className="flex flex-wrap gap-4 pt-1">
               <Link
-                to="/training"
-                onClick={() => trackCta("hero-assessment")}
+                to="/naics"
+                onClick={() => trackCta("hero-naics-report")}
                 className="btn-gold inline-flex items-center gap-2 text-sm px-8 py-4 rounded-md"
               >
-                Watch the Free 30-Minute Training
+                Get My NAICS Codes + Report
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/vip-engagement"
-                onClick={() => trackCta("hero-book")}
+                to="/#services"
+                onClick={() => trackCta("hero-compare")}
                 className="btn-outline-light text-sm px-8 py-4 rounded-md"
               >
-                See the VIP Engagement
+                Compare Services
               </Link>
             </div>
 
             <p className="text-xs text-white/60">
-              Free · 30 minutes · pick a time that works for you
+              Free · delivered to your inbox · open federal opportunities included
             </p>
           </div>
 

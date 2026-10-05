@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { ArrowRight, Check, Lock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
@@ -9,17 +9,17 @@ import { StickyMobileCta } from "@/components/funnel/FunnelBits";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { BRAND, FIGURES } from "@/lib/brand";
 import {
-  getAssessmentResult, getLead, PILLAR_LABELS, REVIEW_CREDIT_DAYS, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE,
+  getAssessmentResult, getLead, PILLAR_LABELS, REVIEW_AREAS, REVIEW_CREDIT_DAYS, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE, REVIEW_PROMISE,
 } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
 import { trainingAction } from "@/lib/trainingApi";
 import towanHero from "@/assets/towan-hero.jpg";
 
 const CARD_ITEMS = [
-  `60-minute 1:1 session with ${BRAND.founder.split(" ")[0]}`,
-  "Top 5 Target Agency List",
-  "Written 90-Day Federal Action Plan",
-  "GovCon Starter Kit and session recording",
+  `60-minute planning session with ${BRAND.founder.split(" ")[0]}, plus the recording`,
+  "Readiness scorecard and executive summary",
+  "Five target agencies and a written 90-day plan",
+  "Slack, WhatsApp, matched opportunities and monthly sessions",
 ];
 
 const HOW = [
@@ -42,10 +42,10 @@ const AGENCIES = [
 ];
 
 const FAQ = [
-  { q: "What happens after I pay?", a: "You'll pick your session time right away, download your GovCon Starter Kit, and complete a short intake so Towan can review your business before you meet." },
+  { q: "What happens after I pay?", a: "You'll get a confirmation email with a button to complete your intake and upload documents, pick your session time, and send the materials Towan reviews before you meet. Anything you don't have yet, you can mark as such." },
   { q: "Is this a sales call?", a: "No. It's a working session that produces your plan. If a GoGovCon program fits, it's mentioned at the end along with your 14-day credit. There's no obligation." },
   { q: "APEX Accelerators offer free counseling. Why pay?", a: `APEX is a valuable free resource and you should use yours. This is different: a working session with a practitioner who has bid and won federal work for ${FIGURES.years} years, plus deliverables you keep, including your agency list and written plan.` },
-  { q: "I haven't taken the assessment yet.", a: "Take it first. It's free, takes about 3 minutes, and makes your session more focused." },
+  { q: "Who prepares the review?", a: "Research and drafting are supported by automation, and a qualified reviewer verifies every finding before anything is delivered to you. Verified information, what you told us, and open questions are clearly distinguished." },
   { q: "Can you guarantee a contract?", a: "No. Agencies make awards. You get the plan, the agency list and the next steps so you compete with a strategy." },
 ];
 
@@ -93,7 +93,7 @@ const ReadinessReview = () => {
                 Turn your score into a <em className="italic text-gold-dark">90-Day Federal Action Plan.</em>
               </h1>
               <p className="mt-5 text-foreground/85 text-lg leading-relaxed max-w-xl">
-                A 60-minute working session with {BRAND.founder}, plus the agency list and written plan you need to pursue federal work with focus.
+                {REVIEW_PROMISE}
               </p>
               {result && (
                 <div className="mt-6 inline-flex flex-wrap border border-foreground text-sm font-semibold text-foreground rounded-[2px]">
@@ -143,7 +143,8 @@ const ReadinessReview = () => {
         {/* c) Deliverables */}
         <section className="py-16 lg:py-20 bg-background">
           <div className="container mx-auto px-6 max-w-6xl">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-10 !leading-[1.15]">Six deliverables. One clear direction.</h2>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4 !leading-[1.15]">Every deliverable. One clear direction.</h2>
+            <p className="text-foreground/75 mb-10 max-w-2xl leading-relaxed">Your review covers ten areas: {REVIEW_AREAS.join(", ").toLowerCase()}.</p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-border">
               {REVIEW_INCLUDES.map((d, i) => (
                 <div key={d.title} className="border-r border-b border-border p-6">
@@ -218,7 +219,7 @@ const ReadinessReview = () => {
               <p className="eyebrow text-xs">Your session is with</p>
               <h2 className="font-display text-4xl md:text-5xl font-bold text-white mt-3 !leading-[1.1]">{BRAND.founder}</h2>
               <p className="text-white/85 mt-5 leading-relaxed">
-                {BRAND.founderRole}. {FIGURES.years} years in federal contracting, {FIGURES.contracts} contracts executed across {FIGURES.agencies} agencies, and {FIGURES.winsSupported} in contract wins supported for the businesses he coaches.
+                {BRAND.founderRole}. {FIGURES.years} years in federal contracting, {FIGURES.contracts} contracts executed across {FIGURES.agencies} agencies, and {FIGURES.winsSupported} in contract wins supported for the businesses she coaches.
               </p>
               <blockquote className="font-display italic text-2xl md:text-3xl text-gold mt-8 !leading-[1.3]">
                 "I don't just teach federal contracting. I win federal contracts, every year."
@@ -267,12 +268,7 @@ const ReadinessReview = () => {
               Stop guessing. <em className="italic text-gold">Get the plan.</em>
             </h2>
             <p className="text-white/85 mt-4">60 minutes with Towan. Your Top 5 agencies. A written 90-day plan in 48 hours.</p>
-            <div className="mt-8">{buy("review-final-buy", "btn-gold gap-2", <>Book My Readiness Review · {REVIEW_PRICE}</>)}</div>
-            {!result && (
-              <p className="mt-5 text-sm text-white/75">
-                No score yet? <Link to="/assessment" onClick={() => trackCta("review-take-assessment")} className="text-teal underline">Take the free assessment first</Link>.
-              </p>
-            )}
+            <div className="mt-8">{buy("review-final-buy", "btn-gold gap-2", <>Get My Comprehensive Readiness Review · {REVIEW_PRICE}</>)}</div>
           </div>
         </section>
       </main>
