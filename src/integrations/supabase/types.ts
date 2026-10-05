@@ -290,6 +290,27 @@ export type Database = {
         }
         Relationships: []
       }
+      naics_digest_state: {
+        Row: {
+          id: number
+          last_run_at: string | null
+          locked_until: string | null
+          paused_reason: string | null
+        }
+        Insert: {
+          id?: number
+          last_run_at?: string | null
+          locked_until?: string | null
+          paused_reason?: string | null
+        }
+        Update: {
+          id?: number
+          last_run_at?: string | null
+          locked_until?: string | null
+          paused_reason?: string | null
+        }
+        Relationships: []
+      }
       naics_reports: {
         Row: {
           created_at: string
@@ -326,6 +347,45 @@ export type Database = {
           sent_at?: string | null
           status?: string
           status_reason?: string | null
+        }
+        Relationships: []
+      }
+      naics_subscriptions: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_sent_at: string | null
+          last_status: string | null
+          naics: string
+          send_count: number
+          unsub_token: string
+          unsubscribed_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_sent_at?: string | null
+          last_status?: string | null
+          naics: string
+          send_count?: number
+          unsub_token?: string
+          unsubscribed_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_sent_at?: string | null
+          last_status?: string | null
+          naics?: string
+          send_count?: number
+          unsub_token?: string
+          unsubscribed_at?: string | null
         }
         Relationships: []
       }

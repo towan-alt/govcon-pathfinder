@@ -14,6 +14,11 @@ const Unsubscribe = () => {
 
   const confirm = async () => {
     setState("working");
+    if (params.get("s") === "n") {
+      const { data, error } = await supabase.functions.invoke("naics-report", { body: { action: "unsubscribe", token } });
+      setState(!error && (data as { ok?: boolean })?.ok ? "done" : "invalid");
+      return;
+    }
     if (isAssessment) {
       const { data, error } = await supabase.functions.invoke("assessment", { body: { action: "unsubscribe", token } });
       setState(!error && (data as { ok?: boolean })?.ok ? "done" : "invalid");
