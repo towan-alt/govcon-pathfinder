@@ -94,8 +94,8 @@ const TrainingRegistered = () => {
               ))}
             </div>
             <div className="text-center mt-10">
-              <Link to="/assessment" onClick={() => trackCta("registered-assessment")} className="btn-gold gap-2">
-                Get your Readiness Score while you wait <ArrowRight className="h-4 w-4" />
+              <Link to="/launch-kit" onClick={() => trackCta("registered-launch-kit")} className="btn-gold gap-2">
+                Get the Launch Kit while you wait · $19 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>

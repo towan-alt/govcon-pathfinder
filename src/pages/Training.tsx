@@ -28,7 +28,7 @@ const FOR_WHO = [
 ];
 
 const FAQ = [
-  { q: "Is it free?", a: "Yes. The training is free, and every attendee gets a free GovCon Readiness Score." },
+  { q: "Is it free?", a: "Yes. The training is free. Afterward you can pick up the $19 GovCon Launch Kit to put your business foundation in place." },
   { q: "How long is it?", a: `${TRAINING_MINUTES} minutes, plus optional live Q&A at the end.` },
   { q: "What if I can't make it live?", a: "Choose the On-Demand Replay when you register and watch right away." },
   { q: "Do I need to be registered in SAM.gov first?", a: "No. The training covers what to do whether you're registered or not." },
@@ -132,7 +132,7 @@ const Training = () => {
               <div className="rounded-xl bg-primary p-6 flex flex-col justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-widest text-primary-foreground">Bonus</p>
-                  <h3 className="font-display text-xl font-bold text-primary-foreground mt-2">Every attendee gets a free GovCon Readiness Score</h3>
+                  <h3 className="font-display text-xl font-bold text-primary-foreground mt-2">After the training: the $19 GovCon Launch Kit</h3>
                 </div>
                 <button onClick={() => scrollToForm("training-bonus")} className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3 text-sm font-bold text-white">
                   Save My Seat <ArrowRight className="h-4 w-4" />

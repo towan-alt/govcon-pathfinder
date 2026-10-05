@@ -23,12 +23,12 @@ const Index = () => {
         <AgencyLogoBar />
         <StatsSection />
         <NaicsReportSection />
+        <TrainingBanner />
         <ServiceComparison />
         <CaseStudySection />
         <TestimonialsSection />
         <OfferVIPDoneForYou />
         <WhyTowanSection />
-        <TrainingBanner />
         <VideoSection />
         <FaqSection />
         <ClosingSection />
