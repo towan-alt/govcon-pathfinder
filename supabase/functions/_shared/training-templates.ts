@@ -4,6 +4,9 @@
  */
 
 export const EMAIL_FROM = "Towan Isom <towan@gogovcon.com>"; // must be a sender verified in Resend
+/** Public site used for absolute links and the email logo. */
+export const PUBLIC_SITE_URL = "https://gogovcon.com";
+export const LOGO_URL = `${PUBLIC_SITE_URL}/brand/gogovcon-logo-gold.png`;
 export const MAILING_ADDRESS = "GoGovCon · [Your mailing address here] · Washington, DC";
 export const SUPPORT_EMAIL = "hello@gogovcon.com";
 export const REVIEW_PRICE = "$497";
@@ -179,7 +182,7 @@ export function renderEmail(e: Email, unsubUrl: string) {
 <span style="display:none;max-height:0;overflow:hidden">${esc(e.preheader)}</span>
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:24px 12px">
 <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%">
-<tr><td style="background:#231F20;padding:20px 28px;border-bottom:4px solid #B79B44"><span style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:#ffffff">Go<span style="color:#B79B44">GovCon</span></span></td></tr>
+<tr><td align="center" style="background:#ffffff;padding:20px 28px;border-bottom:4px solid #B79B44"><img src="${LOGO_URL}" width="110" alt="GoGovCon by Towan Isom" style="display:block;width:110px;max-width:100%;height:auto;border:0"></td></tr>
 <tr><td style="padding:28px;background:#ffffff;font-size:15px;line-height:1.6">
 ${e.body.map((p) => `<p style="margin:0 0 16px">${esc(p)}</p>`).join("")}
 <p style="margin:24px 0"><a href="${esc(e.button.url)}" style="display:inline-block;background:#B79B44;color:#231F20;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:6px">${esc(e.button.label)}</a></p>

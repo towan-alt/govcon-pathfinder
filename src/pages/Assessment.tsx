@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import { Progress } from "@/components/ui/progress";
@@ -264,6 +265,7 @@ const Assessment = () => {
             {result && shownTier && result.pillars && result.gap ? (
               <div className="space-y-8">
                 <div className="text-center space-y-4">
+                  <BrandLogo width={130} className="flex justify-center" />
                   <p className="eyebrow-dark text-xs">Your GovCon Readiness Score</p>
                   <ScoreRing score={result.score} />
                   <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground !leading-[1.15]">{shownTier.name}</h1>

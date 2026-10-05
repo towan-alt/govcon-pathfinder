@@ -18,7 +18,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    // Pages with a light top section keep the solid menu so links stay readable.
+    const lightTop = ["/readiness-review"].includes(location.pathname);
+    const onScroll = () => setScrolled(lightTop || window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Loader2, Printer } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
+import BrandLogo from "@/components/BrandLogo";
 import { supabase } from "@/integrations/supabase/client";
 import { trackCta, trackEvent } from "@/lib/track";
 
@@ -44,9 +45,9 @@ const AssessmentReport = () => {
           )}
           {state === "ok" && r && (
             <article className="space-y-8 report-print">
+              <BrandLogo width={150} className="flex justify-center" />
               <header className="section-navy rounded-2xl p-6 md:p-8 print:rounded-none">
-                <p className="font-display text-xl font-bold text-white">Go<span className="text-primary">GovCon</span></p>
-                <p className="eyebrow text-xs mt-4">GovCon Readiness Report</p>
+                <p className="eyebrow text-xs">GovCon Readiness Report</p>
                 <h1 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15] mt-2">Your Score: {r.score}/100, {r.tier}</h1>
                 <p className="text-white/80 mt-2">Prepared for {r.first_name}</p>
               </header>
