@@ -22,7 +22,7 @@ const ReadinessConfirmed = () => {
       return;
     }
     supabase.functions
-      .invoke("square-verify", { body: { orderId: sessionId, product: "readiness_review_bundle" } })
+      .invoke("square-verify", { body: { orderId: sessionId, product: "readiness_review_bundle", origin: window.location.origin } })
       .then(({ data, error }) => {
         if (error || !data) return setState("error");
         if (!data.paid) return setState("error");

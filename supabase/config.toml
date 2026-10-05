@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.training-automation]
 verify_jwt = false
+
+[functions.portal]
+verify_jwt = false
