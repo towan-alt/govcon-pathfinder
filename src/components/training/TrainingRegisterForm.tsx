@@ -109,13 +109,21 @@ export default function TrainingRegisterForm({ heading = "Pick your time. Save y
           );
         })}
       </div>
-      <Field id="t-first" label="First name" error={errors.firstName}>
-        <input id="t-first" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} maxLength={80} className={`${inputCls} ${errors.firstName ? "border-destructive" : "border-border"}`} />
+      <div className="grid sm:grid-cols-2 gap-3">
+        <Field id="t-first" label="First name" error={errors.firstName}>
+          <input id="t-first" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} maxLength={80} className={`${inputCls} ${errors.firstName ? "border-destructive" : "border-border"}`} />
+        </Field>
+        <Field id="t-last" label="Last name" error={errors.lastName}>
+          <input id="t-last" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} maxLength={80} className={`${inputCls} ${errors.lastName ? "border-destructive" : "border-border"}`} />
+        </Field>
+      </div>
+      <Field id="t-business" label="Business name" error={errors.businessName}>
+        <input id="t-business" autoComplete="organization" value={businessName} onChange={(e) => setBusinessName(e.target.value)} maxLength={120} className={`${inputCls} ${errors.businessName ? "border-destructive" : "border-border"}`} />
       </Field>
       <Field id="t-email" label="Email" error={errors.email}>
         <input id="t-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={255} className={`${inputCls} ${errors.email ? "border-destructive" : "border-border"}`} />
       </Field>
-      <Field id="t-phone" label="Mobile (optional)" error={errors.phone}>
+      <Field id="t-phone" label="Mobile number" error={errors.phone}>
         <input id="t-phone" type="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={30} className={`${inputCls} ${errors.phone ? "border-destructive" : "border-border"}`} />
       </Field>
       <label className="flex items-start gap-2.5 text-xs text-foreground/80 leading-relaxed">
