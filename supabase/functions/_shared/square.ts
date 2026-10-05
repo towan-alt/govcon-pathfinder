@@ -1,6 +1,7 @@
 // Server-side product catalog. Keep in sync with SQUARE_PRODUCTS in src/lib/funnel.ts.
 // Prices live here too so the browser can never set its own price.
 export const PRODUCTS: Record<string, { name: string; cents: number; returnPath: string }> = {
+  launch_kit: { name: "GovCon Launch Kit", cents: 1900, returnPath: "/launch-kit/confirmed" },
   readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, returnPath: "/readiness-review/confirmed" },
   vip_engagement: { name: "VIP Engagement", cents: 250000, returnPath: "/vip-engagement/confirmed" },
 };

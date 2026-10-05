@@ -11,9 +11,11 @@ export const STARTER_KIT_URL = "";
 /** Static Square Payment Link fallbacks, used only when Square secrets aren't set. */
 export const SQUARE_LINK_READINESS_REVIEW = "";
 export const SQUARE_LINK_VIP_ENGAGEMENT = "";
+export const SQUARE_LINK_LAUNCH_KIT = "";
 
 /** Square products. Keep in sync with supabase/functions/_shared/square.ts. */
 export const SQUARE_PRODUCTS = {
+  launch_kit: { name: "GovCon Launch Kit", cents: 1900, price: "$19", returnPath: "/launch-kit/confirmed", staticLink: SQUARE_LINK_LAUNCH_KIT },
   readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, price: "$497", returnPath: "/readiness-review/confirmed", staticLink: SQUARE_LINK_READINESS_REVIEW },
   vip_engagement: { name: "VIP Engagement", cents: 250000, price: "$2,500", returnPath: "/vip-engagement/confirmed", staticLink: SQUARE_LINK_VIP_ENGAGEMENT },
 } as const;
