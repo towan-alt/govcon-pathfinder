@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AgencyLogoBar from "@/components/AgencyLogoBar";
-import TrainingBanner from "@/components/TrainingBanner";
+import WebinarSection from "@/components/WebinarSection";
 import StatsSection from "@/components/StatsSection";
 import WhyTowanSection from "@/components/WhyTowanSection";
 import CaseStudySection from "@/components/CaseStudySection";
@@ -23,13 +23,13 @@ const Index = () => {
         <AgencyLogoBar />
         <StatsSection />
         <NaicsReportSection />
-        <TrainingBanner />
         <ServiceComparison />
         <CaseStudySection />
         <TestimonialsSection />
         <OfferVIPDoneForYou />
         <WhyTowanSection />
         <VideoSection />
+        <WebinarSection />
         <FaqSection />
         <ClosingSection />
       </main>
