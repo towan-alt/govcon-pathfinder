@@ -2,6 +2,7 @@
 // Prices live here too so the browser can never set its own price.
 export const PRODUCTS: Record<string, { name: string; cents: number; returnPath: string }> = {
   readiness_review_bundle: { name: "Readiness Review Bundle", cents: 49700, returnPath: "/readiness-review/confirmed" },
+  vip_engagement: { name: "VIP Engagement", cents: 250000, returnPath: "/vip-engagement/confirmed" },
 };
 
 export const corsHeaders = {
