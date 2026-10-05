@@ -71,6 +71,10 @@ const NaicsPage = () => {
   const [subEmail, setSubEmail] = useState("");
   const [subNaics, setSubNaics] = useState("");
   const [subMobile, setSubMobile] = useState("");
+  const [subBusiness, setSubBusiness] = useState("");
+  const [subDescription, setSubDescription] = useState("");
+  const [subWebsite, setSubWebsite] = useState("");
+  const [subIndustries, setSubIndustries] = useState("");
   const [subStatus, setSubStatus] = useState<"idle" | "sending" | "sent">(hasSubscription ? "sent" : "idle");
   const [subError, setSubError] = useState<string | null>(null);
 
@@ -133,6 +137,8 @@ const NaicsPage = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subEmail.trim())) missing.push("a valid email address");
     if (!subNaics.trim()) missing.push("your NAICS code");
     if (!/^[\d\s()+.-]{7,20}$/.test(subMobile.trim())) missing.push("a valid mobile number");
+    if (!subBusiness.trim()) missing.push("your business name");
+    if (!subDescription.trim()) missing.push("a short description of your products or services");
     if (missing.length > 0) {
       setSubError(`Please enter ${missing.join(", ")}.`);
       return;
@@ -146,6 +152,8 @@ const NaicsPage = () => {
           email: subEmail.trim(),
           phone: subMobile.trim(),
           naicsCode: subNaics.trim(),
+          businessName: subBusiness.trim(),
+          industry: subIndustries.trim() || undefined,
           referralSource: "NAICS Finder notifications",
           device: getDevice(),
           source: getSource(),
@@ -170,6 +178,8 @@ const NaicsPage = () => {
       void supabase.functions.invoke("naics-report", {
         body: {
           firstName: subFirst.trim(), lastName: subLast.trim(), email: subEmail.trim(), naics: subNaics.trim(),
+          businessName: subBusiness.trim(), description: subDescription.trim(),
+          website: subWebsite.trim() || undefined, industries: subIndustries.trim() || undefined,
           origin: window.location.origin, scheduleUrl: BOOKING_URL || undefined,
         },
       }).catch(() => null);
