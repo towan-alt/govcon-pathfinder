@@ -20,5 +20,5 @@
 
 - [x] Webinar form: last name, business name, required mobile
 - [x] Center step numbers on registration confirmation
-- [ ] Email sequences: webinar follow-ups, assessment invites, 14-day $497 credit offer
-- [ ] SEO pass (canonical domain, Event schema)
+- [x] Email sequences: webinar follow-ups, assessment invites, 14-day $497 credit offer (send once Resend key is added)
+- [x] SEO pass (canonical domain, Event schema)
