@@ -31,6 +31,8 @@ export default function TrainingRegisterForm({ heading = "Pick your time. Save y
   const prior = getLead();
   const [choiceKey, setChoiceKey] = useState<string>("");
   const [firstName, setFirstName] = useState(prior?.firstName ?? "");
+  const [lastName, setLastName] = useState("");
+  const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState(prior?.email ?? "");
   const [phone, setPhone] = useState(prior?.phone ?? "");
   const [sms, setSms] = useState(false);
@@ -44,9 +46,10 @@ export default function TrainingRegisterForm({ heading = "Pick your time. Save y
     e.preventDefault();
     const errs: Record<string, string> = {};
     if (!firstName.trim()) errs.firstName = "Please enter your first name.";
+    if (!lastName.trim()) errs.lastName = "Please enter your last name.";
+    if (!businessName.trim()) errs.businessName = "Please enter your business name.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errs.email = "Please enter a valid email.";
-    if (phone.trim() && phone.replace(/\D/g, "").length < 10) errs.phone = "Please enter a 10-digit mobile number or leave it blank.";
-    if (sms && !phone.trim()) errs.phone = "Add a mobile number to get text reminders.";
+    if (phone.replace(/\D/g, "").length < 10) errs.phone = "Please enter a 10-digit mobile number.";
     setErrors(errs);
     if (Object.keys(errs).length) return;
 
@@ -60,7 +63,8 @@ export default function TrainingRegisterForm({ heading = "Pick your time. Save y
       supabase.functions.invoke("submit-lead", {
         body: {
           ...base,
-          lastName: "",
+          lastName: lastName.trim(),
+          businessName: businessName.trim(),
           recommendation: `Webinar registration: ${selected.type} ${selected.type === "instant" ? "now" : selected.title}${sms ? " · SMS reminders opted in" : ""}`,
         },
       }),
