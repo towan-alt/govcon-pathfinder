@@ -37,6 +37,11 @@ const PAGES: Record<string, Meta> = {
     description:
       "A 1:1 strategy session with GovCon expert Towan Isom, your Top 5 Target Agency List and a written 90-Day Federal Action Plan.",
   },
+  "/vip-engagement": {
+    title: "VIP Engagement: 2-Hour Virtual Intensive with Towan Isom | GoGovCon",
+    description:
+      "A 2-hour virtual 1:1 strategy intensive with GovCon expert Towan Isom: written action plan, session recording, teaming assistance and ongoing Slack, WhatsApp and email access.",
+  },
   "/contact": { title: "Contact GoGovCon | Towan Isom", description: "Get in touch with GoGovCon and GovCon expert Towan Isom about federal contracting training and advisory." },
   "/privacy": { title: "Privacy Policy | GoGovCon", description: "How GoGovCon collects, uses and protects your information." },
   "/terms": { title: "Terms of Service | GoGovCon", description: "Terms for using GoGovCon training, tools and services." },
@@ -44,7 +49,7 @@ const PAGES: Record<string, Meta> = {
   "/disclaimer": { title: "Disclaimer | GoGovCon", description: "Important disclaimers about GoGovCon training and results." },
 };
 
-const PRIVATE = ["/assessment/report", "/book", "/analytics", "/confirm", "/training/registered", "/training/watch", "/readiness-review/confirmed", "/unsubscribe"];
+const PRIVATE = ["/assessment/report", "/book", "/analytics", "/confirm", "/training/registered", "/training/watch", "/readiness-review/confirmed", "/vip-engagement/confirmed", "/unsubscribe"];
 
 export default function RouteSeo() {
   const { pathname } = useLocation();
