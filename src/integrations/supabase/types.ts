@@ -511,6 +511,42 @@ export type Database = {
         }
         Relationships: []
       }
+      samgov_api_credentials: {
+        Row: {
+          api_key_encrypted: string
+          api_key_last4: string
+          created_at: string
+          id: string
+          is_active: boolean
+          last_test_status: string
+          last_tested_at: string | null
+          provider: string
+          updated_at: string
+        }
+        Insert: {
+          api_key_encrypted: string
+          api_key_last4: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_test_status?: string
+          last_tested_at?: string | null
+          provider?: string
+          updated_at?: string
+        }
+        Update: {
+          api_key_encrypted?: string
+          api_key_last4?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_test_status?: string
+          last_tested_at?: string | null
+          provider?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       samgov_keyword_groups: {
         Row: {
           active: boolean

@@ -50,6 +50,13 @@
       "when": 1791475858853,
       "tag": "0006_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791476579490,
+      "tag": "0007_samgov_api_credentials",
+      "breakpoints": true
     }
   ]
 }
