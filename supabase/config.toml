@@ -15,3 +15,6 @@ verify_jwt = false
 
 [functions.portal]
 verify_jwt = false
+
+[functions.samgov-credentials]
+verify_jwt = false

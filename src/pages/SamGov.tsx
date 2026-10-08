@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { ChevronDown, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
+import { ChevronDown, KeyRound, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ import {
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { SamGovApiTab, apiStatusLabel, callCreds, type ApiStatus } from "@/components/samgov/SamGovApiTab";
 
 type Naics = { id: string; code: string; description: string; category: string; active: boolean };
 type Group = { id: string; name: string; active: boolean; sort_order: number };
@@ -153,6 +154,8 @@ function Config({ email }: { email: string }) {
     setLoading(false);
   }, []);
   useEffect(() => { void load(); }, [load]);
+  const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null);
+  useEffect(() => { callCreds("status").then(setApiStatus).catch(() => setApiStatus({ configured: false })); }, []);
 
   const saveSetting = async (patch: Partial<Settings>) => {
     if (!settings) return;
@@ -199,11 +202,13 @@ function Config({ email }: { email: string }) {
               <TabsTrigger value="keywords">Keywords</TabsTrigger>
               <TabsTrigger value="ai">AI Scoring</TabsTrigger>
               <TabsTrigger value="search">Search Settings</TabsTrigger>
+              <TabsTrigger value="api" className="gap-1.5"><KeyRound className="h-3.5 w-3.5" /> SAM.gov API</TabsTrigger>
             </TabsList>
             <TabsContent value="naics"><NaicsTab rows={naics} reload={load} /></TabsContent>
             <TabsContent value="keywords"><KeywordsTab groups={groups} keywords={keywords} reload={load} settings={settings} saveSetting={saveSetting} /></TabsContent>
             <TabsContent value="ai"><AiTab settings={settings} saveSetting={saveSetting} profile={profile} setProfile={setProfile} /></TabsContent>
             <TabsContent value="search"><SearchTab settings={settings} saveSetting={saveSetting} /></TabsContent>
+            <TabsContent value="api"><SamGovApiTab status={apiStatus} setStatus={setApiStatus} /></TabsContent>
           </Tabs>
 
           <section className="rounded-xl border bg-card p-6">
@@ -224,7 +229,8 @@ function Config({ email }: { email: string }) {
               ["Active keyword groups", summary.groups],
               ["Active keywords", summary.keywords],
               ["AI scoring", settings.ai_scoring_enabled ? "Enabled" : "Disabled"],
-              ["AI threshold", settings.ai_fit_threshold],
+              ["AI threshold", `${settings.ai_fit_threshold}/10`],
+              ["SAM.gov API", apiStatus ? apiStatusLabel(apiStatus) : "Loading"],
               ["Default search range", rangeLabel],
               ["Auto pagination", settings.auto_pagination ? "Enabled" : "Disabled"],
             ].map(([k, v]) => (
