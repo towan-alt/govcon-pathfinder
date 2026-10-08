@@ -547,6 +547,60 @@ export type Database = {
         }
         Relationships: []
       }
+      samgov_fetch_runs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          date_from: string
+          date_to: string
+          duplicate_records: number
+          error_count: number
+          error_message: string | null
+          id: string
+          naics_codes_requested: string[]
+          new_opportunities: number
+          started_at: string
+          status: string
+          total_api_requests: number
+          total_records_received: number
+          updated_opportunities: number
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          date_from: string
+          date_to: string
+          duplicate_records?: number
+          error_count?: number
+          error_message?: string | null
+          id?: string
+          naics_codes_requested?: string[]
+          new_opportunities?: number
+          started_at?: string
+          status?: string
+          total_api_requests?: number
+          total_records_received?: number
+          updated_opportunities?: number
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          date_from?: string
+          date_to?: string
+          duplicate_records?: number
+          error_count?: number
+          error_message?: string | null
+          id?: string
+          naics_codes_requested?: string[]
+          new_opportunities?: number
+          started_at?: string
+          status?: string
+          total_api_requests?: number
+          total_records_received?: number
+          updated_opportunities?: number
+        }
+        Relationships: []
+      }
       samgov_keyword_groups: {
         Row: {
           active: boolean
@@ -639,6 +693,87 @@ export type Database = {
         }
         Relationships: []
       }
+      samgov_opportunities: {
+        Row: {
+          active: string | null
+          created_at: string
+          department: string | null
+          description: string | null
+          first_seen_at: string
+          full_parent_path_name: string | null
+          id: string
+          last_seen_at: string
+          naics_code: string | null
+          notice_id: string
+          office: string | null
+          organization: string | null
+          point_of_contact: Json
+          posted_date: string | null
+          raw_data: Json
+          response_deadline: string | null
+          solicitation_number: string | null
+          sub_tier: string | null
+          title: string | null
+          type: string | null
+          type_of_set_aside: string | null
+          type_of_set_aside_description: string | null
+          ui_link: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: string | null
+          created_at?: string
+          department?: string | null
+          description?: string | null
+          first_seen_at?: string
+          full_parent_path_name?: string | null
+          id?: string
+          last_seen_at?: string
+          naics_code?: string | null
+          notice_id: string
+          office?: string | null
+          organization?: string | null
+          point_of_contact?: Json
+          posted_date?: string | null
+          raw_data: Json
+          response_deadline?: string | null
+          solicitation_number?: string | null
+          sub_tier?: string | null
+          title?: string | null
+          type?: string | null
+          type_of_set_aside?: string | null
+          type_of_set_aside_description?: string | null
+          ui_link?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: string | null
+          created_at?: string
+          department?: string | null
+          description?: string | null
+          first_seen_at?: string
+          full_parent_path_name?: string | null
+          id?: string
+          last_seen_at?: string
+          naics_code?: string | null
+          notice_id?: string
+          office?: string | null
+          organization?: string | null
+          point_of_contact?: Json
+          posted_date?: string | null
+          raw_data?: Json
+          response_deadline?: string | null
+          solicitation_number?: string | null
+          sub_tier?: string | null
+          title?: string | null
+          type?: string | null
+          type_of_set_aside?: string | null
+          type_of_set_aside_description?: string | null
+          ui_link?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       samgov_settings: {
         Row: {
           ai_fit_threshold: number
@@ -646,6 +781,8 @@ export type Database = {
           auto_pagination: boolean
           case_insensitive: boolean
           created_at: string
+          custom_posted_from: string | null
+          custom_posted_to: string | null
           default_date_range: string
           id: number
           match_additional_description: boolean
@@ -662,6 +799,8 @@ export type Database = {
           auto_pagination?: boolean
           case_insensitive?: boolean
           created_at?: string
+          custom_posted_from?: string | null
+          custom_posted_to?: string | null
           default_date_range?: string
           id?: number
           match_additional_description?: boolean
@@ -678,6 +817,8 @@ export type Database = {
           auto_pagination?: boolean
           case_insensitive?: boolean
           created_at?: string
+          custom_posted_from?: string | null
+          custom_posted_to?: string | null
           default_date_range?: string
           id?: number
           match_additional_description?: boolean

@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { SamGovApiTab, apiStatusLabel, callCreds, type ApiStatus } from "@/components/samgov/SamGovApiTab";
+import { OpportunityData } from "@/components/samgov/OpportunityData";
 
 type Naics = { id: string; code: string; description: string; category: string; active: boolean };
 type Group = { id: string; name: string; active: boolean; sort_order: number };
@@ -29,6 +30,7 @@ type Settings = {
   ai_scoring_enabled: boolean; ai_fit_threshold: number; default_date_range: string; results_per_request: number;
   auto_pagination: boolean; match_title: boolean; match_description: boolean; match_additional_description: boolean;
   match_solicitation_information: boolean; case_insensitive: boolean; partial_phrase_matching: boolean;
+  custom_posted_from: string | null; custom_posted_to: string | null;
 };
 
 const RANGES = [
@@ -210,6 +212,8 @@ function Config({ email }: { email: string }) {
             <TabsContent value="search"><SearchTab settings={settings} saveSetting={saveSetting} /></TabsContent>
             <TabsContent value="api"><SamGovApiTab status={apiStatus} setStatus={setApiStatus} /></TabsContent>
           </Tabs>
+
+          <OpportunityData apiStatus={apiStatus} />
 
           <section className="rounded-xl border bg-card p-6">
             <div className="flex flex-wrap items-center gap-3">
@@ -561,6 +565,18 @@ function SearchTab({ settings, saveSetting }: { settings: Settings; saveSetting:
           <SelectContent>{RANGES.map((r) => <SelectItem key={r.v} value={r.v}>{r.l}</SelectItem>)}</SelectContent>
         </Select>
       </div>
+      {settings.default_date_range === "custom" && (
+        <div className="grid sm:grid-cols-2 gap-4 max-w-md">
+          <div className="space-y-1.5">
+            <Label htmlFor="posted-from">Posted From</Label>
+            <Input id="posted-from" type="date" value={settings.custom_posted_from ?? ""} onChange={(e) => saveSetting({ custom_posted_from: e.target.value || null })} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="posted-to">Posted To</Label>
+            <Input id="posted-to" type="date" value={settings.custom_posted_to ?? ""} onChange={(e) => saveSetting({ custom_posted_to: e.target.value || null })} />
+          </div>
+        </div>
+      )}
       <div className="space-y-1.5 border-t pt-5 max-w-xs">
         <Label htmlFor="per-page">Results Per API Request</Label>
         <Input id="per-page" type="number" min={1} max={1000} value={perPage} onChange={(e) => setPerPage(e.target.value)} onBlur={savePerPage} onKeyDown={(e) => e.key === "Enter" && savePerPage()} />
