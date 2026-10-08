@@ -493,6 +493,167 @@ export type Database = {
         }
         Relationships: []
       }
+      samgov_ai_profile: {
+        Row: {
+          id: number
+          profile_text: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          profile_text?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          profile_text?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      samgov_keyword_groups: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          name?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      samgov_keywords: {
+        Row: {
+          active: boolean
+          created_at: string
+          group_id: string
+          id: string
+          keyword: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          group_id: string
+          id?: string
+          keyword: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          group_id?: string
+          id?: string
+          keyword?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "samgov_keywords_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "samgov_keyword_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      samgov_naics: {
+        Row: {
+          active: boolean
+          category: string
+          code: string
+          created_at: string
+          description: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          code: string
+          created_at?: string
+          description?: string
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          code?: string
+          created_at?: string
+          description?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      samgov_settings: {
+        Row: {
+          ai_fit_threshold: number
+          ai_scoring_enabled: boolean
+          auto_pagination: boolean
+          case_insensitive: boolean
+          created_at: string
+          default_date_range: string
+          id: number
+          match_additional_description: boolean
+          match_description: boolean
+          match_solicitation_information: boolean
+          match_title: boolean
+          partial_phrase_matching: boolean
+          results_per_request: number
+          updated_at: string
+        }
+        Insert: {
+          ai_fit_threshold?: number
+          ai_scoring_enabled?: boolean
+          auto_pagination?: boolean
+          case_insensitive?: boolean
+          created_at?: string
+          default_date_range?: string
+          id?: number
+          match_additional_description?: boolean
+          match_description?: boolean
+          match_solicitation_information?: boolean
+          match_title?: boolean
+          partial_phrase_matching?: boolean
+          results_per_request?: number
+          updated_at?: string
+        }
+        Update: {
+          ai_fit_threshold?: number
+          ai_scoring_enabled?: boolean
+          auto_pagination?: boolean
+          case_insensitive?: boolean
+          created_at?: string
+          default_date_range?: string
+          id?: number
+          match_additional_description?: boolean
+          match_description?: boolean
+          match_solicitation_information?: boolean
+          match_title?: boolean
+          partial_phrase_matching?: boolean
+          results_per_request?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sms_opt_outs: {
         Row: {
           opted_out_at: string
@@ -639,15 +800,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -774,6 +959,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const

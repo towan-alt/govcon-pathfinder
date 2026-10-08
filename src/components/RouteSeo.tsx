@@ -59,7 +59,7 @@ const PAGES: Record<string, Meta> = {
   "/disclaimer": { title: "Disclaimer | GoGovCon", description: "Important disclaimers about GoGovCon training and results." },
 };
 
-const PRIVATE = ["/assessment/report", "/book", "/analytics", "/confirm", "/training/registered", "/training/watch", "/readiness-review/confirmed", "/vip-engagement/confirmed", "/launch-kit/confirmed", "/portal", "/unsubscribe"];
+const PRIVATE = ["/assessment/report", "/book", "/analytics", "/confirm", "/training/registered", "/training/watch", "/readiness-review/confirmed", "/vip-engagement/confirmed", "/launch-kit/confirmed", "/portal", "/unsubscribe", "/samgov"];
 
 export default function RouteSeo() {
   const { pathname } = useLocation();
