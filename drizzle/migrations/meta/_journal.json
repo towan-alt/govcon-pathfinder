@@ -57,6 +57,13 @@
       "when": 1791476579490,
       "tag": "0007_samgov_api_credentials",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1791477094785,
+      "tag": "0008_samgov_opportunities",
+      "breakpoints": true
     }
   ]
 }
