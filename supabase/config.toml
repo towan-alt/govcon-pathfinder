@@ -21,3 +21,6 @@ verify_jwt = false
 
 [functions.samgov-fetch]
 verify_jwt = false
+
+[functions.samgov-filter]
+verify_jwt = false

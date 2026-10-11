@@ -15,6 +15,8 @@ type Opp = {
   posted_date: string | null; response_deadline: string | null; organization: string | null; active: string | null;
   type: string | null; type_of_set_aside_description: string | null; full_parent_path_name: string | null;
   description: string | null; ui_link: string | null; point_of_contact: Poc[] | null;
+  filter_status: string; naics_match: boolean | null; matched_naics_code: string | null; keyword_match: boolean | null;
+  matched_keywords: string[]; matched_keyword_groups: string[]; filter_error: string | null;
 };
 type Totals = { total_api_requests: number; total_records_received: number; new_opportunities: number; updated_opportunities: number; duplicate_records: number; error_count: number };
 type Progress = Totals & { from: string; to: string; total: number; done: number; current: string };
@@ -31,6 +33,7 @@ async function call(body: Record<string, unknown>) {
 
 const day = (d: string | null) => (d ? new Date(d.length === 10 ? d + "T12:00:00" : d).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) : "None");
 const ZERO: Totals = { total_api_requests: 0, total_records_received: 0, new_opportunities: 0, updated_opportunities: 0, duplicate_records: 0, error_count: 0 };
+const FILTER_LABEL: Record<string, string> = { pending_filter: "Pending filter", matched: "Matched", not_matched: "Not matched", filter_failed: "Filter failed" };
 
 export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) {
   const [opps, setOpps] = useState<Opp[]>([]);
@@ -43,7 +46,7 @@ export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) 
 
   const loadOpps = useCallback(async () => {
     const { data } = await supabase.from("samgov_opportunities")
-      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact")
+      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error")
       .order("last_seen_at", { ascending: false }).order("posted_date", { ascending: false }).limit(25);
     setOpps((data ?? []) as unknown as Opp[]);
   }, []);
@@ -150,7 +153,10 @@ export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) 
                     <TableCell className="whitespace-nowrap">{day(o.posted_date)}</TableCell>
                     <TableCell className="whitespace-nowrap">{day(o.response_deadline)}</TableCell>
                     <TableCell className="max-w-[200px]">{o.organization}</TableCell>
-                    <TableCell><Badge variant={o.active === "Yes" ? "default" : "outline"}>{o.active === "Yes" ? "Active" : "Inactive"}</Badge></TableCell>
+                    <TableCell className="space-y-1">
+                      <Badge variant={o.active === "Yes" ? "default" : "outline"}>{o.active === "Yes" ? "Active" : "Inactive"}</Badge>
+                      <Badge variant={o.filter_status === "matched" ? "default" : o.filter_status === "filter_failed" ? "destructive" : "outline"} className="block w-fit">{FILTER_LABEL[o.filter_status] ?? o.filter_status}</Badge>
+                    </TableCell>
                     <TableCell><Button size="sm" variant="outline" onClick={() => setDetail(o)}>View Details</Button></TableCell>
                   </TableRow>
                 ))}
@@ -173,6 +179,13 @@ export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) 
                 ["Organization", detail.full_parent_path_name ?? detail.organization ?? "None"],
               ].map(([k, v]) => <div key={k}><dt className="text-muted-foreground">{k}</dt><dd className="font-semibold break-words">{v}</dd></div>)}
             </dl>
+            <div className="text-sm rounded-lg border p-3 space-y-1">
+              <p className="text-muted-foreground">Filter result: <span className="text-foreground font-semibold">{FILTER_LABEL[detail.filter_status] ?? detail.filter_status}</span></p>
+              {detail.filter_status === "pending_filter" ? <p>Not filtered yet.</p> : detail.filter_status === "filter_failed" ? <p className="text-destructive">Could not evaluate this record ({detail.filter_error}).</p> : (<>
+                <p>NAICS: {detail.naics_match ? `matched ${detail.matched_naics_code}` : "no match"}</p>
+                <p>Keywords: {detail.keyword_match ? `${detail.matched_keywords.join(", ")} (${detail.matched_keyword_groups.join(", ")})` : "no match"}</p>
+              </>)}
+            </div>
             <div className="text-sm">
               <p className="text-muted-foreground">Description</p>
               <p>{detail.description && !/^https?:\/\//.test(detail.description) ? detail.description : "The full description is available on SAM.gov."}</p>
