@@ -6,7 +6,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
-const BATCH = 200;
+const BATCH = 100;
 const STALE_MS = 2 * 60 * 1000;
 const UUID = /^[0-9a-f-]{36}$/i;
 
