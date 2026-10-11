@@ -161,6 +161,7 @@ function Config({ email }: { email: string }) {
   const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null);
   const [filterTick, setFilterTick] = useState(0);
   const [refilter, setRefilter] = useState(0);
+  const [descTick, setDescTick] = useState(0);
   useEffect(() => { callCreds("status").then(setApiStatus).catch(() => setApiStatus({ configured: false })); }, []);
 
   const saveSetting = async (patch: Partial<Settings>) => {
@@ -217,8 +218,8 @@ function Config({ email }: { email: string }) {
             <TabsContent value="api"><SamGovApiTab status={apiStatus} setStatus={setApiStatus} /></TabsContent>
           </Tabs>
 
-          <OpportunityData key={filterTick} apiStatus={apiStatus} />
-          <DescriptionRetrieval ready={Boolean(apiStatus?.configured && apiStatus.is_active)} refreshKey={filterTick}
+          <OpportunityData key={filterTick} apiStatus={apiStatus} onFetched={() => setDescTick((t) => t + 1)} />
+          <DescriptionRetrieval ready={Boolean(apiStatus?.configured && apiStatus.is_active)} refreshKey={filterTick + descTick}
             onRefilter={() => setRefilter((t) => t + 1)} onChanged={() => setFilterTick((t) => t + 1)} />
           <RuleFiltering trigger={refilter} onFiltered={() => setFilterTick((t) => t + 1)} />
 

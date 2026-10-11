@@ -17,6 +17,7 @@ type Opp = {
   description: string | null; ui_link: string | null; point_of_contact: Poc[] | null;
   filter_status: string; naics_match: boolean | null; matched_naics_code: string | null; keyword_match: boolean | null;
   matched_keywords: string[]; matched_keyword_groups: string[]; filter_error: string | null;
+  description_status: string; description_text: string | null; description_error: string | null; keyword_match_fields: Record<string, string[]> | null;
 };
 type Totals = { total_api_requests: number; total_records_received: number; new_opportunities: number; updated_opportunities: number; duplicate_records: number; error_count: number };
 type Progress = Totals & { from: string; to: string; total: number; done: number; current: string };
@@ -33,9 +34,12 @@ async function call(body: Record<string, unknown>) {
 
 const day = (d: string | null) => (d ? new Date(d.length === 10 ? d + "T12:00:00" : d).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) : "None");
 const ZERO: Totals = { total_api_requests: 0, total_records_received: 0, new_opportunities: 0, updated_opportunities: 0, duplicate_records: 0, error_count: 0 };
-const FILTER_LABEL: Record<string, string> = { pending_filter: "Pending filter", matched: "Matched", not_matched: "Not matched", filter_failed: "Filter failed" };
+const FILTER_LABEL: Record<string, string> = { pending_filter: "Pending filter", matched: "Matched", not_matched: "Not matched", filter_incomplete: "Incomplete", filter_failed: "Filter failed" };
+const DESC_LABEL: Record<string, string> = { pending: "Description pending", retry_pending: "Retry pending", fetched: "Description fetched", unavailable: "No description", failed: "Description failed" };
+const FIELD_LABEL: Record<string, string> = { title: "title", description: "description", additional_description: "additional description", solicitation_number: "solicitation number", notice_type: "notice type", set_aside: "set-aside", classification_code: "classification code", agency: "agency" };
+const inDescription = (o: Opp) => Object.values(o.keyword_match_fields ?? {}).some((f) => f.includes("description"));
 
-export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) {
+export function OpportunityData({ apiStatus, onFetched }: { apiStatus: ApiStatus | null; onFetched?: () => void }) {
   const [opps, setOpps] = useState<Opp[]>([]);
   const [prog, setProg] = useState<Progress | null>(null);
   const [running, setRunning] = useState(false);
@@ -46,7 +50,7 @@ export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) 
 
   const loadOpps = useCallback(async () => {
     const { data } = await supabase.from("samgov_opportunities")
-      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error")
+      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error,description_status,description_text,description_error,keyword_match_fields")
       .order("last_seen_at", { ascending: false }).order("posted_date", { ascending: false }).limit(25);
     setOpps((data ?? []) as unknown as Opp[]);
   }, []);
@@ -83,7 +87,7 @@ export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) 
       } catch { /* run stays visible as running */ }
     }
     setRunning(false); setProg(null);
-    void loadOpps();
+    void loadOpps(); onFetched?.();
   };
 
   const pct = prog && prog.total ? Math.round((prog.done / prog.total) * 100) : 0;
@@ -132,6 +136,7 @@ export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) 
             ))}
           </div>
           {summary.error_message && <p className="text-destructive">{summary.error_message}</p>}
+          {summary.new_opportunities > 0 && <p className="text-muted-foreground">New opportunities need their full descriptions. Use Fetch Missing Descriptions below, then re-filter.</p>}
         </div>
       )}
 
@@ -156,6 +161,8 @@ export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) 
                     <TableCell className="space-y-1">
                       <Badge variant={o.active === "Yes" ? "default" : "outline"}>{o.active === "Yes" ? "Active" : "Inactive"}</Badge>
                       <Badge variant={o.filter_status === "matched" ? "default" : o.filter_status === "filter_failed" ? "destructive" : "outline"} className="block w-fit">{FILTER_LABEL[o.filter_status] ?? o.filter_status}</Badge>
+                      <Badge variant={o.description_status === "failed" ? "destructive" : "secondary"} className="block w-fit">{DESC_LABEL[o.description_status] ?? o.description_status}</Badge>
+                      {o.keyword_match && <p className="text-xs text-muted-foreground max-w-[180px]">{o.matched_keywords.join(", ")}{inDescription(o) ? " (in description)" : ""}</p>}
                     </TableCell>
                     <TableCell><Button size="sm" variant="outline" onClick={() => setDetail(o)}>View Details</Button></TableCell>
                   </TableRow>
@@ -183,12 +190,16 @@ export function OpportunityData({ apiStatus }: { apiStatus: ApiStatus | null }) 
               <p className="text-muted-foreground">Filter result: <span className="text-foreground font-semibold">{FILTER_LABEL[detail.filter_status] ?? detail.filter_status}</span></p>
               {detail.filter_status === "pending_filter" ? <p>Not filtered yet.</p> : detail.filter_status === "filter_failed" ? <p className="text-destructive">Could not evaluate this record ({detail.filter_error}).</p> : (<>
                 <p>NAICS: {detail.naics_match ? `matched ${detail.matched_naics_code}` : "no match"}</p>
-                <p>Keywords: {detail.keyword_match ? `${detail.matched_keywords.join(", ")} (${detail.matched_keyword_groups.join(", ")})` : "no match"}</p>
+                <p>Keywords: {detail.keyword_match ? detail.matched_keywords.map((k) => `${k} [${(detail.keyword_match_fields?.[k] ?? []).map((f) => FIELD_LABEL[f] ?? f).join(", ")}]`).join("; ") : "no match"}</p>
+                {detail.keyword_match && <p className="text-muted-foreground">Groups: {detail.matched_keyword_groups.join(", ")}</p>}
+                {detail.filter_status === "filter_incomplete" && <p>Waiting on the full description before this can be confirmed as not matched.</p>}
               </>)}
             </div>
             <div className="text-sm">
-              <p className="text-muted-foreground">Description</p>
-              <p>{detail.description && !/^https?:\/\//.test(detail.description) ? detail.description : "The full description is available on SAM.gov."}</p>
+              <p className="text-muted-foreground">Full Description <span className="ml-1">({DESC_LABEL[detail.description_status] ?? detail.description_status})</span></p>
+              {detail.description_status === "fetched" && detail.description_text
+                ? <div className="mt-1 max-h-80 overflow-y-auto rounded border p-3 whitespace-pre-line break-words">{detail.description_text}</div>
+                : <p>{detail.description_status === "unavailable" ? `The full description is unavailable${detail.description_error ? ` (${detail.description_error})` : ""}.` : detail.description_status === "failed" ? `Retrieval failed: ${detail.description_error ?? "unknown error"}. Use Retry Failed Descriptions.` : "Not retrieved yet. Use Fetch Missing Descriptions."}</p>}
             </div>
             <div className="text-sm">
               <p className="text-muted-foreground">Point of Contact</p>
