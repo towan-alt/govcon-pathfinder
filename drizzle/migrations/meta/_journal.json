@@ -71,6 +71,13 @@
       "when": 1791726557409,
       "tag": "0009_samgov_rule_filtering",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1791726919379,
+      "tag": "0010_samgov_descriptions",
+      "breakpoints": true
     }
   ]
 }

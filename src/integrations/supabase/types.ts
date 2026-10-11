@@ -547,6 +547,54 @@ export type Database = {
         }
         Relationships: []
       }
+      samgov_description_runs: {
+        Row: {
+          completed_at: string | null
+          error_message: string | null
+          failed: number
+          fetched: number
+          heartbeat_at: string
+          id: string
+          mode: string
+          processed: number
+          retry_pending: number
+          started_at: string
+          status: string
+          total: number
+          unavailable: number
+        }
+        Insert: {
+          completed_at?: string | null
+          error_message?: string | null
+          failed?: number
+          fetched?: number
+          heartbeat_at?: string
+          id?: string
+          mode: string
+          processed?: number
+          retry_pending?: number
+          started_at?: string
+          status?: string
+          total?: number
+          unavailable?: number
+        }
+        Update: {
+          completed_at?: string | null
+          error_message?: string | null
+          failed?: number
+          fetched?: number
+          heartbeat_at?: string
+          id?: string
+          mode?: string
+          processed?: number
+          retry_pending?: number
+          started_at?: string
+          status?: string
+          total?: number
+          unavailable?: number
+        }
+        Relationships: []
+      }
       samgov_fetch_runs: {
         Row: {
           completed_at: string | null
@@ -611,6 +659,7 @@ export type Database = {
           failed: number
           heartbeat_at: string
           id: string
+          incomplete: number
           keyword_only: number
           naics_only: number
           neither: number
@@ -628,6 +677,7 @@ export type Database = {
           failed?: number
           heartbeat_at?: string
           id?: string
+          incomplete?: number
           keyword_only?: number
           naics_only?: number
           neither?: number
@@ -645,6 +695,7 @@ export type Database = {
           failed?: number
           heartbeat_at?: string
           id?: string
+          incomplete?: number
           keyword_only?: number
           naics_only?: number
           neither?: number
@@ -753,6 +804,13 @@ export type Database = {
           created_at: string
           department: string | null
           description: string | null
+          description_attempted_at: string | null
+          description_attempts: number
+          description_error: string | null
+          description_fetched_at: string | null
+          description_source_url: string | null
+          description_status: string
+          description_text: string | null
           filter_config_version: string | null
           filter_error: string | null
           filter_status: string
@@ -761,6 +819,7 @@ export type Database = {
           full_parent_path_name: string | null
           id: string
           keyword_match: boolean | null
+          keyword_match_fields: Json
           last_seen_at: string
           matched_keyword_groups: string[]
           matched_keywords: string[]
@@ -788,6 +847,13 @@ export type Database = {
           created_at?: string
           department?: string | null
           description?: string | null
+          description_attempted_at?: string | null
+          description_attempts?: number
+          description_error?: string | null
+          description_fetched_at?: string | null
+          description_source_url?: string | null
+          description_status?: string
+          description_text?: string | null
           filter_config_version?: string | null
           filter_error?: string | null
           filter_status?: string
@@ -796,6 +862,7 @@ export type Database = {
           full_parent_path_name?: string | null
           id?: string
           keyword_match?: boolean | null
+          keyword_match_fields?: Json
           last_seen_at?: string
           matched_keyword_groups?: string[]
           matched_keywords?: string[]
@@ -823,6 +890,13 @@ export type Database = {
           created_at?: string
           department?: string | null
           description?: string | null
+          description_attempted_at?: string | null
+          description_attempts?: number
+          description_error?: string | null
+          description_fetched_at?: string | null
+          description_source_url?: string | null
+          description_status?: string
+          description_text?: string | null
           filter_config_version?: string | null
           filter_error?: string | null
           filter_status?: string
@@ -831,6 +905,7 @@ export type Database = {
           full_parent_path_name?: string | null
           id?: string
           keyword_match?: boolean | null
+          keyword_match_fields?: Json
           last_seen_at?: string
           matched_keyword_groups?: string[]
           matched_keywords?: string[]

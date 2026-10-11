@@ -152,6 +152,9 @@ Deno.serve(async (req) => {
           const { error } = await db.from("samgov_opportunities")
             .upsert([...unique.values()].map((r) => ({ ...r, last_seen_at: now })), { onConflict: "notice_id" });
           if (error) { console.error("samgov upsert failed", { code: error.code }); errorKind = "storage"; break; }
+          // Notices without a description link can never be retrieved; mark them so they aren't queued.
+          await db.from("samgov_opportunities").update({ description_status: "unavailable", description_error: "No description link provided." })
+            .in("notice_id", [...unique.keys()]).is("description", null).eq("description_status", "pending");
         }
         const total = Number(payload.totalRecords ?? 0);
         offset += limit;
