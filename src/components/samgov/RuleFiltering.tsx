@@ -8,10 +8,10 @@ import { Progress } from "@/components/ui/progress";
 
 type Run = {
   id: string; dry_run: boolean; status: string; total_opportunities: number; processed: number;
-  naics_only: number; keyword_only: number; both_match: number; neither: number; failed: number;
+  naics_only: number; keyword_only: number; both_match: number; neither: number; incomplete: number; failed: number;
   error_message: string | null; started_at: string; completed_at: string | null; config_version: string;
 };
-type Counts = { total: number; naics: number; keyword: number; both: number; neither: number; pending: number; failed: number };
+type Counts = { total: number; naics: number; keyword: number; both: number; neither: number; incomplete: number; pending: number; failed: number };
 
 async function call(body: Record<string, unknown>) {
   const { data, error } = await supabase.functions.invoke("samgov-filter", { body });
@@ -25,7 +25,7 @@ async function call(body: Record<string, unknown>) {
 
 const STATUS: Record<string, string> = { running: "Running", completed: "Completed", completed_with_errors: "Completed with errors", failed: "Failed" };
 
-export function RuleFiltering({ onFiltered }: { onFiltered?: () => void }) {
+export function RuleFiltering({ onFiltered, trigger = 0 }: { onFiltered?: () => void; trigger?: number }) {
   const [counts, setCounts] = useState<Counts | null>(null);
   const [lastRun, setLastRun] = useState<Run | null>(null);
   const [live, setLive] = useState<Run | null>(null);
@@ -35,13 +35,13 @@ export function RuleFiltering({ onFiltered }: { onFiltered?: () => void }) {
   const load = useCallback(async () => {
     const c = (q: ReturnType<typeof base>) => q.then((r) => r.count ?? 0);
     const base = () => supabase.from("samgov_opportunities").select("id", { count: "exact", head: true });
-    const [total, naics, keyword, both, neither, pending, failed, run] = await Promise.all([
+    const [total, naics, keyword, both, neither, incomplete, pending, failed, run] = await Promise.all([
       c(base()), c(base().eq("naics_match", true)), c(base().eq("keyword_match", true)),
-      c(base().eq("naics_match", true).eq("keyword_match", true)), c(base().eq("filter_status", "not_matched")),
+      c(base().eq("naics_match", true).eq("keyword_match", true)), c(base().eq("filter_status", "not_matched")), c(base().eq("filter_status", "filter_incomplete")),
       c(base().eq("filter_status", "pending_filter")), c(base().eq("filter_status", "filter_failed")),
       supabase.from("samgov_filter_runs").select("*").eq("dry_run", false).order("started_at", { ascending: false }).limit(1).maybeSingle(),
     ]);
-    setCounts({ total, naics, keyword, both, neither, pending, failed });
+    setCounts({ total, naics, keyword, both, neither, incomplete, pending, failed });
     setLastRun((run.data ?? null) as Run | null);
   }, []);
   useEffect(() => { void load(); }, [load]);
@@ -75,6 +75,11 @@ export function RuleFiltering({ onFiltered }: { onFiltered?: () => void }) {
     await load();
     if (!dry) onFiltered?.();
   };
+
+  useEffect(() => {
+    if (trigger > 0) void execute(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trigger]);
 
   const pct = live && live.total_opportunities ? Math.min(100, Math.round((live.processed / live.total_opportunities) * 100)) : 0;
   const stale = lastRun && counts && counts.pending > 0;
@@ -127,6 +132,7 @@ export function RuleFiltering({ onFiltered }: { onFiltered?: () => void }) {
             <span className="flex items-center gap-1.5"><span className="text-muted-foreground">Status:</span>
               {lastRun ? <Badge variant={lastRun.status === "completed" ? "default" : lastRun.status === "running" ? "outline" : "destructive"}>{STATUS[lastRun.status] ?? lastRun.status}</Badge> : <Badge variant="outline">Not run</Badge>}
             </span>
+            {counts.incomplete > 0 && <span>{counts.incomplete} incomplete (waiting on description retrieval)</span>}
             {counts.failed > 0 && <span className="text-destructive">{counts.failed} failed records</span>}
           </div>
           {lastRun?.error_message && lastRun.status !== "completed" && <p className="text-destructive">{lastRun.error_message}</p>}
@@ -142,6 +148,7 @@ export function RuleFiltering({ onFiltered }: { onFiltered?: () => void }) {
             <Stat k="Matching keywords" v={dryResult.keyword_only + dryResult.both_match} />
             <Stat k="Matching both" v={dryResult.both_match} />
             <Stat k="Matching neither" v={dryResult.neither} />
+            <Stat k="Incomplete" v={dryResult.incomplete} />
           </div>
           {dryResult.failed > 0 && <p className="text-destructive">{dryResult.error_message}</p>}
         </div>

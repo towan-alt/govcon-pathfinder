@@ -23,6 +23,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { SamGovApiTab, apiStatusLabel, callCreds, type ApiStatus } from "@/components/samgov/SamGovApiTab";
 import { OpportunityData } from "@/components/samgov/OpportunityData";
 import { RuleFiltering } from "@/components/samgov/RuleFiltering";
+import { DescriptionRetrieval } from "@/components/samgov/DescriptionRetrieval";
 
 type Naics = { id: string; code: string; description: string; category: string; active: boolean };
 type Group = { id: string; name: string; active: boolean; sort_order: number };
@@ -159,6 +160,7 @@ function Config({ email }: { email: string }) {
   useEffect(() => { void load(); }, [load]);
   const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null);
   const [filterTick, setFilterTick] = useState(0);
+  const [refilter, setRefilter] = useState(0);
   useEffect(() => { callCreds("status").then(setApiStatus).catch(() => setApiStatus({ configured: false })); }, []);
 
   const saveSetting = async (patch: Partial<Settings>) => {
@@ -216,7 +218,9 @@ function Config({ email }: { email: string }) {
           </Tabs>
 
           <OpportunityData key={filterTick} apiStatus={apiStatus} />
-          <RuleFiltering onFiltered={() => setFilterTick((t) => t + 1)} />
+          <DescriptionRetrieval ready={Boolean(apiStatus?.configured && apiStatus.is_active)} refreshKey={filterTick}
+            onRefilter={() => setRefilter((t) => t + 1)} onChanged={() => setFilterTick((t) => t + 1)} />
+          <RuleFiltering trigger={refilter} onFiltered={() => setFilterTick((t) => t + 1)} />
 
           <section className="rounded-xl border bg-card p-6">
             <div className="flex flex-wrap items-center gap-3">
