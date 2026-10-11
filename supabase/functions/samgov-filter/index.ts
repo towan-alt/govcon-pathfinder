@@ -138,29 +138,30 @@ Deno.serve(async (req) => {
         await db.from("samgov_filter_runs").update({ status: "failed", error_message: "Filter settings changed during the run. Please run it again.", completed_at: new Date().toISOString() }).eq("id", runId);
         return json({ error: "Filter settings changed during the run. Please run it again." }, 409);
       }
-      let q = db.from("samgov_opportunities").select("id,naics_code,raw_data").order("id").limit(BATCH);
+      let q = db.from("samgov_opportunities").select("id,naics_code,raw_data,description_status,description_text").order("id").limit(BATCH);
       if (after) q = q.gt("id", after);
       const { data: rows, error } = await q;
       if (error) throw error;
 
       const now = new Date().toISOString();
-      const c = { naics_only: 0, keyword_only: 0, both_match: 0, neither: 0, failed: 0 };
+      const c = { naics_only: 0, keyword_only: 0, both_match: 0, neither: 0, incomplete: 0, failed: 0 };
       const groups = new Map<string, { patch: Record<string, unknown>; ids: string[] }>();
       const failures: string[] = [];
       for (const r of rows ?? []) {
         let patch: Record<string, unknown>;
         try {
-          const e = evaluate(r.raw_data, r.naics_code, cfg);
+          const e = evaluate(r.raw_data, r.naics_code, cfg, { status: r.description_status, text: r.description_text });
           if (e.naics_match && e.keyword_match) c.both_match++;
           else if (e.naics_match) c.naics_only++;
           else if (e.keyword_match) c.keyword_only++;
+          else if (e.filter_status === "filter_incomplete") c.incomplete++;
           else c.neither++;
           patch = { ...e, filter_error: null };
         } catch (err) {
           c.failed++;
           const msg = err instanceof Error ? err.message : "unknown_error";
           failures.push(r.id);
-          patch = { filter_status: "filter_failed", naics_match: null, matched_naics_code: null, keyword_match: null, matched_keywords: [], matched_keyword_groups: [], filter_error: msg };
+          patch = { filter_status: "filter_failed", naics_match: null, matched_naics_code: null, keyword_match: null, matched_keywords: [], matched_keyword_groups: [], keyword_match_fields: {}, filter_error: msg };
         }
         const key = JSON.stringify(patch);
         if (!groups.has(key)) groups.set(key, { patch, ids: [] });
@@ -178,7 +179,7 @@ Deno.serve(async (req) => {
       const patch = {
         processed: run.processed + (rows?.length ?? 0),
         naics_only: run.naics_only + c.naics_only, keyword_only: run.keyword_only + c.keyword_only,
-        both_match: run.both_match + c.both_match, neither: run.neither + c.neither, failed: run.failed + c.failed,
+        both_match: run.both_match + c.both_match, neither: run.neither + c.neither, incomplete: run.incomplete + c.incomplete, failed: run.failed + c.failed,
         heartbeat_at: now,
         error_message: c.failed ? `${run.failed + c.failed} record(s) could not be evaluated and were marked filter_failed.` : run.error_message,
       };
