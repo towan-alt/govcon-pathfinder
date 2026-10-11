@@ -8,7 +8,7 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
 const BATCH = 12;
-const CONCURRENCY = 3;
+const CONCURRENCY = 2;
 const MAX_BYTES = 2_000_000;
 const MAX_TEXT = 200_000;
 const TIMEOUT_MS = 20_000;
@@ -91,7 +91,8 @@ async function fetchDescription(source: string, key: string): Promise<Outcome> {
     if (r.status >= 300 && r.status < 400) { await r.body?.cancel(); return { status: "failed", error: "SAM.gov redirected the request; redirects are not followed." }; }
     if (r.status === 401 || r.status === 403) { await r.body?.cancel(); return { status: "failed", error: "SAM.gov API key was rejected.", fatal: "auth" }; }
     if (r.status === 404) { await r.body?.cancel(); return { status: "unavailable", error: "Description not found on SAM.gov." }; }
-    if (r.status === 429) { await r.body?.cancel(); last = { status: "retry_pending", error: "SAM.gov rate limit reached.", fatal: "rate_limit" }; continue; }
+    // SAM.gov quotas are daily, so retrying a 429 only burns more quota: stop immediately.
+    if (r.status === 429) { await r.body?.cancel(); return { status: "retry_pending", error: "SAM.gov rate limit reached.", fatal: "rate_limit" }; }
     if (r.status >= 500) { await r.body?.cancel(); last = { status: "retry_pending", error: `SAM.gov server error (${r.status}).` }; continue; }
     if (!r.ok) { await r.body?.cancel(); return { status: "failed", error: `Unexpected SAM.gov response (${r.status}).` }; }
 
