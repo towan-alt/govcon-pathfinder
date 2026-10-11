@@ -53,31 +53,43 @@ function evaluate(raw: any, naicsCol: string | null, cfg: Config) {
   }
   const matchedNaics = [...codes].find((c) => cfg.naics.has(c)) ?? null;
 
-  const parts: string[] = [];
-  if (cfg.fields.title && isText(raw.title)) parts.push(raw.title);
-  if (cfg.fields.description && isText(raw.description)) parts.push(raw.description);
+  // Each searchable field is tracked separately so match reasons name the field that produced them.
+  const fields: [string, unknown][] = [];
+  if (cfg.fields.title) fields.push(["title", raw.title]);
+  if (cfg.fields.description) fields.push(["description", desc.status === "fetched" ? desc.text : raw.description]);
   if (cfg.fields.additional) {
-    if (isText(raw.additionalInfoLink)) parts.push(raw.additionalInfoLink);
-    if (isText(raw.additionalInfo?.content)) parts.push(raw.additionalInfo.content);
+    fields.push(["additional_description", raw.additionalInfoLink]);
+    fields.push(["additional_description", raw.additionalInfo?.content]);
   }
   if (cfg.fields.solicitation) {
-    for (const v of [raw.solicitationNumber, raw.type, raw.baseType, raw.typeOfSetAsideDescription, raw.classificationCode, raw.fullParentPathName]) if (isText(v)) parts.push(v);
+    fields.push(["solicitation_number", raw.solicitationNumber], ["notice_type", raw.type], ["notice_type", raw.baseType],
+      ["set_aside", raw.typeOfSetAsideDescription], ["classification_code", raw.classificationCode], ["agency", raw.fullParentPathName]);
   }
-  let hay = parts.join(" \n ").replace(/\s+/g, " ");
-  if (cfg.caseInsensitive) hay = hay.toLowerCase();
+  const hays = fields.filter(([, v]) => isText(v)).map(([f, v]) => {
+    const t = (v as string).replace(/\s+/g, " ");
+    return [f, cfg.caseInsensitive ? t.toLowerCase() : t] as const;
+  });
 
   const kws = new Set<string>(); const groups = new Set<string>();
-  if (hay) for (const { keyword, group } of cfg.keywords) {
+  const where: Record<string, string[]> = {};
+  for (const { keyword, group } of cfg.keywords) {
     const kw = cfg.caseInsensitive ? keyword.toLowerCase() : keyword;
-    const hit = cfg.partial ? hay.includes(kw) : new RegExp(`(^|[^\\p{L}\\p{N}])${esc(kw)}($|[^\\p{L}\\p{N}])`, "u").test(hay);
-    if (hit) { kws.add(keyword); groups.add(group); }
+    const re = cfg.partial ? null : new RegExp(`(^|[^\\p{L}\\p{N}])${esc(kw)}($|[^\\p{L}\\p{N}])`, "u");
+    for (const [f, hay] of hays) {
+      if (re ? re.test(hay) : hay.includes(kw)) {
+        kws.add(keyword); groups.add(group);
+        (where[keyword] ??= []).includes(f) || where[keyword].push(f);
+      }
+    }
   }
   const naics_match = matchedNaics !== null;
   const keyword_match = kws.size > 0;
+  // Missing description text is not a confirmed non-match while retrieval is still possible.
+  const descPending = cfg.fields.description && ["pending", "retry_pending", "failed"].includes(desc.status);
   return {
     naics_match, matched_naics_code: matchedNaics, keyword_match,
-    matched_keywords: [...kws], matched_keyword_groups: [...groups],
-    filter_status: naics_match || keyword_match ? "matched" : "not_matched",
+    matched_keywords: [...kws], matched_keyword_groups: [...groups], keyword_match_fields: where,
+    filter_status: naics_match || keyword_match ? "matched" : descPending ? "filter_incomplete" : "not_matched",
   };
 }
 
