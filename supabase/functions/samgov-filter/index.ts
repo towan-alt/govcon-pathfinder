@@ -45,7 +45,7 @@ const isText = (v: unknown): v is string => typeof v === "string" && v.trim() !=
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 // deno-lint-ignore no-explicit-any
-function evaluate(raw: any, naicsCol: string | null, cfg: Config) {
+function evaluate(raw: any, naicsCol: string | null, cfg: Config, desc: { status: string; text: string | null }) {
   if (!raw || typeof raw !== "object") throw new Error("malformed_record");
   const codes = new Set<string>();
   for (const c of [naicsCol, raw.naicsCode, ...(Array.isArray(raw.naicsCodes) ? raw.naicsCodes : [])]) {
