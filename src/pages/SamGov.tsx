@@ -158,6 +158,7 @@ function Config({ email }: { email: string }) {
   }, []);
   useEffect(() => { void load(); }, [load]);
   const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null);
+  const [filterTick, setFilterTick] = useState(0);
   useEffect(() => { callCreds("status").then(setApiStatus).catch(() => setApiStatus({ configured: false })); }, []);
 
   const saveSetting = async (patch: Partial<Settings>) => {
