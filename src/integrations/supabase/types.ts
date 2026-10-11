@@ -601,6 +601,60 @@ export type Database = {
         }
         Relationships: []
       }
+      samgov_filter_runs: {
+        Row: {
+          both_match: number
+          completed_at: string | null
+          config_version: string
+          dry_run: boolean
+          error_message: string | null
+          failed: number
+          heartbeat_at: string
+          id: string
+          keyword_only: number
+          naics_only: number
+          neither: number
+          processed: number
+          started_at: string
+          status: string
+          total_opportunities: number
+        }
+        Insert: {
+          both_match?: number
+          completed_at?: string | null
+          config_version: string
+          dry_run?: boolean
+          error_message?: string | null
+          failed?: number
+          heartbeat_at?: string
+          id?: string
+          keyword_only?: number
+          naics_only?: number
+          neither?: number
+          processed?: number
+          started_at?: string
+          status?: string
+          total_opportunities?: number
+        }
+        Update: {
+          both_match?: number
+          completed_at?: string | null
+          config_version?: string
+          dry_run?: boolean
+          error_message?: string | null
+          failed?: number
+          heartbeat_at?: string
+          id?: string
+          keyword_only?: number
+          naics_only?: number
+          neither?: number
+          processed?: number
+          started_at?: string
+          status?: string
+          total_opportunities?: number
+        }
+        Relationships: []
+      }
       samgov_keyword_groups: {
         Row: {
           active: boolean
@@ -699,11 +753,20 @@ export type Database = {
           created_at: string
           department: string | null
           description: string | null
+          filter_config_version: string | null
+          filter_error: string | null
+          filter_status: string
+          filtered_at: string | null
           first_seen_at: string
           full_parent_path_name: string | null
           id: string
+          keyword_match: boolean | null
           last_seen_at: string
+          matched_keyword_groups: string[]
+          matched_keywords: string[]
+          matched_naics_code: string | null
           naics_code: string | null
+          naics_match: boolean | null
           notice_id: string
           office: string | null
           organization: string | null
@@ -725,11 +788,20 @@ export type Database = {
           created_at?: string
           department?: string | null
           description?: string | null
+          filter_config_version?: string | null
+          filter_error?: string | null
+          filter_status?: string
+          filtered_at?: string | null
           first_seen_at?: string
           full_parent_path_name?: string | null
           id?: string
+          keyword_match?: boolean | null
           last_seen_at?: string
+          matched_keyword_groups?: string[]
+          matched_keywords?: string[]
+          matched_naics_code?: string | null
           naics_code?: string | null
+          naics_match?: boolean | null
           notice_id: string
           office?: string | null
           organization?: string | null
@@ -751,11 +823,20 @@ export type Database = {
           created_at?: string
           department?: string | null
           description?: string | null
+          filter_config_version?: string | null
+          filter_error?: string | null
+          filter_status?: string
+          filtered_at?: string | null
           first_seen_at?: string
           full_parent_path_name?: string | null
           id?: string
+          keyword_match?: boolean | null
           last_seen_at?: string
+          matched_keyword_groups?: string[]
+          matched_keywords?: string[]
+          matched_naics_code?: string | null
           naics_code?: string | null
+          naics_match?: boolean | null
           notice_id?: string
           office?: string | null
           organization?: string | null
