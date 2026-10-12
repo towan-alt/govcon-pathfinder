@@ -12,7 +12,7 @@ import { trackCta } from "@/lib/track";
 const STEPS = [
   { title: "Put it on your calendar", text: "Add the session now so it doesn't get buried." },
   { title: "Bring one question", text: "Write down the one thing you most want to figure out about federal contracting." },
-  { title: "Get your score early", text: "Take the free Readiness Assessment before the session so you know where you stand." },
+  { title: "Prepare your foundation", text: "The $19 Launch Kit is a self-guided next step. A personalized assessment is included in the paid Readiness Review." },
 ];
 
 const TrainingRegistered = () => {
@@ -44,6 +44,10 @@ const TrainingRegistered = () => {
 
   if (state === "loading") {
     return <div className="min-h-screen flex items-center justify-center bg-background"><Loader2 className="h-8 w-8 animate-spin text-foreground" /></div>;
+  }
+
+  if (!reg) {
+    return <div className="min-h-screen bg-background flex flex-col"><Navbar /><main className="flex-1 pt-32 pb-20 container mx-auto px-6 text-center"><h1 className="font-display text-3xl md:text-4xl font-bold !leading-[1.2]">Registration not confirmed</h1><p className="mt-4 text-muted-foreground">We couldn't find this registration. Please register to receive your personal watch link.</p><Link to="/webinar" className="btn-gold mt-6">Register for the webinar</Link></main><SiteFooter /></div>;
   }
 
   return (

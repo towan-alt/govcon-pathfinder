@@ -8,7 +8,7 @@ import { FunnelFaq, StatsStrip, StickyMobileCta } from "@/components/funnel/Funn
 import TrainingRegisterForm from "@/components/training/TrainingRegisterForm";
 import towanHero from "@/assets/towan-hero.jpg";
 import { BRAND, FIGURES } from "@/lib/brand";
-import { formatSession, nextSessionStart, TRAINING_MINUTES } from "@/lib/funnel";
+import { trainingSessionOptions, formatEt, TRAINING_MINUTES } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
 
 const MISTAKES = [
@@ -29,8 +29,8 @@ const FOR_WHO = [
 
 const FAQ = [
   { q: "Is it free?", a: "Yes. The training is free. Afterward you can pick up the $19 GovCon Launch Kit to put your business foundation in place." },
-  { q: "How long is it?", a: `${TRAINING_MINUTES} minutes, plus optional live Q&A at the end.` },
-  { q: "What if I can't make it live?", a: "Choose the On-Demand Replay when you register and watch right away." },
+  { q: "How long is it?", a: `${TRAINING_MINUTES} minutes. Both options use the same recorded training, without live Q&A.` },
+  { q: "What if I can't make the scheduled showing?", a: "Choose on-demand training when you register and watch at your own pace." },
   { q: "Do I need to be registered in SAM.gov first?", a: "No. The training covers what to do whether you're registered or not." },
   { q: "Will this guarantee me a contract?", a: "No one can guarantee an award. Agencies decide who wins. This training gives you the strategy and the order of operations so you compete with a plan." },
 ];
@@ -54,8 +54,8 @@ function useCountdown(target: Date) {
 }
 
 const Training = () => {
-  const session = useMemo(() => nextSessionStart(), []);
-  const sessionLabel = formatSession(session);
+  const session = useMemo(() => trainingSessionOptions().find((option) => option.type === "showing")?.start ?? new Date(), []);
+  const sessionLabel = formatEt(session);
   const cd = useCountdown(session);
 
 
@@ -189,7 +189,7 @@ const Training = () => {
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white !leading-[1.15]">
               Your first federal contract starts with <em className="text-primary italic">a plan</em>
             </h2>
-            <p className="text-white/75 mt-4">Next live session: {sessionLabel}. Or pick a showing that fits your day.</p>
+            <p className="text-white/75 mt-4">Upcoming recorded showing: {sessionLabel}. Or choose on-demand training. Neither includes live Q&A.</p>
             <button onClick={() => scrollToForm("training-final")} className="btn-gold mt-8 gap-2">
               Save My Seat <ArrowRight className="h-4 w-4" />
             </button>
@@ -206,9 +206,9 @@ const Training = () => {
 
 const Countdown = ({ cd, label }: { cd: ReturnType<typeof useCountdown>; label: string }) => (
   <div>
-    <p className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-3">Next live session: {label}</p>
+    <p className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-3">Upcoming recorded showing: {label}</p>
     {cd.live ? (
-      <p className="text-primary font-bold">Live now</p>
+      <p className="text-primary font-bold">Scheduled showing time reached. Choose your option above.</p>
     ) : (
       <div className="flex gap-3" aria-live="off">
         {[["Days", cd.d], ["Hours", cd.h], ["Min", cd.m], ["Sec", cd.s]].map(([l, v]) => (

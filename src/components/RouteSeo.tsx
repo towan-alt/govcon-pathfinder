@@ -86,7 +86,7 @@ export default function RouteSeo() {
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Event",
-          name: "Free Government Contracting Webinar with Towan Isom",
+          name: "Free Recorded Government Contracting Webinar with Towan Isom",
           description: meta.description,
           eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
           eventStatus: "https://schema.org/EventScheduled",
