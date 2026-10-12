@@ -5,7 +5,7 @@
 
 /** Set these when the real assets exist. Empty string shows a placeholder. */
 export const REPLAY_VIDEO_URL = "";
-export const BOOKING_URL = "";
+export const BOOKING_URL = "https://scheduler.zoom.us/towan-isom/gogovcon";
 export const STARTER_KIT_URL = "/__l5e/assets-v1/e086a140-3733-47bb-97e6-b6df17081e44/gogovcon-launch-kit.pdf";
 
 /**
@@ -54,7 +54,8 @@ export const REVIEW_AREAS = [
 export const REVIEW_PROMISE =
   "Understand how prepared your business is to pursue, win, and deliver government contracts, with a comprehensive review, five recommended target agencies, a personalized 90-day action plan, and a planning session with Towan Isom.";
 
-export const REVIEW_CREDIT_LINE = `The ${REVIEW_PRICE} is credited toward any GoGovCon program you enroll in within ${REVIEW_CREDIT_DAYS} days of your session.`;
+export const REVIEW_CREDIT_LINE = `Apply your full ${REVIEW_PRICE} once toward the ${PAYHIP_PRODUCTS.vip_engagement.price} VIP Engagement within ${REVIEW_CREDIT_DAYS} days of purchase. Upgrading is optional.`;
+export const VIP_CREDIT_BALANCE = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format((PAYHIP_PRODUCTS.vip_engagement.cents - PAYHIP_PRODUCTS.readiness_review_bundle.cents) / 100);
 
 export const VIP_PRICE = PAYHIP_PRODUCTS.vip_engagement.price;
 export const VIP_SESSION_LINE = "A 2-hour virtual 1:1 intensive with Towan Isom.";
@@ -262,33 +263,12 @@ export function nextQuarterHour(now = new Date()): Date {
 }
 
 export function trainingSessionOptions(now = new Date()): TrainingSessionOption[] {
-  const showing = "Scheduled showing of the 30-minute training";
-  const opts: TrainingSessionOption[] = [];
-  const soon = nextQuarterHour(now);
-  const mins = Math.round((soon.getTime() - now.getTime()) / 60000);
-  opts.push({ key: `s-${soon.getTime()}`, type: "showing", start: soon, title: `Next showing: starts in ${mins} minutes`, sub: `${formatTimeEt(soon)} · ${showing}`, badge: "Starting soon" });
-
-  const used = new Set([soon.getTime()]);
-  const slots: Date[] = [];
-  for (let day = 0; day < 3 && slots.length < 3; day++) {
-    for (const h of SHOWING_HOURS_ET) {
-      const t = nyWallTime(day, h, 0, now);
-      if (t.getTime() > now.getTime() + 5 * 60000 && !used.has(t.getTime()) && slots.length < 3) {
-        slots.push(t);
-        used.add(t.getTime());
-      }
-    }
-  }
-  const tomorrowNoon = nyWallTime(1, 12, 0, now);
-  if (!used.has(tomorrowNoon.getTime())) slots.push(tomorrowNoon);
-  for (const t of slots) {
-    opts.push({ key: `s-${t.getTime()}`, type: "showing", start: t, title: formatEt(t), sub: showing, badge: dayBadge(t, now) });
-  }
-
-  const live = nextSessionStart(now);
-  opts.push({ key: "live", type: "live", start: live, title: `Live with Towan: ${formatEt(live)}`, sub: "Includes live Q&A", badge: live.getTime() - now.getTime() < 3600000 ? "Starting soon" : dayBadge(live, now) });
-  opts.push({ key: "instant", type: "instant", start: now, title: "Watch now", sub: "Instant access to the 30-minute training", badge: "Instant" });
-  return opts;
+  const today = nyWallTime(0, 12, 0, now);
+  const showing = today.getTime() > now.getTime() + 5 * 60000 ? today : nyWallTime(1, 12, 0, now);
+  return [
+    { key: "instant", type: "instant", start: now, title: "On-demand training", sub: "Watch the recorded 30-minute training at your own pace. No live Q&A.", badge: "Watch now" },
+    { key: `s-${showing.getTime()}`, type: "showing", start: showing, title: `Upcoming showing: ${formatEt(showing)}`, sub: "Scheduled playback of the same recorded training. No live Q&A.", badge: dayBadge(showing, now) },
+  ];
 }
 
 export const REG_KEY = "ggc_training_reg";

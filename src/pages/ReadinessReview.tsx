@@ -9,7 +9,7 @@ import { StickyMobileCta } from "@/components/funnel/FunnelBits";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { BRAND, FIGURES } from "@/lib/brand";
 import {
-  getAssessmentResult, getLead, PILLAR_LABELS, REVIEW_AREAS, REVIEW_CREDIT_DAYS, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE, REVIEW_PROMISE,
+  getAssessmentResult, getLead, PILLAR_LABELS, REVIEW_AREAS, REVIEW_CREDIT_DAYS, REVIEW_CREDIT_LINE, REVIEW_INCLUDES, REVIEW_PRICE, REVIEW_PROMISE, VIP_CREDIT_BALANCE, VIP_PRICE,
 } from "@/lib/funnel";
 import { trackCta, trackEvent } from "@/lib/track";
 import { trainingAction } from "@/lib/trainingApi";
@@ -24,7 +24,7 @@ const CARD_ITEMS = [
 
 const HOW = [
   { title: "Book and pay", text: "Secure checkout in under a minute." },
-  { title: "Get your Starter Kit", text: "Delivered the moment you book." },
+  { title: "Schedule and complete intake", text: "Choose your time, upload your materials and access your Starter Kit after purchase verification." },
   { title: "Meet 1:1 for 60 minutes", text: `A working session with ${BRAND.founder}.` },
   { title: "Receive your written plan", text: "Your 90-Day Federal Action Plan within 48 hours." },
 ];
@@ -118,9 +118,13 @@ const ReadinessReview = () => {
               </ol>
               {buy("review-hero-buy", "btn-gold w-full gap-2 py-4", <>Book My Readiness Review</>)}
               <p className="flex items-center justify-center gap-1.5 text-xs text-white/75 text-center">
-                <Lock className="h-3.5 w-3.5" /> Secure checkout by Payhip. Pick your session time right after payment.
+                <Lock className="h-3.5 w-3.5" /> After verified payment: schedule, complete intake and access your materials.
               </p>
-              <p className="text-xs text-white/75 text-center">{REVIEW_CREDIT_LINE}</p>
+              <div className="border-t-2 border-primary pt-4 space-y-2">
+                <p className="text-lg font-bold text-gold">Your full {REVIEW_PRICE} can go toward VIP</p>
+                <p className="text-sm text-white/85 leading-relaxed">{REVIEW_CREDIT_LINE}</p>
+                <p className="text-sm text-white/85">{VIP_PRICE} VIP minus your credit = {VIP_CREDIT_BALANCE} remaining.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -235,11 +239,12 @@ const ReadinessReview = () => {
             </div>
             <div className="flex items-center justify-center"><ArrowRight className="h-8 w-8 text-gold rotate-90 md:rotate-0" /></div>
             <div className="flex-1 section-navy rounded-[2px] p-6 text-center">
-              <p className="text-xs font-bold tracking-widest text-white/75">WITHIN {REVIEW_CREDIT_DAYS} DAYS</p>
+              <p className="text-xs font-bold tracking-widest text-white/75">WITHIN {REVIEW_CREDIT_DAYS} DAYS OF PURCHASE</p>
               <p className="font-display text-4xl font-bold text-gold mt-2">{REVIEW_PRICE} off</p>
-              <p className="text-sm text-white/85 mt-1">Any GoGovCon program you join</p>
+              <p className="text-sm text-white/85 mt-1">VIP Engagement, leaving {VIP_CREDIT_BALANCE} to pay</p>
             </div>
           </div>
+          <p className="container mx-auto px-6 max-w-3xl mt-6 text-center text-sm text-foreground/80 leading-relaxed">Your private client portal shows the exact expiry and the option to apply the credit once. You can keep your Review plan without upgrading.</p>
         </section>
 
         {/* h) FAQ */}

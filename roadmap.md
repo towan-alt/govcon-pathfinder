@@ -1,9 +1,20 @@
 # Roadmap
 
+## Eduardo feedback (2026-10-12)
+- [x] Simplify webinar choices to on-demand and one clearly labeled recorded showing; reserve only after confirmation (a3c2dc2c-7234-431d-9a92-1d0c0331ee7e).
+- [x] Clarify the offer ladder and verify $2,500 VIP pricing (b9fafce4-5af7-4f1d-b5d3-0c3bbeeeba2c, d9f91e30-f1a6-4f99-9800-f3b3a0665076).
+- [x] Highlight Review deliverables and explain the credit without misstating its current purchase-based expiry (8055a8bb-771c-48f0-bc2d-2e8cb1505f2e).
+- [ ] Start credit after the session — needs an approved reliable session-completion signal; current expiry remains purchase-based.
+- [x] Lead VIP with the whole engagement, not just session length (31533276-6546-4dca-8575-f836202f2c5d).
+- [ ] Define VIP support duration, channel use and plan-delivery timeline — needs owner terms and approved sample deliverable.
+- [x] Clarify payment-to-session steps and wire the provided Zoom scheduler (fda4c6ad-5907-450e-8cf2-93509a714631).
+- [ ] Live payment-to-session validation — needs Payhip checkout URLs/product mappings and configured email sender; public browser checks and four regression tests passed.
+- [ ] Finished captioned introduction, method and testimonial videos require owner assets (d9f01bb2-27b5-4860-9225-e9bb1f7b1f98).
+
 ## New
 - [ ] Switch payments from Square to Payhip (user request 2026-10-05) — Payhip is not a Lovable-managed provider; needs BYOK API integration or reconsideration
 - [ ] Webinar page: free registration + live date, awareness funnel ends there (not the training banner)
-- [ ] Point NAICS + training scheduling buttons to real booking link — needs the URL from user
+- [x] Point NAICS + training scheduling buttons to real booking link — shared BOOKING_URL now uses the provided Zoom scheduler
 
 ## Funnel restructure (approved plan 2026-10-05)
 - [x] Homepage: new section order, hero primary CTA = "Get My NAICS Codes + Report", nav = About / How It Works / Services / Resources + free-report button
