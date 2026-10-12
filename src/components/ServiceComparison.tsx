@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { trackCta } from "@/lib/track";
-import { KIT_PRICE, REVIEW_PRICE, VIP_PRICE } from "@/lib/funnel";
+import { KIT_PRICE, REVIEW_PRICE, VIP_PRICE, REVIEW_CREDIT_LINE } from "@/lib/funnel";
 
 const rows = [
   {
@@ -26,7 +26,7 @@ const rows = [
     id: "vip",
     offer: "VIP Engagement",
     bestFor: "Deeper strategy and teaming",
-    outcome: "Two-hour intensive, teaming assistance and defined follow-up",
+    outcome: "Personalized research, written strategic plan, teaming guidance, two-hour intensive and follow-up support",
     investment: VIP_PRICE,
     cta: { label: "See the VIP Engagement", to: "/vip-engagement" },
     featured: false,
@@ -35,7 +35,7 @@ const rows = [
 
 const ServiceComparison = () => {
   return (
-    <section id="services" className="py-20 lg:py-24" style={{ background: "hsl(0 0% 96%)" }}>
+    <section id="services" className="py-20 lg:py-24 bg-secondary">
       <div className="container mx-auto px-6">
         <div className="max-w-5xl mx-auto space-y-10">
           <div className="space-y-4">
@@ -48,6 +48,9 @@ const ServiceComparison = () => {
               Each offer stands on its own. Start with the foundation, get a full diagnosis and plan,
               or go straight to deep strategy work with Towan.
             </p>
+            <p className="text-sm text-foreground/75 leading-relaxed">
+              Start free with <Link to="/naics" className="font-semibold underline text-foreground">NAICS Codes + Report</Link> or the <Link to="/webinar" className="font-semibold underline text-foreground">recorded webinar</Link>, then choose the support you need. No prerequisite purchases.
+            </p>
           </div>
 
           {/* Desktop comparison table */}
@@ -55,7 +58,7 @@ const ServiceComparison = () => {
             <table className="w-full text-left">
               <caption className="sr-only">Comparison of GoGovCon services</caption>
               <thead>
-                <tr className="border-b border-border" style={{ background: "hsl(0 0% 98%)" }}>
+                <tr className="border-b border-border bg-muted">
                   {["Offer", "Best for", "Outcome", "Investment", ""].map((h) => (
                     <th
                       key={h}
@@ -74,12 +77,12 @@ const ServiceComparison = () => {
                       <span className="font-display text-base font-bold text-foreground">{r.offer}</span>
                       {r.featured && (
                         <span className="ml-2 rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary align-middle">
-                          Most popular
+                          Diagnosis + plan
                         </span>
                       )}
                     </th>
                     <td className="px-5 py-5 align-top text-sm text-foreground/75">{r.bestFor}</td>
-                    <td className="px-5 py-5 align-top text-sm text-foreground/75">{r.outcome}</td>
+                    <td className="px-5 py-5 align-top text-sm text-foreground/75">{r.outcome}{r.id === "review" && <p className="mt-3 border-l-2 border-primary pl-3 font-semibold text-foreground">{REVIEW_CREDIT_LINE}</p>}</td>
                     <td className="px-5 py-5 align-top font-display text-base font-bold text-foreground">
                       {r.investment}
                     </td>
@@ -115,6 +118,7 @@ const ServiceComparison = () => {
                 <p className="text-sm text-foreground/75">
                   <span className="font-semibold text-foreground">Outcome:</span> {r.outcome}
                 </p>
+                {r.id === "review" && <p className="border-l-2 border-primary pl-3 text-sm font-semibold text-foreground">{REVIEW_CREDIT_LINE}</p>}
                 <Link
                   to={r.cta.to}
                   onClick={() => trackCta(`service-${r.id}-mobile`)}

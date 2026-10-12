@@ -53,10 +53,10 @@ const VipEngagement = () => {
             <div>
               <p className="eyebrow text-xs">The VIP Engagement</p>
               <h1 className="font-display text-3xl md:text-5xl font-bold text-white mt-4 !leading-[1.12]">
-                Two hours with Towan. <em className="text-primary italic">A plan you can execute.</em>
+                VIP Engagement. <em className="text-primary italic">Research, strategy and support.</em>
               </h1>
               <p className="mt-5 text-white/80 text-lg leading-relaxed max-w-xl">
-                {VIP_POSITIONING} {VIP_SESSION_LINE} Deeper research, a written plan, teaming assistance and ongoing access while you put it to work.
+                {VIP_POSITIONING} Personalized research, an actionable written plan, teaming guidance and follow-up support. {VIP_SESSION_LINE}
               </p>
               <ul className="mt-8 space-y-3 hidden lg:block">
                 {VIP_INCLUDES.slice(0, 4).map((i) => (
@@ -71,8 +71,9 @@ const VipEngagement = () => {
               <p className="text-sm text-foreground/80">One-time payment. {VIP_SESSION_LINE}</p>
               {buy("vip-hero-buy", "btn-gold w-full gap-2 py-4", <>Book My VIP Engagement · {VIP_PRICE}</>)}
               <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground text-center">
-                <Lock className="h-3.5 w-3.5" /> Secure checkout. You'll pick your session time right after payment.
+                <Lock className="h-3.5 w-3.5" /> After verified payment: schedule your session and complete your intake.
               </p>
+              <p className="text-sm text-foreground/80 leading-relaxed">Towan reviews your materials before the intensive. Your written strategic plan and session recording follow afterward.</p>
             </div>
           </div>
         </section>
@@ -80,7 +81,7 @@ const VipEngagement = () => {
         <section className="py-16 lg:py-20 bg-background">
           <div className="container mx-auto px-6 max-w-6xl">
             <p className="eyebrow-dark text-xs">What's included</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3 mb-10 !leading-[1.15]">Everything that comes with your session</h2>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3 mb-10 !leading-[1.15]">More than a two-hour session</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {VIP_INCLUDES.map((i) => (
                 <div key={i.title} className="rounded-xl border border-border bg-card p-6">

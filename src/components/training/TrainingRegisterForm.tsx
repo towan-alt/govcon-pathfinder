@@ -4,6 +4,7 @@ import { Loader2, PlayCircle, Radio, CalendarClock, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getLead, REG_KEY, saveLead, trainingSessionOptions, type TrainingSessionOption } from "@/lib/funnel";
 import { getDevice, getSource, trackEvent } from "@/lib/track";
+import { Button } from "@/components/ui/button";
 
 /** Live-updating list of real session times (re-computed every 30 seconds). */
 function useSessionOptions() {
@@ -103,7 +104,7 @@ export default function TrainingRegisterForm({ heading = "Pick your time. Save y
                 <span className="block text-xs text-muted-foreground mt-0.5">{o.sub}</span>
               </span>
               <span className={`shrink-0 text-[11px] font-bold ${active ? "text-foreground" : "text-muted-foreground"}`}>
-                {active ? <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Reserved</span> : "Reserve My Seat"}
+                {active ? <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5" /> Selected</span> : "Select"}
               </span>
             </label>
           );
@@ -131,10 +132,11 @@ export default function TrainingRegisterForm({ heading = "Pick your time. Save y
         Text me reminders. Msg and data rates may apply. Reply STOP to opt out.
       </label>
       {errors.form && <p className="text-sm text-destructive" role="alert">{errors.form}</p>}
-      <button type="submit" disabled={sending} className="btn-gold w-full gap-2 py-4 disabled:opacity-60">
+      <Button type="submit" disabled={sending} className="btn-gold h-auto w-full gap-2 py-4 disabled:opacity-60">
         {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         {selected.type === "instant" ? "Watch Now" : "Save My Seat"}
-      </button>
+      </Button>
+      <p className="text-xs text-muted-foreground text-center">Your registration is confirmed only after you submit and receive confirmation.</p>
       <p className="text-xs text-muted-foreground text-center">We respect your privacy. No spam, unsubscribe anytime.</p>
     </form>
   );
