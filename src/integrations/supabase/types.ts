@@ -493,6 +493,68 @@ export type Database = {
         }
         Relationships: []
       }
+      samgov_ai_evaluations: {
+        Row: {
+          analysis: Json | null
+          created_at: string
+          error: string | null
+          fit_category: string | null
+          fit_score: number | null
+          id: string
+          input_hash: string | null
+          input_tokens: number | null
+          limited_info: boolean | null
+          model: string
+          opportunity_id: string
+          output_tokens: number | null
+          profile_hash: string | null
+          run_id: string | null
+          status: string
+        }
+        Insert: {
+          analysis?: Json | null
+          created_at?: string
+          error?: string | null
+          fit_category?: string | null
+          fit_score?: number | null
+          id?: string
+          input_hash?: string | null
+          input_tokens?: number | null
+          limited_info?: boolean | null
+          model: string
+          opportunity_id: string
+          output_tokens?: number | null
+          profile_hash?: string | null
+          run_id?: string | null
+          status: string
+        }
+        Update: {
+          analysis?: Json | null
+          created_at?: string
+          error?: string | null
+          fit_category?: string | null
+          fit_score?: number | null
+          id?: string
+          input_hash?: string | null
+          input_tokens?: number | null
+          limited_info?: boolean | null
+          model?: string
+          opportunity_id?: string
+          output_tokens?: number | null
+          profile_hash?: string | null
+          run_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "samgov_ai_evaluations_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "samgov_opportunities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       samgov_ai_profile: {
         Row: {
           id: number
@@ -508,6 +570,54 @@ export type Database = {
           id?: number
           profile_text?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      samgov_ai_runs: {
+        Row: {
+          error_message: string | null
+          failed: number
+          finished_at: string | null
+          heartbeat_at: string
+          id: string
+          input_tokens: number
+          mode: string
+          model: string | null
+          output_tokens: number
+          queued: number
+          scored: number
+          started_at: string
+          status: string
+        }
+        Insert: {
+          error_message?: string | null
+          failed?: number
+          finished_at?: string | null
+          heartbeat_at?: string
+          id?: string
+          input_tokens?: number
+          mode?: string
+          model?: string | null
+          output_tokens?: number
+          queued?: number
+          scored?: number
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          error_message?: string | null
+          failed?: number
+          finished_at?: string | null
+          heartbeat_at?: string
+          id?: string
+          input_tokens?: number
+          mode?: string
+          model?: string | null
+          output_tokens?: number
+          queued?: number
+          scored?: number
+          started_at?: string
+          status?: string
         }
         Relationships: []
       }
@@ -801,6 +911,16 @@ export type Database = {
       samgov_opportunities: {
         Row: {
           active: string | null
+          ai_analysis: Json | null
+          ai_category: string | null
+          ai_error: string | null
+          ai_input_hash: string | null
+          ai_limited_info: boolean | null
+          ai_model: string | null
+          ai_profile_hash: string | null
+          ai_score: number | null
+          ai_scored_at: string | null
+          ai_status: string
           created_at: string
           department: string | null
           description: string | null
@@ -844,6 +964,16 @@ export type Database = {
         }
         Insert: {
           active?: string | null
+          ai_analysis?: Json | null
+          ai_category?: string | null
+          ai_error?: string | null
+          ai_input_hash?: string | null
+          ai_limited_info?: boolean | null
+          ai_model?: string | null
+          ai_profile_hash?: string | null
+          ai_score?: number | null
+          ai_scored_at?: string | null
+          ai_status?: string
           created_at?: string
           department?: string | null
           description?: string | null
@@ -887,6 +1017,16 @@ export type Database = {
         }
         Update: {
           active?: string | null
+          ai_analysis?: Json | null
+          ai_category?: string | null
+          ai_error?: string | null
+          ai_input_hash?: string | null
+          ai_limited_info?: boolean | null
+          ai_model?: string | null
+          ai_profile_hash?: string | null
+          ai_score?: number | null
+          ai_scored_at?: string | null
+          ai_status?: string
           created_at?: string
           department?: string | null
           description?: string | null
@@ -932,7 +1072,12 @@ export type Database = {
       }
       samgov_settings: {
         Row: {
+          ai_auto_scoring: boolean
           ai_fit_threshold: number
+          ai_input_price_cents_per_mtok: number | null
+          ai_max_per_run: number
+          ai_model: string
+          ai_output_price_cents_per_mtok: number | null
           ai_scoring_enabled: boolean
           auto_pagination: boolean
           case_insensitive: boolean
@@ -950,7 +1095,12 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          ai_auto_scoring?: boolean
           ai_fit_threshold?: number
+          ai_input_price_cents_per_mtok?: number | null
+          ai_max_per_run?: number
+          ai_model?: string
+          ai_output_price_cents_per_mtok?: number | null
           ai_scoring_enabled?: boolean
           auto_pagination?: boolean
           case_insensitive?: boolean
@@ -968,7 +1118,12 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          ai_auto_scoring?: boolean
           ai_fit_threshold?: number
+          ai_input_price_cents_per_mtok?: number | null
+          ai_max_per_run?: number
+          ai_model?: string
+          ai_output_price_cents_per_mtok?: number | null
           ai_scoring_enabled?: boolean
           auto_pagination?: boolean
           case_insensitive?: boolean
