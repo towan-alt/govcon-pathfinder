@@ -24,6 +24,7 @@ import { SamGovApiTab, apiStatusLabel, callCreds, type ApiStatus } from "@/compo
 import { OpportunityData } from "@/components/samgov/OpportunityData";
 import { RuleFiltering } from "@/components/samgov/RuleFiltering";
 import { DescriptionRetrieval } from "@/components/samgov/DescriptionRetrieval";
+import { ClaudeAiSettings, callAi, type AiSettings } from "@/components/samgov/ClaudeAiSettings";
 
 type Naics = { id: string; code: string; description: string; category: string; active: boolean };
 type Group = { id: string; name: string; active: boolean; sort_order: number };
@@ -33,7 +34,7 @@ type Settings = {
   auto_pagination: boolean; match_title: boolean; match_description: boolean; match_additional_description: boolean;
   match_solicitation_information: boolean; case_insensitive: boolean; partial_phrase_matching: boolean;
   custom_posted_from: string | null; custom_posted_to: string | null;
-};
+} & AiSettings;
 
 const RANGES = [
   { v: "7", l: "Last 7 days" }, { v: "14", l: "Last 14 days" }, { v: "30", l: "Last 30 days" },
@@ -162,7 +163,10 @@ function Config({ email }: { email: string }) {
   const [filterTick, setFilterTick] = useState(0);
   const [refilter, setRefilter] = useState(0);
   const [descTick, setDescTick] = useState(0);
+  const [aiKey, setAiKey] = useState<ApiStatus | null>(null);
+  const [autoScore, setAutoScore] = useState(0);
   useEffect(() => { callCreds("status").then(setApiStatus).catch(() => setApiStatus({ configured: false })); }, []);
+  useEffect(() => { callAi("status").then(setAiKey).catch(() => setAiKey({ configured: false })); }, []);
 
   const saveSetting = async (patch: Partial<Settings>) => {
     if (!settings) return;
@@ -207,21 +211,21 @@ function Config({ email }: { email: string }) {
             <TabsList className="flex flex-wrap h-auto">
               <TabsTrigger value="naics">NAICS Codes</TabsTrigger>
               <TabsTrigger value="keywords">Keywords</TabsTrigger>
-              <TabsTrigger value="ai">AI Scoring</TabsTrigger>
+              <TabsTrigger value="ai">Claude AI Settings</TabsTrigger>
               <TabsTrigger value="search">Search Settings</TabsTrigger>
               <TabsTrigger value="api" className="gap-1.5"><KeyRound className="h-3.5 w-3.5" /> SAM.gov API</TabsTrigger>
             </TabsList>
             <TabsContent value="naics"><NaicsTab rows={naics} reload={load} /></TabsContent>
             <TabsContent value="keywords"><KeywordsTab groups={groups} keywords={keywords} reload={load} settings={settings} saveSetting={saveSetting} /></TabsContent>
-            <TabsContent value="ai"><AiTab settings={settings} saveSetting={saveSetting} profile={profile} setProfile={setProfile} /></TabsContent>
+            <TabsContent value="ai"><ClaudeAiSettings settings={settings} saveSettings={saveSetting} profile={profile} setProfile={setProfile} keyStatus={aiKey} setKeyStatus={setAiKey} /></TabsContent>
             <TabsContent value="search"><SearchTab settings={settings} saveSetting={saveSetting} /></TabsContent>
             <TabsContent value="api"><SamGovApiTab status={apiStatus} setStatus={setApiStatus} /></TabsContent>
           </Tabs>
 
-          <OpportunityData key={filterTick} apiStatus={apiStatus} onFetched={() => setDescTick((t) => t + 1)} />
+          <OpportunityData key={filterTick} apiStatus={apiStatus} onFetched={() => setDescTick((t) => t + 1)} settings={settings} aiReady={Boolean(aiKey?.configured && aiKey.is_active)} autoScoreTrigger={autoScore} />
           <DescriptionRetrieval ready={Boolean(apiStatus?.configured && apiStatus.is_active)} refreshKey={filterTick + descTick}
             onRefilter={() => setRefilter((t) => t + 1)} onChanged={() => setFilterTick((t) => t + 1)} />
-          <RuleFiltering trigger={refilter} onFiltered={() => setFilterTick((t) => t + 1)} />
+          <RuleFiltering trigger={refilter} onFiltered={() => { setFilterTick((t) => t + 1); if (settings.ai_auto_scoring && settings.ai_scoring_enabled) setAutoScore((t) => t + 1); }} />
 
           <section className="rounded-xl border bg-card p-6">
             <div className="flex flex-wrap items-center gap-3">
@@ -241,6 +245,8 @@ function Config({ email }: { email: string }) {
               ["Active keyword groups", summary.groups],
               ["Active keywords", summary.keywords],
               ["AI scoring", settings.ai_scoring_enabled ? "Enabled" : "Disabled"],
+              ["Claude model", settings.ai_model],
+              ["Claude API", aiKey ? apiStatusLabel(aiKey) : "Loading"],
               ["AI threshold", `${settings.ai_fit_threshold}/10`],
               ["SAM.gov API", apiStatus ? apiStatusLabel(apiStatus) : "Loading"],
               ["Default search range", rangeLabel],
@@ -494,63 +500,6 @@ function KeywordsTab({ groups, keywords, reload, settings, saveSetting }: {
 }
 
 /* ---------------- AI tab ---------------- */
-
-function AiTab({ settings, saveSetting, profile, setProfile }: {
-  settings: Settings; saveSetting: (p: Partial<Settings>) => Promise<void>; profile: string; setProfile: (s: string) => void;
-}) {
-  const [draft, setDraft] = useState(settings.ai_fit_threshold);
-  const [editing, setEditing] = useState(false);
-  const [text, setText] = useState(profile);
-  useEffect(() => setDraft(settings.ai_fit_threshold), [settings.ai_fit_threshold]);
-
-  const saveProfile = async () => {
-    const { error } = await supabase.from("samgov_ai_profile").update({ profile_text: text.trim() }).eq("id", 1);
-    if (error) return toast.error(error.message);
-    setProfile(text.trim());
-    setEditing(false);
-    toast.success("Settings saved.");
-  };
-
-  return (
-    <div className="space-y-6">
-      <section className="rounded-xl border bg-card p-6 space-y-5">
-        <h2 className="font-display text-xl font-bold">AI Fit Scoring</h2>
-        <div className="flex items-center justify-between gap-4">
-          <div><p className="text-sm font-semibold">AI Scoring Enabled</p><p className="text-xs text-muted-foreground">Controls whether opportunities that pass the NAICS or keyword filters are sent for AI scoring.</p></div>
-          <Switch checked={settings.ai_scoring_enabled} onCheckedChange={(v) => saveSetting({ ai_scoring_enabled: v })} />
-        </div>
-        <div className="border-t pt-5">
-          <p className="text-sm font-semibold">Minimum Fit Score</p>
-          <Slider className="mt-4" min={1} max={10} step={1} value={[draft]} onValueChange={([v]) => setDraft(v)} onValueCommit={([v]) => saveSetting({ ai_fit_threshold: v })} />
-          <div className="mt-3 grid grid-cols-10 text-center text-xs font-mono">
-            {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
-              <span key={n} className={n === draft ? "font-bold text-foreground" : "text-muted-foreground"}>{n === draft ? `[${n}]` : n}</span>
-            ))}
-          </div>
-          <p className="mt-3 text-sm">Opportunities scoring <strong>{draft}</strong> or higher will appear in the primary opportunity digest.</p>
-        </div>
-      </section>
-
-      <section className="rounded-xl border bg-card p-6 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="font-display text-xl font-bold">IGS Capability Profile</h2>
-          <Button variant="outline" onClick={() => { setText(profile); setEditing(true); }}><Pencil className="h-4 w-4" /> Edit Profile</Button>
-        </div>
-        <div className="border-l-4 border-primary pl-4 space-y-1.5 text-sm">
-          {profile.split("\n").filter(Boolean).map((line, i) => <p key={i}>{line}</p>)}
-        </div>
-      </section>
-
-      <Dialog open={editing} onOpenChange={setEditing}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader><DialogTitle>Edit Capability Profile</DialogTitle></DialogHeader>
-          <Textarea rows={12} maxLength={5000} value={text} onChange={(e) => setText(e.target.value)} />
-          <DialogFooter><Button variant="outline" onClick={() => setEditing(false)}>Cancel</Button><Button onClick={saveProfile}>Save</Button></DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-}
 
 /* ---------------- Search tab ---------------- */
 
