@@ -103,6 +103,7 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
       if (!b.stopped) await callAi("batch_finish", { run_id: runId }).catch(() => {});
       setBatch({ ...b, running: false });
     } catch (e) {
+      if (runId) await callAi("batch_finish", { run_id: runId }).catch(() => {});
       toast.error(e instanceof Error ? e.message : "Batch scoring failed.");
       setBatch((x) => (x ? { ...x, running: false } : x));
     } finally { void loadOpps(); }
