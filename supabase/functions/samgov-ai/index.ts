@@ -10,7 +10,7 @@ const ACTIONS = ["status", "save_key", "test", "disable", "enable", "score_one",
 type Action = typeof ACTIONS[number];
 const MODELS = ["claude-haiku-5-5", "claude-sonnet-5-5"];
 const PROVIDER = "anthropic";
-const STALE_MS = 3 * 60 * 1000;
+const STALE_MS = 2 * 60 * 1000;
 const UUID = /^[0-9a-f-]{36}$/i;
 
 const sha = async (s: string) =>
@@ -67,7 +67,7 @@ async function anthropic(key: string, body: Record<string, unknown>) {
     if (r.ok) return await r.json();
     const retryable = r.status === 429 || r.status === 529 || r.status >= 500;
     let msg = `Anthropic error ${r.status}`;
-    try { const b = await r.json(); if (b?.error?.type) msg = `${r.status} ${b.error.type}`; } catch { /* ignore */ }
+    try { const b = await r.json(); if (b?.error?.type) msg = `${b.error.type}: ${String(b.error.message ?? "").replace(/sk-ant-[\w-]+/g, "[key]").slice(0, 240)}`; } catch { /* ignore */ }
     if (!retryable || attempt >= 3) {
       if (r.status === 401) msg = "Invalid Anthropic API key.";
       else if (r.status === 429) msg = "Anthropic rate limit reached. Try again later.";
@@ -187,7 +187,7 @@ Deno.serve(async (req) => {
       console.warn("samgov-ai score failed", { status: e instanceof ApiError ? e.status : 0 });
       await admin.from("samgov_opportunities").update({ ai_status: "failed", ai_error: msg }).eq("id", id);
       await admin.from("samgov_ai_evaluations").insert({ opportunity_id: id, run_id: runId, status: "failed", error: msg, model: cfg.model, profile_hash: cfg.profileHash, input_hash: inputHash, limited_info: limited, ...usage });
-      return { ok: false, error: msg, fatal: e instanceof ApiError && (e.status === 401 || e.status === 403 || e.status === 404 || e.status === 429), ...usage };
+      return { ok: false, error: msg, fatal: e instanceof ApiError && (e.status === 400 || e.status === 401 || e.status === 403 || e.status === 404 || e.status === 429), ...usage };
     }
   };
 
@@ -252,7 +252,8 @@ Deno.serve(async (req) => {
     }
 
     if (action === "batch_start") {
-      if (await busyRun()) return json({ error: "Another scoring run is already in progress." }, 409);
+      const live = await busyRun();
+      if (live) return json({ error: "Another scoring run is already in progress. It will be released automatically within 2 minutes if it was interrupted.", run_id: live.id }, 409);
       const force = body.force === true;
       const { data: rows } = await admin.from("samgov_opportunities").select(OPP_SEL).eq("filter_status", "matched").order("response_deadline", { ascending: true, nullsFirst: false }).limit(1000);
       const ids: string[] = [];
