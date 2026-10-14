@@ -120,7 +120,7 @@ Rules:
 - If a requirement (certification, set-aside status, clearance, location, size standard) is unknown, list it under risks as needing human verification.
 - If the full description is not available, say the evaluation is based on limited information and set confidence to Low.
 Criteria: relevance to IGS services; alignment with demonstrated experience; government contracting and past-performance fit; contract requirements and apparent eligibility; geographic suitability; risks or capability gaps.
-Score 1-10: 8-10 Strong Fit, 5-7 Moderate Fit, 1-4 Low Fit. Record the result with the record_fit_evaluation tool.`;
+Score 1-10: 8-10 Strong Fit, 5-7 Moderate Fit, 1-4 Low Fit. You must respond by calling the record_fit_evaluation tool exactly once, with no other text.`;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
@@ -166,11 +166,18 @@ Deno.serve(async (req) => {
     try {
       const res = await anthropic(key, {
         model: cfg.model, max_tokens: 1500, system: SYSTEM,
-        tools: [TOOL], tool_choice: { type: "tool", name: TOOL.name },
+        tools: [TOOL], tool_choice: { type: "auto" },
         messages: [{ role: "user", content: `IGS CAPABILITY PROFILE:\n${cfg.profile}\n\nOPPORTUNITY:\n${text}` }],
       });
-      const block = (res.content ?? []).find((c: any) => c.type === "tool_use");
-      const analysis = validate(block?.input);
+      // Some Claude models reject forced tool_choice, so we ask for the tool and also accept a JSON text fallback.
+      const block = (res.content ?? []).find((c: any) => c.type === "tool_use" && c.name === TOOL.name);
+      let parsed: unknown = block?.input;
+      if (!parsed) {
+        const txt = (res.content ?? []).filter((c: any) => c.type === "text").map((c: any) => c.text).join("");
+        const m = txt.match(/\{[\s\S]*\}/);
+        try { parsed = m ? JSON.parse(m[0]) : null; } catch { parsed = null; }
+      }
+      const analysis = validate(parsed);
       const usage = { input_tokens: res.usage?.input_tokens ?? 0, output_tokens: res.usage?.output_tokens ?? 0 };
       if (!analysis) throw Object.assign(new ApiError(200, "Claude returned an invalid evaluation."), { usage });
       if (limited && !analysis.risks.some((r) => /limited information/i.test(r))) analysis.risks.push("Limited information: full description not available; verify details manually.");
