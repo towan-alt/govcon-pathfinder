@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { authorizeSamgovAdmin } from "../_shared/samgov-admin.ts";
 import { decryptKey, encryptKey } from "../_shared/samgov-key.ts";
 
 // Admin-only Claude AI fit scoring. The Anthropic key is stored encrypted and never returned or logged.
@@ -126,15 +127,9 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
-  const url = Deno.env.get("SUPABASE_URL")!;
-  const authHeader = req.headers.get("Authorization") ?? "";
-  if (!authHeader.startsWith("Bearer ")) return json({ error: "Unauthorized" }, 401);
-  const userClient = createClient(url, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: authHeader } } });
-  const { data: u, error: uErr } = await userClient.auth.getUser();
-  if (uErr || !u.user) return json({ error: "Unauthorized" }, 401);
-  const admin = createClient(url, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const { data: isAdmin } = await admin.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
-  if (!isAdmin) return json({ error: "Forbidden" }, 403);
+  const authz = await authorizeSamgovAdmin(req);
+  if ("status" in authz) return json({ error: authz.status === 401 ? "Unauthorized" : "Forbidden" }, authz.status);
+  const admin = authz.db;
 
   const body = await req.json().catch(() => ({}));
   const action = String(body.action ?? "") as Action;

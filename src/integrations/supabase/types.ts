@@ -1070,6 +1070,84 @@ export type Database = {
         }
         Relationships: []
       }
+      samgov_pipeline_runs: {
+        Row: {
+          ai_failed: number
+          ai_scored: number
+          ai_skipped: number
+          completed_at: string | null
+          descriptions_fetched: number
+          error_message: string | null
+          fetched: number
+          heartbeat_at: string
+          id: string
+          lease_until: string | null
+          matched: number
+          new_opportunities: number
+          stage: string
+          started_at: string
+          started_by: string | null
+          state: Json
+          status: string
+          warnings: string[]
+        }
+        Insert: {
+          ai_failed?: number
+          ai_scored?: number
+          ai_skipped?: number
+          completed_at?: string | null
+          descriptions_fetched?: number
+          error_message?: string | null
+          fetched?: number
+          heartbeat_at?: string
+          id?: string
+          lease_until?: string | null
+          matched?: number
+          new_opportunities?: number
+          stage?: string
+          started_at?: string
+          started_by?: string | null
+          state?: Json
+          status?: string
+          warnings?: string[]
+        }
+        Update: {
+          ai_failed?: number
+          ai_scored?: number
+          ai_skipped?: number
+          completed_at?: string | null
+          descriptions_fetched?: number
+          error_message?: string | null
+          fetched?: number
+          heartbeat_at?: string
+          id?: string
+          lease_until?: string | null
+          matched?: number
+          new_opportunities?: number
+          stage?: string
+          started_at?: string
+          started_by?: string | null
+          state?: Json
+          status?: string
+          warnings?: string[]
+        }
+        Relationships: []
+      }
+      samgov_pipeline_secret: {
+        Row: {
+          id: number
+          token: string
+        }
+        Insert: {
+          id?: number
+          token?: string
+        }
+        Update: {
+          id?: number
+          token?: string
+        }
+        Relationships: []
+      }
       samgov_settings: {
         Row: {
           ai_auto_scoring: boolean
@@ -1318,6 +1396,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      samgov_pipeline_arm: { Args: { _on: boolean }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"

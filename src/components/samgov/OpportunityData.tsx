@@ -52,7 +52,7 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
 }) {
   const [minScore, setMinScore] = useState("any");
   const [category, setCategory] = useState("any");
-  const [sort, setSort] = useState<"recent" | "score">("recent");
+  const [sort, setSort] = useState<"recent" | "score">("score");
   const [scoring, setScoring] = useState<string | null>(null);
   const [batch, setBatch] = useState<Batch | null>(null);
   const aiUsable = aiReady && settings.ai_scoring_enabled;
@@ -154,7 +154,7 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
   const pct = prog && prog.total ? Math.round((prog.done / prog.total) * 100) : 0;
 
   return (
-    <section className="rounded-xl border bg-card p-6 space-y-5">
+    <section id="opportunities" className="rounded-xl border bg-card p-6 space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
           <Database className="h-5 w-5 mt-1 text-primary" />
