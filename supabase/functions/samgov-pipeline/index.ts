@@ -129,7 +129,10 @@ async function advance(db: SupabaseClient, run: Run): Promise<Run> {
   }
 
   const final: Run = { stage, state: st, ...p, status, heartbeat_at: new Date().toISOString(), lease_until: null };
-  if (status !== "running") Object.assign(final, { completed_at: new Date().toISOString(), error_message: errorMessage });
+  if (status !== "running") {
+    Object.assign(final, { completed_at: new Date().toISOString(), error_message: errorMessage });
+    await db.rpc("samgov_pipeline_arm", { _on: false }); // stop the background runner once drained
+  }
   const { data } = await db.from("samgov_pipeline_runs").update(final).eq("id", run.id).select("*").single();
   return data ?? { ...run, ...final };
 }
@@ -137,7 +140,7 @@ async function advance(db: SupabaseClient, run: Run): Promise<Run> {
 async function tick(db: SupabaseClient) {
   const now = new Date();
   const { data: run } = await db.from("samgov_pipeline_runs").select("*").eq("status", "running").order("started_at", { ascending: false }).limit(1).maybeSingle();
-  if (!run) return null;
+  if (!run) { await db.rpc("samgov_pipeline_arm", { _on: false }); return null; }
   if (Date.parse(run.heartbeat_at) < now.getTime() - STALE_MS) {
     const { data } = await db.from("samgov_pipeline_runs").update({ status: "failed", error_message: "The run stalled and was stopped. Click the button to try again.", completed_at: now.toISOString(), lease_until: null }).eq("id", run.id).select("*").single();
     return data;
@@ -178,6 +181,7 @@ Deno.serve(async (req) => {
       if (live) await db.from("samgov_pipeline_runs").update({ status: "failed", error_message: "Run stalled and was replaced.", completed_at: new Date().toISOString() }).eq("id", live.id);
       const { data, error } = await db.from("samgov_pipeline_runs").insert({}).select("*").single();
       if (error) throw error;
+      await db.rpc("samgov_pipeline_arm", { _on: true }); // keeps advancing after the page closes
       return json({ run: data });
     }
     if (action === "tick") return json({ run: await tick(db) });
