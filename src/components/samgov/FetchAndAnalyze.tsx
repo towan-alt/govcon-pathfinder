@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Loader2, Sparkles, CheckCircle2, AlertTriangle, Circle } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,7 +29,7 @@ async function call(body: Record<string, unknown>): Promise<{ run: Run | null }>
   return data;
 }
 
-export function FetchAndAnalyze({ onUpdated }: { onUpdated: () => void }) {
+export function FetchAndAnalyze({ onUpdated, lastSuccessfulFetch, children }: { onUpdated: () => void; lastSuccessfulFetch?: string | null; children?: ReactNode }) {
   const [run, setRun] = useState<Run | null>(null);
   const [starting, setStarting] = useState(false);
   const prevStatus = useRef<string | null>(null);
@@ -73,17 +73,18 @@ export function FetchAndAnalyze({ onUpdated }: { onUpdated: () => void }) {
   const finished = run && run.status !== "running";
 
   return (
-    <section className="rounded-xl border-2 border-primary bg-card p-6 space-y-5">
+    <section className="border-b-2 border-primary pb-6 space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold">Fetch & Analyze Opportunities</h2>
-          <p className="text-sm text-muted-foreground mt-1 max-w-xl">One click runs the full workflow: SAM.gov fetch, full descriptions, NAICS/keyword filtering and Claude AI fit scoring. It keeps running if you leave this page.</p>
+          <h2 className="font-display text-2xl font-bold !leading-[1.2]">Opportunities</h2>
+          <p className="text-xs text-muted-foreground mt-2">Last successful fetch: {lastSuccessfulFetch ? new Date(lastSuccessfulFetch).toLocaleString() : "Never"}</p>
         </div>
-        <Button size="lg" onClick={start} disabled={running || starting} className="gap-2">
+        <Button size="lg" onClick={start} disabled={running || starting} className="gap-2 w-full sm:w-auto whitespace-normal h-auto min-h-11 py-3">
           {running || starting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
           {running || starting ? "Processing..." : "Fetch & Analyze Opportunities"}
         </Button>
       </div>
+      {children}
 
       {run && (
         <>

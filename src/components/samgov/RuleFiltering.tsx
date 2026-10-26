@@ -25,7 +25,7 @@ async function call(body: Record<string, unknown>) {
 
 const STATUS: Record<string, string> = { running: "Running", completed: "Completed", completed_with_errors: "Completed with errors", failed: "Failed" };
 
-export function RuleFiltering({ onFiltered, trigger = 0 }: { onFiltered?: () => void; trigger?: number }) {
+export function RuleFiltering({ onFiltered, trigger = 0, refreshKey = 0 }: { onFiltered?: () => void; trigger?: number; refreshKey?: number }) {
   const [counts, setCounts] = useState<Counts | null>(null);
   const [lastRun, setLastRun] = useState<Run | null>(null);
   const [live, setLive] = useState<Run | null>(null);
@@ -44,7 +44,7 @@ export function RuleFiltering({ onFiltered, trigger = 0 }: { onFiltered?: () => 
     setCounts({ total, naics, keyword, both, neither, incomplete, pending, failed });
     setLastRun((run.data ?? null) as Run | null);
   }, []);
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => { void load(); }, [load, refreshKey]);
 
   const execute = async (dry: boolean) => {
     setBusy(true); setDryResult(null);

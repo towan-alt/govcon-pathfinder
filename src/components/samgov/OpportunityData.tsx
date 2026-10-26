@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { callAi, type AiSettings } from "./ClaudeAiSettings";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Database, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Database, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -46,10 +47,19 @@ const FILTER_LABEL: Record<string, string> = { pending_filter: "Pending filter",
 const DESC_LABEL: Record<string, string> = { pending: "Description pending", retry_pending: "Retry pending", fetched: "Description fetched", unavailable: "No description", failed: "Description failed" };
 const FIELD_LABEL: Record<string, string> = { title: "title", description: "description", additional_description: "additional description", solicitation_number: "solicitation number", notice_type: "notice type", set_aside: "set-aside", classification_code: "classification code", agency: "agency" };
 const inDescription = (o: Opp) => Object.values(o.keyword_match_fields ?? {}).some((f) => f.includes("description"));
+const PAGE_SIZE = 50;
 
-export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoScoreTrigger = 0 }: {
-  apiStatus: ApiStatus | null; onFetched?: () => void; settings: AiSettings; aiReady: boolean; autoScoreTrigger?: number;
+export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 0, settings, aiReady, autoScoreTrigger = 0 }: {
+  apiStatus: ApiStatus | null; onFetched?: () => void; onChanged?: () => void; refreshKey?: number; settings: AiSettings; aiReady: boolean; autoScoreTrigger?: number;
 }) {
+  const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("");
+  const [matchStatus, setMatchStatus] = useState("any");
+  const [page, setPage] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const requestId = useRef(0);
   const [minScore, setMinScore] = useState("any");
   const [category, setCategory] = useState("any");
   const [sort, setSort] = useState<"recent" | "score">("score");
@@ -64,24 +74,40 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
 
   const ready = Boolean(apiStatus?.configured && apiStatus.is_active);
 
+  useEffect(() => {
+    const timer = setTimeout(() => { setQuery(search.trim()); setPage(0); }, 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
   const loadOpps = useCallback(async () => {
+    const id = ++requestId.current;
+    setLoading(true);
     let q = supabase.from("samgov_opportunities")
-      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error,description_status,description_text,description_error,keyword_match_fields,ai_status,ai_score,ai_category,ai_error,ai_model,ai_scored_at,ai_limited_info,ai_analysis");
+      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error,description_status,description_text,description_error,keyword_match_fields,ai_status,ai_score,ai_category,ai_error,ai_model,ai_scored_at,ai_limited_info,ai_analysis", { count: "exact" });
+    const term = query.replace(/[^\p{L}\p{N}\s-]/gu, " ").trim();
+    if (term) q = q.or(`title.ilike.%${term}%,notice_id.ilike.%${term}%,naics_code.ilike.%${term}%,organization.ilike.%${term}%,solicitation_number.ilike.%${term}%`);
+    if (matchStatus !== "any") q = q.eq("filter_status", matchStatus);
     if (minScore !== "any") q = q.gte("ai_score", Number(minScore));
     if (category !== "any") q = q.eq("ai_category", category);
     q = sort === "score" ? q.order("ai_score", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false })
       : q.order("last_seen_at", { ascending: false }).order("posted_date", { ascending: false });
-    const { data } = await q.limit(50);
+    const { data, count, error } = await q.order("id").range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
+    if (id !== requestId.current) return;
+    setLoading(false);
+    if (error) { setLoadError("Could not load opportunities. Please try again."); return; }
+    setLoadError(null);
+    setTotal(count ?? 0);
+    if (page > 0 && page * PAGE_SIZE >= (count ?? 0)) { setPage(Math.max(0, Math.ceil((count ?? 0) / PAGE_SIZE) - 1)); return; }
     const rows = (data ?? []) as unknown as Opp[];
     setOpps(rows);
     setDetail((d) => (d ? rows.find((r) => r.id === d.id) ?? d : d));
-  }, [minScore, category, sort]);
+  }, [minScore, category, sort, query, matchStatus, page]);
 
   const scoreOne = async (o: Opp) => {
     setScoring(o.id);
     try { const r = await callAi("score_one", { id: o.id }); toast.success(`Scored ${r.score}/10.`); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Scoring failed."); }
-    finally { setScoring(null); void loadOpps(); }
+    finally { setScoring(null); void loadOpps(); onChanged?.(); }
   };
 
   const scoreBatch = useCallback(async (force = false) => {
@@ -106,8 +132,8 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
       if (runId) await callAi("batch_finish", { run_id: runId }).catch(() => {});
       toast.error(e instanceof Error ? e.message : "Batch scoring failed.");
       setBatch((x) => (x ? { ...x, running: false } : x));
-    } finally { void loadOpps(); }
-  }, [loadOpps]);
+    } finally { void loadOpps(); onChanged?.(); }
+  }, [loadOpps, onChanged]);
 
   useEffect(() => {
     if (autoScoreTrigger > lastAutoTrigger && aiUsable) { lastAutoTrigger = autoScoreTrigger; void scoreBatch(false); }
@@ -115,7 +141,7 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
 
   const cost = (i: number, o: number) => settings.ai_input_price_cents_per_mtok != null && settings.ai_output_price_cents_per_mtok != null
     ? `, est. $${((i * settings.ai_input_price_cents_per_mtok + o * settings.ai_output_price_cents_per_mtok) / 1e6 / 100).toFixed(4)}` : "";
-  useEffect(() => { void loadOpps(); }, [loadOpps]);
+  useEffect(() => { void loadOpps(); }, [loadOpps, refreshKey]);
 
   const fetchAll = async () => {
     setRunning(true); setSummary(null);
@@ -154,13 +180,12 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
   const pct = prog && prog.total ? Math.round((prog.done / prog.total) * 100) : 0;
 
   return (
-    <section id="opportunities" className="rounded-xl border bg-card p-6 space-y-5">
+    <section id="opportunities" className="min-w-0 space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
           <Database className="h-5 w-5 mt-1 text-primary" />
           <div>
-            <h2 className="font-display text-xl font-bold">Opportunity Data</h2>
-            <p className="text-sm text-muted-foreground">Retrieve recent federal contract opportunities from SAM.gov using the configured API connection.</p>
+            <h2 className="font-display text-xl font-bold !leading-[1.2]">Opportunity Results</h2>
           </div>
         </div>
         <Button onClick={fetchAll} disabled={!ready || running}>
@@ -221,23 +246,29 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
 
       <div>
         <div className="flex flex-wrap items-end justify-between gap-3 mb-2">
-          <h3 className="font-display text-lg font-bold">Opportunities</h3>
+          <Input value={search} onChange={(e) => setSearch(e.target.value)} type="search" placeholder="Search opportunities" aria-label="Search opportunities" className="w-full sm:max-w-xs" />
           <div className="flex flex-wrap gap-2">
-            <Select value={minScore} onValueChange={setMinScore}>
+            <Select value={matchStatus} onValueChange={(value) => { setMatchStatus(value); setPage(0); }}>
+              <SelectTrigger className="w-40" aria-label="Match status"><SelectValue /></SelectTrigger>
+              <SelectContent><SelectItem value="any">Any match status</SelectItem>{Object.entries(FILTER_LABEL).map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent>
+            </Select>
+            <Select value={minScore} onValueChange={(value) => { setMinScore(value); setPage(0); }}>
               <SelectTrigger className="w-40" aria-label="Minimum fit score"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="any">Any fit score</SelectItem>{[9, 8, 7, 6, 5, 4, 3].map((n) => <SelectItem key={n} value={String(n)}>{n}+ / 10</SelectItem>)}</SelectContent>
             </Select>
-            <Select value={category} onValueChange={setCategory}>
+            <Select value={category} onValueChange={(value) => { setCategory(value); setPage(0); }}>
               <SelectTrigger className="w-40" aria-label="Fit category"><SelectValue /></SelectTrigger>
               <SelectContent>{["any", "Strong Fit", "Moderate Fit", "Low Fit"].map((c) => <SelectItem key={c} value={c}>{c === "any" ? "Any category" : c}</SelectItem>)}</SelectContent>
             </Select>
-            <Select value={sort} onValueChange={(v) => setSort(v as "recent" | "score")}>
+            <Select value={sort} onValueChange={(v) => { setSort(v as "recent" | "score"); setPage(0); }}>
               <SelectTrigger className="w-44" aria-label="Sort"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="recent">Most recent</SelectItem><SelectItem value="score">Highest AI fit score</SelectItem></SelectContent>
             </Select>
           </div>
         </div>
-        {opps.length === 0 ? <p className="text-sm text-muted-foreground">No opportunities retrieved yet.</p> : (
+        {loadError ? <div role="alert" className="flex flex-wrap items-center gap-3 text-sm text-destructive">{loadError}<Button variant="outline" size="sm" onClick={() => void loadOpps()}>Retry</Button></div>
+          : loading ? <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" />Loading opportunities...</p>
+          : opps.length === 0 ? <p className="text-sm text-muted-foreground">{query || matchStatus !== "any" || minScore !== "any" || category !== "any" ? "No opportunities match these filters." : "No opportunities retrieved yet."}</p> : (
           <div className="overflow-x-auto">
             <Table>
               <TableHeader><TableRow>
@@ -279,6 +310,14 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
             </Table>
           </div>
         )}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-4 mt-4 text-sm">
+          <p className="text-muted-foreground" aria-live="polite">{total ? `${page * PAGE_SIZE + 1}–${Math.min((page + 1) * PAGE_SIZE, total)} of ${total.toLocaleString()} opportunities` : "0 opportunities"}</p>
+          <div className="flex items-center gap-3">
+            <Button size="icon" variant="outline" aria-label="Previous page" title="Previous page" disabled={loading || page === 0} onClick={() => setPage((p) => p - 1)}><ChevronLeft className="h-4 w-4" /></Button>
+            <span>Page {page + 1} of {Math.max(1, Math.ceil(total / PAGE_SIZE))}</span>
+            <Button size="icon" variant="outline" aria-label="Next page" title="Next page" disabled={loading || (page + 1) * PAGE_SIZE >= total} onClick={() => setPage((p) => p + 1)}><ChevronRight className="h-4 w-4" /></Button>
+          </div>
+        </div>
       </div>
 
       <Dialog open={Boolean(detail)} onOpenChange={(o) => !o && setDetail(null)}>
