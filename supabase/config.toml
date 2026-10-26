@@ -30,3 +30,6 @@ verify_jwt = false
 
 [functions.samgov-ai]
 verify_jwt = false
+
+[functions.samgov-pipeline]
+verify_jwt = false
