@@ -52,7 +52,7 @@ export function OpportunityData({ apiStatus, onFetched, settings, aiReady, autoS
 }) {
   const [minScore, setMinScore] = useState("any");
   const [category, setCategory] = useState("any");
-  const [sort, setSort] = useState<"recent" | "score">("recent");
+  const [sort, setSort] = useState<"recent" | "score">("score");
   const [scoring, setScoring] = useState<string | null>(null);
   const [batch, setBatch] = useState<Batch | null>(null);
   const aiUsable = aiReady && settings.ai_scoring_enabled;
