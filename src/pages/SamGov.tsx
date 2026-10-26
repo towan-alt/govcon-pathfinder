@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { FetchAndAnalyze } from "@/components/samgov/FetchAndAnalyze";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -161,6 +162,7 @@ function Config({ email }: { email: string }) {
   useEffect(() => { void load(); }, [load]);
   const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null);
   const [filterTick, setFilterTick] = useState(0);
+  const bumpData = useCallback(() => setFilterTick((t) => t + 1), []);
   const [refilter, setRefilter] = useState(0);
   const [descTick, setDescTick] = useState(0);
   const [aiKey, setAiKey] = useState<ApiStatus | null>(null);
@@ -222,6 +224,7 @@ function Config({ email }: { email: string }) {
             <TabsContent value="api"><SamGovApiTab status={apiStatus} setStatus={setApiStatus} /></TabsContent>
           </Tabs>
 
+          <FetchAndAnalyze onUpdated={bumpData} />
           <OpportunityData key={filterTick} apiStatus={apiStatus} onFetched={() => setDescTick((t) => t + 1)} settings={settings} aiReady={Boolean(aiKey?.configured && aiKey.is_active)} autoScoreTrigger={autoScore} />
           <DescriptionRetrieval ready={Boolean(apiStatus?.configured && apiStatus.is_active)} refreshKey={filterTick + descTick}
             onRefilter={() => setRefilter((t) => t + 1)} onChanged={() => setFilterTick((t) => t + 1)} />
