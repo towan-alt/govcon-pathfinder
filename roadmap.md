@@ -1,7 +1,7 @@
 # Roadmap
 
 ## SAM.gov dashboard reorganization
-- [ ] Consolidate opportunity workflows into the Opportunities tab, add saved-data summaries and verify admin navigation, search, details and mobile layout without changing processing logic or deleting data.
+- [x] Consolidate opportunity workflows into the Opportunities tab, add saved-data summaries and verify admin navigation, search, details, pagination and mobile layout without changing processing logic or deleting data.
 
 ## Eduardo feedback (2026-10-12)
 - [x] Simplify webinar choices to on-demand and one clearly labeled recorded showing; reserve only after confirmation (a3c2dc2c-7234-431d-9a92-1d0c0331ee7e).
