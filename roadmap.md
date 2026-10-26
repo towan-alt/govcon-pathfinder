@@ -1,5 +1,8 @@
 # Roadmap
 
+## SAM.gov dashboard reorganization
+- [ ] Consolidate opportunity workflows into the Opportunities tab, add saved-data summaries and verify admin navigation, search, details and mobile layout without changing processing logic or deleting data.
+
 ## Eduardo feedback (2026-10-12)
 - [x] Simplify webinar choices to on-demand and one clearly labeled recorded showing; reserve only after confirmation (a3c2dc2c-7234-431d-9a92-1d0c0331ee7e).
 - [x] Clarify the offer ladder and verify $2,500 VIP pricing (b9fafce4-5af7-4f1d-b5d3-0c3bbeeeba2c, d9f91e30-f1a6-4f99-9800-f3b3a0665076).

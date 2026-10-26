@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { FetchAndAnalyze } from "@/components/samgov/FetchAndAnalyze";
+import { OpportunitiesTab } from "@/components/samgov/OpportunitiesTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -22,9 +22,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { SamGovApiTab, apiStatusLabel, callCreds, type ApiStatus } from "@/components/samgov/SamGovApiTab";
-import { OpportunityData } from "@/components/samgov/OpportunityData";
-import { RuleFiltering } from "@/components/samgov/RuleFiltering";
-import { DescriptionRetrieval } from "@/components/samgov/DescriptionRetrieval";
 import { ClaudeAiSettings, callAi, type AiSettings } from "@/components/samgov/ClaudeAiSettings";
 
 type Naics = { id: string; code: string; description: string; category: string; active: boolean };
@@ -48,26 +45,6 @@ const MATCH_FIELDS: { key: keyof Settings; label: string }[] = [
   { key: "match_additional_description", label: "Additional Description" },
   { key: "match_solicitation_information", label: "Solicitation Information" },
 ];
-
-const FLOW = `                 SAM.gov Opportunity
-                          │
-                          ▼
-              ┌─────────────────────┐
-              │     NAICS MATCH     │
-              └──────────┬──────────┘
-                         │ OR
-                         ▼
-              ┌─────────────────────┐
-              │    KEYWORD MATCH    │
-              └──────────┬──────────┘
-                         ▼
-                     SEND TO AI
-                         ▼
-                 AI FIT SCORE 1–10
-                         │
-                    Score ≥ {T}
-                         ▼
-                 OPPORTUNITY DIGEST`;
 
 /* ---------------- Sign-in gate ---------------- */
 
@@ -161,12 +138,8 @@ function Config({ email }: { email: string }) {
   }, []);
   useEffect(() => { void load(); }, [load]);
   const [apiStatus, setApiStatus] = useState<ApiStatus | null>(null);
-  const [filterTick, setFilterTick] = useState(0);
-  const bumpData = useCallback(() => setFilterTick((t) => t + 1), []);
-  const [refilter, setRefilter] = useState(0);
-  const [descTick, setDescTick] = useState(0);
+  const [activeTab, setActiveTab] = useState("opportunities");
   const [aiKey, setAiKey] = useState<ApiStatus | null>(null);
-  const [autoScore, setAutoScore] = useState(0);
   useEffect(() => { callCreds("status").then(setApiStatus).catch(() => setApiStatus({ configured: false })); }, []);
   useEffect(() => { callAi("status").then(setAiKey).catch(() => setAiKey({ configured: false })); }, []);
 
@@ -207,40 +180,30 @@ function Config({ email }: { email: string }) {
         </div>
       </header>
 
-      <main className="container mx-auto px-6 py-8 grid lg:grid-cols-[1fr_280px] gap-6 items-start">
+      <main className={`container mx-auto px-4 sm:px-6 py-8 grid gap-6 items-start ${activeTab === "opportunities" ? "grid-cols-1" : "lg:grid-cols-[minmax(0,1fr)_280px]"}`}>
         <div className="space-y-6 min-w-0">
-          <Tabs defaultValue="naics">
-            <TabsList className="flex flex-wrap h-auto">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="flex flex-wrap h-auto justify-start gap-1">
               <TabsTrigger value="naics">NAICS Codes</TabsTrigger>
               <TabsTrigger value="keywords">Keywords</TabsTrigger>
               <TabsTrigger value="ai">Claude AI Settings</TabsTrigger>
               <TabsTrigger value="search">Search Settings</TabsTrigger>
               <TabsTrigger value="api" className="gap-1.5"><KeyRound className="h-3.5 w-3.5" /> SAM.gov API</TabsTrigger>
+              <TabsTrigger value="opportunities">Opportunities</TabsTrigger>
             </TabsList>
             <TabsContent value="naics"><NaicsTab rows={naics} reload={load} /></TabsContent>
             <TabsContent value="keywords"><KeywordsTab groups={groups} keywords={keywords} reload={load} settings={settings} saveSetting={saveSetting} /></TabsContent>
             <TabsContent value="ai"><ClaudeAiSettings settings={settings} saveSettings={saveSetting} profile={profile} setProfile={setProfile} keyStatus={aiKey} setKeyStatus={setAiKey} /></TabsContent>
             <TabsContent value="search"><SearchTab settings={settings} saveSetting={saveSetting} /></TabsContent>
             <TabsContent value="api"><SamGovApiTab status={apiStatus} setStatus={setApiStatus} /></TabsContent>
+            <TabsContent value="opportunities" forceMount className="data-[state=inactive]:hidden mt-6">
+              <OpportunitiesTab active={activeTab === "opportunities"} apiStatus={apiStatus} settings={settings}
+                aiReady={Boolean(aiKey?.configured && aiKey.is_active)} />
+            </TabsContent>
           </Tabs>
-
-          <FetchAndAnalyze onUpdated={bumpData} />
-          <OpportunityData key={filterTick} apiStatus={apiStatus} onFetched={() => setDescTick((t) => t + 1)} settings={settings} aiReady={Boolean(aiKey?.configured && aiKey.is_active)} autoScoreTrigger={autoScore} />
-          <DescriptionRetrieval ready={Boolean(apiStatus?.configured && apiStatus.is_active)} refreshKey={filterTick + descTick}
-            onRefilter={() => setRefilter((t) => t + 1)} onChanged={() => setFilterTick((t) => t + 1)} />
-          <RuleFiltering trigger={refilter} onFiltered={() => { setFilterTick((t) => t + 1); if (settings.ai_auto_scoring && settings.ai_scoring_enabled) setAutoScore((t) => t + 1); }} />
-
-          <section className="rounded-xl border bg-card p-6">
-            <div className="flex flex-wrap items-center gap-3">
-              <h2 className="font-display text-xl font-bold">Current Filtering Logic</h2>
-              <Badge variant="secondary">Planned processing logic</Badge>
-            </div>
-            <p className="text-sm text-muted-foreground mt-1">The processing pipeline will be connected in a later phase. It will read these saved settings.</p>
-            <pre className="mt-4 overflow-x-auto text-xs md:text-sm leading-snug font-mono text-foreground">{FLOW.replace("{T}", String(settings.ai_fit_threshold))}</pre>
-          </section>
         </div>
 
-        <aside className="rounded-xl border bg-card p-5 lg:sticky lg:top-6">
+        {activeTab !== "opportunities" && <aside className="rounded-xl border bg-card p-5 lg:sticky lg:top-6">
           <h2 className="font-display text-lg font-bold">Configuration Summary</h2>
           <dl className="mt-4 space-y-2.5 text-sm">
             {[
@@ -260,7 +223,7 @@ function Config({ email }: { email: string }) {
               </div>
             ))}
           </dl>
-        </aside>
+        </aside>}
       </main>
     </div>
   );
