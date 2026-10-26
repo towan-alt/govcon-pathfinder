@@ -1396,6 +1396,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      samgov_pipeline_arm: { Args: { _on: boolean }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"
