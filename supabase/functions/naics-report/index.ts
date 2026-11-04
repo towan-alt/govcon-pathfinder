@@ -47,7 +47,7 @@ Deno.serve(async (req) => {
       description: String(b.description ?? "").trim().slice(0, 5000),
       website: String(b.website ?? "").trim().slice(0, 500),
       industries: String(b.industries ?? "").trim().slice(0, 1000),
-    }, Deno.env.get("MAILERLITE_API_KEY"));
+    }, Deno.env.get("MAILERLITE_API_KEY"), fetch, Deno.env.get("MAILERLITE_NAICS_GROUP_ID"));
     // Weekly digest subscription (re-signing up re-activates it).
     const { data: sub } = await sb.from("naics_subscriptions")
       .upsert({ first_name: first, email, naics, unsubscribed_at: null }, { onConflict: "email,naics" })

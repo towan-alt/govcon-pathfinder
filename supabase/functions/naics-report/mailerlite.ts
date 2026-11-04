@@ -11,7 +11,7 @@ type NaicsContact = {
 };
 
 /** Use the existing NAICS report group, never an assessment group or a new empty automation group. */
-export async function syncNaicsMailerLite(contact: NaicsContact, key: string | undefined, request: typeof fetch = fetch) {
+export async function syncNaicsMailerLite(contact: NaicsContact, key: string | undefined, request: typeof fetch = fetch, configuredGroup?: string) {
   if (!key) return { status: "skipped", reason: "MailerLite is not configured" };
   const headers = { Authorization: `Bearer ${key}`, "Content-Type": "application/json", Accept: "application/json" };
   const call = async (path: string, body?: unknown) => {
@@ -24,7 +24,7 @@ export async function syncNaicsMailerLite(contact: NaicsContact, key: string | u
     return res.json();
   };
   try {
-    const result = await call("/groups?filter[name]=NAICS%20report&limit=100");
+    const result = configuredGroup ? { data: [{ id: configuredGroup, name: "NAICS report" }] } : await call("/groups?filter[name]=NAICS%20report&limit=100");
     const groups = Array.isArray(result.data) ? result.data : [];
     const matching = groups.filter((g: { name?: string }) => g.name?.trim().toLowerCase() === "naics report");
     if (matching.length !== 1) throw new Error('Exactly one MailerLite group named "NAICS report" is required');
