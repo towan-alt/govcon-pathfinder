@@ -6,6 +6,13 @@ const fieldNames = ["naics_code", "business_name", "business_description", "busi
 vi.stubGlobal("AbortSignal", { timeout: () => new AbortController().signal });
 
 describe("NAICS report MailerLite synchronization", () => {
+  it("uses the owner's saved NAICS group ID without searching for a different group", async () => {
+    const request = vi.fn().mockResolvedValueOnce(Response.json({ data: fieldNames.map(key => ({ key })) }))
+      .mockResolvedValueOnce(Response.json({ data: { id: "subscriber" } }));
+    expect((await syncNaicsMailerLite(contact, "test-key", request, "789")).status).toBe("synced");
+    expect(JSON.parse(request.mock.calls[1][1].body).groups).toEqual(["789"]);
+    expect(request.mock.calls[0][0]).toContain("/fields");
+  });
   it("saves all form data in the NAICS report group, not the assessment group", async () => {
     const request = vi.fn().mockResolvedValueOnce(Response.json({ data: [{ id: "123", name: "NAICS report" }, { id: "456", name: "Assessment" }] }))
       .mockResolvedValueOnce(Response.json({ data: fieldNames.map(key => ({ key })) }))

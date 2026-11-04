@@ -2,7 +2,7 @@
 
 ## Rules
 
-- NAICS form MailerLite synchronization runs in `naics-report` before report-delivery configuration checks, using the existing API secret and the uniquely named NAICS report group; upsert all intake fields without forcing subscriber status so existing opt-outs are preserved and report failures cannot prevent group assignment.
+- NAICS form MailerLite synchronization runs in `naics-report` before report-delivery configuration checks, using the existing API secret and `MAILERLITE_NAICS_GROUP_ID` (unique group-name lookup fallback); upsert all intake fields without forcing subscriber status so existing opt-outs are preserved and report failures cannot prevent group assignment.
 
 - Display headings must pair a responsive `text-*` size with an important leading utility (`!leading-[x]`). Responsive `text-*` utilities emit their own line-height inside a media query and silently override a plain `leading-*`, which made large headings render with line-height below font-size and overlap lines.
 - All published credibility figures live in `src/lib/brand.ts` (`BRAND`, `STATS`, `FIGURES`) and components must read them from there. Hardcoded numbers in components drift and produce contradictory claims across pages.
