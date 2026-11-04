@@ -178,6 +178,7 @@ const NaicsPage = () => {
       void supabase.functions.invoke("naics-report", {
         body: {
           firstName: subFirst.trim(), lastName: subLast.trim(), email: subEmail.trim(), naics: subNaics.trim(),
+          phone: subMobile.trim(),
           businessName: subBusiness.trim(), description: subDescription.trim(),
           website: subWebsite.trim() || undefined, industries: subIndustries.trim() || undefined,
           origin: window.location.origin, scheduleUrl: BOOKING_URL || undefined,

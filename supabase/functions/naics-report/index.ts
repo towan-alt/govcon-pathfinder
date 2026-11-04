@@ -2,6 +2,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { EMAIL_FROM } from "../_shared/training-templates.ts";
 import { fetchOpps, renderNaicsEmail } from "../_shared/naics.ts";
+import { syncNaicsMailerLite } from "./mailerlite.ts";
 
 /** Emails a list of open SAM.gov opportunities for one NAICS code and subscribes the person to the weekly digest. */
 const json = (body: unknown, status = 200) =>
@@ -12,7 +13,9 @@ const UUID = /^[0-9a-f-]{36}$/i;
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
-  const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  const url = Deno.env.get("SUPABASE_URL"), serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !serviceKey) return json({ error: "Service not configured" }, 503);
+  const sb = createClient(url, serviceKey);
   let id: string | null = null;
   try {
     const b = await req.json().catch(() => ({}));
@@ -36,6 +39,15 @@ Deno.serve(async (req) => {
     const { data: row, error } = await sb.from("naics_reports").insert({ first_name: first, last_name: last, email, naics }).select("id").single();
     if (error) throw error;
     id = row.id;
+    // Sync all form fields even when SAM.gov/report-email delivery is not configured.
+    const mailerlite = await syncNaicsMailerLite({
+      email, firstName: first, lastName: last ?? "", naics,
+      phone: String(b.phone ?? "").trim().slice(0, 30),
+      businessName: String(b.businessName ?? "").trim().slice(0, 255),
+      description: String(b.description ?? "").trim().slice(0, 5000),
+      website: String(b.website ?? "").trim().slice(0, 500),
+      industries: String(b.industries ?? "").trim().slice(0, 1000),
+    }, Deno.env.get("MAILERLITE_API_KEY"));
     // Weekly digest subscription (re-signing up re-activates it).
     const { data: sub } = await sb.from("naics_subscriptions")
       .upsert({ first_name: first, email, naics, unsubscribed_at: null }, { onConflict: "email,naics" })
@@ -43,13 +55,13 @@ Deno.serve(async (req) => {
     const unsubUrl = sub ? `${origin}/unsubscribe?s=n&t=${sub.unsub_token}` : undefined;
 
     const done = (status: string, reason: string | null, count?: number) =>
-      sb.from("naics_reports").update({ status, status_reason: reason, opportunity_count: count ?? null, sent_at: status === "sent" ? new Date().toISOString() : null }).eq("id", id!);
+      sb.from("naics_reports").update({ status, status_reason: reason, opportunity_count: count ?? null, sent_at: status === "sent" ? new Date().toISOString() : null }).eq("id", row.id);
 
     const samKey = Deno.env.get("SAM_GOV_API_KEY");
     const resendKey = Deno.env.get("RESEND_API_KEY");
     if (!samKey || !resendKey) {
       await done("skipped", `not configured: ${[!samKey && "SAM_GOV_API_KEY", !resendKey && "RESEND_API_KEY"].filter(Boolean).join(", ")}`);
-      return json({ ok: true, queued: false });
+      return json({ ok: true, queued: false, mailerlite_status: mailerlite.status });
     }
 
     const res = await fetchOpps(samKey, naics, 90);
@@ -66,7 +78,7 @@ Deno.serve(async (req) => {
 
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": id! },
+      headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": row.id },
       body: JSON.stringify({ from: EMAIL_FROM, to: [email], subject: `Open federal opportunities for NAICS ${naics}`, html, text }),
     });
     if (!r.ok) {
@@ -77,7 +89,7 @@ Deno.serve(async (req) => {
     }
     await done("sent", null, opps.length);
     await sb.from("naics_subscriptions").update({ last_sent_at: new Date().toISOString() }).eq("email", email).eq("naics", naics);
-    return json({ ok: true, queued: true, count: opps.length });
+    return json({ ok: true, queued: true, count: opps.length, mailerlite_status: mailerlite.status });
   } catch (e) {
     console.error("naics-report error:", e instanceof Error ? e.message : String(e));
     if (id) await sb.from("naics_reports").update({ status: "failed", status_reason: "error" }).eq("id", id);
