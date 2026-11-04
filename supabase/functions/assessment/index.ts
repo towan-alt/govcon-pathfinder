@@ -11,6 +11,29 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TIERS = ["Foundation", "Positioning", "Bid Ready"];
 const str = (v: unknown, n: number) => String(v ?? "").trim().slice(0, n);
 
+// Upsert the subscriber into MailerLite and add them to the assessment group (triggers MailerLite automation).
+// Never blocks the assessment: failures are logged only.
+async function syncMailerLite(p: { email: string; first_name: string; last_name: string | null; phone: string | null;
+  score: number; tier: string; gap: string; report_url: string }) {
+  const key = Deno.env.get("MAILERLITE_API_KEY"), group = Deno.env.get("MAILERLITE_ASSESSMENT_GROUP_ID");
+  if (!key || !group) return console.warn("MailerLite not configured; skipped");
+  const headers = { Authorization: `Bearer ${key}`, "Content-Type": "application/json", Accept: "application/json" };
+  try {
+    // Ensure custom fields exist (422 if already present is fine).
+    for (const [name, type] of [["readiness_score", "number"], ["readiness_tier", "text"], ["readiness_gap", "text"], ["report_url", "text"]]) {
+      await fetch("https://connect.mailerlite.com/api/fields", { method: "POST", headers, body: JSON.stringify({ name, type }) }).then((r) => r.text());
+    }
+    const res = await fetch("https://connect.mailerlite.com/api/subscribers", {
+      method: "POST", headers, body: JSON.stringify({
+        email: p.email, groups: [group],
+        fields: { name: p.first_name, last_name: p.last_name ?? "", phone: p.phone ?? "",
+          readiness_score: p.score, readiness_tier: p.tier, readiness_gap: p.gap, report_url: p.report_url },
+      }),
+    });
+    if (!res.ok) console.error(`MailerLite failed [${res.status}]: ${await res.text()}`);
+  } catch (e) { console.error("MailerLite error", e); }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
@@ -54,6 +77,8 @@ Deno.serve(async (req) => {
           .eq("sequence", "assessment").eq("assessment_email", email);
         const sched = buildAssessmentSchedule(now, sms).filter((m) => !count || m.template_key === "e0");
         await sb.from("training_messages").insert(sched.map((m) => ({ ...m, sequence: "assessment", assessment_email: email })));
+        await syncMailerLite({ email, first_name, last_name, phone, score, tier, gap: PILLAR_NAMES[gap],
+          report_url: `${origin}/assessment/report?t=${row.report_token}` });
         return json({ token: row.report_token });
       }
       case "report": {
