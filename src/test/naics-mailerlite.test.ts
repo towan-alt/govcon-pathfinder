@@ -1,9 +1,9 @@
-// @vitest-environment node
 import { describe, expect, it, vi } from "vitest";
 import { syncNaicsMailerLite } from "../../supabase/functions/naics-report/mailerlite";
 
 const contact = { email: "test@example.com", firstName: "Test", lastName: "Owner", phone: "2025550100", naics: "541611", businessName: "Example", description: "Consulting", website: "https://example.com", industries: "Professional services" };
 const fieldNames = ["naics_code", "business_name", "business_description", "business_website", "industries"];
+vi.stubGlobal("AbortSignal", { timeout: () => new AbortController().signal });
 
 describe("NAICS report MailerLite synchronization", () => {
   it("saves all form data in the NAICS report group, not the assessment group", async () => {
