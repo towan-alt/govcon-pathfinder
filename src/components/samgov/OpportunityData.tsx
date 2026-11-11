@@ -11,11 +11,13 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { ApiStatus } from "./SamGovApiTab";
+import { OPP_STATUS_LABEL, OPP_STATUS_VARIANT, oppStatus, type OppStatus } from "@/lib/opp-status";
 
 type Poc = { type: string | null; full_name: string | null; email: string | null; phone: string | null };
 type Opp = {
   id: string; notice_id: string; solicitation_number: string | null; title: string | null; naics_code: string | null;
   posted_date: string | null; response_deadline: string | null; organization: string | null; active: string | null;
+  computed_status: OppStatus | null;
   type: string | null; type_of_set_aside_description: string | null; full_parent_path_name: string | null;
   description: string | null; ui_link: string | null; point_of_contact: Poc[] | null;
   filter_status: string; naics_match: boolean | null; matched_naics_code: string | null; keyword_match: boolean | null;
