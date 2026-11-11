@@ -17,11 +17,16 @@ type VideoFrameProps = {
 
 const VideoFrame = ({ poster, posterAlt, title, videoId, transcript, src }: VideoFrameProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const play = () => {
     setIsPlaying(true);
     void trackEvent("video_play", videoId);
   };
+
+  // No embed source configured, or the embed failed to load: keep the poster
+  // visible and explain instead of swapping to a dead panel.
+  const showFallback = !src || failed;
 
   return (
     <div className="space-y-3">
