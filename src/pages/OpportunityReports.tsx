@@ -13,6 +13,8 @@ import { oppStatus } from "@/lib/opp-status";
 import { getStripeEnvironment } from "@/lib/stripe";
 import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { PrefsPicker } from "@/components/subscriber/PrefsPicker";
+import { type SubOptions, sanitizePrefs } from "@/lib/subscriber";
 
 const PRICE_ID = "opportunity_reports_monthly";
 type Billing = { status: string; current_period_end: string | null; cancel_at_period_end: boolean | null } | null;
@@ -95,6 +97,7 @@ const OpportunityReports = () => {
   const [authEmail, setAuthEmail] = useState("");
   const [password, setPassword] = useState("");
   const [aiEnabled, setAiEnabled] = useState(false);
+  const [options, setOptions] = useState<SubOptions | null>(null);
   const [history, setHistory] = useState<History[]>([]);
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
 
@@ -151,7 +154,7 @@ const OpportunityReports = () => {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => { setSession(data.session); setAuthReady(true); });
     const { data } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
-    call({ action: "config" }).then((r) => setAiEnabled(r.ai_enabled)).catch(() => {});
+    call({ action: "options" }).then((r) => { setAiEnabled(r.ai_enabled); setOptions(r); }).catch(() => {});
     return () => data.subscription.unsubscribe();
   }, []);
 
@@ -182,7 +185,7 @@ const OpportunityReports = () => {
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true); setError(null); setMessage(null);
-    try { const r = await call({ action: "subscribe", email, ...prefs, environment: getStripeEnvironment() }); setMessage(r.message); if (session) loadSub(); }
+    try { const r = await call({ action: "subscribe", email, ...sanitizePrefs(prefs, options), environment: getStripeEnvironment() }); setMessage(r.message); if (session) loadSub(); }
     catch (err) { setError(err instanceof Error ? err.message : "Subscription failed."); }
     finally { setBusy(false); }
   };
@@ -250,9 +253,9 @@ const OpportunityReports = () => {
               {params.get("unsubscribe") === "1" && <p className="text-sm">Confirm below to stop receiving opportunity reports.</p>}
               <div className="space-y-1.5"><Label htmlFor="manage-email">Email address</Label><Input id="manage-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={busy} /></div>
               <p className="text-sm text-muted-foreground">Next report: {sub.status === "active" ? new Date(sub.next_send_at).toLocaleString() : "Paused until subscription is active"}</p>
-              <PrefsForm key={sub.email + sub.created_at} prefs={prefs} onChange={setPrefs} disabled={busy} aiEnabled={aiEnabled} />
+              <PrefsPicker prefs={prefs} onChange={setPrefs} disabled={busy} options={options} />
               <div className="flex flex-wrap gap-3">
-                <Button onClick={() => manageAction("update", { prefs, email })} disabled={busy}><Settings2 className="h-4 w-4" />Save preferences</Button>
+                <Button onClick={() => manageAction("update", { prefs: sanitizePrefs(prefs, options), email })} disabled={busy}><Settings2 className="h-4 w-4" />Save preferences</Button>
                 {sub.status === "paused"
                   ? <Button variant="outline" onClick={() => manageAction("resume")} disabled={busy}><Play className="h-4 w-4" />Resume reports</Button>
                   : <Button variant="outline" onClick={() => manageAction("pause")} disabled={busy}><Pause className="h-4 w-4" />Pause reports</Button>}
@@ -292,7 +295,7 @@ const OpportunityReports = () => {
                   <Label htmlFor="email">Email address</Label>
                   <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" disabled={busy} />
                 </div>
-                <PrefsForm prefs={prefs} onChange={setPrefs} disabled={busy} aiEnabled={aiEnabled} />
+                <PrefsPicker prefs={prefs} onChange={setPrefs} disabled={busy} options={options} />
                 <Button type="submit" className="btn-gold w-full sm:w-auto px-8" disabled={busy}>
                   {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <BellRing className="h-4 w-4" />}
                   Start my reports
