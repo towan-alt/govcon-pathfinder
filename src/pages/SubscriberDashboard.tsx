@@ -84,7 +84,7 @@ const SubscriberDashboard = () => {
 
           <section className="space-y-6">
             <h2 className="font-display text-xl font-bold">Report preferences</h2>
-            <div className="space-y-1.5"><Label htmlFor="email">Email address</Label><Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={busy} /><p className="text-xs text-muted-foreground">Changing it pauses reports until the new address is confirmed.</p></div>
+            <div className="space-y-1.5"><Label htmlFor="email">Email address</Label><Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={busy} /></div>
             <PrefsPicker prefs={prefs} onChange={setPrefs} options={options} disabled={busy} />
             <Button onClick={() => act("update", { prefs: sanitizePrefs(prefs, options), email })} disabled={busy}><Settings2 className="h-4 w-4" />Save changes</Button>
           </section>

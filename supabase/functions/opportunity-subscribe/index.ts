@@ -5,6 +5,8 @@ import { EMAIL_FROM } from "../_shared/training-templates.ts";
 import { ownsSubscriptionEmail, OPPORTUNITY_SITE_URL as PUBLIC_SITE_URL } from "../_shared/opportunity-rules.ts";
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 const Prefs = z.object({ frequency: z.enum(["daily", "weekly"]), naics_codes: z.array(z.string().regex(/^\d{2,6}$/)).max(20).default([]), keywords: z.array(z.string().trim().min(1).max(60)).max(20).default([]), min_ai_score: z.number().int().min(1).max(10).nullable().default(null) });
+// Temporary: no sending domain yet, so report emails are trusted without a confirmation link.
+const SKIP_EMAIL_VERIFICATION = true;
 const Email = z.string().trim().toLowerCase().email().max(255);
 async function sendVerification(email: string, token: string) {
   const key = Deno.env.get("RESEND_API_KEY");
@@ -60,7 +62,7 @@ Deno.serve(async (req) => {
       const email = Email.parse(body.email), prefs = await validatePrefs(body);
       const { data: existing, error: lookupError } = await sb.from("opportunity_subscriptions").select("*").eq("email", email).maybeSingle();
       if (lookupError) throw new Error("Could not look up subscription.");
-      const ownsEmail = ownsSubscriptionEmail(user, email, existing?.user_id ?? null);
+      const ownsEmail = SKIP_EMAIL_VERIFICATION ? (!existing?.user_id || existing.user_id === user.id) : ownsSubscriptionEmail(user, email, existing?.user_id ?? null);
       // Never let an anonymous email-only submission modify an existing subscription.
       if (existing && !(ownsEmail && (!existing.user_id || existing.user_id === user?.id))) {
         if (existing.status === "pending") {
@@ -114,6 +116,12 @@ Deno.serve(async (req) => {
     }
     if (action === "update") {
       const prefs = await validatePrefs(body.prefs), email = body.email ? Email.parse(body.email) : sub.email;
+      if (email !== sub.email && SKIP_EMAIL_VERIFICATION) {
+        const { data: taken } = await sb.from("opportunity_subscriptions").select("id").eq("email", email).neq("id", sub.id).maybeSingle();
+        if (taken) return json({ error: "That email is already used by another subscription." }, 409);
+        await save(sub.id, { ...prefs, email, ...(sub.status === "pending" ? { status: "active" } : {}), verified_at: sub.verified_at ?? new Date().toISOString(), next_send_at: new Date().toISOString() });
+        return json({ message: "Your email and preferences were updated." });
+      }
       if (email !== sub.email) {
         const token = crypto.randomUUID();
         await save(sub.id, { ...prefs, email, status: "pending", verified_at: null, verify_token: token, verify_expires_at: new Date(Date.now() + 86400000).toISOString(), next_send_at: new Date().toISOString() });
