@@ -27,9 +27,24 @@ Deno.serve(async (req) => {
     const user = auth.user;
     const action = body.action;
     const { data: settings } = await sb.from("samgov_settings").select("ai_scoring_enabled").eq("id", 1).maybeSingle();
+    const loadOptions = async () => {
+      const [{ data: naics }, { data: kws }] = await Promise.all([
+        sb.from("samgov_naics").select("code,description").eq("active", true).order("code"),
+        sb.from("samgov_keywords").select("keyword, samgov_keyword_groups!inner(name,active)").eq("active", true).eq("samgov_keyword_groups.active", true).order("keyword"),
+      ]);
+      return {
+        naics: (naics ?? []).map((n) => ({ code: n.code, description: n.description })),
+        keywords: (kws ?? []).map((k: { keyword: string; samgov_keyword_groups: { name: string } | { name: string }[] }) => ({ keyword: k.keyword, group: Array.isArray(k.samgov_keyword_groups) ? k.samgov_keyword_groups[0]?.name : k.samgov_keyword_groups?.name })),
+      };
+    };
     if (action === "config") return json({ ai_enabled: Boolean(settings?.ai_scoring_enabled) });
-    const validatePrefs = (input: unknown) => {
+    if (action === "options") return json({ ai_enabled: Boolean(settings?.ai_scoring_enabled), ...(await loadOptions()) });
+    const validatePrefs = async (input: unknown) => {
       const p = Prefs.parse(input);
+      const opts = await loadOptions();
+      const codes = new Set(opts.naics.map((n) => n.code)), words = new Set(opts.keywords.map((k) => k.keyword.toLowerCase()));
+      if (p.naics_codes.some((c) => !codes.has(c))) throw new Error("Choose NAICS codes from the provided list only.");
+      if (p.keywords.some((k) => !words.has(k.toLowerCase()))) throw new Error("Choose keywords from the provided list only.");
       if (!settings?.ai_scoring_enabled) p.min_ai_score = null;
       return p;
     };
@@ -42,7 +57,7 @@ Deno.serve(async (req) => {
       const env = z.enum(["sandbox", "live"]).parse(body.environment);
       const { data: paid } = await sb.rpc("has_active_subscription", { user_uuid: user.id, check_env: env });
       if (!paid) return json({ error: "An active $10/month subscription is required." }, 402);
-      const email = Email.parse(body.email), prefs = validatePrefs(body);
+      const email = Email.parse(body.email), prefs = await validatePrefs(body);
       const { data: existing, error: lookupError } = await sb.from("opportunity_subscriptions").select("*").eq("email", email).maybeSingle();
       if (lookupError) throw new Error("Could not look up subscription.");
       const ownsEmail = ownsSubscriptionEmail(user, email, existing?.user_id ?? null);
@@ -98,7 +113,7 @@ Deno.serve(async (req) => {
       return json({ subscription: { email: sub.email, status: sub.status, frequency: sub.frequency, naics_codes: sub.naics_codes, keywords: sub.keywords, min_ai_score: sub.min_ai_score, verified: Boolean(sub.verified_at), last_sent_at: sub.last_sent_at, next_send_at: sub.next_send_at, created_at: sub.created_at }, history });
     }
     if (action === "update") {
-      const prefs = validatePrefs(body.prefs), email = body.email ? Email.parse(body.email) : sub.email;
+      const prefs = await validatePrefs(body.prefs), email = body.email ? Email.parse(body.email) : sub.email;
       if (email !== sub.email) {
         const token = crypto.randomUUID();
         await save(sub.id, { ...prefs, email, status: "pending", verified_at: null, verify_token: token, verify_expires_at: new Date(Date.now() + 86400000).toISOString(), next_send_at: new Date().toISOString() });
