@@ -284,7 +284,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
         </div>
         {loadError ? <div role="alert" className="flex flex-wrap items-center gap-3 text-sm text-destructive">{loadError}<Button variant="outline" size="sm" onClick={() => void loadOpps()}>Retry</Button></div>
           : loading ? <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" />Loading opportunities...</p>
-          : opps.length === 0 ? <p className="text-sm text-muted-foreground">{query || matchStatus !== "any" || minScore !== "any" || category !== "any" ? "No opportunities match these filters." : "No opportunities retrieved yet."}</p> : (
+          : opps.length === 0 ? <p className="text-sm text-muted-foreground">{query || matchStatus !== "any" || statusFilter !== "any" || minScore !== "any" || category !== "any" ? "No opportunities match these filters." : "No opportunities retrieved yet."}</p> : (
           <div className="overflow-x-auto">
             <Table>
               <TableHeader><TableRow>
@@ -307,7 +307,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
                       {o.ai_score != null && o.ai_score < settings.ai_fit_threshold && <p className="text-xs text-muted-foreground">Below threshold</p>}
                     </TableCell>
                     <TableCell className="space-y-1">
-                      <Badge variant={o.active === "Yes" ? "default" : "outline"}>{o.active === "Yes" ? "Active" : "Inactive"}</Badge>
+                      <Badge variant={OPP_STATUS_VARIANT[oppStatus(o.response_deadline, o.active, now)]}>{OPP_STATUS_LABEL[oppStatus(o.response_deadline, o.active, now)]}</Badge>
                       <Badge variant={o.filter_status === "matched" ? "default" : o.filter_status === "filter_failed" ? "destructive" : "outline"} className="block w-fit">{FILTER_LABEL[o.filter_status] ?? o.filter_status}</Badge>
                       <Badge variant={o.description_status === "failed" ? "destructive" : "secondary"} className="block w-fit">{DESC_LABEL[o.description_status] ?? o.description_status}</Badge>
                       {o.keyword_match && <p className="text-xs text-muted-foreground max-w-[180px]">{o.matched_keywords.join(", ")}{inDescription(o) ? " (in description)" : ""}</p>}
@@ -345,6 +345,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
                 ["Notice ID", detail.notice_id], ["Solicitation Number", detail.solicitation_number ?? "None"],
                 ["NAICS", detail.naics_code ?? "None"], ["Posted Date", day(detail.posted_date)],
                 ["Response Deadline", detail.response_deadline ? new Date(detail.response_deadline).toLocaleString() : "None"],
+                ["Status", OPP_STATUS_LABEL[oppStatus(detail.response_deadline, detail.active, now)]],
                 ["Opportunity Type", detail.type ?? "None"], ["Set Aside", detail.type_of_set_aside_description ?? "None"],
                 ["Organization", detail.full_parent_path_name ?? detail.organization ?? "None"],
               ].map(([k, v]) => <div key={k}><dt className="text-muted-foreground">{k}</dt><dd className="font-semibold break-words">{v}</dd></div>)}
