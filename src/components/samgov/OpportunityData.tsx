@@ -106,7 +106,14 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
     const rows = (data ?? []) as unknown as Opp[];
     setOpps(rows);
     setDetail((d) => (d ? rows.find((r) => r.id === d.id) ?? d : d));
-  }, [minScore, category, sort, query, matchStatus, page]);
+  }, [minScore, category, sort, query, matchStatus, statusFilter, page]);
+
+  // Re-evaluate deadline-based status every minute so an opportunity flips to
+  // Expired while the dashboard is open, without waiting for a refetch.
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(t);
+  }, []);
 
   const scoreOne = async (o: Opp) => {
     setScoring(o.id);
@@ -256,6 +263,10 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
             <Select value={matchStatus} onValueChange={(value) => { setMatchStatus(value); setPage(0); }}>
               <SelectTrigger className="w-40" aria-label="Match status"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="any">Any match status</SelectItem>{Object.entries(FILTER_LABEL).map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent>
+            </Select>
+            <Select value={statusFilter} onValueChange={(value) => { setStatusFilter(value); setPage(0); }}>
+              <SelectTrigger className="w-36" aria-label="Active status"><SelectValue /></SelectTrigger>
+              <SelectContent><SelectItem value="any">Any status</SelectItem>{Object.entries(OPP_STATUS_LABEL).map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent>
             </Select>
             <Select value={minScore} onValueChange={(value) => { setMinScore(value); setPage(0); }}>
               <SelectTrigger className="w-40" aria-label="Minimum fit score"><SelectValue /></SelectTrigger>
