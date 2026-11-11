@@ -35,45 +35,6 @@ async function call(body: Record<string, unknown>) {
   return data;
 }
 
-const parseList = (s: string) => s.split(/[,\n]/).map((x) => x.trim()).filter(Boolean);
-
-const PrefsForm = ({ prefs, onChange, disabled, aiEnabled }: { prefs: Prefs; onChange: (p: Prefs) => void; disabled?: boolean; aiEnabled: boolean }) => (
-  <div className="space-y-4">
-    <div className="space-y-1.5">
-      <Label htmlFor="frequency">Report frequency</Label>
-      <Select value={prefs.frequency} onValueChange={(v) => onChange({ ...prefs, frequency: v as Prefs["frequency"] })} disabled={disabled}>
-        <SelectTrigger id="frequency"><SelectValue /></SelectTrigger>
-        <SelectContent>
-          <SelectItem value="daily">Daily - new matching opportunities each day</SelectItem>
-          <SelectItem value="weekly">Weekly - consolidated report of the last 7 days</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
-    <div className="space-y-1.5">
-      <Label htmlFor="naics">NAICS codes (optional, comma separated)</Label>
-      <Input id="naics" placeholder="e.g. 541611, 541512" defaultValue={prefs.naics_codes.join(", ")} disabled={disabled}
-        onChange={(e) => onChange({ ...prefs, naics_codes: parseList(e.target.value) })} />
-      <p className="text-xs text-muted-foreground">Leave blank to receive opportunities for every NAICS code.</p>
-    </div>
-    <div className="space-y-1.5">
-      <Label htmlFor="keywords">Keywords (optional, comma separated)</Label>
-      <Input id="keywords" placeholder="e.g. cybersecurity, training, logistics" defaultValue={prefs.keywords.join(", ")} disabled={disabled}
-        onChange={(e) => onChange({ ...prefs, keywords: parseList(e.target.value) })} />
-    </div>
-    {aiEnabled && <div className="space-y-1.5">
-      <Label htmlFor="minscore">Minimum AI fit score (optional)</Label>
-      <Select value={prefs.min_ai_score == null ? "any" : String(prefs.min_ai_score)} disabled={disabled}
-        onValueChange={(v) => onChange({ ...prefs, min_ai_score: v === "any" ? null : Number(v) })}>
-        <SelectTrigger id="minscore"><SelectValue /></SelectTrigger>
-        <SelectContent>
-          <SelectItem value="any">Any score</SelectItem>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => <SelectItem key={n} value={String(n)}>{n}+ / 10</SelectItem>)}
-        </SelectContent>
-      </Select>
-    </div>}
-  </div>
-);
-
 const PlanCard = () => (
   <div className="border border-primary/50 p-5">
     <p className="eyebrow text-xs mb-1">Opportunity Reports</p>
