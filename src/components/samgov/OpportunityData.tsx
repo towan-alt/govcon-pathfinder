@@ -57,6 +57,8 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
   const [matchStatus, setMatchStatus] = useState("any");
+  const [statusFilter, setStatusFilter] = useState("any");
+  const [now, setNow] = useState(() => Date.now());
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -85,10 +87,11 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
     const id = ++requestId.current;
     setLoading(true);
     let q = supabase.from("samgov_opportunities")
-      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error,description_status,description_text,description_error,keyword_match_fields,ai_status,ai_score,ai_category,ai_error,ai_model,ai_scored_at,ai_limited_info,ai_analysis", { count: "exact" });
+      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,computed_status,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error,description_status,description_text,description_error,keyword_match_fields,ai_status,ai_score,ai_category,ai_error,ai_model,ai_scored_at,ai_limited_info,ai_analysis", { count: "exact" });
     const term = query.replace(/[^\p{L}\p{N}\s-]/gu, " ").trim();
     if (term) q = q.or(`title.ilike.%${term}%,notice_id.ilike.%${term}%,naics_code.ilike.%${term}%,organization.ilike.%${term}%,solicitation_number.ilike.%${term}%`);
     if (matchStatus !== "any") q = q.eq("filter_status", matchStatus);
+    if (statusFilter !== "any") q = q.eq("computed_status", statusFilter);
     if (minScore !== "any") q = q.gte("ai_score", Number(minScore));
     if (category !== "any") q = q.eq("ai_category", category);
     q = sort === "score" ? q.order("ai_score", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false })
