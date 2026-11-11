@@ -6,13 +6,14 @@ import SiteFooter from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import type { Session } from "@supabase/supabase-js";
 import { oppStatus } from "@/lib/opp-status";
 import { getStripeEnvironment } from "@/lib/stripe";
 import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { PrefsPicker } from "@/components/subscriber/PrefsPicker";
+import { type SubOptions, sanitizePrefs } from "@/lib/subscriber";
 
 const PRICE_ID = "opportunity_reports_monthly";
 type Billing = { status: string; current_period_end: string | null; cancel_at_period_end: boolean | null } | null;
@@ -32,45 +33,6 @@ async function call(body: Record<string, unknown>) {
   }
   return data;
 }
-
-const parseList = (s: string) => s.split(/[,\n]/).map((x) => x.trim()).filter(Boolean);
-
-const PrefsForm = ({ prefs, onChange, disabled, aiEnabled }: { prefs: Prefs; onChange: (p: Prefs) => void; disabled?: boolean; aiEnabled: boolean }) => (
-  <div className="space-y-4">
-    <div className="space-y-1.5">
-      <Label htmlFor="frequency">Report frequency</Label>
-      <Select value={prefs.frequency} onValueChange={(v) => onChange({ ...prefs, frequency: v as Prefs["frequency"] })} disabled={disabled}>
-        <SelectTrigger id="frequency"><SelectValue /></SelectTrigger>
-        <SelectContent>
-          <SelectItem value="daily">Daily - new matching opportunities each day</SelectItem>
-          <SelectItem value="weekly">Weekly - consolidated report of the last 7 days</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
-    <div className="space-y-1.5">
-      <Label htmlFor="naics">NAICS codes (optional, comma separated)</Label>
-      <Input id="naics" placeholder="e.g. 541611, 541512" defaultValue={prefs.naics_codes.join(", ")} disabled={disabled}
-        onChange={(e) => onChange({ ...prefs, naics_codes: parseList(e.target.value) })} />
-      <p className="text-xs text-muted-foreground">Leave blank to receive opportunities for every NAICS code.</p>
-    </div>
-    <div className="space-y-1.5">
-      <Label htmlFor="keywords">Keywords (optional, comma separated)</Label>
-      <Input id="keywords" placeholder="e.g. cybersecurity, training, logistics" defaultValue={prefs.keywords.join(", ")} disabled={disabled}
-        onChange={(e) => onChange({ ...prefs, keywords: parseList(e.target.value) })} />
-    </div>
-    {aiEnabled && <div className="space-y-1.5">
-      <Label htmlFor="minscore">Minimum AI fit score (optional)</Label>
-      <Select value={prefs.min_ai_score == null ? "any" : String(prefs.min_ai_score)} disabled={disabled}
-        onValueChange={(v) => onChange({ ...prefs, min_ai_score: v === "any" ? null : Number(v) })}>
-        <SelectTrigger id="minscore"><SelectValue /></SelectTrigger>
-        <SelectContent>
-          <SelectItem value="any">Any score</SelectItem>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => <SelectItem key={n} value={String(n)}>{n}+ / 10</SelectItem>)}
-        </SelectContent>
-      </Select>
-    </div>}
-  </div>
-);
 
 const PlanCard = () => (
   <div className="border border-primary/50 p-5">
@@ -95,6 +57,7 @@ const OpportunityReports = () => {
   const [authEmail, setAuthEmail] = useState("");
   const [password, setPassword] = useState("");
   const [aiEnabled, setAiEnabled] = useState(false);
+  const [options, setOptions] = useState<SubOptions | null>(null);
   const [history, setHistory] = useState<History[]>([]);
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
 
@@ -151,7 +114,7 @@ const OpportunityReports = () => {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => { setSession(data.session); setAuthReady(true); });
     const { data } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
-    call({ action: "config" }).then((r) => setAiEnabled(r.ai_enabled)).catch(() => {});
+    call({ action: "options" }).then((r) => { setAiEnabled(r.ai_enabled); setOptions(r); }).catch(() => {});
     return () => data.subscription.unsubscribe();
   }, []);
 
@@ -182,7 +145,7 @@ const OpportunityReports = () => {
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true); setError(null); setMessage(null);
-    try { const r = await call({ action: "subscribe", email, ...prefs, environment: getStripeEnvironment() }); setMessage(r.message); if (session) loadSub(); }
+    try { const r = await call({ action: "subscribe", email, ...sanitizePrefs(prefs, options), environment: getStripeEnvironment() }); setMessage(r.message); if (session) loadSub(); }
     catch (err) { setError(err instanceof Error ? err.message : "Subscription failed."); }
     finally { setBusy(false); }
   };
@@ -250,9 +213,9 @@ const OpportunityReports = () => {
               {params.get("unsubscribe") === "1" && <p className="text-sm">Confirm below to stop receiving opportunity reports.</p>}
               <div className="space-y-1.5"><Label htmlFor="manage-email">Email address</Label><Input id="manage-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={busy} /></div>
               <p className="text-sm text-muted-foreground">Next report: {sub.status === "active" ? new Date(sub.next_send_at).toLocaleString() : "Paused until subscription is active"}</p>
-              <PrefsForm key={sub.email + sub.created_at} prefs={prefs} onChange={setPrefs} disabled={busy} aiEnabled={aiEnabled} />
+              <PrefsPicker prefs={prefs} onChange={setPrefs} disabled={busy} options={options} />
               <div className="flex flex-wrap gap-3">
-                <Button onClick={() => manageAction("update", { prefs, email })} disabled={busy}><Settings2 className="h-4 w-4" />Save preferences</Button>
+                <Button onClick={() => manageAction("update", { prefs: sanitizePrefs(prefs, options), email })} disabled={busy}><Settings2 className="h-4 w-4" />Save preferences</Button>
                 {sub.status === "paused"
                   ? <Button variant="outline" onClick={() => manageAction("resume")} disabled={busy}><Play className="h-4 w-4" />Resume reports</Button>
                   : <Button variant="outline" onClick={() => manageAction("pause")} disabled={busy}><Pause className="h-4 w-4" />Pause reports</Button>}
@@ -292,7 +255,7 @@ const OpportunityReports = () => {
                   <Label htmlFor="email">Email address</Label>
                   <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" disabled={busy} />
                 </div>
-                <PrefsForm prefs={prefs} onChange={setPrefs} disabled={busy} aiEnabled={aiEnabled} />
+                <PrefsPicker prefs={prefs} onChange={setPrefs} disabled={busy} options={options} />
                 <Button type="submit" className="btn-gold w-full sm:w-auto px-8" disabled={busy}>
                   {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <BellRing className="h-4 w-4" />}
                   Start my reports

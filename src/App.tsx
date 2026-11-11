@@ -26,6 +26,8 @@ import VipConfirmed from "./pages/VipConfirmed.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import SamGov from "./pages/SamGov.tsx";
 import OpportunityReports from "./pages/OpportunityReports.tsx";
+import SubscriberSignup from "./pages/SubscriberSignup.tsx";
+import SubscriberDashboard from "./pages/SubscriberDashboard.tsx";
 
 import NotFound from "./pages/NotFound.tsx";
 
@@ -67,6 +69,8 @@ const App = () => (
           <Route path="/unsubscribe" element={<Unsubscribe />} />
           <Route path="/samgov" element={<SamGov />} />
           <Route path="/opportunity-reports" element={<OpportunityReports />} />
+          <Route path="/subscribe" element={<SubscriberSignup />} />
+          <Route path="/subscriber/dashboard" element={<SubscriberDashboard />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
