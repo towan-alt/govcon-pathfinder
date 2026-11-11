@@ -8,9 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import type { Session } from "@supabase/supabase-js";
+import { oppStatus } from "@/lib/opp-status";
 
 type Prefs = { frequency: "daily" | "weekly"; naics_codes: string[]; keywords: string[]; min_ai_score: number | null };
-type Sub = Prefs & { email: string; status: string; verified: boolean; last_sent_at: string | null; created_at: string };
+type Sub = Prefs & { email: string; status: string; verified: boolean; last_sent_at: string | null; created_at: string; next_send_at: string };
+type History = { id: string; report_type: string; status: string; created_at: string; sent_at: string | null; attempts: number };
+type Opportunity = { title: string; organization: string; notice_id: string; solicitation_number: string | null; naics_code: string; type_of_set_aside_description: string | null; posted_date: string; response_deadline: string | null; active: string | null; ai_score: number | null; description_text: string | null; ui_link: string | null };
 
 async function call(body: Record<string, unknown>) {
   const { data, error } = await supabase.functions.invoke("opportunity-subscribe", { body });
@@ -24,7 +28,7 @@ async function call(body: Record<string, unknown>) {
 
 const parseList = (s: string) => s.split(/[,\n]/).map((x) => x.trim()).filter(Boolean);
 
-const PrefsForm = ({ prefs, onChange, disabled }: { prefs: Prefs; onChange: (p: Prefs) => void; disabled?: boolean }) => (
+const PrefsForm = ({ prefs, onChange, disabled, aiEnabled }: { prefs: Prefs; onChange: (p: Prefs) => void; disabled?: boolean; aiEnabled: boolean }) => (
   <div className="space-y-4">
     <div className="space-y-1.5">
       <Label htmlFor="frequency">Report frequency</Label>
@@ -39,25 +43,25 @@ const PrefsForm = ({ prefs, onChange, disabled }: { prefs: Prefs; onChange: (p: 
     <div className="space-y-1.5">
       <Label htmlFor="naics">NAICS codes (optional, comma separated)</Label>
       <Input id="naics" placeholder="e.g. 541611, 541512" defaultValue={prefs.naics_codes.join(", ")} disabled={disabled}
-        onBlur={(e) => onChange({ ...prefs, naics_codes: parseList(e.target.value).filter((x) => /^\d{2,6}$/.test(x)) })} />
+        onChange={(e) => onChange({ ...prefs, naics_codes: parseList(e.target.value) })} />
       <p className="text-xs text-muted-foreground">Leave blank to receive opportunities for every NAICS code.</p>
     </div>
     <div className="space-y-1.5">
       <Label htmlFor="keywords">Keywords (optional, comma separated)</Label>
       <Input id="keywords" placeholder="e.g. cybersecurity, training, logistics" defaultValue={prefs.keywords.join(", ")} disabled={disabled}
-        onBlur={(e) => onChange({ ...prefs, keywords: parseList(e.target.value) })} />
+        onChange={(e) => onChange({ ...prefs, keywords: parseList(e.target.value) })} />
     </div>
-    <div className="space-y-1.5">
+    {aiEnabled && <div className="space-y-1.5">
       <Label htmlFor="minscore">Minimum AI fit score (optional)</Label>
       <Select value={prefs.min_ai_score == null ? "any" : String(prefs.min_ai_score)} disabled={disabled}
         onValueChange={(v) => onChange({ ...prefs, min_ai_score: v === "any" ? null : Number(v) })}>
         <SelectTrigger id="minscore"><SelectValue /></SelectTrigger>
         <SelectContent>
           <SelectItem value="any">Any score</SelectItem>
-          {[5, 6, 7, 8, 9].map((n) => <SelectItem key={n} value={String(n)}>{n}+ / 10</SelectItem>)}
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => <SelectItem key={n} value={String(n)}>{n}+ / 10</SelectItem>)}
         </SelectContent>
       </Select>
-    </div>
+    </div>}
   </div>
 );
 
@@ -65,6 +69,15 @@ const OpportunityReports = () => {
   const [params] = useSearchParams();
   const verifyToken = params.get("verify");
   const manageToken = params.get("t");
+  const opportunityId = params.get("opportunity");
+  const [session, setSession] = useState<Session | null>(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authEmail, setAuthEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [aiEnabled, setAiEnabled] = useState(false);
+  const [history, setHistory] = useState<History[]>([]);
+  const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
 
   const [email, setEmail] = useState("");
   const [prefs, setPrefs] = useState<Prefs>({ frequency: "weekly", naics_codes: [], keywords: [], min_ai_score: null });
@@ -72,6 +85,18 @@ const OpportunityReports = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sub, setSub] = useState<Sub | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => { setSession(data.session); setAuthReady(true); });
+    const { data } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
+    call({ action: "config" }).then((r) => setAiEnabled(r.ai_enabled)).catch(() => {});
+    return () => data.subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!manageToken || !opportunityId) return;
+    call({ action: "opportunity", token: manageToken, id: opportunityId }).then((r) => setOpportunity(r.opportunity)).catch((e) => setError(e.message));
+  }, [manageToken, opportunityId]);
 
   useEffect(() => {
     if (!verifyToken) return;
@@ -83,27 +108,35 @@ const OpportunityReports = () => {
   }, [verifyToken]);
 
   const loadSub = useCallback(() => {
-    if (!manageToken) return;
+    if (!manageToken && !session) return;
     setBusy(true);
     call({ action: "manage", token: manageToken })
-      .then((r) => { setSub(r.subscription); setPrefs({ frequency: r.subscription.frequency, naics_codes: r.subscription.naics_codes, keywords: r.subscription.keywords, min_ai_score: r.subscription.min_ai_score }); })
+      .then((r) => { setSub(r.subscription); setHistory(r.history ?? []); if (r.subscription) { setEmail(r.subscription.email); setPrefs({ frequency: r.subscription.frequency, naics_codes: r.subscription.naics_codes, keywords: r.subscription.keywords, min_ai_score: r.subscription.min_ai_score }); } else if (session?.user.email) setEmail(session.user.email); })
       .catch((e) => setError(e.message))
       .finally(() => setBusy(false));
-  }, [manageToken]);
+  }, [manageToken, session]);
   useEffect(() => { loadSub(); }, [loadSub]);
 
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true); setError(null); setMessage(null);
-    try { const r = await call({ action: "subscribe", email, ...prefs }); setMessage(r.message); }
+    try { const r = await call({ action: "subscribe", email, ...prefs }); setMessage(r.message); if (session) loadSub(); }
     catch (err) { setError(err instanceof Error ? err.message : "Subscription failed."); }
     finally { setBusy(false); }
+  };
+
+  const signIn = async (e: React.FormEvent) => {
+    e.preventDefault(); setBusy(true); setError(null);
+    const { error } = await supabase.auth.signInWithPassword({ email: authEmail, password });
+    setPassword(""); setBusy(false);
+    if (error) setError(error.message); else setAuthOpen(false);
   };
 
   const manageAction = async (action: string, extra: Record<string, unknown> = {}) => {
     setBusy(true); setError(null); setMessage(null);
     try { const r = await call({ action, token: manageToken, ...extra }); setMessage(r.message); loadSub(); }
-    catch (err) { setError(err instanceof Error ? err.message : "Request failed."); setBusy(false); }
+    catch (err) { setError(err instanceof Error ? err.message : "Request failed."); }
+    finally { setBusy(false); }
   };
 
   return (
@@ -113,44 +146,69 @@ const OpportunityReports = () => {
         <div className="container mx-auto px-6 max-w-2xl">
           <p className="eyebrow text-xs mb-3">GoGovCon Opportunity Intelligence</p>
           <h1 className="font-display text-3xl md:text-4xl font-bold !leading-[1.15] mb-4">
-            {manageToken ? "Manage Your Opportunity Reports" : "Subscribe to Opportunity Reports"}
+            {opportunityId ? "Opportunity Details" : sub || manageToken ? "Manage Your Opportunity Reports" : "Subscribe to Opportunity Reports"}
           </h1>
 
           {busy && <p className="flex items-center gap-2 text-sm text-muted-foreground mb-4"><Loader2 className="h-4 w-4 animate-spin" />Working...</p>}
           {message && <p role="status" className="flex items-start gap-2 rounded-lg border border-primary/40 bg-primary/10 p-4 text-sm mb-6"><CheckCircle2 className="h-4 w-4 mt-0.5 text-primary" />{message}</p>}
           {error && <p role="alert" className="rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive mb-6">{error}</p>}
 
-          {verifyToken ? (
+          {!manageToken && !verifyToken && authReady && (
+            <div className="mb-6 flex flex-wrap items-center gap-3">
+              {session ? <><span className="text-sm text-muted-foreground">{session.user.email}</span><Button variant="ghost" size="sm" onClick={() => supabase.auth.signOut()}>Sign out</Button></> : <Button variant="outline" onClick={() => setAuthOpen(!authOpen)}>Sign in to manage reports</Button>}
+            </div>
+          )}
+          {authOpen && !session && <form onSubmit={signIn} className="mb-8 space-y-4 border-b pb-6">
+            <div><Label htmlFor="auth-email">Account email</Label><Input id="auth-email" type="email" required value={authEmail} onChange={(e) => setAuthEmail(e.target.value)} /></div>
+            <div><Label htmlFor="auth-pass">Password</Label><Input id="auth-pass" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} /></div>
+            <Button type="submit" disabled={busy}>Sign in</Button>
+          </form>}
+          {opportunityId ? opportunity && (
+            <article className="space-y-4">
+              <h2 className="font-display text-2xl font-bold !leading-[1.2]">{opportunity.title}</h2>
+              <p>{opportunity.organization}</p>
+              <dl className="grid sm:grid-cols-2 gap-4 text-sm">
+                {[["Notice ID", opportunity.notice_id], ["Solicitation", opportunity.solicitation_number], ["NAICS", opportunity.naics_code], ["Set-aside", opportunity.type_of_set_aside_description], ["Posted", opportunity.posted_date], ["Response deadline", opportunity.response_deadline ? new Date(opportunity.response_deadline).toLocaleString() : "Not listed"], ["Status", oppStatus(opportunity.response_deadline, opportunity.active)], ["AI fit", opportunity.ai_score == null ? "Not scored" : `${opportunity.ai_score}/10`]].map(([label, value]) => <div key={label}><dt className="text-muted-foreground">{label}</dt><dd className="font-medium break-words">{value ?? "Not listed"}</dd></div>)}
+              </dl>
+              <p className="whitespace-pre-wrap text-sm leading-relaxed">{opportunity.description_text ?? "Description not available."}</p>
+              {opportunity.ui_link && /^https:\/\/(www\.)?sam\.gov\//.test(opportunity.ui_link) && <Button asChild><a href={opportunity.ui_link} target="_blank" rel="noopener noreferrer">View on SAM.gov</a></Button>}
+              <Button asChild variant="outline"><a href={`?t=${manageToken}`}>Manage reports</a></Button>
+            </article>
+          ) : verifyToken ? (
             <p className="text-sm text-muted-foreground">You can close this page, or manage your preferences from the link in any report email.</p>
-          ) : manageToken && sub ? (
+          ) : sub ? (
             <div className="space-y-6">
               <div className="rounded-lg border p-4 text-sm space-y-1">
                 <p><span className="text-muted-foreground">Email:</span> <span className="font-semibold">{sub.email}</span></p>
                 <p><span className="text-muted-foreground">Status:</span> <span className="font-semibold capitalize">{sub.status}</span>{!sub.verified && <span className="text-muted-foreground"> (email not confirmed yet)</span>}</p>
                 <p><span className="text-muted-foreground">Last report sent:</span> <span className="font-semibold">{sub.last_sent_at ? new Date(sub.last_sent_at).toLocaleString() : "Not sent yet"}</span></p>
               </div>
-              <PrefsForm prefs={prefs} onChange={setPrefs} disabled={busy} />
+              {params.get("unsubscribe") === "1" && <p className="text-sm">Confirm below to stop receiving opportunity reports.</p>}
+              <div className="space-y-1.5"><Label htmlFor="manage-email">Email address</Label><Input id="manage-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={busy} /></div>
+              <p className="text-sm text-muted-foreground">Next report: {sub.status === "active" ? new Date(sub.next_send_at).toLocaleString() : "Paused until subscription is active"}</p>
+              <PrefsForm key={sub.email + sub.created_at} prefs={prefs} onChange={setPrefs} disabled={busy} aiEnabled={aiEnabled} />
               <div className="flex flex-wrap gap-3">
-                <Button onClick={() => manageAction("update", { prefs })} disabled={busy}><Settings2 className="h-4 w-4" />Save preferences</Button>
+                <Button onClick={() => manageAction("update", { prefs, email })} disabled={busy}><Settings2 className="h-4 w-4" />Save preferences</Button>
                 {sub.status === "paused"
                   ? <Button variant="outline" onClick={() => manageAction("resume")} disabled={busy}><Play className="h-4 w-4" />Resume reports</Button>
                   : <Button variant="outline" onClick={() => manageAction("pause")} disabled={busy}><Pause className="h-4 w-4" />Pause reports</Button>}
                 <Button variant="ghost" className="text-destructive" onClick={() => manageAction("unsubscribe")} disabled={busy}>Unsubscribe</Button>
               </div>
+              {history.length > 0 && <section className="border-t pt-6"><h2 className="font-semibold mb-3">Recent reports</h2><ul className="divide-y">{history.map((h) => <li key={h.id} className="py-3 text-sm flex justify-between gap-3"><span className="capitalize">{h.report_type} · {h.status}{h.status === "failed" ? " (retry scheduled)" : ""}</span><span className="text-muted-foreground">{new Date(h.sent_at ?? h.created_at).toLocaleDateString()}</span></li>)}</ul></section>}
             </div>
           ) : manageToken ? null : (
             <>
               <p className="text-base text-muted-foreground leading-relaxed mb-8">
                 Get federal contracting opportunities matched to your business delivered to your inbox,
                 daily or weekly. Choose your NAICS codes, keywords and minimum AI fit score, and we will
-                send only what matches, with deadlines and direct SAM.gov links.
+                send only what matches, with deadlines and opportunity details.
               </p>
               <form onSubmit={subscribe} className="space-y-4">
                 <div className="space-y-1.5">
                   <Label htmlFor="email">Email address</Label>
                   <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" disabled={busy} />
                 </div>
-                <PrefsForm prefs={prefs} onChange={setPrefs} disabled={busy} />
+                <PrefsForm prefs={prefs} onChange={setPrefs} disabled={busy} aiEnabled={aiEnabled} />
                 <Button type="submit" className="btn-gold w-full sm:w-auto px-8" disabled={busy}>
                   {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <BellRing className="h-4 w-4" />}
                   Subscribe
