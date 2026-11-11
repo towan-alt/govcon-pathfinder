@@ -257,7 +257,7 @@ Deno.serve(async (req) => {
       const live = await busyRun();
       if (live) return json({ error: "Another scoring run is already in progress. It will be released automatically within 2 minutes if it was interrupted.", run_id: live.id }, 409);
       const force = body.force === true;
-      const { data: rows } = await admin.from("samgov_opportunities").select(OPP_SEL).eq("filter_status", "matched").order("response_deadline", { ascending: true, nullsFirst: false }).limit(1000);
+      const { data: rows } = await admin.from("samgov_opportunities").select(OPP_SEL).eq("filter_status", "matched").eq("computed_status", "active").order("response_deadline", { ascending: true, nullsFirst: false }).limit(1000);
       const ids: string[] = [];
       for (const o of rows ?? []) {
         if (ids.length >= cfg.max) break;
