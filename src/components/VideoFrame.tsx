@@ -34,7 +34,7 @@ const VideoFrame = ({ poster, posterAlt, title, videoId, transcript, src }: Vide
         className="relative aspect-video rounded-xl overflow-hidden shadow-2xl"
         style={{ background: "hsl(var(--navy-light))" }}
       >
-        {!isPlaying ? (
+        {!isPlaying || showFallback ? (
           <>
             <img
               src={poster}
@@ -43,36 +43,36 @@ const VideoFrame = ({ poster, posterAlt, title, videoId, transcript, src }: Vide
               className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
             />
             <div className="absolute inset-0 bg-black/50" />
-            <button
-              onClick={play}
-              className="absolute inset-0 flex flex-col items-center justify-center gap-3 group cursor-pointer z-10"
-              aria-label={`Play video: ${title}`}
-            >
-              <span className="w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                <Play className="h-6 w-6 text-black ml-0.5" fill="currentColor" />
-              </span>
-              <span className="rounded-full bg-black/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white">
-                Play video · Captions available
-              </span>
-            </button>
+            {showFallback ? (
+              <div className="absolute inset-x-0 bottom-0 z-10 bg-black/70 px-4 py-3 text-center">
+                <p className="text-white/80 text-xs">
+                  This video is being captioned and will appear here shortly.
+                </p>
+              </div>
+            ) : (
+              <button
+                onClick={play}
+                className="absolute inset-0 flex flex-col items-center justify-center gap-3 group cursor-pointer z-10"
+                aria-label={`Play video: ${title}`}
+              >
+                <span className="w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Play className="h-6 w-6 text-black ml-0.5" fill="currentColor" />
+                </span>
+                <span className="rounded-full bg-black/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white">
+                  Play video · Captions available
+                </span>
+              </button>
+            )}
           </>
-        ) : src ? (
+        ) : (
           <iframe
             src={src}
             title={title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
             allowFullScreen
+            onError={() => setFailed(true)}
             className="absolute inset-0 h-full w-full"
           />
-        ) : (
-          <div
-            className="absolute inset-0 flex items-center justify-center px-6 text-center"
-            style={{ background: "hsl(var(--navy-medium))" }}
-          >
-            <p className="text-white/70 text-sm">
-              This video is being captioned and will appear here shortly.
-            </p>
-          </div>
         )}
       </div>
 
