@@ -66,7 +66,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
   const requestId = useRef(0);
   const [minScore, setMinScore] = useState("any");
   const [category, setCategory] = useState("any");
-  const [sort, setSort] = useState<"recent" | "score">("recent");
+  const [sort, setSort] = useState<"best" | "recent" | "score">("best");
   const [scoring, setScoring] = useState<string | null>(null);
   const [batch, setBatch] = useState<Batch | null>(null);
   const aiUsable = aiReady && settings.ai_scoring_enabled;
@@ -95,7 +95,8 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
     if (minScore !== "any") q = q.gte("ai_score", Number(minScore));
     if (category !== "any") q = q.eq("ai_category", category);
     q = sort === "score" ? q.order("ai_score", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false })
-      : q.order("posted_date", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false });
+      : sort === "recent" ? q.order("posted_date", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false })
+      : q.order("ai_score", { ascending: false, nullsFirst: false }).order("posted_date", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false });
     const { data, count, error } = await q.order("id").range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
     if (id !== requestId.current) return;
     setLoading(false);
@@ -276,9 +277,9 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
               <SelectTrigger className="w-40" aria-label="Fit category"><SelectValue /></SelectTrigger>
               <SelectContent>{["any", "Strong Fit", "Moderate Fit", "Low Fit"].map((c) => <SelectItem key={c} value={c}>{c === "any" ? "Any category" : c}</SelectItem>)}</SelectContent>
             </Select>
-            <Select value={sort} onValueChange={(v) => { setSort(v as "recent" | "score"); setPage(0); }}>
-              <SelectTrigger className="w-44" aria-label="Sort"><SelectValue /></SelectTrigger>
-              <SelectContent><SelectItem value="recent">Most recent</SelectItem><SelectItem value="score">Highest AI fit score</SelectItem></SelectContent>
+            <Select value={sort} onValueChange={(v) => { setSort(v as "best" | "recent" | "score"); setPage(0); }}>
+              <SelectTrigger className="w-52" aria-label="Sort"><SelectValue /></SelectTrigger>
+              <SelectContent><SelectItem value="best">Best fit, most recent</SelectItem><SelectItem value="recent">Most recent</SelectItem><SelectItem value="score">Highest AI fit score</SelectItem></SelectContent>
             </Select>
           </div>
         </div>
