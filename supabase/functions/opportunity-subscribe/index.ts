@@ -38,6 +38,10 @@ Deno.serve(async (req) => {
       if (error) throw new Error("Could not save subscription changes.");
     };
     if (action === "subscribe") {
+      if (!user) return json({ error: "Create an account and start your $10/month subscription first." }, 401);
+      const env = z.enum(["sandbox", "live"]).parse(body.environment);
+      const { data: paid } = await sb.rpc("has_active_subscription", { user_uuid: user.id, check_env: env });
+      if (!paid) return json({ error: "An active $10/month subscription is required." }, 402);
       const email = Email.parse(body.email), prefs = validatePrefs(body);
       const { data: existing, error: lookupError } = await sb.from("opportunity_subscriptions").select("*").eq("email", email).maybeSingle();
       if (lookupError) throw new Error("Could not look up subscription.");

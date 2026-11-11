@@ -25,6 +25,9 @@ Deno.serve(async (req) => {
     const { data: lease } = await sb.from("opportunity_subscriptions").update({ lease_until: new Date(now.getTime() + 300000).toISOString() }).eq("id", s.id).eq("status", "active").or(`lease_until.is.null,lease_until.lt.${stamp}`).select("id").maybeSingle();
     if (!lease) continue;
     try {
+      // Reports only go to subscribers with an active paid plan (either payment environment).
+      const paid = s.user_id && ((await sb.rpc("has_active_subscription", { user_uuid: s.user_id, check_env: "live" })).data || (await sb.rpc("has_active_subscription", { user_uuid: s.user_id, check_env: "sandbox" })).data);
+      if (!paid) { await sb.from("opportunity_subscriptions").update({ next_send_at: nextReportAt(s.frequency, now) }).eq("id", s.id); continue; }
       let { data: delivery, error: deliveryError } = await sb.from("opportunity_report_sends").select("*").eq("subscription_id", s.id).in("status", ["pending", "failed"]).not("payload", "is", null).order("created_at").limit(1).maybeSingle();
       if (deliveryError) throw deliveryError;
       if (delivery?.retry_at && new Date(delivery.retry_at) > now) continue;

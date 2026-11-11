@@ -127,6 +127,13 @@
       "when": 1794382934823,
       "tag": "0017_report_retry_safety_window",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1794390314137,
+      "tag": "0018_create_subscriptions",
+      "breakpoints": true
     }
   ]
 }
