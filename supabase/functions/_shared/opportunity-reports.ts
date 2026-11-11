@@ -1,4 +1,5 @@
-import { MAILING_ADDRESS, PUBLIC_SITE_URL } from "./training-templates.ts";
+import { MAILING_ADDRESS } from "./training-templates.ts";
+import { OPPORTUNITY_SITE_URL as PUBLIC_SITE_URL } from "./opportunity-rules.ts";
 
 /** Shared rendering for personalized opportunity report emails (daily/weekly subscriptions). */
 export type ReportOpp = {

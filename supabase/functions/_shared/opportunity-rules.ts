@@ -1,4 +1,5 @@
 export type Frequency = "daily" | "weekly";
+export const OPPORTUNITY_SITE_URL = "https://gogovconnow.com";
 export const reportWindowDays = (frequency: Frequency) => frequency === "daily" ? 1 : 7;
 export const nextReportAt = (frequency: Frequency, now: Date) =>
   new Date(now.getTime() + reportWindowDays(frequency) * 86400000).toISOString();

@@ -1,8 +1,8 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { z } from "npm:zod@3";
-import { EMAIL_FROM, PUBLIC_SITE_URL } from "../_shared/training-templates.ts";
-import { ownsSubscriptionEmail } from "../_shared/opportunity-rules.ts";
+import { EMAIL_FROM } from "../_shared/training-templates.ts";
+import { ownsSubscriptionEmail, OPPORTUNITY_SITE_URL as PUBLIC_SITE_URL } from "../_shared/opportunity-rules.ts";
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 const Prefs = z.object({ frequency: z.enum(["daily", "weekly"]), naics_codes: z.array(z.string().regex(/^\d{2,6}$/)).max(20).default([]), keywords: z.array(z.string().trim().min(1).max(60)).max(20).default([]), min_ai_score: z.number().int().min(1).max(10).nullable().default(null) });
 const Email = z.string().trim().toLowerCase().email().max(255);

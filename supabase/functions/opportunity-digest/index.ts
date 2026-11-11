@@ -1,9 +1,9 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { createHash, timingSafeEqual } from "node:crypto";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
-import { EMAIL_FROM, PUBLIC_SITE_URL } from "../_shared/training-templates.ts";
+import { EMAIL_FROM } from "../_shared/training-templates.ts";
 import { renderOpportunityReport, type ReportOpp } from "../_shared/opportunity-reports.ts";
-import { nextReportAt, reportWindowDays, retryReportAt, unsentOpportunities, safeToRetry } from "../_shared/opportunity-rules.ts";
+import { nextReportAt, reportWindowDays, retryReportAt, unsentOpportunities, safeToRetry, OPPORTUNITY_SITE_URL as PUBLIC_SITE_URL } from "../_shared/opportunity-rules.ts";
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
