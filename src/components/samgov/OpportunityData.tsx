@@ -66,7 +66,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
   const requestId = useRef(0);
   const [minScore, setMinScore] = useState("any");
   const [category, setCategory] = useState("any");
-  const [sort, setSort] = useState<"recent" | "score">("score");
+  const [sort, setSort] = useState<"recent" | "score">("recent");
   const [scoring, setScoring] = useState<string | null>(null);
   const [batch, setBatch] = useState<Batch | null>(null);
   const aiUsable = aiReady && settings.ai_scoring_enabled;
@@ -95,7 +95,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
     if (minScore !== "any") q = q.gte("ai_score", Number(minScore));
     if (category !== "any") q = q.eq("ai_category", category);
     q = sort === "score" ? q.order("ai_score", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false })
-      : q.order("last_seen_at", { ascending: false }).order("posted_date", { ascending: false });
+      : q.order("posted_date", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false });
     const { data, count, error } = await q.order("id").range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
     if (id !== requestId.current) return;
     setLoading(false);
