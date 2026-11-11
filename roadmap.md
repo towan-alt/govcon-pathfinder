@@ -36,3 +36,6 @@
 - [x] Center step numbers on registration confirmation
 - [x] Email sequences: webinar follow-ups, assessment invites, 14-day $497 credit offer (send once Resend key is added)
 - [x] SEO pass (canonical domain, Event schema)
+- [x] Dynamic opportunity Active/Expired/Inactive/Unknown status + hourly recompute + dashboard filter
+- [x] Landing page video fallback fix (poster stays, no dead panel)
+- [x] Opportunity report subscriptions: /opportunity-reports, verify/manage/unsubscribe, hourly digest (sends once Resend key is added)

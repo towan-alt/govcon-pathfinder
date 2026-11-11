@@ -11,11 +11,13 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { ApiStatus } from "./SamGovApiTab";
+import { OPP_STATUS_LABEL, OPP_STATUS_VARIANT, oppStatus, type OppStatus } from "@/lib/opp-status";
 
 type Poc = { type: string | null; full_name: string | null; email: string | null; phone: string | null };
 type Opp = {
   id: string; notice_id: string; solicitation_number: string | null; title: string | null; naics_code: string | null;
   posted_date: string | null; response_deadline: string | null; organization: string | null; active: string | null;
+  computed_status: OppStatus | null;
   type: string | null; type_of_set_aside_description: string | null; full_parent_path_name: string | null;
   description: string | null; ui_link: string | null; point_of_contact: Poc[] | null;
   filter_status: string; naics_match: boolean | null; matched_naics_code: string | null; keyword_match: boolean | null;
@@ -55,6 +57,8 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
   const [matchStatus, setMatchStatus] = useState("any");
+  const [statusFilter, setStatusFilter] = useState("any");
+  const [now, setNow] = useState(() => Date.now());
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -83,10 +87,11 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
     const id = ++requestId.current;
     setLoading(true);
     let q = supabase.from("samgov_opportunities")
-      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error,description_status,description_text,description_error,keyword_match_fields,ai_status,ai_score,ai_category,ai_error,ai_model,ai_scored_at,ai_limited_info,ai_analysis", { count: "exact" });
+      .select("id,notice_id,solicitation_number,title,naics_code,posted_date,response_deadline,organization,active,computed_status,type,type_of_set_aside_description,full_parent_path_name,description,ui_link,point_of_contact,filter_status,naics_match,matched_naics_code,keyword_match,matched_keywords,matched_keyword_groups,filter_error,description_status,description_text,description_error,keyword_match_fields,ai_status,ai_score,ai_category,ai_error,ai_model,ai_scored_at,ai_limited_info,ai_analysis", { count: "exact" });
     const term = query.replace(/[^\p{L}\p{N}\s-]/gu, " ").trim();
     if (term) q = q.or(`title.ilike.%${term}%,notice_id.ilike.%${term}%,naics_code.ilike.%${term}%,organization.ilike.%${term}%,solicitation_number.ilike.%${term}%`);
     if (matchStatus !== "any") q = q.eq("filter_status", matchStatus);
+    if (statusFilter !== "any") q = q.eq("computed_status", statusFilter);
     if (minScore !== "any") q = q.gte("ai_score", Number(minScore));
     if (category !== "any") q = q.eq("ai_category", category);
     q = sort === "score" ? q.order("ai_score", { ascending: false, nullsFirst: false }).order("last_seen_at", { ascending: false })
@@ -101,7 +106,14 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
     const rows = (data ?? []) as unknown as Opp[];
     setOpps(rows);
     setDetail((d) => (d ? rows.find((r) => r.id === d.id) ?? d : d));
-  }, [minScore, category, sort, query, matchStatus, page]);
+  }, [minScore, category, sort, query, matchStatus, statusFilter, page]);
+
+  // Re-evaluate deadline-based status every minute so an opportunity flips to
+  // Expired while the dashboard is open, without waiting for a refetch.
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(t);
+  }, []);
 
   const scoreOne = async (o: Opp) => {
     setScoring(o.id);
@@ -252,6 +264,10 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
               <SelectTrigger className="w-40" aria-label="Match status"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="any">Any match status</SelectItem>{Object.entries(FILTER_LABEL).map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent>
             </Select>
+            <Select value={statusFilter} onValueChange={(value) => { setStatusFilter(value); setPage(0); }}>
+              <SelectTrigger className="w-36" aria-label="Active status"><SelectValue /></SelectTrigger>
+              <SelectContent><SelectItem value="any">Any status</SelectItem>{Object.entries(OPP_STATUS_LABEL).map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}</SelectContent>
+            </Select>
             <Select value={minScore} onValueChange={(value) => { setMinScore(value); setPage(0); }}>
               <SelectTrigger className="w-40" aria-label="Minimum fit score"><SelectValue /></SelectTrigger>
               <SelectContent><SelectItem value="any">Any fit score</SelectItem>{[9, 8, 7, 6, 5, 4, 3].map((n) => <SelectItem key={n} value={String(n)}>{n}+ / 10</SelectItem>)}</SelectContent>
@@ -268,7 +284,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
         </div>
         {loadError ? <div role="alert" className="flex flex-wrap items-center gap-3 text-sm text-destructive">{loadError}<Button variant="outline" size="sm" onClick={() => void loadOpps()}>Retry</Button></div>
           : loading ? <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" />Loading opportunities...</p>
-          : opps.length === 0 ? <p className="text-sm text-muted-foreground">{query || matchStatus !== "any" || minScore !== "any" || category !== "any" ? "No opportunities match these filters." : "No opportunities retrieved yet."}</p> : (
+          : opps.length === 0 ? <p className="text-sm text-muted-foreground">{query || matchStatus !== "any" || statusFilter !== "any" || minScore !== "any" || category !== "any" ? "No opportunities match these filters." : "No opportunities retrieved yet."}</p> : (
           <div className="overflow-x-auto">
             <Table>
               <TableHeader><TableRow>
@@ -291,7 +307,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
                       {o.ai_score != null && o.ai_score < settings.ai_fit_threshold && <p className="text-xs text-muted-foreground">Below threshold</p>}
                     </TableCell>
                     <TableCell className="space-y-1">
-                      <Badge variant={o.active === "Yes" ? "default" : "outline"}>{o.active === "Yes" ? "Active" : "Inactive"}</Badge>
+                      <Badge variant={OPP_STATUS_VARIANT[oppStatus(o.response_deadline, o.active, now)]}>{OPP_STATUS_LABEL[oppStatus(o.response_deadline, o.active, now)]}</Badge>
                       <Badge variant={o.filter_status === "matched" ? "default" : o.filter_status === "filter_failed" ? "destructive" : "outline"} className="block w-fit">{FILTER_LABEL[o.filter_status] ?? o.filter_status}</Badge>
                       <Badge variant={o.description_status === "failed" ? "destructive" : "secondary"} className="block w-fit">{DESC_LABEL[o.description_status] ?? o.description_status}</Badge>
                       {o.keyword_match && <p className="text-xs text-muted-foreground max-w-[180px]">{o.matched_keywords.join(", ")}{inDescription(o) ? " (in description)" : ""}</p>}
@@ -329,6 +345,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
                 ["Notice ID", detail.notice_id], ["Solicitation Number", detail.solicitation_number ?? "None"],
                 ["NAICS", detail.naics_code ?? "None"], ["Posted Date", day(detail.posted_date)],
                 ["Response Deadline", detail.response_deadline ? new Date(detail.response_deadline).toLocaleString() : "None"],
+                ["Status", OPP_STATUS_LABEL[oppStatus(detail.response_deadline, detail.active, now)]],
                 ["Opportunity Type", detail.type ?? "None"], ["Set Aside", detail.type_of_set_aside_description ?? "None"],
                 ["Organization", detail.full_parent_path_name ?? detail.organization ?? "None"],
               ].map(([k, v]) => <div key={k}><dt className="text-muted-foreground">{k}</dt><dd className="font-semibold break-words">{v}</dd></div>)}

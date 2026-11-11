@@ -52,6 +52,10 @@ const PAGES: Record<string, Meta> = {
     description:
       "A 2-hour virtual 1:1 strategy intensive with GovCon expert Towan Isom: written action plan, session recording, teaming assistance and ongoing Slack, WhatsApp and email access.",
   },
+  "/opportunity-reports": {
+    title: "Subscribe to Federal Opportunity Reports | GoGovCon",
+    description: "Get SAM.gov government contracting opportunities matched to your NAICS codes, keywords and AI fit score delivered daily or weekly.",
+  },
   "/contact": { title: "Contact GoGovCon | Towan Isom", description: "Get in touch with GoGovCon and GovCon expert Towan Isom about federal contracting training and advisory." },
   "/privacy": { title: "Privacy Policy | GoGovCon", description: "How GoGovCon collects, uses and protects your information." },
   "/terms": { title: "Terms of Service | GoGovCon", description: "Terms for using GoGovCon training, tools and services." },

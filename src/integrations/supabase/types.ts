@@ -463,6 +463,104 @@ export type Database = {
         }
         Relationships: []
       }
+      opportunity_digest_secret: {
+        Row: {
+          id: number
+          token: string
+        }
+        Insert: {
+          id?: number
+          token?: string
+        }
+        Update: {
+          id?: number
+          token?: string
+        }
+        Relationships: []
+      }
+      opportunity_report_sends: {
+        Row: {
+          created_at: string
+          error: string | null
+          id: string
+          opportunity_ids: string[]
+          report_type: string
+          status: string
+          subscription_id: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          opportunity_ids?: string[]
+          report_type: string
+          status?: string
+          subscription_id: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          opportunity_ids?: string[]
+          report_type?: string
+          status?: string
+          subscription_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opportunity_report_sends_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "opportunity_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      opportunity_subscriptions: {
+        Row: {
+          created_at: string
+          email: string
+          frequency: string
+          id: string
+          keywords: string[]
+          last_sent_at: string | null
+          min_ai_score: number | null
+          naics_codes: string[]
+          status: string
+          unsub_token: string
+          verified_at: string | null
+          verify_token: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          frequency?: string
+          id?: string
+          keywords?: string[]
+          last_sent_at?: string | null
+          min_ai_score?: number | null
+          naics_codes?: string[]
+          status?: string
+          unsub_token?: string
+          verified_at?: string | null
+          verify_token?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          frequency?: string
+          id?: string
+          keywords?: string[]
+          last_sent_at?: string | null
+          min_ai_score?: number | null
+          naics_codes?: string[]
+          status?: string
+          unsub_token?: string
+          verified_at?: string | null
+          verify_token?: string
+        }
+        Relationships: []
+      }
       purchases: {
         Row: {
           created_at: string
@@ -921,6 +1019,7 @@ export type Database = {
           ai_score: number | null
           ai_scored_at: string | null
           ai_status: string
+          computed_status: string | null
           created_at: string
           department: string | null
           description: string | null
@@ -974,6 +1073,7 @@ export type Database = {
           ai_score?: number | null
           ai_scored_at?: string | null
           ai_status?: string
+          computed_status?: string | null
           created_at?: string
           department?: string | null
           description?: string | null
@@ -1027,6 +1127,7 @@ export type Database = {
           ai_score?: number | null
           ai_scored_at?: string | null
           ai_status?: string
+          computed_status?: string | null
           created_at?: string
           department?: string | null
           description?: string | null
@@ -1395,6 +1496,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      samgov_opp_status: {
+        Args: { _deadline: string; _samgov_active: string }
+        Returns: string
       }
       samgov_pipeline_arm: { Args: { _on: boolean }; Returns: undefined }
     }

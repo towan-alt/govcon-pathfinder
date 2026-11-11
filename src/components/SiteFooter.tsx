@@ -18,6 +18,7 @@ const columns = [
     links: [
       { label: "Free Training", to: "/training" },
       { label: "NAICS Finder", to: "/naics" },
+      { label: "Opportunity Reports", to: "/opportunity-reports" },
     ],
   },
   {
