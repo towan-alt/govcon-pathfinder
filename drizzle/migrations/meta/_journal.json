@@ -120,6 +120,13 @@
       "when": 1794382694430,
       "tag": "0016_opportunity_subscription_accounts_delivery",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1794382934823,
+      "tag": "0017_report_retry_safety_window",
+      "breakpoints": true
     }
   ]
 }

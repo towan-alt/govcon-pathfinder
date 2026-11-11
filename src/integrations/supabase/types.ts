@@ -483,6 +483,7 @@ export type Database = {
           attempts: number
           created_at: string
           error: string | null
+          first_attempt_at: string | null
           id: string
           idempotency_key: string
           opportunity_ids: string[]
@@ -497,6 +498,7 @@ export type Database = {
           attempts?: number
           created_at?: string
           error?: string | null
+          first_attempt_at?: string | null
           id?: string
           idempotency_key?: string
           opportunity_ids?: string[]
@@ -511,6 +513,7 @@ export type Database = {
           attempts?: number
           created_at?: string
           error?: string | null
+          first_attempt_at?: string | null
           id?: string
           idempotency_key?: string
           opportunity_ids?: string[]
