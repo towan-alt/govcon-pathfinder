@@ -57,7 +57,7 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
   const [matchStatus, setMatchStatus] = useState("any");
-  const [statusFilter, setStatusFilter] = useState("any");
+  const [statusFilter, setStatusFilter] = useState("active");
   const [now, setNow] = useState(() => Date.now());
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
