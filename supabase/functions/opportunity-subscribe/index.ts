@@ -2,6 +2,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { z } from "npm:zod@3";
 import { EMAIL_FROM, PUBLIC_SITE_URL } from "../_shared/training-templates.ts";
+import { ownsSubscriptionEmail } from "../_shared/opportunity-rules.ts";
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 const Prefs = z.object({ frequency: z.enum(["daily", "weekly"]), naics_codes: z.array(z.string().regex(/^\d{2,6}$/)).max(20).default([]), keywords: z.array(z.string().trim().min(1).max(60)).max(20).default([]), min_ai_score: z.number().int().min(1).max(10).nullable().default(null) });
 const Email = z.string().trim().toLowerCase().email().max(255);
@@ -40,10 +41,14 @@ Deno.serve(async (req) => {
       const email = Email.parse(body.email), prefs = validatePrefs(body);
       const { data: existing, error: lookupError } = await sb.from("opportunity_subscriptions").select("*").eq("email", email).maybeSingle();
       if (lookupError) throw new Error("Could not look up subscription.");
-      const ownsEmail = Boolean(user?.email_confirmed_at && user.email?.toLowerCase() === email);
+      const ownsEmail = ownsSubscriptionEmail(user, email, existing?.user_id ?? null);
       // Never let an anonymous email-only submission modify an existing subscription.
       if (existing && !(ownsEmail && (!existing.user_id || existing.user_id === user?.id))) {
-        if (existing.status === "pending") await sendVerification(email, existing.verify_token);
+        if (existing.status === "pending") {
+          const token = crypto.randomUUID();
+          await save(existing.id, { verify_token: token, verify_expires_at: new Date(Date.now() + 86400000).toISOString() });
+          await sendVerification(email, token);
+        }
         return json({ ok: true, message: "If confirmation is needed, check your inbox. Existing subscribers can use their management link to change preferences." });
       }
       if (ownsEmail) {

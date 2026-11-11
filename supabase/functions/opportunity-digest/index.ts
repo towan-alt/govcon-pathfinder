@@ -3,7 +3,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { EMAIL_FROM, PUBLIC_SITE_URL } from "../_shared/training-templates.ts";
 import { renderOpportunityReport, type ReportOpp } from "../_shared/opportunity-reports.ts";
-import { nextReportAt, reportWindowDays, retryReportAt, unsentOpportunities } from "../_shared/opportunity-rules.ts";
+import { nextReportAt, reportWindowDays, retryReportAt, unsentOpportunities, safeToRetry } from "../_shared/opportunity-rules.ts";
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
@@ -28,6 +28,12 @@ Deno.serve(async (req) => {
       let { data: delivery, error: deliveryError } = await sb.from("opportunity_report_sends").select("*").eq("subscription_id", s.id).in("status", ["pending", "failed"]).not("payload", "is", null).order("created_at").limit(1).maybeSingle();
       if (deliveryError) throw deliveryError;
       if (delivery?.retry_at && new Date(delivery.retry_at) > now) continue;
+      if (delivery && !safeToRetry(delivery.first_attempt_at, now)) {
+        console.error("Delivery requires manual review beyond safe retry window", delivery.id);
+        await sb.from("opportunity_report_sends").update({ error: "Manual review required: provider idempotency window elapsed." }).eq("id", delivery.id);
+        await sb.from("opportunity_subscriptions").update({ next_send_at: nextReportAt(s.frequency, now) }).eq("id", s.id);
+        continue;
+      }
       if (!delivery) {
         const since = new Date(now.getTime() - reportWindowDays(s.frequency) * 86400000).toISOString();
         const { data: prior, error: priorError } = await sb.from("opportunity_report_sends").select("opportunity_ids").eq("subscription_id", s.id).eq("status", "sent");
@@ -62,7 +68,7 @@ Deno.serve(async (req) => {
       if (!current || current.status !== "active" || !current.verified_at || current.email !== s.email) continue;
       const attempts = delivery.attempts + 1;
       // Keep payload and idempotency key unchanged across retries, including ambiguous timeouts.
-      const { error: attemptError } = await sb.from("opportunity_report_sends").update({ attempts, retry_at: retryReportAt(attempts, now) }).eq("id", delivery.id);
+      const { error: attemptError } = await sb.from("opportunity_report_sends").update({ attempts, first_attempt_at: delivery.first_attempt_at ?? stamp, retry_at: retryReportAt(attempts, now) }).eq("id", delivery.id);
       if (attemptError) throw attemptError;
       let providerError: string | null = null;
       try {
