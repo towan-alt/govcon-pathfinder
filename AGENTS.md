@@ -22,3 +22,4 @@
 - Opportunity subscriptions use verified account ownership or secret email management links; writes remain function-only, delivery payloads/idempotency keys persist across retries, and per-subscription leases serialize sends to prevent duplicate reports.
 
 - Opportunity reports are a paid subscription: built-in Stripe Embedded Checkout (`create-checkout`, allow-listed price IDs only) writes `subscriptions` via `payments-webhook`; `opportunity-subscribe` requires a signed-in user with `has_active_subscription`, and `opportunity-digest` skips unpaid subscribers, so access is enforced server-side, never by the page.
+- Subscribers sign up at `/subscribe` and manage reports at `/subscriber/dashboard` (separate from admin `/samgov`); NAICS/keyword choices come only from active admin config via the `options` action and `opportunity-subscribe` rejects anything else, so the server enforces the admin list.
