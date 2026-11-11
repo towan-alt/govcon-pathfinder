@@ -1,0 +1,2 @@
+ALTER TABLE public.opportunity_report_sends ADD COLUMN first_attempt_at timestamptz;
+COMMENT ON COLUMN public.opportunity_report_sends.first_attempt_at IS 'Bounds automatic retries to the provider idempotency retention window; ambiguous older sends require review.';

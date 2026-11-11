@@ -1,5 +1,9 @@
 # Roadmap
 
+## Opportunity subscriptions (2026-11-11)
+- [x] Extend account-owned management, validated preferences, scheduled delivery, retry/history and duplicate prevention; verified authenticated subscribe/pause/reload/resume and guest form, plus rule tests.
+- [ ] Real confirmation/report delivery and email-to-opportunity verification — requires a verified sending domain or existing Resend configuration; mailing address also remains an owner-supplied placeholder.
+
 ## SAM.gov dashboard reorganization
 - [x] Consolidate opportunity workflows into the Opportunities tab, add saved-data summaries and verify admin navigation, search, details, pagination and mobile layout without changing processing logic or deleting data.
 

@@ -480,29 +480,47 @@ export type Database = {
       }
       opportunity_report_sends: {
         Row: {
+          attempts: number
           created_at: string
           error: string | null
+          first_attempt_at: string | null
           id: string
+          idempotency_key: string
           opportunity_ids: string[]
+          payload: Json | null
           report_type: string
+          retry_at: string | null
+          sent_at: string | null
           status: string
           subscription_id: string
         }
         Insert: {
+          attempts?: number
           created_at?: string
           error?: string | null
+          first_attempt_at?: string | null
           id?: string
+          idempotency_key?: string
           opportunity_ids?: string[]
+          payload?: Json | null
           report_type: string
+          retry_at?: string | null
+          sent_at?: string | null
           status?: string
           subscription_id: string
         }
         Update: {
+          attempts?: number
           created_at?: string
           error?: string | null
+          first_attempt_at?: string | null
           id?: string
+          idempotency_key?: string
           opportunity_ids?: string[]
+          payload?: Json | null
           report_type?: string
+          retry_at?: string | null
+          sent_at?: string | null
           status?: string
           subscription_id?: string
         }
@@ -524,11 +542,15 @@ export type Database = {
           id: string
           keywords: string[]
           last_sent_at: string | null
+          lease_until: string | null
           min_ai_score: number | null
           naics_codes: string[]
+          next_send_at: string
           status: string
           unsub_token: string
+          user_id: string | null
           verified_at: string | null
+          verify_expires_at: string
           verify_token: string
         }
         Insert: {
@@ -538,11 +560,15 @@ export type Database = {
           id?: string
           keywords?: string[]
           last_sent_at?: string | null
+          lease_until?: string | null
           min_ai_score?: number | null
           naics_codes?: string[]
+          next_send_at?: string
           status?: string
           unsub_token?: string
+          user_id?: string | null
           verified_at?: string | null
+          verify_expires_at?: string
           verify_token?: string
         }
         Update: {
@@ -552,11 +578,15 @@ export type Database = {
           id?: string
           keywords?: string[]
           last_sent_at?: string | null
+          lease_until?: string | null
           min_ai_score?: number | null
           naics_codes?: string[]
+          next_send_at?: string
           status?: string
           unsub_token?: string
+          user_id?: string | null
           verified_at?: string | null
+          verify_expires_at?: string
           verify_token?: string
         }
         Relationships: []
