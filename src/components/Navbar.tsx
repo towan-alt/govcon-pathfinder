@@ -9,6 +9,7 @@ const navLinks = [
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Services", href: "/#services" },
   { label: "Free Webinar", href: "/webinar" },
+  { label: "Opportunity Reports", href: "/opportunity-reports" },
 ];
 
 const Navbar = () => {
@@ -19,12 +20,12 @@ const Navbar = () => {
 
   useEffect(() => {
     // Pages with a light top section keep the solid menu so links stay readable.
-    const lightTop = ["/readiness-review", "/launch-kit", "/portal"].includes(location.pathname);
+    const lightTop = ["/readiness-review", "/launch-kit", "/portal", "/opportunity-reports"].includes(location.pathname);
     const onScroll = () => setScrolled(lightTop || window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [location.pathname]);
 
   const go = (e: React.MouseEvent, href: string) => {
     setMobileOpen(false);
@@ -73,7 +74,7 @@ const Navbar = () => {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-7">
+        <div className="hidden xl:flex items-center gap-5">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -95,7 +96,7 @@ const Navbar = () => {
 
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className={`md:hidden p-2 min-h-11 min-w-11 ${scrolled ? "text-foreground" : "text-white"}`}
+          className={`xl:hidden p-2 min-h-11 min-w-11 ${scrolled ? "text-foreground" : "text-white"}`}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
         >
@@ -110,7 +111,7 @@ const Navbar = () => {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-card/95 backdrop-blur-md border-b border-border px-6 pb-6 pt-2 space-y-2">
+        <div className="xl:hidden bg-card/95 backdrop-blur-md border-b border-border px-6 pb-6 pt-2 space-y-2">
           {navLinks.map((link) => (
             <Link key={link.href} to={link.href} onClick={(e) => go(e, link.href)} className={linkClass(true)}>
               {link.label}
