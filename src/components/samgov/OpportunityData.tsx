@@ -277,9 +277,9 @@ export function OpportunityData({ apiStatus, onFetched, onChanged, refreshKey = 
               <SelectTrigger className="w-40" aria-label="Fit category"><SelectValue /></SelectTrigger>
               <SelectContent>{["any", "Strong Fit", "Moderate Fit", "Low Fit"].map((c) => <SelectItem key={c} value={c}>{c === "any" ? "Any category" : c}</SelectItem>)}</SelectContent>
             </Select>
-            <Select value={sort} onValueChange={(v) => { setSort(v as "recent" | "score"); setPage(0); }}>
-              <SelectTrigger className="w-44" aria-label="Sort"><SelectValue /></SelectTrigger>
-              <SelectContent><SelectItem value="recent">Most recent</SelectItem><SelectItem value="score">Highest AI fit score</SelectItem></SelectContent>
+            <Select value={sort} onValueChange={(v) => { setSort(v as "best" | "recent" | "score"); setPage(0); }}>
+              <SelectTrigger className="w-52" aria-label="Sort"><SelectValue /></SelectTrigger>
+              <SelectContent><SelectItem value="best">Best fit, most recent</SelectItem><SelectItem value="recent">Most recent</SelectItem><SelectItem value="score">Highest AI fit score</SelectItem></SelectContent>
             </Select>
           </div>
         </div>
