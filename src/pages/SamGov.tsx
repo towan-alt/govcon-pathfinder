@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { ChevronDown, KeyRound, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
@@ -100,15 +101,7 @@ export default function SamGov() {
   if (!authReady) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="h-6 w-6 animate-spin" /></div>;
   if (!session) return <SignIn />;
   if (isAdmin === null) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="h-6 w-6 animate-spin" /></div>;
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6 text-center">
-        <p className="font-display text-2xl font-bold">Administrator access required</p>
-        <p className="text-sm text-muted-foreground max-w-md">You're signed in as {session.user.email}, but this account has not been given administrator access yet.</p>
-        <Button variant="outline" onClick={() => supabase.auth.signOut()}>Sign out</Button>
-      </div>
-    );
-  }
+  if (!isAdmin) return <Navigate to="/subscriber/dashboard" replace />;
   return <Config email={session.user.email ?? ""} />;
 }
 
